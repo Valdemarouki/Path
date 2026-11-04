@@ -1,5 +1,5 @@
 {
-  "dependencies": {
+  "devDependencies": {
     "jsdom": "^26.1.0"
   }
 }
