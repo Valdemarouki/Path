@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="100" viewBox="0 0 96 100">
+<title>Path single active navigation frame</title>
+<defs><linearGradient id="surface" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFFFFF" stop-opacity=".07"/><stop offset="1" stop-color="#FFFFFF" stop-opacity=".015"/></linearGradient></defs>
+<rect x="2.5" y="2.5" width="91" height="95" rx="20" fill="url(#surface)" stroke="#EEEEED" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,10 @@
+const fs=require('fs'),vm=require('vm'),path=require('path');
+const root=path.join(__dirname,'..');
+const html=fs.readFileSync(path.join(root,'path2-beta-standalone.html'),'utf8');
+const core=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/save\(\);render\(\);\s*$/,'');
+const memory=new Map();
+const context=vm.createContext({document:{addEventListener(){}},localStorage:{getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)},setTimeout,clearTimeout,Date,Intl,console});
+vm.runInContext(core,context);
+const fixture=vm.runInContext('JSON.stringify(data,null,2)',context);
+fs.writeFileSync(path.join(__dirname,'baseline-test-data.json'),fixture);
+console.log('Demo fixture captured; not a copy of user browser data.');

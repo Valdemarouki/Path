@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+role="img" aria-label="Canvas — idle">
+<title>Canvas — idle</title>
+<g fill="none" stroke="#E2E3E3" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.7 15.7 10.6 8.5M13.5 8.3l4.1 7.7M8.2 18.5l8.1.5" />
+    <circle cx="12.0" cy="5.6" r="3.15"/>
+    <circle cx="5.5" cy="18" r="3.15"/>
+    <circle cx="19" cy="18.4" r="3.15"/>
+</g>
+</svg>

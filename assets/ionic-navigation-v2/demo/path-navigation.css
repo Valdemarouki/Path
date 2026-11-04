@@ -1,0 +1,47 @@
+/* Path 2.0 Ionic Navigation v2 · desktop-first, no raster assets */
+:root{
+  --path-bg:#111214;--path-surface:#191A1C;--path-text:#F0F0EE;
+  --path-muted:#A4A6A9;--path-line:#37383B;
+  --path-nav-motion:560ms cubic-bezier(.18,1.15,.32,1);
+  --path-nav-hover:180ms ease;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--path-bg);color:var(--path-text);font-family:Inter,Manrope,system-ui,sans-serif}
+body{background:radial-gradient(ellipse 78% 75% at 25% 5%,#1B1C1F 0%,#111214 60%,#0E0F10 100%)}
+.app{display:grid;grid-template-columns:130px 1fr;gap:42px;max-width:1260px;min-height:100vh;margin:auto;padding:30px 28px}
+.left{display:flex;align-items:center;justify-content:center}
+.rail{position:relative;height:min(89vh,840px);aspect-ratio:180/1190;flex:none;isolation:isolate}
+.rail-svg{display:block;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.selection{position:absolute;left:23.3333%;top:14.20168%;width:53.3333%;height:7.9%;pointer-events:none;z-index:1;transition:top var(--path-nav-motion)}
+.selection img{display:block;width:100%;height:100%;filter:drop-shadow(0 0 4px #E6E6E645)}
+.nav-slot{position:absolute;left:50%;width:57%;aspect-ratio:1;transform:translate(-50%,-50%);display:grid;place-items:center;cursor:pointer;z-index:2;border:0;border-radius:15px;background:transparent;padding:0;touch-action:manipulation}
+.nav-slot .icon-img{position:absolute;width:48%;height:48%;object-fit:contain;transition:opacity var(--path-nav-hover),transform var(--path-nav-hover),filter var(--path-nav-hover)}
+.nav-slot .active-img{opacity:0;transform:scale(.82)}
+.nav-slot .idle-img{opacity:.90}
+.nav-slot[data-active="true"] .idle-img{opacity:0;transform:scale(.8)}
+.nav-slot[data-active="true"] .active-img{opacity:1;transform:scale(1)}
+.nav-slot:hover .idle-img{filter:brightness(1.8);transform:translateY(-1px) scale(1.05);opacity:1}
+.nav-slot[data-active="true"]:hover .idle-img{opacity:0}
+.nav-slot:active .icon-img{transform:scale(.91)}
+.nav-slot:focus-visible{outline:2px solid #E5E6E7;outline-offset:3px}
+.nav-slot::after{content:attr(data-label);font-size:12px;line-height:1;position:absolute;left:112%;top:50%;transform:translate(0,-50%) translateX(-4px);padding:9px 12px;background:#232427;border:1px solid #47484A;border-radius:8px;white-space:nowrap;color:#EEE;opacity:0;pointer-events:none;transition:opacity 130ms ease,transform 130ms ease}
+.nav-slot:hover::after,.nav-slot:focus-visible::after{opacity:1;transform:translate(0,-50%) translateX(0)}
+.main{padding-top:36px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px}
+.brand{font-family:Georgia,serif;font-size:27px;letter-spacing:-.02em}
+.profile{display:flex;gap:8px;align-items:center;border:1px solid #3A3B3E;color:#DEDFE0;background:#1D1E20;border-radius:14px;padding:10px 13px;cursor:pointer}
+.profile img{width:20px;height:20px}
+.profile:hover{background:#292A2C}
+.panel{max-width:680px;border:1px solid #303134;border-radius:22px;padding:35px;background:#191A1C;box-shadow:0 15px 36px #0002}
+.muted,.info{color:#A2A3A7;line-height:1.6}
+.title{font-family:Georgia,Cormorant Garamond,serif;font-size:46px;margin:10px 0 12px;font-weight:400}
+.preview-box{margin-top:28px;border-radius:16px;border:1px dashed #3D3E40;padding:25px;color:#9D9FA1;min-height:125px;background:#151618}
+.small{font-size:13px;color:#838487}
+.p-profile{position:relative}
+.profile-menu{display:none;position:absolute;z-index:10;right:0;top:calc(100% + 8px);min-width:160px;padding:8px;border:1px solid #434446;border-radius:12px;background:#242527;box-shadow:0 14px 34px #0008}
+.profile-menu[data-open="true"]{display:block}
+.profile-menu a{display:flex;gap:9px;align-items:center;padding:10px 12px;border-radius:8px;color:#DDE0E1;text-decoration:none;font-size:13px}
+.profile-menu a:hover{background:#37383B}
+.profile-menu img{width:17px;height:17px}
+@media(max-width:710px){.app{grid-template-columns:84px 1fr;gap:18px;padding:16px 8px}.rail{height:min(87vh,680px)}.panel{padding:19px;border-radius:15px}.title{font-size:32px}.brand{font-size:20px}.main{padding-top:15px}.nav-slot::after{display:none}}
+@media(prefers-reduced-motion:reduce){.selection,.nav-slot .icon-img,.nav-slot::after{transition-duration:0ms!important}.nav-slot .icon-img{transform:none!important}}

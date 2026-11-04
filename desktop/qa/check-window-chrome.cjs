@@ -1,0 +1,13 @@
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),html=fs.readFileSync(path.join(root,'app/index.html'),'utf8'),main=fs.readFileSync(path.join(root,'main.cjs'),'utf8');
+const {JSDOM}=require('../../project-control/i18n-tools/node_modules/jsdom');
+const dom=new JSDOM(html),doc=dom.window.document,band=doc.querySelector('.path-window-chrome');
+assert(band);assert.equal(band.textContent,'');assert(!band.querySelector('img,svg,button'));
+assert.equal(band.getAttribute('aria-hidden'),'true');
+assert(html.includes('env(titlebar-area-width,calc(100% - 144px))'));
+assert(html.includes('-webkit-app-region:drag'));assert(html.includes('top:Math.max(44,Math.min(anchor?anchor.top:'));
+assert(main.includes("titleBarStyle:'hidden'"));assert(main.includes("titleBarOverlay:{color:'#101111',symbolColor:'#b8bab8',height:32}"));assert(!main.includes('frame:false'));
+assert(main.includes("will-prevent-unload"));assert(main.includes('contextIsolation:true,sandbox:true,webSecurity:true'));
+assert(!fs.readFileSync(path.join(root,'../path2-beta-standalone.html'),'utf8').includes('path-window-chrome'));
+console.log('PASS desktop-only empty draggable chrome, native overlay options, button exclusion, editor inset, security/unload guard. Native interaction requires Windows.');
+dom.window.close();

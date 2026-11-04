@@ -1,0 +1,51 @@
+:root{--path-wave-amplitude:4px;--path-wave-duration:1450ms;--path-hover-duration:170ms;--path-panel-duration:300ms}
+.motion-settings{margin-top:24px}.motion-settings label{display:block;margin:14px 0}.motion-settings input{width:110px;margin-left:12px;background:#161719;color:#eee;border:1px solid #555;border-radius:6px;padding:8px}
+.home-week .week-bars{height:100px;align-items:stretch}.home-week .week-col{justify-content:flex-end}.home-week .week-bar{flex:none;min-height:0;transform-origin:bottom center;background:#eee}
+.home-layout .checkbox-task{position:relative;overflow:visible;transition:none;min-width:26px;min-height:26px}.checkbox-task svg{transform-origin:center}
+.motion-holding:after{content:'';position:absolute;inset:-5px;border:2px solid #eee;border-radius:9px;animation:path-hold 800ms linear both}
+@keyframes path-hold{from{clip-path:inset(0 100% 0 0);opacity:.2}to{clip-path:inset(0);opacity:1}}
+body[data-ui-motion=on] .btn,body[data-ui-motion=on] .project-card{transition:transform 170ms ease,box-shadow 170ms ease,background 170ms ease}
+body[data-ui-motion=on] .project-card:hover,body[data-ui-motion=on] .habit:hover{transform:translateY(-1px)}
+body[data-ui-motion=on] .btn:active{transform:scale(.96);transition-duration:90ms}
+body[data-ui-motion=off] *,body[data-ui-motion=off] *:before,body[data-ui-motion=off] *:after{animation:none!important;transition:none!important}
+body[data-ui-motion=off] .btn:hover,body[data-ui-motion=off] .project-card:hover,body[data-ui-motion=off] .habit:hover{transform:none}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.btn:hover,.project-card:hover,.habit:hover{transform:none!important}}
+
+.motion-check-out{position:absolute;inset:0;display:grid;place-items:center;background:#eee;color:#111;border-radius:6px;pointer-events:none}
+
+/* Cancel interaction offsets without touching Canvas world-space transforms. */
+body[data-ui-motion=off] :is(.btn,.project-card,.habit,.board-task,.canvas-card,.workout-card):is(:hover,:active){transform:none!important}
+@media(prefers-reduced-motion:reduce){:is(.btn,.project-card,.habit,.board-task,.canvas-card,.workout-card):is(:hover,:active){transform:none!important}}
+
+.motion-task-control{position:relative;display:inline-grid;place-items:center;width:28px;height:28px;flex:0 0 28px;padding:0;overflow:visible;touch-action:none;user-select:none}
+.motion-task-control.done{background:#eee;color:#111}
+.motion-hold-contour{position:absolute;inset:-5px;width:36px;height:36px;pointer-events:none;overflow:visible;opacity:0}
+.motion-hold-contour :is(rect,circle){fill:none;stroke:#eee;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1}
+.motion-task-control.motion-holding:after{display:none}
+.motion-holding .motion-hold-contour{opacity:1}
+.motion-holding .motion-hold-contour :is(rect,circle){animation:path-contour 800ms linear both}
+@keyframes path-contour{to{stroke-dashoffset:0}}
+.canvas-node .motion-task-control{margin-top:10px}
+.pulse-calendar-check{display:inline-grid;place-items:center;vertical-align:middle;border-radius:4px;position:relative}
+.task-row:has(.pulse-card-contour){position:relative}
+.pulse-card-contour{position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:3}
+.pulse-card-contour rect{fill:none;stroke:#eee;stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:1;animation:path-contour 800ms linear both}
+/* Today uses a fixed, centred click target without a charge contour. */
+.home-layout .task-row>.motion-task-control{width:28px;height:28px;min-width:28px;min-height:28px;margin:0;padding:0;display:grid;place-items:center;align-self:center;justify-self:center;line-height:0}
+.home-layout .task-row>.motion-task-control>svg{display:block;width:18px;height:18px;margin:0;grid-area:1/1;align-self:center;justify-self:center}
+/* Keep completion motion and highlights inside Today’s Focus rounded bounds. */
+.home-layout .focus-panel{overflow:clip;isolation:isolate}
+
+/* Fixed geometry inside scrollable lists; feedback cannot create a horizontal bar. */
+.home-layout .home-task-list{overflow-x:hidden;scrollbar-gutter:stable}
+.projects-board .motion-task-control .motion-hold-contour{width:32px;height:32px;inset:-5px;max-width:none;transform:rotate(-90deg);transform-origin:center}
+.projects-board .motion-task-control>svg:not(.motion-hold-contour){width:16px;height:16px;display:block}
+.projects-board .motion-task-control.motion-holding:before{display:none}
+.pulse-card-contour{overflow:hidden}
+
+/* Paint-only wave: clipping happens before the ring can affect scroll extents. */
+.home-layout .focus-panel{position:relative}
+.today-pulse-layer{position:absolute;inset:0;overflow:hidden;contain:strict;border-radius:inherit;pointer-events:none;z-index:4}
+.today-pulse-ring{position:absolute;width:560px;height:560px;box-sizing:border-box;border:1.5px solid #ffffff65;border-radius:50%;background:radial-gradient(circle,transparent 56%,#ffffff05 65%,#ffffff16 70%,transparent 71%);box-shadow:inset 0 0 22px #ffffff12,0 0 14px #ffffff10;transform-origin:center;pointer-events:none;opacity:0}
+@media(prefers-reduced-motion:reduce){.today-pulse-layer{display:none}}
+body[data-ui-motion=off] .today-pulse-layer{display:none}

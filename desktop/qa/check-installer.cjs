@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),cp=require('node:child_process');
+const root=path.resolve(__dirname,'..'),pkg=require('../package.json'),b=pkg.build;
+assert.equal(b.appId,'local.path.paperclip.test');assert.equal(b.nsis.deleteAppDataOnUninstall,false);assert.equal(b.nsis.allowElevation,false);assert.equal(b.nsis.perMachine,false);assert.deepEqual(b.nsis.installerLanguages,['en_US','ru_RU']);assert(pkg.scripts['dist:win'].includes('--publish never'));
+const main=fs.readFileSync(path.join(root,'main.cjs'),'utf8');assert(main.includes("path.join(app.getPath('appData'),'Path-Paperclip-Test')"));assert(main.includes('contextIsolation:true,sandbox:true,webSecurity:true'));
+const svg=fs.readFileSync(path.join(root,'../assets/path-logo.svg'),'utf8').replace('currentColor','#c8c8c8');assert.equal(fs.readFileSync(path.join(root,'build/path-logo.svg'),'utf8'),svg);
+const ico=fs.readFileSync(path.join(root,'build/path.ico'));assert.equal(ico.readUInt16LE(2),1);assert(ico.readUInt16LE(4)>=7);
+const script=fs.readFileSync(path.join(root,'build/installer.nsh'),'utf8');assert(!/RMDir|DeleteRegKey|Set-MpPreference|SmartScreenEnabled|EnableLUA/i.test(script));assert(script.includes('PBM_SETBARCOLOR'));assert(script.includes('1033'));assert(script.includes('1049'));
+const env={...process.env};for(const key of Object.keys(env))if(key.startsWith('PATH_SIGNING_')||key==='PATH_CERTIFICATE_SHA1')delete env[key];
+assert.notEqual(cp.spawnSync(process.execPath,['-e',"require('./signing.config.cjs')"],{cwd:root,env}).status,0,'unsigned production configuration must fail');
+const manifest=fs.readFileSync(path.join(root,'msix/AppxManifest.template.xml'),'utf8');assert(manifest.includes('unvirtualizedResources'));assert(manifest.includes('Path-Paperclip-Test'));assert(manifest.includes('__PUBLISHER__'));
+console.log('PASS stable profile/appId, per-user data-preserving configuration, approved logo and ICO sizes, EN/RU, no security weakening, production signature gate, MSIX placeholders. Static checks only.');
+
+assert.equal(b.nsis.oneClick,false);
+assert.equal(b.nsis.allowToChangeInstallationDirectory,true);
+assert.equal(b.nsis.runAfterFinish,true);
+assert(script.includes('!define MUI_FINISHPAGE_RUN_FUNCTION "PathStartApp"'));
+assert(script.includes('!define MUI_FINISHPAGE_RUN_TEXT "$(PathRunAfterInstall)"'));
+assert(script.includes('${StdUtils.ExecShellAsUser} $0 "$launchLink" "open" "$1"'));
+assert(script.includes('LangString PathRunAfterInstall 1033'));
+assert(script.includes('LangString PathRunAfterInstall 1049'));
+assert(!script.includes('MUI_FINISHPAGE_RUN_CHECKED'));
+console.log('PASS assisted directory selection and native localized launch checkbox with user-level launch; no forced finish launch.');
+assert(script.includes('$(PathFinished)'));
+assert(script.includes('$(PathInstallingSub)'));
+assert(script.includes('GetDlgItem $1 $0 1006'));
+assert(script.includes('0xFFFFFDFF'));
+assert(!script.includes('CCCCCCC'));
+console.log('PASS RC2 localized completion/install copy, status background and border styling. Native visual verification pending.');

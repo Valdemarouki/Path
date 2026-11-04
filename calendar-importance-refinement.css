@@ -1,0 +1,14 @@
+/* Priority is independent of event type, completion, selection and Pulse. */
+.calendar-timegrid .cal-entry[data-importance],.calendar-month .cal-entry[data-importance]{background:var(--importance-bg);border:1px solid var(--importance-border);color:var(--importance-text);box-shadow:none;padding-left:8px;transition:background-color 180ms ease,border-color 180ms ease,color 180ms ease}
+.cal-entry[data-importance=high]{--importance-bg:#292b2e;--importance-border:#828489;--importance-text:#f3f3f3;--importance-width:3px;--importance-accent:#f0f0ef;--importance-glow:0 0 6px #f0f0ef30}
+.cal-entry[data-importance=medium]{--importance-bg:#242629;--importance-border:#505258;--importance-text:#e1e2e2;--importance-width:2px;--importance-accent:#a8aaae;--importance-glow:none}
+.cal-entry[data-importance=low]{--importance-bg:#202124;--importance-border:#3a3b3f;--importance-text:#c0c1c3;--importance-width:1px;--importance-accent:#696a6d;--importance-glow:none}
+.cal-entry[data-importance=none]{--importance-bg:#1d1e21;--importance-border:#333438;--importance-text:#bfc0c3;--importance-width:0px;--importance-accent:transparent;--importance-glow:none}
+.cal-entry[data-importance]::before{content:'';position:absolute;inset:0 auto 0 0;width:var(--importance-width);background:var(--importance-accent);box-shadow:var(--importance-glow);pointer-events:none;transition:background-color 180ms ease,box-shadow 180ms ease}
+.cal-entry[data-importance] small{color:#b3b5b9}
+.cal-entry[data-importance].completed{opacity:1;color:#aeb0b4}.cal-entry[data-importance].completed strong{text-decoration:line-through;text-decoration-color:#888a8d}
+.cal-entry.importance-selected,.cal-entry:focus-visible{outline:2px solid #f0f0ee;outline-offset:2px;z-index:5}
+.calendar-timegrid .cal-entry.free-time,.calendar-month .cal-entry.free-time{border:1px dashed #77797e!important;background:repeating-linear-gradient(135deg,#242527 0,#242527 7px,#2a2b2d 7px,#2a2b2d 8px)!important;box-shadow:none;color:#d5d6d6}
+.context-importance-picker{display:flex;gap:7px}.context-importance-picker button{width:38px;min-height:36px}.context-importance-picker button[aria-pressed=true]{border-color:#dedfe0;background:#3c3e40;color:#fff}
+body[data-ui-motion=off] .cal-entry[data-importance],body[data-ui-motion=off] .cal-entry[data-importance]::before{transition:none}
+@media(prefers-reduced-motion:reduce){.cal-entry[data-importance],.cal-entry[data-importance]::before{transition:none!important}}

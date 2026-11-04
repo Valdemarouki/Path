@@ -1,0 +1,3 @@
+provider: generic
+url: https://path.invalid/downloads/
+updaterCacheDirName: path-2-desktop-updater

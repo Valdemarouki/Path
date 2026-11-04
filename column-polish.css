@@ -1,0 +1,20 @@
+/* Ionic Navigation v2; geometry follows the supplied 180 × 1190 SVG. */
+.canonical-column.nav-shell{--rail-height:clamp(540px,calc(100dvh - 140px),650px);left:10px;top:50%;bottom:auto;width:115px;height:var(--rail-height);max-height:calc(100dvh - 80px);transform:translateY(-50%);overflow:visible;background:none;border:0}
+.ionic-rail{position:relative;width:calc(var(--rail-height)*180/1190);height:var(--rail-height);margin:auto}
+.canonical-column .ionic-art,.canonical-column .ionic-art img{display:block;width:100%;height:100%;pointer-events:none}
+.canonical-column .ionic-buttons{position:absolute;inset:0;width:100%;height:100%;display:block;padding:0;isolation:isolate}
+.canonical-column .ionic-button{position:absolute;left:50%;top:var(--slot);transform:translate(-50%,-50%);width:57%;min-width:44px;height:8.1%;min-height:44px;padding:0;border:0;border-radius:10px;background:none;box-shadow:none;z-index:2;touch-action:manipulation}
+.canonical-column .ionic-button.selected,.canonical-column .ionic-button:hover{background:none;border:0;box-shadow:none}
+.ionic-state{position:absolute;width:48%;height:48%;left:26%;top:26%;pointer-events:none;transition:opacity 180ms ease,transform 260ms cubic-bezier(.18,1.15,.32,1);opacity:0}
+.ionic-idle{opacity:1;filter:drop-shadow(0 0 2px #ffffff14)}.ionic-button.selected .ionic-idle{opacity:0}.ionic-button.selected .ionic-active{opacity:1;filter:drop-shadow(0 0 5px #ffffff38)}
+@media(hover:hover){.ionic-button:not(.selected):hover .ionic-idle{opacity:0}.ionic-button:not(.selected):hover .ionic-hover{opacity:1}.ionic-button:hover .ionic-state{transform:translateY(-1px)}}
+.ionic-button:active .ionic-state{transform:scale(.94);transition-duration:90ms}
+.canonical-column .ionic-button:focus-visible{outline:2px solid #eee;outline-offset:3px}
+.ionic-button::after{content:attr(data-label);position:absolute;left:calc(100% + 12px);top:50%;transform:translateY(-50%);padding:6px 10px;border:1px solid #45464a;border-radius:8px;background:#222326;color:#eee;font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 180ms}
+.ionic-button:hover::after,.ionic-button:focus-visible::after{opacity:1}
+.ionic-indicator{position:absolute;width:53.33333%;height:8.40336%;z-index:1;border:0;background:none;box-shadow:none;pointer-events:none}
+.ionic-indicator img{width:100%;height:100%;display:block;filter:drop-shadow(0 0 3px #ffffff85) drop-shadow(0 0 10px #ffffff40)}.ionic-indicator[hidden]{display:none}
+@media(min-width:651px) and (max-height:620px){.canonical-column.nav-shell{top:68px;transform:none;max-height:calc(100dvh - 80px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}.ionic-button::after{display:none}}
+@media(max-width:650px){.canonical-column.nav-shell{left:0;top:auto;bottom:0;transform:none;width:100%;height:64px;max-height:none;background:#17181af5;border-top:1px solid #343538;overflow-x:auto;overflow-y:hidden}.ionic-rail{width:100%;min-width:352px;height:63px}.canonical-column .ionic-art{display:none}.canonical-column .ionic-buttons{display:flex;align-items:center;justify-content:space-around}.canonical-column .ionic-button{position:relative;left:auto;top:auto;transform:none;width:44px;height:48px;flex:0 0 44px;min-width:44px}.ionic-indicator{width:42px;height:44px}.ionic-state{width:24px;height:24px;left:10px;top:12px}.ionic-button::after{display:none}}
+body[data-ui-motion=off] .ionic-state,body[data-ui-motion=off] .ionic-button::after{transition:none;transform:none}
+@media(prefers-reduced-motion:reduce){.ionic-state,.ionic-button::after{transition:none!important;transform:none!important}}

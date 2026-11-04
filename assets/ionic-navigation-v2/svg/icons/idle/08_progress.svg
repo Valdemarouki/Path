@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+role="img" aria-label="Progress — idle">
+<title>Progress — idle</title>
+<g fill="none" stroke="#E2E3E3" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 22h19"/>
+    <rect x="4.1" y="15.1" width="3.5" height="6.9" rx=".8"/>
+    <rect x="10.25" y="10.0" width="3.5" height="12" rx=".8"/>
+    <rect x="16.4" y="4.7" width="3.5" height="17.3" rx=".8"/>
+</g>
+</svg>

@@ -1,0 +1,10 @@
+/* Keep translated labels readable without changing icon hit areas or Canvas geometry. */
+.setting-item{gap:16px}.setting-item>div{min-width:0}.setting-item .select{flex-shrink:0;max-width:48%}
+.path-context-overlay .editor-head strong,.path-context-overlay label,.context-more summary{overflow-wrap:anywhere}
+.path-context-overlay .editor-actions .btn,.path-confirm-dialog footer button{white-space:normal;height:auto;min-height:32px;line-height:1.35}
+.path-confirm-dialog footer{flex-wrap:wrap}
+.path-context-overlay .context-time-row{min-width:0}.path-context-overlay .context-time-row>*{min-width:0}
+.context-recovery{max-width:calc(100vw - 32px);box-sizing:border-box;flex-wrap:wrap}
+#path-storage{max-width:calc(100vw - 24px);box-sizing:border-box;flex-wrap:wrap}
+html:not([lang=en]) .home-portrait .quote{line-height:1.55;overflow-wrap:break-word}
+@media(max-width:800px){.setting-item{align-items:flex-start;flex-wrap:wrap}.setting-item .select{max-width:100%}}

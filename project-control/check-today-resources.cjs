@@ -1,0 +1,27 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');
+const {JSDOM}=require('./i18n-tools/node_modules/jsdom');const root=path.resolve(__dirname,'..');
+(async()=>{
+ const dom=new JSDOM('<body><main></main></body>',{url:'https://path.test',runScripts:'outside-only'}),w=dom.window;w.eval=s=>vm.runInContext(s,dom.getInternalVMContext());
+ w.eval(`let scans=0;const data={get notes(){scans++;return [{title:'Save'}];}};let editor=null;function settingsPage(){return '';}function pathLanguage(){return 'ru';}function pathT(s){return s==='Cancel'?'Отмена':s;}function render(){}`);
+ w.eval(fs.readFileSync(path.join(root,'i18n/ui.js'),'utf8'));
+ const flush=()=>new Promise(resolve=>w.setTimeout(resolve,0));
+ w.eval('scans=0');
+ const wave=w.document.createElement('span');wave.className='today-pulse-layer';wave.innerHTML='<span class="today-pulse-ring"></span>';w.document.body.append(wave);await flush();wave.remove();await flush();
+ const canvas=w.document.createElement('canvas');w.document.body.append(canvas);await flush();canvas.dataset.state='VISIBLE';await flush();
+ assert.equal(w.eval('scans'),0,'decoration must not walk private data');
+ const section=w.document.createElement('section');w.document.body.append(section);section.innerHTML='<button>Cancel</button>';await flush();
+ assert.equal(w.eval('scans'),1);assert.equal(section.textContent,'Отмена');
+ section.remove();await flush();assert.equal(w.eval('scans'),1,'removal-only batch must not scan');
+ dom.window.close();
+ console.log('PASS real MutationObserver: wave add/remove and canvas produce zero profile scans; live text still translated; removal-only batch skipped.');
+ const source=fs.readFileSync(path.join(root,'motion-master.js'),'utf8');
+ let delay=null,writes=0;const label={value:'1 min',get textContent(){return this.value},set textContent(v){writes++;this.value=v}};
+ const ctx={document:{hidden:false,querySelector:s=>s==='[data-focus-elapsed]'?label:null},data:{activeFocus:{runningSince:100,elapsedMs:61000}},view:'today',clearTimeout(){delay=null},setTimeout(fn,ms){delay=ms;return 1;},focusElapsed:a=>a.elapsedMs,updateCalendarNow(){},pathT:s=>s};
+ vm.createContext(ctx);vm.runInContext(source.slice(source.indexOf('let pathVisibleClock=null;'),source.indexOf('const renderBeforeVisibleClock')),ctx);
+ ctx.syncVisibleClock();assert.equal(delay,59000);assert.equal(writes,0);
+ ctx.data.activeFocus.elapsedMs=120000;ctx.syncVisibleClock();assert.equal(label.value,'2 min');assert.equal(writes,1);
+ ctx.data.activeFocus.runningSince=null;ctx.syncVisibleClock();assert.equal(delay,null);assert.equal(writes,1);
+ delete ctx.data.activeFocus;ctx.syncVisibleClock();assert.equal(delay,null);
+ ctx.document.hidden=true;ctx.syncVisibleClock();assert.equal(delay,null);
+ console.log('PASS focus clock: minute boundary scheduling, no identical DOM writes, paused/empty/hidden clocks sleep.');
+})().catch(e=>{console.error(e);process.exitCode=1;});

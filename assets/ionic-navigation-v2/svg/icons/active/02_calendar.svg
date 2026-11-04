@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+role="img" aria-label="Calendar — active">
+<title>Calendar — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.6" y="5.3" width="16.8" height="16.1" rx="2.5" stroke-width="1.95"/>
+    <path d="M7.7 3.2v4.2M16.3 3.2v4.2M3.6 9.5h16.8"/>
+    <rect x="7.1" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="11" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="14.9" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="7.1" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="11" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>

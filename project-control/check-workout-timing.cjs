@@ -1,0 +1,9 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');
+const c={Date,Math,Number,pathClone:x=>JSON.parse(JSON.stringify(x))};vm.createContext(c);vm.runInContext(fs.readFileSync(path.join(__dirname,'../sport.js'),'utf8').split('let sportProgram')[0],c);
+const start=Date.parse('2026-10-26T10:00:00Z');let a={id:'a',startedAt:new Date(start).toISOString(),restUntil:start+90000};
+assert.equal(c.workoutElapsedMs(a,start+30000),30000);assert(c.setWorkoutPaused(a,true,start+30000));assert.equal(a.restRemainingMs,60000);assert.equal(a.restUntil,undefined);assert.equal(c.setWorkoutPaused(a,true,start+60000),false);assert.equal(c.workoutElapsedMs(a,start+3600000),30000);
+a=JSON.parse(JSON.stringify(a));assert(c.setWorkoutPaused(a,false,start+3600000));assert.equal(a.restUntil,start+3660000);assert.equal(a.pausedMs,3570000);assert.equal(c.workoutElapsedMs(a,start+3660000),90000);assert.equal(c.setWorkoutPaused(a,false,start+3660000),false);
+assert(c.setWorkoutPaused(a,true,start+3660000));const record=c.completedWorkoutRecord(a,start+7200000);assert.equal(record.durationMs,90000);assert.equal(record.pausedAt,undefined);assert.equal(record.restUntil,undefined);assert.equal(record.restRemainingMs,undefined);assert.equal(c.workoutElapsedMs(record,start+9000000),90000);assert.equal(c.setWorkoutPaused(record,false),false);
+const legacy={startedAt:new Date(start).toISOString(),endedAt:new Date(start+600000).toISOString()};assert.equal(c.workoutElapsedMs(legacy),600000);
+console.log('PASS workout pause/resume idempotence, serialized pause restoration, frozen rest remainder, finish during pause, immutable duration and legacy fallback.');
+a={startedAt:new Date(start).toISOString(),restPaused:true,restRemainingMs:15000};c.setWorkoutPaused(a,true,start+10000);c.setWorkoutPaused(a,false,start+60000);assert.equal(a.restRemainingMs,15000);assert.equal(a.restUntil,undefined,'Workout resume must preserve separately paused rest');

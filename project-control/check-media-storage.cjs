@@ -1,0 +1,21 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');
+const source=fs.readFileSync(path.join(__dirname,'../storage.js'),'utf8');
+const disk=new Map();let fail=false;const c={STORE:'media-test',localStorage:{getItem:k=>disk.get(k)??null,setItem(k,v){if(fail)throw Error('quota');disk.set(k,v);}}};vm.createContext(c);vm.runInContext(source+';globalThis.repo=pathRepository;',c);
+const image='data:image/png;base64,'+'A'.repeat(180000),pdf='data:application/pdf;base64,'+'B'.repeat(4000);
+const r=c.repo,s=r.load();s.homeTasks=[{id:'t',title:'Toggle',done:false}];s.notes=[{id:'n',kind:'note',updatedAt:'2026-10-30T10:00:00Z',title:'Media',body:'',attachments:[{id:'a',name:'photo.png',type:'image/png',size:135000,data:image},{id:'p',name:'doc.pdf',type:'application/pdf',size:3000,data:pdf}]}];s.canvases=[{id:'c',name:'Board',nodes:[{id:'node',kind:'image',x:0,y:0,image}],edges:[]}];
+assert(r.commit(s),r.error);for(let i=0;i<25;i++){s.homeTasks[0].done=!s.homeTasks[0].done;assert(r.commit(s));}
+assert.equal(r.undo.length,20);const raw=r.raw,envelope=JSON.parse(raw);
+assert.equal(envelope.imageCodec,2);assert.equal(envelope.imageAssets.length,2);assert(raw.length<220000,'media must not multiply across snapshots');
+assert.equal(raw.split(image).length-1,1);assert.equal(raw.split(pdf).length-1,1);
+const full=JSON.stringify({state:r.state,undo:r.undo,redo:r.redo});assert(full.length>raw.length*20);
+const decoded=c.pathCheckpointDecode(envelope);assert.equal(decoded.state.notes[0].attachments[0].data,image);assert.equal(decoded.undo[0].canvases[0].nodes[0].image,image);
+for(let i=0;i<20;i++)assert(r.history('undo'));for(let i=0;i<20;i++)assert(r.history('redo'));
+const reloaded=vm.runInContext('new PathRepository(pathRepository.storage,STORE)',c);reloaded.load();assert.equal(reloaded.state.notes[0].attachments[0].data,image);assert.equal(reloaded.state.canvases[0].nodes[0].image,image);
+s.notes[0].attachments=[];const before=r.raw;fail=true;assert.equal(r.commit(s),false);assert.equal(r.raw,before);assert.equal(r.state.notes[0].attachments[0].data,image);fail=false;assert(r.commit(r.pending.state));assert(r.history('undo'));assert.equal(r.state.notes[0].attachments[0].data,image);
+const old={format:'path-checkpoint',version:2,imageCodec:1,imageAssets:[image],state:{image:{pathImageAsset:0}},undo:[],redo:[]};assert.equal(c.pathCheckpointDecode(old).state.image,image);
+const unsupported={...old,imageCodec:99};assert.throws(()=>c.pathCheckpointDecode(unsupported));
+const invalid={...old,imageAssets:[]};assert.throws(()=>c.pathCheckpointDecode(invalid));
+const fixtures=[{x:NaN,a:[undefined,Infinity,null],date:new Date('2026-10-30T00:00Z')},{a:{text:'abc'},b:'xyz'},JSON.parse('{"__proto__":{"x":1}}')];for(const x of fixtures)assert.equal(JSON.stringify(c.pathClone(x)),JSON.stringify(x));
+c.fixture=s;vm.runInContext('const stringifyBeforeTest=JSON.stringify;JSON.stringify=()=>{throw Error("No JSON serialization allowed in clone");};pathClone(fixture);JSON.stringify=stringifyBeforeTest;',c);
+const copy=c.pathClone(s);copy.homeTasks[0].title='Different';assert.notEqual(copy.homeTasks[0].title,s.homeTasks[0].title);
+console.log(`PASS media across 20 Undo/Redo states: ${full.length} → ${raw.length} serialized characters; exact image/PDF reload, failed-write rollback, legacy codec, invalid asset rejection, independent records and clone without JSON serialization.`);

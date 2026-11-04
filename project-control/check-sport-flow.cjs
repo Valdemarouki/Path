@@ -1,0 +1,51 @@
+/* Pure template/runtime smoke test. No browser/layout/interaction claims. */
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');const root=path.resolve(__dirname,'..');
+const element=()=>({dataset:{},style:{setProperty:()=>{}},classList:{add:()=>{},remove:()=>{},toggle:()=>{}},appendChild:()=>{},addEventListener:()=>{},remove:()=>{},querySelector:()=>null,querySelectorAll:()=>[],getBoundingClientRect:()=>({width:1000,height:800}),setAttribute:()=>{},innerHTML:'',scrollLeft:0,scrollTop:0});const app=element();
+const doc={body:element(),documentElement:element(),hidden:false,hasFocus:()=>true,querySelector:sel=>['#app','#toast'].includes(sel)?app:null,querySelectorAll:()=>[],getElementById:()=>null,createElement:element,addEventListener:()=>{}};
+const motionListeners={};doc.addEventListener=(type,fn)=>{(motionListeners[type]??=[]).push(fn);};
+const memory=new Map();
+const c={console,Date,Intl,URL,Blob,Map,Set,Uint8Array,crypto:require('crypto').webcrypto,performance:{now:()=>0},document:doc,window:{addEventListener:()=>{},innerHeight:1000,matchMedia:()=>({matches:true,addEventListener:()=>{}})},matchMedia:()=>({matches:true,addEventListener:()=>{}}),localStorage:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value)},setTimeout:()=>{},clearTimeout:()=>{},setInterval:()=>{},clearInterval:()=>{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{},confirm:()=>false};vm.createContext(c);
+let base=fs.readFileSync(path.join(root,'check0.js'),'utf8');base=base.replace(/save\(\);render\(\);\s*$/,'');vm.runInContext(base,c);vm.runInContext('render=function(){};renderEditor=function(){};',c);
+let extension=fs.readFileSync(path.join(root,'check1.js'),'utf8').replace(/^render\(\);$/gm,'');vm.runInContext(extension,c);vm.runInContext('render=function(){};renderEditor=function(){};',c);
+
+const run=code=>vm.runInContext(code,c);
+run(`data=pathEmpty();data.workouts=[{id:'flow',name:'Flow test',duration:30,exercises:[{id:'one',name:'Pull',sets:2,target:'8',rest:90},{id:'two',name:'Hold',sets:1,target:'20 seconds',rest:60}]}];data.workoutRecords=[];data.events=[{id:'plan',title:'Flow test',date:pathToday(),hour:12,duration:30,type:'workout',done:false,workoutTemplateId:'flow',plannedSnapshot:pathClone(data.workouts[0])}];save();data.activeWorkout=sportSession(data.workouts[0],'plan');save();`);
+run(`homeDate=addDays(pathToday(),-1);`);assert(run(`homeEvents().some(e=>e.id==='plan')`));
+assert.equal(run('sportSessionSummary(data.activeWorkout).logged'),0);
+assert.equal(run('sportFinish()'),false);
+assert.equal(run('progressSnapshot().workouts'),0);
+run(`sportLogSet(data.activeWorkout,data.activeWorkout.sets[0].id,'8','working');data.activeWorkout.sets[1].result='7';save();`);
+assert.equal(run('sportSessionSummary(data.activeWorkout).unlogged'),1);
+assert(run('sportReviewMarkup(data.activeWorkout)').includes('2 unfinished sets'));
+assert(run('sportReviewMarkup(data.activeWorkout)').includes('1 entered result'));
+run(`const write=localStorage.setItem;const beforeFail=JSON.stringify(data);localStorage.setItem=()=>{throw Error('quota');};`);
+assert.equal(run('retainWorkoutDraft()'),false);assert.deepStrictEqual(JSON.parse(run('JSON.stringify(data)')),JSON.parse(run('beforeFail')));
+assert.equal(run('discardWorkoutDraft()'),false);assert.deepStrictEqual(JSON.parse(run('JSON.stringify(data)')),JSON.parse(run('beforeFail')));
+assert.equal(run('sportFinish()'),false);assert.equal(run('data.events[0].done'),false);assert.equal(run('data.workoutRecords.length'),0);assert(run('!!data.activeWorkout'));
+run('localStorage.setItem=write;');
+assert.equal(run('retainWorkoutDraft()'),true);assert(run('Number.isFinite(data.activeWorkout.pausedAt)'));assert.equal(run('progressSnapshot().workouts'),0);
+run(`const restored=JSON.parse(JSON.stringify(data.activeWorkout));data.activeWorkout=restored;setWorkoutPaused(data.activeWorkout,false);`);
+assert.equal(run('data.activeWorkout.sets[0].result'),'8');assert.equal(run('data.activeWorkout.sets[1].result'),'7');
+assert.equal(run('sportFinish()'),true);assert.equal(run('data.workoutRecords.length'),1);assert.equal(run('data.events[0].done'),true);assert.equal(run(`homeEvents().some(e=>e.id==='plan')`),false);assert.equal(run('progressSnapshot().workouts'),1);assert.equal(run('progressSnapshot().sets'),1);assert.equal(run('sportFinish()'),false);
+assert.equal(run('data.workoutRecords[0].sets[1].done'),false);
+run(`workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);workoutDraft.name='Changed';const templateBefore=JSON.stringify(data.workouts);localStorage.setItem=()=>{throw Error('quota');};`);
+assert(run('commitWorkoutDraft()'));assert.equal(run('JSON.stringify(data.workouts)'),run('templateBefore'));assert.equal(run('workoutDraft.name'),'Changed');
+run('localStorage.setItem=write;');assert.equal(run('commitWorkoutDraft()'),'');assert.equal(run('data.workouts[0].name'),'Changed');assert.equal(run('data.workoutRecords[0].snapshot.name'),'Flow test');
+console.log('PASS full Sport flow: review, unlogged results, pause/resume restoration, failed draft/discard/finish rollback, single record, Calendar completion, Progress actual sets, template isolation and retry.');
+
+run(`workoutDraft={id:'empty-new',name:'Mobility',duration:45,exercises:[]};workoutDraftOriginal='{}';const exitBefore=JSON.stringify(data);localStorage.setItem('path2-workout-editor-draft',JSON.stringify(workoutDraft));`);
+c.localStorage.removeItem=key=>memory.delete(key);
+assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('workoutDraft'),null);assert.equal(run('JSON.stringify(data)'),run('exitBefore'));assert.equal(memory.has('path2-workout-editor-draft'),false);
+run(`workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);workoutDraft.exercises=[];`);
+assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('JSON.stringify(data)'),run('exitBefore'));
+console.log('PASS Back abandons incomplete new/existing workout edits without mutation, validation toast or recovery resurrection.');
+
+run(`workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);const removedId=workoutDraft.exercises[0].id;const removedName=workoutDraft.exercises[0].name;`);
+assert.equal(run('sportRemoveExercise(removedId)'),true);assert.equal(run('workoutDraft.exercises.length'),1);assert(run('workoutBuilderPage()').includes('data-sport-restore-exercise'));
+run(`workoutDraft.name='Retain later name edit';`);
+assert.equal(run('sportRestoreExercise()'),true);assert.equal(run('workoutDraft.exercises[0].name'),run('removedName'));assert.equal(run('workoutDraft.name'),'Retain later name edit');assert.equal(run('sportRestoreExercise()'),false);
+run(`workoutDraft=null;data.programs=[{id:'program',name:'Empty program'}];data.workouts[0].programId='program';save();localStorage.setItem=()=>{throw Error('quota');};`);
+assert.equal(run(`sportUnlinkWorkout('flow')`),false);assert.equal(run('data.workouts[0].programId'),'program');
+run('localStorage.setItem=write;');assert.equal(run(`sportUnlinkWorkout('flow')`),true);assert.equal(run('data.workouts[0].programId'),'');run(`applyHistory('undo');`);assert.equal(run('data.workouts[0].programId'),'program');
+run(`data.activeWorkout=sportSession(data.workouts[0]);save();const discardedId=data.activeWorkout.id;`);assert.equal(run('discardWorkoutDraft()'),true);run(`applyHistory('undo');`);assert.equal(run('data.activeWorkout.id'),run('discardedId'));
+console.log('PASS editor removal/Undo keeps later edits, failed unlink rollback, repository Undo for unlink and discarded session.');

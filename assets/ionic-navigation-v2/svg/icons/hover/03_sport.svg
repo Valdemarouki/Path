@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+role="img" aria-label="Sport — hover">
+<title>Sport — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.6 9.2H2.9a1 1 0 0 0-1 1v3.6a1 1 0 0 0 1 1h1.7M9.2 11.3h5.6M9.2 12.7h5.6M19.4 9.2h1.7a1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1h-1.7"/>
+    <rect x="4.7" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+    <rect x="15.1" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+</g>
+</svg>

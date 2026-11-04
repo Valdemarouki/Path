@@ -1,0 +1,65 @@
+/* Today visual pass: approved composition, quieter surfaces, readable content. */
+body[data-page=today]{background:#111214}
+.home-layout > *, .home-bottom-row > section{min-width:0}
+.home-layout .panel{border:1px solid #ffffff0c;background:linear-gradient(125deg,#1d1e20,#191a1c);box-shadow:inset 0 1px 0 #ffffff03;border-radius:16px}
+.home-layout .panel-head{min-height:26px;gap:16px;margin-bottom:16px}
+.home-layout .panel-title{font-size:16px;line-height:1.4;font-weight:500}
+.home-layout .focus-count{font-variant-numeric:tabular-nums;font-size:12px;color:#b3b5b8;white-space:nowrap}
+.home-intro .eyebrow{color:#a4a6a9;font-size:10px;letter-spacing:.42em;line-height:1.8}
+.home-intro p{color:#bfc0c2;line-height:1.6;font-size:14px}
+.home-layout .task-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:14px;padding:10px 0;min-height:52px;align-items:center}
+.home-layout .task-label{width:100%;min-width:0;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.home-layout .task-project{font-size:10px;line-height:1.5;color:#93969b;margin-top:3px}
+.home-layout .task-duration{font-size:11px;color:#999da3;font-variant-numeric:tabular-nums}
+.home-layout .checkbox-task{width:27px;height:27px;flex-shrink:0;border-color:#84878b;border-radius:7px}
+.home-layout .checkbox-task.done{background:#efefed;border-color:#fff;box-shadow:0 0 12px #ffffff25;color:#242527}
+.home-layout .task-label.done{color:#8c9096}
+.home-layout .focus-tools{opacity:1;color:#8d9197;min-width:30px;min-height:30px}
+.home-layout .home-task-list{max-height:340px;scrollbar-color:#4c4e52 transparent}
+.home-layout .home-week .week-bars{gap:12px;margin-top:18px}
+.home-layout .home-week .week-bar.active{box-shadow:0 0 12px #ffffff25;background:#eeefec}
+.home-layout .home-week .week-col{font-size:10px;color:#a4a6a9}
+.home-layout .next-event{gap:18px}
+.home-layout .next-copy h3{font-size:13px;color:#b7babd}
+.home-layout .next-copy p{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+.home-portrait .quote{font-size:clamp(21px,1.7vw,27px);line-height:1.45;text-wrap:balance}
+.home-portrait .quote-author{line-height:1.8;letter-spacing:.28em}
+.home-bottom-row{gap:20px;border-top:0;margin-top:24px}
+.home-bottom-row > section,.home-bottom-row > section+section{background:#191a1c;border:1px solid #ffffff0b;border-radius:14px;padding:18px 20px;margin-top:0}
+.home-bottom-row .bottom-heading{font-size:14px;gap:12px}
+.home-bottom-row .bottom-heading .btn{font-size:11px;white-space:nowrap}
+.home-bottom-row .home-note{gap:12px;width:100%;margin:18px 0;text-align:left}
+.home-bottom-row .home-note svg{flex-shrink:0}
+.home-bottom-row .home-note > span{min-width:0}
+.home-bottom-row .home-note strong{display:block;overflow-wrap:anywhere;line-height:1.5}
+.home-bottom-row .home-note p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.6}
+.home-bottom-row .goal-line{grid-template-columns:20px minmax(0,1fr) minmax(40px,.6fr) 34px;gap:10px}
+.home-bottom-row .goal-line > span{overflow-wrap:anywhere}
+.home-bottom-row .agenda-info{min-width:0;flex-wrap:wrap}
+.home-bottom-row .agenda-info > span:first-child{min-width:0;overflow-wrap:anywhere}
+body[data-page=today] button:focus-visible{outline:2px solid #d9dcdf;outline-offset:4px}
+body[data-page=today][data-ui-motion=on] .home-layout button{transition:background-color 160ms,border-color 160ms,box-shadow 180ms}
+@media(hover:hover){.home-layout .checkbox-task:hover,.home-layout .habit:hover .habit-orb{border-color:#fff;background-color:#ffffff08}.home-note:hover strong{color:white;text-decoration:underline;text-underline-offset:4px}}
+@media(min-width:1001px){.home-layout{grid-template-columns:minmax(0,.87fr) minmax(0,1.05fr) minmax(0,.98fr)}.home-portrait{padding:0 8px}}
+@media(min-width:651px) and (max-width:1000px){.home-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.home-bottom-row > section:last-child{display:block;grid-column:1/-1}.home-portrait .quote{font-size:17px}.next-event .btn{gap:8px;padding:10px}}
+@media(max-width:650px){.home-bottom-row > section+section{margin-top:14px}.home-layout .next-event{gap:12px}.home-intro{padding-right:112px;height:auto;min-height:140px}.home-intro h1{font-size:clamp(56px,15vw,80px)}.home-intro .eyebrow{letter-spacing:.18em}.home-layout .home-task-list{max-height:360px}.home-layout .home-week{height:auto;min-height:195px}}
+@media(prefers-reduced-motion:reduce){body[data-page=today] .home-layout button{transition:none!important}}
+/* Focus occupies the space it clears; no detached timer below the dashboard. */
+.home-layout.is-focus .focus-tracker{grid-column:2;grid-row:2/4;display:flex;flex-direction:column;justify-content:center;padding:24px}
+.home-layout.is-focus .home-habits,.home-layout.is-focus .home-week{display:none}
+.home-layout.is-focus .focus-tracker .panel-head{justify-content:space-between;align-items:center;margin-bottom:24px}
+.focus-tracker .focus-session-status{font-size:11px;letter-spacing:.08em;color:#a3a7ad;display:flex;gap:8px;align-items:center}
+.focus-status-dot{width:6px;height:6px;border-radius:50%;background:#777c83}
+.focus-status-dot.running{background:#e7e9e8;box-shadow:0 0 7px #ffffff25}
+.focus-session-time{font:400 clamp(36px,4vw,60px)/1.2 'Cormorant Garamond',Georgia,serif;font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:12px 0;color:#f0f0ee}
+.focus-session-caption{font-size:12px;line-height:1.7;color:#a9adb3;max-width:34ch;margin:0 0 22px}
+.focus-session-actions{gap:8px;flex-wrap:wrap}
+.focus-session-actions .btn{font-size:12px;min-height:38px}
+.focus-session-note{font-size:10px;line-height:1.6;color:#90959c;margin:18px 0 0}
+body[data-page=today][data-focus-mode=true] .home-bottom-row{display:none}
+@media(min-width:651px) and (max-width:1000px){.home-layout.is-focus .focus-tracker{padding:18px}.focus-tracker .panel-head{flex-wrap:wrap;gap:8px}}
+@media(max-width:650px){.home-layout.is-focus .focus-tracker{order:2;min-height:280px;padding:22px}.home-layout.is-focus .next-event{order:3}.focus-session-time{font-size:48px}}
+
+/* Browser QA: inherited nowrap and tracker margins broke the intended layout. */
+.home-layout .task-label{white-space:normal;text-overflow:clip;overflow:visible}
+.home-layout.is-focus .focus-tracker{margin:0;align-self:stretch}

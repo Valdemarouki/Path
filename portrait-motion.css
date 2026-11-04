@@ -1,0 +1,7 @@
+/* The SVG is a layout anchor only. All 516 particles live in one shell canvas. */
+#path-particle-layer{position:fixed;inset:0;z-index:8;pointer-events:none;contain:strict}
+.living-portrait{animation:none!important;transform:none!important;opacity:1!important;visibility:hidden}
+.module-portrait{width:100%}
+
+/* Settled Today pixels move with the bust; morphs retain the viewport layer. */
+.home-portrait .bust{position:relative}

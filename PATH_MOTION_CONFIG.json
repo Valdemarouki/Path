@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "path-motion-v5",
+  "generated": "2026-10-28",
+  "defaultIntensity": "Subtle",
+  "enableAmbient": true,
+  "reducedMotion": "respect-os-and-user",
+  "particleWave": {
+    "particleCount": 516,
+    "svgViewBox": [
+      0,
+      0,
+      371,
+      486
+    ],
+    "amplitudePx": 4,
+    "durationMs": 1450,
+    "staggerMaxMs": 190,
+    "allowCrossfadeBetweenPortraits": false,
+    "retargetFromCurrentFrame": true,
+    "spatialCorrespondence": "precomputed-pairwise-or-equivalent"
+  },
+  "localPulse": {
+    "frequencyIntervalMs": [
+      1250,
+      2900
+    ],
+    "neighborCount": [
+      4,
+      8
+    ],
+    "visualRadiusPx": [
+      18,
+      26
+    ],
+    "pulseDurationMs": [
+      680,
+      970
+    ],
+    "radiusFactorMax": 1.68,
+    "wholeBustScaling": false
+  },
+  "checkmark": {
+    "durationMs": 565,
+    "scaleFrames": [
+      0.28,
+      1.32,
+      0.89,
+      1.055,
+      1.0
+    ],
+    "keyframeOffsets": [
+      0,
+      0.35,
+      0.67,
+      0.85,
+      1
+    ]
+  },
+  "metricBars": {
+    "durationMs": 760,
+    "staggerPerBarMs": 30,
+    "baseline": "bottom",
+    "fromCurrentRenderedHeight": true
+  },
+  "pathPulse": {
+    "holdThresholdMs": 800,
+    "localWaveRadiusPx": [
+      250,
+      320
+    ],
+    "playOnlyAfterDurableCommit": true
+  },
+  "microCompletion": {
+    "durationMs": [
+      300,
+      500
+    ],
+    "shockwave": false
+  },
+  "navigation": {
+    "selectorDurationMs": 420,
+    "hoverDurationMs": 180,
+    "pressDurationMs": 90,
+    "singleSharedSelectionIndicator": true
+  },
+  "cards": {
+    "hoverDurationMs": 170,
+    "springSettleDurationMs": [
+      250,
+      380
+    ],
+    "springOnlyAfterRelease": true
+  },
+  "panels": {
+    "openDurationMs": [
+      260,
+      320
+    ],
+    "softSpring": true
+  },
+  "reduced": {
+    "spatialAnimations": false,
+    "ambientPulse": false,
+    "chartAnimation": false,
+    "microFeedbackOpacityMs": [
+      80,
+      150
+    ]
+  }
+}

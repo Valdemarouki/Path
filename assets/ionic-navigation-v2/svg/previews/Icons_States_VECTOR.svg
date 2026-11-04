@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="1230" viewBox="0 0 1350 1230"><title>Path 2.0 vector icon states</title>
+<rect width="1350" height="1230" rx="0" fill="#111214"/>
+<text x="76" y="92" fill="#EEE" font-family="sans-serif" font-size="32">Path 2.0 / SVG icon system</text>
+<text x="76" y="132" fill="#98999C" font-family="sans-serif" font-size="18">Idle · Hover · Active — all icons scalable, transparent and vector-based</text>
+<text x="650" y="185" font-family="sans-serif" font-size="18" fill="#A4A5A8">IDLE</text>
+<text x="870" y="185" font-family="sans-serif" font-size="18" fill="#A4A5A8">HOVER</text>
+<text x="1090" y="185" font-family="sans-serif" font-size="18" fill="#A4A5A8">ACTIVE</text>
+<text x="76" y="273" fill="#E5E5E5" font-family="sans-serif" font-size="20">Today · Greek temple</text>
+<svg x="650" y="236" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Today · Greek temple — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 9 12 3.5 21.4 9v1.4H2.6Z"/>
+    <path d="M4.3 20.1h15.4M3.4 22h17.2M5 11h14" />
+    <path d="M6.7 11.5v8M11.7 11.5v8M16.7 11.5v8"/>
+</g>
+</svg>
+<svg x="870" y="236" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Today · Greek temple — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 9 12 3.5 21.4 9v1.4H2.6Z"/>
+    <path d="M4.3 20.1h15.4M3.4 22h17.2M5 11h14" />
+    <path d="M6.7 11.5v8M11.7 11.5v8M16.7 11.5v8"/>
+</g>
+</svg>
+<svg x="1090" y="236" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Today · Greek temple — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 9 12 3.5 21.4 9v1.4H2.6Z" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <path d="M4.3 20.1h15.4M3.4 22h17.2M5 11h14" />
+    <path d="M6.7 11.5v8M11.7 11.5v8M16.7 11.5v8" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="219" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="368" fill="#E5E5E5" font-family="sans-serif" font-size="20">Calendar</text>
+<svg x="650" y="331" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Calendar — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.6" y="5.3" width="16.8" height="16.1" rx="2.5"/>
+    <path d="M7.7 3.2v4.2M16.3 3.2v4.2M3.6 9.5h16.8"/>
+    <rect x="7.1" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="11" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="14.9" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="7.1" y="16.5" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="11" y="16.5" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+</g>
+</svg>
+<svg x="870" y="331" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Calendar — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.6" y="5.3" width="16.8" height="16.1" rx="2.5"/>
+    <path d="M7.7 3.2v4.2M16.3 3.2v4.2M3.6 9.5h16.8"/>
+    <rect x="7.1" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F4F4F3" stroke="none"/>
+    <rect x="11" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F4F4F3" stroke="none"/>
+    <rect x="14.9" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F4F4F3" stroke="none"/>
+    <rect x="7.1" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F4F4F3" stroke="none"/>
+    <rect x="11" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F4F4F3" stroke="none"/>
+</g>
+</svg>
+<svg x="1090" y="331" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Calendar — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.6" y="5.3" width="16.8" height="16.1" rx="2.5" stroke-width="1.95"/>
+    <path d="M7.7 3.2v4.2M16.3 3.2v4.2M3.6 9.5h16.8"/>
+    <rect x="7.1" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="11" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="14.9" y="12.7" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="7.1" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="11" y="16.5" width="2.1" height="2.1" rx=".3" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="314" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="463" fill="#E5E5E5" font-family="sans-serif" font-size="20">Sport</text>
+<svg x="650" y="426" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Sport — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.6 9.2H2.9a1 1 0 0 0-1 1v3.6a1 1 0 0 0 1 1h1.7M9.2 11.3h5.6M9.2 12.7h5.6M19.4 9.2h1.7a1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1h-1.7"/>
+    <rect x="4.7" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+    <rect x="15.1" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+</g>
+</svg>
+<svg x="870" y="426" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Sport — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.6 9.2H2.9a1 1 0 0 0-1 1v3.6a1 1 0 0 0 1 1h1.7M9.2 11.3h5.6M9.2 12.7h5.6M19.4 9.2h1.7a1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1h-1.7"/>
+    <rect x="4.7" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+    <rect x="15.1" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+</g>
+</svg>
+<svg x="1090" y="426" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Sport — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.6 9.2H2.9a1 1 0 0 0-1 1v3.6a1 1 0 0 0 1 1h1.7M9.2 11.3h5.6M9.2 12.7h5.6M19.4 9.2h1.7a1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1h-1.7"/>
+    <rect x="4.7" y="5.4" width="4.2" height="13.2" rx="1.25" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="15.1" y="5.4" width="4.2" height="13.2" rx="1.25" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="409" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="558" fill="#E5E5E5" font-family="sans-serif" font-size="20">Projects</text>
+<svg x="650" y="521" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Projects — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.2" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="3.2" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+</g>
+</svg>
+<svg x="870" y="521" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Projects — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.2" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="3.2" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+</g>
+</svg>
+<svg x="1090" y="521" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Projects — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.2" y="3.2" width="7.2" height="7.2" rx="1.2" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="13.6" y="3.2" width="7.2" height="7.2" rx="1.2" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="3.2" y="13.6" width="7.2" height="7.2" rx="1.2" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="13.6" y="13.6" width="7.2" height="7.2" rx="1.2" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="504" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="653" fill="#E5E5E5" font-family="sans-serif" font-size="20">Canvas</text>
+<svg x="650" y="616" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Canvas — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.7 15.7 10.6 8.5M13.5 8.3l4.1 7.7M8.2 18.5l8.1.5" />
+    <circle cx="12.0" cy="5.6" r="3.15"/>
+    <circle cx="5.5" cy="18" r="3.15"/>
+    <circle cx="19" cy="18.4" r="3.15"/>
+</g>
+</svg>
+<svg x="870" y="616" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Canvas — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.7 15.7 10.6 8.5M13.5 8.3l4.1 7.7M8.2 18.5l8.1.5" />
+    <circle cx="12.0" cy="5.6" r="3.15"/>
+    <circle cx="5.5" cy="18" r="3.15"/>
+    <circle cx="19" cy="18.4" r="3.15"/>
+</g>
+</svg>
+<svg x="1090" y="616" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Canvas — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.7 15.7 10.6 8.5M13.5 8.3l4.1 7.7M8.2 18.5l8.1.5" />
+    <circle cx="12.0" cy="5.6" r="3.15" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <circle cx="5.5" cy="18" r="3.15" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <circle cx="19" cy="18.4" r="3.15" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="599" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="748" fill="#E5E5E5" font-family="sans-serif" font-size="20">Habits</text>
+<svg x="650" y="711" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Habits — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M19 7.4a8.6 8.6 0 1 1-2.8-2.7"/>
+    <path d="m7.9 12.1 2.8 2.8 5.9-6.2"/>
+    <circle cx="18.9" cy="4.8" r="1.55" fill="#BABCC0" stroke="none"/>
+</g>
+</svg>
+<svg x="870" y="711" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Habits — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M19 7.4a8.6 8.6 0 1 1-2.8-2.7"/>
+    <path d="m7.9 12.1 2.8 2.8 5.9-6.2"/>
+    <circle cx="18.9" cy="4.8" r="1.55" fill="#F4F4F3" stroke="none"/>
+</g>
+</svg>
+<svg x="1090" y="711" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Habits — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M19 7.4a8.6 8.6 0 1 1-2.8-2.7" stroke-width="1.95"/>
+    <path d="m7.9 12.1 2.8 2.8 5.9-6.2" stroke-width="2.5"/>
+    <circle cx="18.9" cy="4.8" r="1.55" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="694" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="843" fill="#E5E5E5" font-family="sans-serif" font-size="20">Notes / Journal</text>
+<svg x="650" y="806" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Notes / Journal — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 2.75h8.2l4.25 4.2V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1Z"/>
+    <path d="M14.2 2.75v4.7h4.25M8 11h7.8M8 14.8h7.8M8 18.6h5.1"/>
+</g>
+</svg>
+<svg x="870" y="806" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Notes / Journal — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 2.75h8.2l4.25 4.2V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1Z"/>
+    <path d="M14.2 2.75v4.7h4.25M8 11h7.8M8 14.8h7.8M8 18.6h5.1"/>
+</g>
+</svg>
+<svg x="1090" y="806" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Notes / Journal — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 2.75h8.2l4.25 4.2V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1Z" stroke-width="1.95"/>
+    <path d="M14.2 2.75v4.7h4.25M8 11h7.8M8 14.8h7.8M8 18.6h5.1"/>
+</g>
+</svg>
+<rect x="1076" y="789" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="938" fill="#E5E5E5" font-family="sans-serif" font-size="20">Progress</text>
+<svg x="650" y="901" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Progress — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 22h19"/>
+    <rect x="4.1" y="15.1" width="3.5" height="6.9" rx=".8"/>
+    <rect x="10.25" y="10.0" width="3.5" height="12" rx=".8"/>
+    <rect x="16.4" y="4.7" width="3.5" height="17.3" rx=".8"/>
+</g>
+</svg>
+<svg x="870" y="901" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Progress — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 22h19"/>
+    <rect x="4.1" y="15.1" width="3.5" height="6.9" rx=".8"/>
+    <rect x="10.25" y="10.0" width="3.5" height="12" rx=".8"/>
+    <rect x="16.4" y="4.7" width="3.5" height="17.3" rx=".8"/>
+</g>
+</svg>
+<svg x="1090" y="901" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Progress — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 22h19"/>
+    <rect x="4.1" y="15.1" width="3.5" height="6.9" rx=".8" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="10.25" y="10.0" width="3.5" height="12" rx=".8" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <rect x="16.4" y="4.7" width="3.5" height="17.3" rx=".8" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg>
+<rect x="1076" y="884" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="1033" fill="#E5E5E5" font-family="sans-serif" font-size="20">Profile (not in sidebar)</text>
+<svg x="650" y="996" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Profile (not in sidebar) — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="8.0" r="4.05"/>
+    <path d="M4.4 21a7.6 7.6 0 0 1 15.2 0"/>
+</g>
+</svg>
+<svg x="870" y="996" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Profile (not in sidebar) — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="8.0" r="4.05"/>
+    <path d="M4.4 21a7.6 7.6 0 0 1 15.2 0"/>
+</g>
+</svg>
+<svg x="1090" y="996" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Profile (not in sidebar) — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="8.0" r="4.05" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <path d="M4.4 21a7.6 7.6 0 0 1 15.2 0" stroke-width="1.95"/>
+</g>
+</svg>
+<rect x="1076" y="979" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+<text x="76" y="1128" fill="#E5E5E5" font-family="sans-serif" font-size="20">Settings (inside Profile only)</text>
+<svg x="650" y="1091" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Settings (inside Profile only) — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3.15"/>
+    <path d="M10 2.9h4l.55 2 1.7.72 1.79-1.05 2.75 2.75-1.06 1.8.73 1.7 2 .55v4l-2 .55-.73 1.7 1.06 1.8-2.75 2.74-1.8-1.04-1.7.71-.54 2.02h-4l-.55-2.02-1.7-.71-1.8 1.04-2.75-2.75 1.06-1.8-.73-1.7-2-.55v-4l2-.55.73-1.7-1.06-1.8 2.75-2.75 1.8 1.05 1.7-.72Z" />
+</g>
+</svg>
+<svg x="870" y="1091" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Settings (inside Profile only) — hover</title>
+<g fill="none" stroke="#F4F4F3" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3.15"/>
+    <path d="M10 2.9h4l.55 2 1.7.72 1.79-1.05 2.75 2.75-1.06 1.8.73 1.7 2 .55v4l-2 .55-.73 1.7 1.06 1.8-2.75 2.74-1.8-1.04-1.7.71-.54 2.02h-4l-.55-2.02-1.7-.71-1.8 1.04-2.75-2.75 1.06-1.8-.73-1.7-2-.55v-4l2-.55.73-1.7-1.06-1.8 2.75-2.75 1.8 1.05 1.7-.72Z" />
+</g>
+</svg>
+<svg x="1090" y="1091" width="52.800000000000004" height="52.800000000000004" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Settings (inside Profile only) — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="12" cy="12" r="3.15" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <path d="M10 2.9h4l.55 2 1.7.72 1.79-1.05 2.75 2.75-1.06 1.8.73 1.7 2 .55v4l-2 .55-.73 1.7 1.06 1.8-2.75 2.74-1.8-1.04-1.7.71-.54 2.02h-4l-.55-2.02-1.7-.71-1.8 1.04-2.75-2.75 1.06-1.8-.73-1.7-2-.55v-4l2-.55.73-1.7-1.06-1.8 2.75-2.75 1.8 1.05 1.7-.72Z" stroke-width="1.95" />
+</g>
+</svg>
+<rect x="1076" y="1074" width="80" height="80" rx="15" fill="none" stroke="#55575A" stroke-width="1"/>
+</svg>

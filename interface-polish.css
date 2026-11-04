@@ -1,0 +1,28 @@
+/* Final interface polish: no changes to domain data or motion timing. */
+.home-intro h1:not(.date-title){font-size:clamp(32px,24cqw,108px);white-space:nowrap;line-height:1.12}
+body .app-main{padding-bottom:max(80px,env(safe-area-inset-bottom))}
+.btn:focus-visible,.home-layout button:focus-visible,.canvas-edge-actions button:focus-visible,.note-rich-editor:focus-visible{outline:2px solid #d9dad7;outline-offset:3px}
+.btn:disabled{cursor:default;opacity:.42;box-shadow:none}
+.btn:disabled:hover{transform:none}
+.page-title>div,.panel-head>div,.module-toolbar>*{min-width:0}
+.module-toolbar{flex-wrap:wrap;row-gap:10px}
+.panel-head{gap:12px}
+.panel-head .panel-title{overflow-wrap:anywhere}
+.note-format-tools{flex-wrap:wrap;row-gap:6px}
+.path-context-overlay .editor,.note-details{overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#55575a transparent}
+.path-context-overlay .editor-head{gap:12px;align-items:flex-start}
+.path-context-overlay .editor-head button{flex-shrink:0;min-width:32px;min-height:32px}
+.path-context-overlay .editor-head strong{line-height:1.5}
+.context-field-error{display:block;line-height:1.5;margin-top:5px}
+.home-bottom-row .bottom-heading{gap:12px;align-items:baseline}
+.home-bottom-row .bottom-heading button{flex-shrink:0}
+@media(max-width:650px){body .app-main{padding-bottom:140px}.home-intro{width:calc(100% - 120px);padding-right:0}.home-intro h1:not(.date-title){font-size:clamp(28px,24cqw,72px)}.home-intro .eyebrow{letter-spacing:.2em}.home-bottom-row .bottom-heading{flex-wrap:wrap}}
+/* Filled-content pass: long user names must not widen the workspace. */
+.project-workspace,.project-workspace .page-intro,.project-workspace .page-intro>div{min-width:0;max-width:100%}
+.project-workspace .page-title{white-space:normal;overflow-wrap:anywhere;line-height:1.12}
+.project-workspace .page-intro .eyebrow{white-space:normal;overflow-wrap:anywhere}
+.project-workspace .page-intro p{white-space:normal;overflow-wrap:anywhere;max-width:72ch}
+.project-card-open h2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere;line-height:1.5}
+.notes-refined .note-list-item strong,.notes-refined .note-list-item span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;white-space:normal}
+
+.sport-design .program-card h3,.sport-design .sport-template-card h3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.35}

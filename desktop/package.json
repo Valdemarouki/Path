@@ -1,0 +1,107 @@
+{
+  "name": "path-2-desktop",
+  "productName": "Path 2.0",
+  "version": "2.0.0-rc.18",
+  "private": true,
+  "description": "Path 2.0 personal planner — Windows preview",
+  "author": "Path",
+  "main": "main.cjs",
+  "scripts": {
+    "prepare:app": "node prepare.cjs",
+    "start": "npm run prepare:app && electron .",
+    "dist:win": "npm run prepare:app && electron-builder --win nsis --x64 --publish never",
+    "check": "node --check main.cjs && node --check prepare.cjs && node check.cjs",
+    "dist:signed": "node qa/signing-preflight.cjs && npm run prepare:app && electron-builder --config signing.config.cjs --win nsis --x64 --publish never",
+    "check:installer": "node qa/check-installer.cjs",
+    "check:release": "node ../project-control/verify-release.cjs",
+    "check:signing": "node ../project-control/check-signing-config.cjs",
+    "check:accounts": "node ../project-control/check-account-profiles.cjs && node ../project-control/check-account-oauth.cjs && node ../project-control/check-account-host.cjs && node ../project-control/check-account-renderer.cjs && node ../project-control/check-account-migration.cjs"
+  },
+  "devDependencies": {
+    "electron": "45.1.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "local.path.paperclip.test",
+    "productName": "Path 2.0",
+    "asar": true,
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "native-language.cjs",
+      "account-profiles.cjs",
+      "account-service.cjs",
+      "app/**",
+      "package.json",
+      "build/path.ico",
+      "build/path.png",
+      "account-oauth.cjs",
+      "account-vault.cjs",
+      "account-config.json",
+      "account-migration.cjs",
+      "sync-host.cjs",
+      "cloud-sync/*.cjs",
+      "sync-v2-host.cjs",
+      "sync-preparation/*.cjs",
+      "sync-preparation/validation/*.js",
+      "sync-v3-host.cjs",
+      "update-*.cjs",
+      "update-public-key.pem"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "nsis",
+      "artifactName": "Path-2.0-${version}-x64-Setup.${ext}",
+      "icon": "build/path.ico",
+      "signAndEditExecutable": true,
+      "signtoolOptions": {
+        "publisherName": "Path",
+        "signingHashAlgorithms": [
+          "sha256"
+        ]
+      }
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "shortcutName": "Path 2.0",
+      "allowElevation": false,
+      "installerIcon": "build/installer-box.ico",
+      "uninstallerIcon": "build/path.ico",
+      "installerHeader": "build/installerHeader.bmp",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "uninstallerSidebar": "build/installerSidebar.bmp",
+      "include": "build/installer.nsh",
+      "installerLanguages": [
+        "en_US",
+        "ru_RU"
+      ],
+      "displayLanguageSelector": true,
+      "createDesktopShortcut": false,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "uninstallDisplayName": "Path 2.0",
+      "packElevateHelper": false,
+      "useZip": true,
+      "differentialPackage": false
+    },
+    "toolsets": {
+      "wine": "1.0.1"
+    },
+    "npmRebuild": false,
+    "extraResources": [
+      {
+        "from": "update-config.yml",
+        "to": "app-update.yml"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "6.8.11"
+  }
+}

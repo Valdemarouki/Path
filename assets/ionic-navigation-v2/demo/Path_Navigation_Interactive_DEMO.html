@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Path 2.0 — Ionic Sidebar SVG v2</title><link rel="stylesheet" href="path-navigation.css"></head>
+<body>
+<main class="app">
+  <aside class="left" aria-label="Path navigation">
+    <nav class="rail" aria-label="Основные вкладки Path">
+      <img class="rail-svg" alt="" src="../svg/column/Ionic_Column_NO_ICONS.svg" aria-hidden="true">
+      <div id="frame" class="selection" aria-hidden="true"><img src="../svg/column/Active_Focus_Frame.svg" alt=""></div>
+      <button type="button" class="nav-slot" data-index="0" data-label="Today" data-active="true"
+    aria-label="Today" aria-current="page" style="top:18.15126%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/01_today_temple.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/01_today_temple.svg">
+  </button><button type="button" class="nav-slot" data-index="1" data-label="Calendar" data-active="false"
+    aria-label="Calendar" aria-current="false" style="top:27.47899%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/02_calendar.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/02_calendar.svg">
+  </button><button type="button" class="nav-slot" data-index="2" data-label="Sport" data-active="false"
+    aria-label="Sport" aria-current="false" style="top:36.80672%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/03_sport.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/03_sport.svg">
+  </button><button type="button" class="nav-slot" data-index="3" data-label="Projects" data-active="false"
+    aria-label="Projects" aria-current="false" style="top:46.13445%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/04_projects.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/04_projects.svg">
+  </button><button type="button" class="nav-slot" data-index="4" data-label="Canvas" data-active="false"
+    aria-label="Canvas" aria-current="false" style="top:55.46218%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/05_canvas.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/05_canvas.svg">
+  </button><button type="button" class="nav-slot" data-index="5" data-label="Habits" data-active="false"
+    aria-label="Habits" aria-current="false" style="top:64.78992%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/06_habits.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/06_habits.svg">
+  </button><button type="button" class="nav-slot" data-index="6" data-label="Notes" data-active="false"
+    aria-label="Notes" aria-current="false" style="top:74.11765%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/07_notes.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/07_notes.svg">
+  </button><button type="button" class="nav-slot" data-index="7" data-label="Progress" data-active="false"
+    aria-label="Progress" aria-current="false" style="top:83.44538%">
+    <img class="icon-img idle-img" alt="" src="../svg/icons/idle/08_progress.svg">
+    <img class="icon-img active-img" alt="" src="../svg/icons/active/08_progress.svg">
+  </button>
+    </nav>
+  </aside>
+  <section class="main">
+    <header class="top">
+      <span class="brand">Path <span style="color:#8B8D90">2.0</span></span>
+      <div class="p-profile">
+        <button class="profile" id="profileBtn" type="button" aria-expanded="false"><img src="../svg/icons/idle/09_profile.svg" alt=""> Profile</button>
+        <div class="profile-menu" id="profileMenu" data-open="false">
+          <a href="#" id="settings"><img src="../svg/icons/idle/10_settings.svg" alt=""> Settings</a>
+        </div>
+      </div>
+    </header>
+    <div class="panel">
+      <div class="small">NAVIGATION DEMONSTRATION / SVG</div>
+      <h1 class="title" id="tabTitle">Today.</h1>
+      <p class="muted" id="subtitle">Выберите любую иконку в колонне. Одна подсвеченная рамка мягко переезжает к новой вкладке.</p>
+      <div class="preview-box">
+        Это макет анимированной навигации, а не полная вкладка приложения.
+        <p class="small">8 основных экранов · настройки только в Profile · без HTML canvas и PNG-иконок</p>
+      </div>
+    </div>
+    <p class="info small">Клавиатура: ↑ / ↓, Home / End, Enter / Space. Уважается Reduced Motion.</p>
+  </section>
+</main>
+<script>
+const slots=[...document.querySelectorAll('.nav-slot')];
+const labels=['Today','Calendar','Sport','Projects','Canvas','Habits','Notes','Progress'];
+const centers=[216, 327, 438, 549, 660, 771, 882, 993];
+const frame=document.getElementById('frame'),heading=document.getElementById('tabTitle');
+const profileBtn=document.getElementById('profileBtn'),profileMenu=document.getElementById('profileMenu');
+let activeIndex=0;
+function activate(i,focus=false){
+  if(i<0||i>=slots.length)return;
+  activeIndex=i;
+  slots.forEach((b,j)=>{b.dataset.active=String(j===i);b.setAttribute('aria-current',j===i?'page':'false')});
+  frame.style.top=((centers[i]-47)/1190*100)+'%';
+  heading.textContent=labels[i]+'.';
+  if(focus)slots[i].focus();
+}
+slots.forEach((s,i)=>{
+  s.addEventListener('click',()=>activate(i));
+  s.addEventListener('keydown',(e)=>{
+    const k=e.key;
+    if(['ArrowDown','ArrowUp','Home','End'].includes(k)){
+      e.preventDefault();
+      activate(k==='Home'?0:k==='End'?slots.length-1:(i+(k==='ArrowDown'?1:-1)+slots.length)%slots.length,true);
+    }
+  });
+});
+profileBtn.addEventListener('click',()=>{
+ const open=profileMenu.dataset.open!=='true';
+ profileMenu.dataset.open=String(open);profileBtn.setAttribute('aria-expanded',String(open));
+});
+document.addEventListener('click',(e)=>{
+ if(!e.target.closest('.p-profile')){profileMenu.dataset.open='false';profileBtn.setAttribute('aria-expanded','false')}
+});
+document.getElementById('settings').addEventListener('click',e=>{
+ e.preventDefault();document.getElementById('subtitle').textContent='В настоящем Path Settings открывается через профиль, не через колонну.';
+ profileMenu.dataset.open='false';
+});
+activate(0);
+</script>
+</body></html>

@@ -1,0 +1,1260 @@
+Today	Сегодня	Dzisiaj	Hoy
+Calendar	Календарь	Kalendarz	Calendario
+Sport	Спорт	Sport	Deporte
+Projects	Проекты	Projekty	Proyectos
+Canvas	Холст	Tablica	Lienzo
+Habits	Привычки	Nawyki	Hábitos
+Notes	Заметки	Notatki	Notas
+Progress	Прогресс	Postępy	Progreso
+Settings	Настройки	Ustawienia	Ajustes
+Profile	Профиль	Profil	Perfil
+Profile and settings	Профиль и настройки	Profil i ustawienia	Perfil y ajustes
+Main navigation	Основная навигация	Nawigacja główna	Navegación principal
+Pages	Разделы	Sekcje	Secciones
+Language	Язык	Język	Idioma
+Follow system	Как в системе	Jak w systemie	Según el sistema
+Follow your system language, or choose one for this device.	Использовать язык системы или выбрать язык для этого устройства.	Użyj języka systemu lub wybierz język dla tego urządzenia.	Usa el idioma del sistema o elige uno para este dispositivo.
+Could not save language. Please retry.	Не удалось сохранить язык. Попробуйте снова.	Nie udało się zapisać języka. Spróbuj ponownie.	No se pudo guardar el idioma. Inténtalo de nuevo.
+Ambient Motion	Фоновая анимация	Animacja w tle	Animación ambiental
+Subtle movement of the philosopher's dots.	Лёгкое движение точек философа.	Delikatny ruch punktów filozofa.	Movimiento suave de los puntos del filósofo.
+Off	Выключена	Wyłączona	Desactivada
+Subtle	Сдержанная	Subtelna	Sutil
+Expressive	Выразительная	Wyrazista	Expresiva
+Export backup	Экспорт копии	Eksport kopii	Exportar copia
+Import backup	Импорт копии	Import kopii	Importar copia
+Export	Экспорт	Eksportuj	Exportar
+Import	Импорт	Importuj	Importar
+Reset	Сбросить	Resetuj	Restablecer
+Reset prototype	Сбросить прототип	Resetuj prototyp	Restablecer prototipo
+Erase only the test data stored in this browser.	Удалить только тестовые данные этого приложения.	Usuń tylko dane testowe tej aplikacji.	Borra solo los datos de prueba de esta aplicación.
+Private Journal is excluded unless you explicitly choose to include it.	Личный дневник включается в копию только с вашего согласия.	Prywatny dziennik jest dołączany tylko za Twoją zgodą.	El diario privado solo se incluye si lo autorizas.
+Restore a JSON file exported from this prototype.	Восстановить данные из экспортированного JSON-файла.	Przywróć dane z wyeksportowanego pliku JSON.	Restaura los datos de un archivo JSON exportado.
+Saved locally	Сохранено на устройстве	Zapisano lokalnie	Guardado localmente
+Saved	Сохранено	Zapisano	Guardado
+Saving…	Сохранение…	Zapisywanie…	Guardando…
+Unsaved changes	Несохранённые изменения	Niezapisane zmiany	Cambios sin guardar
+Unsaved editor changes	Несохранённые изменения редактора	Niezapisane zmiany edytora	Cambios del editor sin guardar
+Undo	Отменить	Cofnij	Deshacer
+Redo	Повторить	Ponów	Rehacer
+Retry	Повторить	Spróbuj ponownie	Reintentar
+Retry save	Повторить сохранение	Ponów zapis	Reintentar guardado
+Export recovery	Экспорт для восстановления	Eksport odzyskiwania	Exportar recuperación
+Reload saved data	Загрузить сохранённые данные	Wczytaj zapisane dane	Cargar datos guardados
+Change undone	Изменение отменено	Cofnięto zmianę	Cambio deshecho
+Change restored	Изменение восстановлено	Przywrócono zmianę	Cambio restaurado
+Backup restored	Копия восстановлена	Przywrócono kopię	Copia restaurada
+Saved to this browser	Сохранено на устройстве	Zapisano na urządzeniu	Guardado en este dispositivo
+Unsupported backup version.	Неподдерживаемая версия копии.	Nieobsługiwana wersja kopii.	Versión de copia no compatible.
+Save	Сохранить	Zapisz	Guardar
+Save changes	Сохранить изменения	Zapisz zmiany	Guardar cambios
+Done	Готово	Gotowe	Hecho
+Cancel	Отмена	Anuluj	Cancelar
+Close	Закрыть	Zamknij	Cerrar
+Continue	Продолжить	Kontynuuj	Continuar
+Delete	Удалить	Usuń	Eliminar
+Remove	Убрать	Usuń	Quitar
+Edit	Изменить	Edytuj	Editar
+Add	Добавить	Dodaj	Añadir
+Create	Создать	Utwórz	Crear
+Duplicate	Дублировать	Duplikuj	Duplicar
+Archive	Архив	Archiwum	Archivo
+Archived	В архиве	Zarchiwizowane	Archivado
+Restore	Восстановить	Przywróć	Restaurar
+More	Ещё	Więcej	Más
+More settings	Дополнительные настройки	Więcej ustawień	Más ajustes
+More Settings	Дополнительные настройки	Więcej ustawień	Más ajustes
+Advanced	Расширенные настройки	Zaawansowane	Avanzado
+Details	Подробности	Szczegóły	Detalles
+Title	Название	Tytuł	Título
+Name	Название	Nazwa	Nombre
+Description	Описание	Opis	Descripción
+Date	Дата	Data	Fecha
+Start	Начало	Początek	Inicio
+End	Окончание	Koniec	Fin
+Start time	Время начала	Godzina rozpoczęcia	Hora de inicio
+End time	Время окончания	Godzina zakończenia	Hora de fin
+Start date	Дата начала	Data rozpoczęcia	Fecha de inicio
+End date	Дата окончания	Data zakończenia	Fecha de fin
+Time	Время	Czas	Hora
+Duration	Длительность	Czas trwania	Duración
+Status	Статус	Status	Estado
+Type	Тип	Typ	Tipo
+Importance	Важность	Ważność	Importancia
+Icon	Иконка	Ikona	Icono
+Location	Место	Miejsce	Lugar
+Reminder	Напоминание	Przypomnienie	Recordatorio
+Repeat	Повторение	Powtarzanie	Repetición
+Recurrence	Повторение	Cykliczność	Repetición
+Never	Никогда	Nigdy	Nunca
+None	Нет	Brak	Ninguno
+No date	Без даты	Bez daty	Sin fecha
+Optional	Необязательно	Opcjonalnie	Opcional
+Planned	Запланировано	Zaplanowane	Planificado
+In progress	В процессе	W toku	En curso
+Completed	Выполнено	Ukończone	Completado
+Cancelled	Отменено	Anulowane	Cancelado
+High	Высокая	Wysoka	Alta
+Medium	Средняя	Średnia	Media
+Low	Низкая	Niska	Baja
+All	Все	Wszystkie	Todos
+Active	Активные	Aktywne	Activos
+Search	Поиск	Szukaj	Buscar
+Search notes	Поиск заметок	Szukaj notatek	Buscar notas
+Back	Назад	Wstecz	Volver
+Back to projects	К проектам	Wróć do projektów	Volver a proyectos
+Back to library	В библиотеку	Wróć do biblioteki	Volver a la biblioteca
+Your Path /	Твой Path /	Twój Path /	Tu Path /
+A little progress, every day.	Немного прогресса каждый день.	Mały postęp każdego dnia.	Un pequeño avance cada día.
+Make the path yours.	Настрой Path под себя.	Dostosuj Path do siebie.	Haz que Path sea tuyo.
+Make room for what matters.	Найди время для важного.	Znajdź czas na to, co ważne.	Haz espacio para lo importante.
+Consistency, not perfection.	Регулярность важнее совершенства.	Regularność, nie perfekcja.	Constancia, no perfección.
+Today's Focus	Фокус на сегодня	Dzisiejszy cel	Enfoque de hoy
+Today’s Focus	Фокус на сегодня	Dzisiejszy cel	Enfoque de hoy
+Daily Habits	Ежедневные привычки	Codzienne nawyki	Hábitos diarios
+Daily habits	Ежедневные привычки	Codzienne nawyki	Hábitos diarios
+This Week	Эта неделя	Ten tydzień	Esta semana
+This week	Эта неделя	Ten tydzień	Esta semana
+Weekly Progress	Прогресс за неделю	Postęp tygodniowy	Progreso semanal
+Weekly progress	Прогресс за неделю	Postęp tygodniowy	Progreso semanal
+Coming up	Скоро	Nadchodzące	Próximamente
+Upcoming	Предстоящие события	Nadchodzące	Próximos eventos
+Main task	Главная задача	Główne zadanie	Tarea principal
+Focus mode	Режим фокуса	Tryb skupienia	Modo de enfoque
+Exit focus	Выйти из фокуса	Zakończ skupienie	Salir del enfoque
+Start focus	Начать фокус	Rozpocznij skupienie	Iniciar enfoque
+Add task	Добавить задачу	Dodaj zadanie	Añadir tarea
+New task	Новая задача	Nowe zadanie	Nueva tarea
+Edit task	Изменить задачу	Edytuj zadanie	Editar tarea
+Hide completed	Скрыть выполненные	Ukryj ukończone	Ocultar completadas
+Show completed	Показать выполненные	Pokaż ukończone	Mostrar completadas
+Open calendar	Открыть календарь	Otwórz kalendarz	Abrir calendario
+Nothing scheduled yet.	Пока ничего не запланировано.	Jeszcze nic nie zaplanowano.	Todavía no hay nada programado.
+Daily reflection	Мысль дня	Refleksja dnia	Reflexión del día
+Previous day	Предыдущий день	Poprzedni dzień	Día anterior
+Next day	Следующий день	Następny dzień	Día siguiente
+Previous period	Предыдущий период	Poprzedni okres	Periodo anterior
+Next period	Следующий период	Następny okres	Periodo siguiente
+Calendar views	Виды календаря	Widoki kalendarza	Vistas del calendario
+Day	День	Dzień	Día
+Week	Неделя	Tydzień	Semana
+Month	Месяц	Miesiąc	Mes
+New event	Новое событие	Nowe wydarzenie	Nuevo evento
+Edit event	Изменить событие	Edytuj wydarzenie	Editar evento
+Event settings	Настройки события	Ustawienia wydarzenia	Ajustes del evento
+Event	Событие	Wydarzenie	Evento
+Busy	Занято	Zajęte	Ocupado
+Free time	Свободное время	Czas wolny	Tiempo libre
+Focus	Фокус	Skupienie	Enfoque
+Workout	Тренировка	Trening	Entrenamiento
+Deadline	Дедлайн	Termin	Fecha límite
+Mark as Done	Отметить выполненным	Oznacz jako ukończone	Marcar como completado
+Completed · Deadline	Выполнено · Дедлайн	Ukończone · Termin	Completado · Fecha límite
+Daily	Ежедневно	Codziennie	A diario
+Weekly	Еженедельно	Co tydzień	Semanalmente
+Monthly	Ежемесячно	Co miesiąc	Mensualmente
+Every day	Каждый день	Codziennie	Todos los días
+Every week	Каждую неделю	Co tydzień	Cada semana
+Monday	Понедельник	Poniedziałek	Lunes
+Tuesday	Вторник	Wtorek	Martes
+Wednesday	Среда	Środa	Miércoles
+Thursday	Четверг	Czwartek	Jueves
+Friday	Пятница	Piątek	Viernes
+Saturday	Суббота	Sobota	Sábado
+Sunday	Воскресенье	Niedziela	Domingo
+Mon	Пн	Pon	Lun
+Tue	Вт	Wt	Mar
+Wed	Ср	Śr	Mié
+Thu	Чт	Czw	Jue
+Fri	Пт	Pt	Vie
+Sat	Сб	Sob	Sáb
+Sun	Вс	Niedz	Dom
+New project	Новый проект	Nowy projekt	Nuevo proyecto
+Add project	Добавить проект	Dodaj projekt	Añadir proyecto
+Edit project	Изменить проект	Edytuj projekt	Editar proyecto
+Restore project	Восстановить проект	Przywróć projekt	Restaurar proyecto
+Project	Проект	Projekt	Proyecto
+Workflow Plan	План работы	Plan pracy	Plan de trabajo
+Status Board	Доска статусов	Tablica statusów	Tablero de estados
+Board	Доска	Tablica	Tablero
+Timeline	Шкала времени	Oś czasu	Cronograma
+Overview	Обзор	Przegląd	Resumen
+Milestones	Этапы	Kamienie milowe	Hitos
+Milestone	Этап	Kamień milowy	Hito
+Add milestone	Добавить этап	Dodaj kamień milowy	Añadir hito
+Dependencies	Зависимости	Zależności	Dependencias
+Subtasks	Подзадачи	Podzadania	Subtareas
+Add subtask	Добавить подзадачу	Dodaj podzadanie	Añadir subtarea
+Task	Задача	Zadanie	Tarea
+Tasks	Задачи	Zadania	Tareas
+Estimate	Оценка времени	Szacowany czas	Tiempo estimado
+Schedule	Запланировать	Zaplanuj	Programar
+Unscheduled	Без расписания	Bez terminu	Sin programar
+New canvas	Новый холст	Nowa tablica	Nuevo lienzo
+New Canvas	Новый холст	Nowa tablica	Nuevo lienzo
+Note	Заметка	Notatka	Nota
+Image	Изображение	Obraz	Imagen
+Text	Текст	Tekst	Texto
+Link	Ссылка	Link	Enlace
+Connection	Связь	Połączenie	Conexión
+Arrow	Стрелка	Strzałka	Flecha
+Frame	Рамка	Ramka	Marco
+Group	Группа	Grupa	Grupo
+Selection	Выделение	Zaznaczenie	Selección
+Add note	Добавить заметку	Dodaj notatkę	Añadir nota
+Add image	Добавить изображение	Dodaj obraz	Añadir imagen
+Add text	Добавить текст	Dodaj tekst	Añadir texto
+Add link	Добавить ссылку	Dodaj link	Añadir enlace
+Add frame	Добавить рамку	Dodaj ramkę	Añadir marco
+Zoom in	Приблизить	Powiększ	Acercar
+Zoom out	Отдалить	Pomniejsz	Alejar
+Fit to view	Вписать в экран	Dopasuj do widoku	Ajustar a la vista
+Reset zoom	Сбросить масштаб	Resetuj powiększenie	Restablecer zoom
+Selected connection	Выбранная связь	Wybrane połączenie	Conexión seleccionada
+Label / Edit	Подпись / Изменить	Etykieta / Edytuj	Etiqueta / Editar
+Reverse direction	Изменить направление	Odwróć kierunek	Invertir dirección
+Direction	Направление	Kierunek	Dirección
+Label	Подпись	Etykieta	Etiqueta
+Line	Линия	Linia	Línea
+Line style	Стиль линии	Styl linii	Estilo de línea
+Solid	Сплошная	Ciągła	Continua
+Dashed	Пунктирная	Przerywana	Discontinua
+Dotted	Точечная	Kropkowana	Punteada
+Delete connection	Удалить связь	Usuń połączenie	Eliminar conexión
+Edit connection	Изменить связь	Edytuj połączenie	Editar conexión
+Edit Connection	Изменить связь	Edytuj połączenie	Editar conexión
+Source	Источник	Źródło	Origen
+Target	Цель	Cel	Destino
+Open link	Открыть ссылку	Otwórz link	Abrir enlace
+Choose image	Выбрать изображение	Wybierz obraz	Elegir imagen
+Replace image	Заменить изображение	Zastąp obraz	Reemplazar imagen
+Workouts	Тренировки	Treningi	Entrenamientos
+Programs	Программы	Programy	Programas
+Program	Программа	Program	Programa
+New program	Новая программа	Nowy program	Nuevo programa
+Create program	Создать программу	Utwórz program	Crear programa
+Edit program	Изменить программу	Edytuj program	Editar programa
+New workout	Новая тренировка	Nowy trening	Nuevo entrenamiento
+Create workout	Создать тренировку	Utwórz trening	Crear entrenamiento
+Edit workout	Изменить тренировку	Edytuj trening	Editar entrenamiento
+Save workout	Сохранить тренировку	Zapisz trening	Guardar entrenamiento
+Start workout	Начать тренировку	Rozpocznij trening	Iniciar entrenamiento
+Finish workout	Завершить тренировку	Zakończ trening	Finalizar entrenamiento
+Resume workout	Продолжить тренировку	Wznów trening	Reanudar entrenamiento
+Add exercise	Добавить упражнение	Dodaj ćwiczenie	Añadir ejercicio
+Exercise	Упражнение	Ćwiczenie	Ejercicio
+Exercises	Упражнения	Ćwiczenia	Ejercicios
+Sets	Подходы	Serie	Series
+Reps	Повторения	Powtórzenia	Repeticiones
+Rest	Отдых	Odpoczynek	Descanso
+Weight	Вес	Ciężar	Peso
+Body part	Группа мышц	Partia mięśni	Grupo muscular
+Training history	История тренировок	Historia treningów	Historial de entrenamientos
+History	История	Historia	Historial
+Library	Библиотека	Biblioteka	Biblioteca
+Workout library	Библиотека тренировок	Biblioteka treningów	Biblioteca de entrenamientos
+Mini calendar	Мини-календарь	Minikalendarz	Minicalendario
+Pause	Пауза	Wstrzymaj	Pausar
+Resume	Продолжить	Wznów	Reanudar
+Skip	Пропустить	Pomiń	Omitir
+Finish	Завершить	Zakończ	Finalizar
+Next	Далее	Dalej	Siguiente
+Previous	Назад	Wstecz	Anterior
+New habit	Новая привычка	Nowy nawyk	Nuevo hábito
+Edit habit	Изменить привычку	Edytuj nawyk	Editar hábito
+Goal	Цель	Cel	Objetivo
+Frequency	Частота	Częstotliwość	Frecuencia
+Streak	Серия	Seria	Racha
+Best streak	Лучшая серия	Najlepsza seria	Mejor racha
+Log	Отметить	Zapisz	Registrar
+Log progress	Отметить прогресс	Zapisz postęp	Registrar progreso
+✓ Done	✓ Выполнено	✓ Gotowe	✓ Hecho
+Journal	Дневник	Dziennik	Diario
+New note	Новая заметка	Nowa notatka	Nueva nota
+New entry	Новая запись	Nowy wpis	Nueva entrada
+All notes	Все заметки	Wszystkie notatki	Todas las notas
+Pinned	Закреплённые	Przypięte	Fijadas
+Pin	Закрепить	Przypnij	Fijar
+Unpin	Открепить	Odepnij	Desfijar
+Trash	Корзина	Kosz	Papelera
+Tags	Теги	Tagi	Etiquetas
+Preview	Предпросмотр	Podgląd	Vista previa
+Write	Писать	Pisz	Escribir
+Attachments	Вложения	Załączniki	Archivos adjuntos
+Add attachment	Добавить вложение	Dodaj załącznik	Añadir archivo adjunto
+Linked project	Связанный проект	Powiązany projekt	Proyecto vinculado
+Linked projects	Связанные проекты	Powiązane projekty	Proyectos vinculados
+Last 7 days	Последние 7 дней	Ostatnie 7 dni	Últimos 7 días
+Last 30 days	Последние 30 дней	Ostatnie 30 dni	Últimos 30 días
+Completed tasks	Выполненные задачи	Ukończone zadania	Tareas completadas
+Focus time	Время фокуса	Czas skupienia	Tiempo de enfoque
+Workout time	Время тренировок	Czas treningów	Tiempo de entrenamiento
+Completion	Выполнение	Ukończenie	Finalización
+No data yet	Пока нет данных	Brak danych	Todavía no hay datos
+Include Journal	Включить дневник	Dołącz dziennik	Incluir diario
+Without Journal	Без дневника	Bez dziennika	Sin diario
+Include private Journal entries in this backup?	Включить личные записи дневника в эту копию?	Dołączyć prywatne wpisy dziennika do tej kopii?	¿Incluir las entradas privadas del diario en esta copia?
+Replace current Path 2.0 data with this backup? You can undo this import.	Заменить текущие данные Path 2.0 этой копией? Импорт можно отменить.	Zastąpić obecne dane Path 2.0 tą kopią? Import można cofnąć.	¿Reemplazar los datos de Path 2.0 con esta copia? Puedes deshacer la importación.
+Choose start and end times.	Выберите время начала и окончания.	Wybierz godzinę rozpoczęcia i zakończenia.	Elige las horas de inicio y fin.
+Choose a valid start and end date.	Выберите корректные даты начала и окончания.	Wybierz prawidłowe daty rozpoczęcia i zakończenia.	Elige fechas válidas de inicio y fin.
+Use 15-minute time steps.	Используйте шаг времени 15 минут.	Użyj odstępów 15-minutowych.	Usa intervalos de 15 minutos.
+End must be after start, in 15-minute steps.	Окончание должно быть позже начала, с шагом 15 минут.	Koniec musi być po początku, w odstępach 15 minut.	El fin debe ser posterior al inicio, en intervalos de 15 minutos.
+This local time does not exist in Europe/Warsaw.	Такого местного времени нет в часовом поясе Europe/Warsaw.	Ta godzina nie istnieje w strefie Europe/Warsaw.	Esta hora local no existe en Europe/Warsaw.
+Check these values. Changes have not been saved.	Проверьте значения. Изменения не сохранены.	Sprawdź wartości. Zmiany nie zostały zapisane.	Revisa los valores. Los cambios no se han guardado.
+Give this subtask a title.	Введите название подзадачи.	Nadaj tytuł podzadaniu.	Escribe un título para esta subtarea.
+Draft could not be stored. Keep this window open.	Не удалось сохранить черновик. Не закрывайте это окно.	Nie udało się zapisać szkicu. Nie zamykaj tego okna.	No se pudo guardar el borrador. Mantén esta ventana abierta.
+Check the fields and try saving again.	Проверьте поля и повторите сохранение.	Sprawdź pola i spróbuj zapisać ponownie.	Revisa los campos e intenta guardar de nuevo.
+Ctrl+Z outside text fields	Ctrl+Z вне текстовых полей	Ctrl+Z poza polami tekstowymi	Ctrl+Z fuera de los campos de texto
+Ctrl+Shift+Z outside text fields	Ctrl+Shift+Z вне текстовых полей	Ctrl+Shift+Z poza polami tekstowymi	Ctrl+Mayús+Z fuera de los campos de texto
+Motion Master v5 · system Reduced Motion takes priority.	Motion Master v5 · системное уменьшение движения имеет приоритет.	Motion Master v5 · systemowe ograniczenie ruchu ma pierwszeństwo.	Motion Master v5 · la reducción de movimiento del sistema tiene prioridad.
+Wave amplitude (screen px)	Амплитуда волны (пиксели экрана)	Amplituda fali (piksele ekranu)	Amplitud de onda (píxeles de pantalla)
+Wave duration (ms)	Длительность волны (мс)	Czas trwania fali (ms)	Duración de onda (ms)
+Reset wave to 4 px / 1450 ms	Вернуть волну к 4 px / 1450 мс	Przywróć falę 4 px / 1450 ms	Restablecer onda a 4 px / 1450 ms
+GOOD MORNING	ДОБРОЕ УТРО	DZIEŃ DOBRY	BUENOS DÍAS
+GOOD AFTERNOON	ДОБРЫЙ ДЕНЬ	DZIEŃ DOBRY	BUENAS TARDES
+GOOD EVENING	ДОБРЫЙ ВЕЧЕР	DOBRY WIECZÓR	BUENAS NOCHES
+Discipline creates freedom.	Дисциплина создаёт свободу.	Dyscyplina daje wolność.	La disciplina crea libertad.
+No tasks for this day.	На этот день нет задач.	Brak zadań na ten dzień.	No hay tareas para este día.
+No habits scheduled for this day.	На этот день нет привычек.	Brak nawyków na ten dzień.	No hay hábitos programados para este día.
+Manage habits	Управление привычками	Zarządzaj nawykami	Gestionar hábitos
+No task records yet.	Пока нет записей о задачах.	Brak historii zadań.	Todavía no hay registros de tareas.
+Next Event	Следующее событие	Następne wydarzenie	Próximo evento
+Your next step is open	Следующий шаг за тобой	Twój następny krok	Tu próximo paso está por decidir
+Add an event to your calendar.	Добавь событие в календарь.	Dodaj wydarzenie do kalendarza.	Añade un evento a tu calendario.
+Open Calendar	Открыть календарь	Otwórz kalendarz	Abrir calendario
+View all	Показать все	Pokaż wszystkie	Ver todo
+Goals	Цели	Cele	Objetivos
+Hide day context	Скрыть обзор дня	Ukryj podsumowanie dnia	Ocultar resumen del día
+Show day context	Показать обзор дня	Pokaż podsumowanie dnia	Mostrar resumen del día
+TIME	ВРЕМЯ	CZAS	HORA
+Quick Blocks	Быстрые блоки	Szybkie bloki	Bloques rápidos
+Choose a template	Выбрать шаблон	Wybierz szablon	Elegir plantilla
+Hide	Скрыть	Ukryj	Ocultar
+Show	Показать	Pokaż	Mostrar
+Search tasks or projects	Поиск задач или проектов	Szukaj zadań lub projektów	Buscar tareas o proyectos
+Click to plan, or drag onto the calendar. Your original task stays in place.	Нажми для планирования или перетащи в календарь. Исходная задача останется на месте.	Kliknij, aby zaplanować, lub przeciągnij do kalendarza. Oryginalne zadanie pozostaje na miejscu.	Haz clic para programar o arrastra al calendario. La tarea original permanece en su sitio.
+No matching unscheduled tasks.	Нет подходящих незапланированных задач.	Brak pasujących niezaplanowanych zadań.	No hay tareas sin programar que coincidan.
+Day overview	Обзор дня	Podsumowanie dnia	Resumen del día
+Open day	Открыть день	Otwórz dzień	Abrir día
+A little room to breathe.	Немного времени на отдых.	Chwila na oddech.	Un poco de espacio para respirar.
+No events planned for this day.	На этот день нет событий.	Brak wydarzeń na ten dzień.	No hay eventos para este día.
+Find room for	Найти время для	Znajdź czas na	Buscar tiempo para
+Planned Free Time	Запланированный отдых	Zaplanowany czas wolny	Tiempo libre programado
+No time reserved for rest.	Время на отдых пока не выделено.	Nie zarezerwowano czasu na odpoczynek.	No hay tiempo reservado para descansar.
+Open Slots	Свободные интервалы	Wolne przedziały	Huecos disponibles
+Protected rest blocks suggestions. Unprotected Free Time is a soft reservation. Nothing is scheduled until you save.	Защищённый отдых исключён из предложений. Обычное свободное время — гибкий резерв. План применяется только после сохранения.	Chroniony odpoczynek wyklucza sugestie. Zwykły czas wolny to elastyczna rezerwacja. Plan obowiązuje dopiero po zapisie.	El descanso protegido bloquea las sugerencias. El tiempo libre normal es una reserva flexible. Nada se programa hasta guardar.
+History & Skills	История и навыки	Historia i umiejętności	Historial y habilidades
+Make room for a stronger practice.	Найди время стать сильнее.	Znajdź czas na lepszy trening.	Haz espacio para entrenar mejor.
+CONSISTENCY OVER INTENSITY	РЕГУЛЯРНОСТЬ ВАЖНЕЕ ИНТЕНСИВНОСТИ	REGULARNOŚĆ PONAD INTENSYWNOŚĆ	CONSTANCIA ANTES QUE INTENSIDAD
+Your practice.	Твоя практика.	Twój trening.	Tu práctica.
+One session at a time.	Тренировка за тренировкой.	Jeden trening na raz.	Una sesión a la vez.
+Workouts this week	Тренировки за неделю	Treningi w tym tygodniu	Entrenamientos esta semana
+Completed sets	Выполненные подходы	Ukończone serie	Series completadas
+NEXT PLANNED	СЛЕДУЮЩАЯ ТРЕНИРОВКА	NASTĘPNY TRENING	PRÓXIMA SESIÓN
+No workout scheduled yet	Пока нет запланированных тренировок	Brak zaplanowanych treningów	Todavía no hay entrenamientos programados
+Choose a program and reserve your training days.	Выбери программу и запланируй дни тренировок.	Wybierz program i zarezerwuj dni treningowe.	Elige un programa y reserva tus días de entrenamiento.
+DISCIPLINE · STRENGTH · BALANCE	ДИСЦИПЛИНА · СИЛА · БАЛАНС	DYSCYPLINA · SIŁA · RÓWNOWAGA	DISCIPLINA · FUERZA · EQUILIBRIO
+Your programs	Твои программы	Twoje programy	Tus programas
+Create your first program	Создай первую программу	Utwórz pierwszy program	Crea tu primer programa
+Combine workouts into a repeatable weekly routine.	Объедини тренировки в недельную программу.	Połącz treningi w powtarzalny plan tygodniowy.	Combina entrenamientos en una rutina semanal.
+Add a workout	Добавить тренировку	Dodaj trening	Añadir un entrenamiento
+Your exercises, sets and rest times.	Твои упражнения, подходы и время отдыха.	Twoje ćwiczenia, serie i przerwy.	Tus ejercicios, series y descansos.
+YOUR TRAINING WEEK	ТВОЯ ТРЕНИРОВОЧНАЯ НЕДЕЛЯ	TWÓJ TYDZIEŃ TRENINGOWY	TU SEMANA DE ENTRENAMIENTO
+Drag a workout here to reserve time.	Перетащи сюда тренировку, чтобы выделить время.	Przeciągnij tu trening, aby zarezerwować czas.	Arrastra un entrenamiento aquí para reservar tiempo.
+15-minute steps · Europe/Warsaw	Шаг 15 минут · Europe/Warsaw	Odstępy 15 minut · Europe/Warsaw	Intervalos de 15 minutos · Europe/Warsaw
+Protected rest	Защищённый отдых	Chroniony odpoczynek	Descanso protegido
+A little space for your next session.	Место для следующей тренировки.	Miejsce na następny trening.	Un espacio para tu próxima sesión.
+Scheduled sessions	Запланированные занятия	Zaplanowane sesje	Sesiones programadas
+No scheduled sessions.	Нет запланированных занятий.	Brak zaplanowanych sesji.	No hay sesiones programadas.
+TRAIN SMARTER	ТРЕНИРУЙСЯ ОСОЗНАННО	TRENUJ MĄDRZEJ	ENTRENA MEJOR
+A little less time. Still your practice.	Меньше времени. Та же привычка.	Mniej czasu. Nadal Twój trening.	Menos tiempo. La misma práctica.
+Preview a shorter session in a real Calendar opening, or find room for the full workout. Your program stays intact.	Подбери сокращённую тренировку под свободное время или найди место для полной. Программа останется прежней.	Dopasuj krótszą sesję do wolnego czasu lub znajdź miejsce na pełny trening. Program pozostanie bez zmian.	Adapta una sesión corta a un hueco o busca tiempo para el entrenamiento completo. Tu programa no cambia.
+Create a workout first	Сначала создай тренировку	Najpierw utwórz trening	Primero crea un entrenamiento
+Skill journey	Развитие навыков	Rozwój umiejętności	Progreso de habilidades
+Measured, never assumed	Только измеренные результаты	Tylko zmierzone wyniki	Solo resultados medidos
+Log test	Записать тест	Zapisz test	Registrar prueba
+No measured test yet	Пока нет результатов теста	Brak wyników testu	Todavía no hay resultados
+Recent practice	Последние тренировки	Ostatnie treningi	Entrenamientos recientes
+All history	Вся история	Cała historia	Todo el historial
+Your completed sessions will appear here.	Здесь появятся завершённые тренировки.	Tutaj pojawią się ukończone treningi.	Aquí aparecerán tus sesiones completadas.
+Everything you’re building.	Всё, над чем ты работаешь.	Wszystko, co tworzysz.	Todo lo que estás creando.
+New Project	Новый проект	Nowy projekt	Nuevo proyecto
+A little space for your next idea.	Место для следующей идеи.	Miejsce na następny pomysł.	Un espacio para tu próxima idea.
+A space for your ideas.	Пространство для твоих идей.	Przestrzeń na Twoje pomysły.	Un espacio para tus ideas.
+Last edited	Последнее изменение	Ostatnia edycja	Última edición
+Small actions. A lasting rhythm.	Маленькие действия. Устойчивый ритм.	Małe kroki. Trwały rytm.	Pequeñas acciones. Un ritmo duradero.
+TODAY	СЕГОДНЯ	DZISIAJ	HOY
+completed	выполнено	ukończone	completadas
+IN PRACTICE	В ПРАКТИКЕ	W PRAKTYCE	EN PRÁCTICA
+active habits	активные привычки	aktywne nawyki	hábitos activos
+Archived habits	Архив привычек	Zarchiwizowane nawyki	Hábitos archivados
+A SMALL BEGINNING	МАЛЕНЬКОЕ НАЧАЛО	MAŁY POCZĄTEK	UN PEQUEÑO COMIENZO
+Build your rhythm.	Создай свой ритм.	Zbuduj swój rytm.	Crea tu ritmo.
+Choose one action you want to return to.	Выбери действие, которое хочешь повторять.	Wybierz czynność, do której chcesz wracać.	Elige una acción que quieras repetir.
+Your history will grow with you.	Твоя история будет расти вместе с тобой.	Twoja historia będzie rosła razem z Tobą.	Tu historial crecerá contigo.
+Habit insights	Аналитика привычек	Analiza nawyków	Análisis de hábitos
+View habits	Показать привычки	Pokaż nawyki	Ver hábitos
+All habits	Все привычки	Wszystkie nawyki	Todos los hábitos
+Activity	Активность	Aktywność	Actividad
+Consistency	Регулярность	Regularność	Constancia
+A space to think clearly.	Пространство для ясных мыслей.	Przestrzeń na jasne myśli.	Un espacio para pensar con claridad.
+Journal · Private	Дневник · Личное	Dziennik · Prywatne	Diario · Privado
+YOUR NOTES	ТВОИ ЗАМЕТКИ	TWOJE NOTATKI	TUS NOTAS
+No entries here yet.	Здесь пока нет записей.	Nie ma tu jeszcze wpisów.	Todavía no hay entradas.
+A space for your thoughts.	Место для твоих мыслей.	Miejsce na Twoje myśli.	Un espacio para tus pensamientos.
+Choose an entry or start a new one.	Выбери запись или создай новую.	Wybierz wpis lub utwórz nowy.	Elige una entrada o crea una nueva.
+Create entry	Создать запись	Utwórz wpis	Crear entrada
+Your actions leave a trace.	Твои действия оставляют след.	Twoje działania zostawiają ślad.	Tus acciones dejan huella.
+Export card	Экспорт карточки	Eksportuj kartę	Exportar tarjeta
+Tasks completed	Выполненные задачи	Ukończone zadania	Tareas completadas
+Completed in this period	Выполнено за этот период	Ukończone w tym okresie	Completadas en este periodo
+No confirmed sessions	Нет подтверждённых сессий	Brak potwierdzonych sesji	No hay sesiones confirmadas
+Habit consistency	Регулярность привычек	Regularność nawyków	Constancia de hábitos
+No applicable schedule	Нет подходящего расписания	Brak odpowiedniego harmonogramu	No hay un horario aplicable
+YOUR RHYTHM	ТВОЙ РИТМ	TWÓJ RYTM	TU RITMO
+Select a day to inspect its value.	Выбери день, чтобы посмотреть значение.	Wybierz dzień, aby zobaczyć wartość.	Elige un día para ver su valor.
+Focus session	Сессия фокуса	Sesja skupienia	Sesión de enfoque
+One thing at a time	Одно дело за раз	Jedna rzecz na raz	Una cosa a la vez
+Ready.	Готово.	Gotowe.	Listo.
+Choose a task, take a breath, and begin.	Выбери задачу, вдохни и начни.	Wybierz zadanie, weź oddech i zacznij.	Elige una tarea, respira y empieza.
+Only the time you confirm contributes to Progress.	В прогресс входит только подтверждённое время.	Do postępów liczy się tylko potwierdzony czas.	Solo el tiempo confirmado cuenta para el progreso.
+CALENDAR PLAN	ПЛАН В КАЛЕНДАРЕ	PLAN KALENDARZA	PLAN DEL CALENDARIO
+Reserved time, separate from confirmed focus.	Запланированное время отдельно от подтверждённого фокуса.	Zarezerwowany czas, oddzielnie od potwierdzonego skupienia.	Tiempo reservado, separado del enfoque confirmado.
+THE LONG VIEW	ДОЛГОСРОЧНЫЙ ВЗГЛЯД	DŁUGA PERSPEKTYWA	A LARGO PLAZO
+Project journeys	Развитие проектов	Rozwój projektów	Evolución de proyectos
+Open Projects	Открыть проекты	Otwórz projekty	Abrir proyectos
+Your projects will appear here as you build them.	Здесь появятся проекты по мере работы над ними.	Tutaj pojawią się Twoje projekty podczas pracy.	Tus proyectos aparecerán aquí a medida que avances.
+How these numbers work	Как считаются показатели	Jak liczone są wyniki	Cómo se calculan los datos
+This build has no accounts or cloud sync. Data is stored locally in your current browser. It does not read or modify your original Path.	В этой версии нет аккаунтов и облачной синхронизации. Данные хранятся локально. Исходный Path не изменяется.	Ta wersja nie ma kont ani synchronizacji z chmurą. Dane są lokalne. Oryginalny Path nie jest zmieniany.	Esta versión no tiene cuentas ni sincronización en la nube. Los datos son locales. El Path original no se modifica.
+Desktop preview · data stays on this computer in a separate Path 2.0 profile. Use Export backup to transfer data. Path 1.x is not modified.	Предварительная версия · данные хранятся на компьютере в отдельном профиле Path 2.0. Для переноса используйте экспорт копии. Path 1.x не изменяется.	Wersja testowa · dane pozostają na komputerze w osobnym profilu Path 2.0. Przenieś je przez eksport kopii. Path 1.x pozostaje bez zmian.	Versión de prueba · los datos se guardan en un perfil independiente de Path 2.0. Usa la exportación para transferirlos. Path 1.x no se modifica.
+Personal · Local	Личное · На устройстве	Osobiste · Lokalnie	Personal · Local
+Your data stays in this browser.	Данные остаются на этом устройстве.	Dane pozostają na tym urządzeniu.	Tus datos permanecen en este dispositivo.
+Enter focus mode	Включить режим фокуса	Włącz tryb skupienia	Activar modo de enfoque
+Exit focus mode	Выключить режим фокуса	Wyłącz tryb skupienia	Salir del modo de enfoque
+Europe/Warsaw · Click a time to add an event. Drag an event to move it. Hold an event to complete, or press Shift+Enter. Open it to edit.	Europe/Warsaw · Нажми на время, чтобы добавить событие. Перетащи для переноса. Удерживай или нажми Shift+Enter для завершения. Открой для редактирования.	Europe/Warsaw · Kliknij godzinę, aby dodać wydarzenie. Przeciągnij, aby je przenieść. Przytrzymaj lub naciśnij Shift+Enter, aby ukończyć. Otwórz, aby edytować.	Europe/Warsaw · Haz clic en una hora para añadir un evento. Arrastra para moverlo. Mantén pulsado o usa Mayús+Intro para completarlo. Ábrelo para editar.
+Levels: 0, 1, 2, 3, 4+ completed habit-days. Partial values are shown in the log.	Уровни: 0, 1, 2, 3, 4+ выполненных дней привычек. Частичный прогресс показан в журнале.	Poziomy: 0, 1, 2, 3, 4+ ukończonych dni nawyków. Częściowy postęp jest widoczny w dzienniku.	Niveles: 0, 1, 2, 3, 4+ días de hábitos completados. El progreso parcial se muestra en el registro.
+Select a habit for its streaks and history. Streaks with different units are never added together.	Выбери привычку для просмотра серий и истории. Серии с разными единицами не суммируются.	Wybierz nawyk, aby zobaczyć serie i historię. Serie o różnych jednostkach nie są sumowane.	Elige un hábito para ver sus rachas e historial. Las rachas con distintas unidades no se suman.
+No schedule · In progress	Без расписания · В процессе	Bez harmonogramu · W toku	Sin horario · En curso
+Tasks and workouts use recorded completion dates. Focus includes confirmed sessions only. Habit consistency excludes paused and skipped dates; weekly targets count only for complete weeks. Project percentages reflect current task status across all dates.	Задачи и тренировки учитываются по дате выполнения. Фокус включает только подтверждённые сессии. Регулярность привычек не учитывает паузы и пропуски; недельные цели считаются за полные недели. Проценты проектов отражают текущие статусы всех задач.	Zadania i treningi są liczone według dat ukończenia. Skupienie obejmuje tylko potwierdzone sesje. Regularność pomija przerwy i pominięte daty; cele tygodniowe liczą się za pełne tygodnie. Procenty projektów odzwierciedlają obecny status wszystkich zadań.	Las tareas y entrenamientos se cuentan por fecha de finalización. El enfoque solo incluye sesiones confirmadas. La constancia excluye pausas y fechas omitidas; los objetivos semanales solo cuentan semanas completas. Los porcentajes de proyectos reflejan el estado actual de todas las tareas.
+Path 2.0 · standalone experimental prototype · local data only · not connected to path.invalid	Path 2.0 · экспериментальная версия · локальные данные · без связи с path.invalid	Path 2.0 · wersja testowa · dane lokalne · bez połączenia z path.invalid	Path 2.0 · versión experimental · datos locales · sin conexión con path.invalid
+Path 2.0 · Desktop Preview · local data only	Path 2.0 · тестовая версия для компьютера · локальные данные	Path 2.0 · wersja testowa na komputer · dane lokalne	Path 2.0 · versión de prueba de escritorio · datos locales
+Task title	Название задачи	Tytuł zadania	Título de la tarea
+Duration (minutes)	Длительность (минуты)	Czas trwania (minuty)	Duración (minutos)
+Apply and close	Применить и закрыть	Zastosuj i zamknij	Aplicar y cerrar
+Changes save automatically	Изменения сохраняются автоматически	Zmiany zapisują się automatycznie	Los cambios se guardan automáticamente
+Completed tasks by day, Europe/Warsaw	Выполненные задачи по дням, Europe/Warsaw	Ukończone zadania według dni, Europe/Warsaw	Tareas completadas por día, Europe/Warsaw
+Event title	Название события	Tytuł wydarzenia	Título del evento
+Workout name	Название тренировки	Nazwa treningu	Nombre del entrenamiento
+Program name	Название программы	Nazwa programu	Nombre del programa
+Project name	Название проекта	Nazwa projektu	Nombre del proyecto
+Habit name	Название привычки	Nazwa nawyku	Nombre del hábito
+Note title	Название заметки	Tytuł notatki	Título de la nota
+Canvas name	Название холста	Nazwa tablicy	Nombre del lienzo
+No schedule	Без расписания	Bez harmonogramu	Sin horario
+Not started	Не начато	Nierozpoczęte	Sin empezar
+Task saved	Задача сохранена	Zadanie zapisane	Tarea guardada
+Task completed	Задача выполнена	Zadanie ukończone	Tarea completada
+Task reopened	Задача снова открыта	Zadanie ponownie otwarte	Tarea reabierta
+Resume note	Продолжить заметку	Wznów notatkę	Reanudar nota
+Resume Canvas text	Продолжить текст холста	Wznów tekst tablicy	Reanudar texto del lienzo
+Click to complete. Enter or Space also works.	Нажмите для выполнения. Также работают Enter и пробел.	Kliknij, aby ukończyć. Działa też Enter i spacja.	Haz clic para completar. También funcionan Intro y Espacio.
+Click to undo completion	Нажмите для отмены выполнения	Kliknij, aby cofnąć ukończenie	Haz clic para deshacer la finalización
+Invalid Path data.	Некорректные данные: данные Path.	Nieprawidłowe dane: dane Path.	Datos no válidos: datos de Path.
+Invalid Sport set identity.	Некорректные данные: идентификатор подхода.	Nieprawidłowe dane: identyfikator serii.	Datos no válidos: identificador de serie.
+Invalid active focus session.	Некорректные данные: активная сессия фокуса.	Nieprawidłowe dane: aktywna sesja skupienia.	Datos no válidos: sesión de enfoque activa.
+Invalid attachments.	Некорректные данные: вложения.	Nieprawidłowe dane: załączniki.	Datos no válidos: archivos adjuntos.
+Invalid calendar event.	Некорректные данные: событие календаря.	Nieprawidłowe dane: wydarzenie kalendarza.	Datos no válidos: evento del calendario.
+Invalid cancelled occurrence.	Некорректные данные: отменённое повторение.	Nieprawidłowe dane: anulowane wystąpienie.	Datos no válidos: repetición cancelada.
+Invalid canvas attachment.	Некорректные данные: вложение холста.	Nieprawidłowe dane: załącznik tablicy.	Datos no válidos: archivo adjunto del lienzo.
+Invalid canvas image.	Некорректные данные: изображение холста.	Nieprawidłowe dane: obraz tablicy.	Datos no válidos: imagen del lienzo.
+Invalid canvas metadata.	Некорректные данные: метаданные холста.	Nieprawidłowe dane: metadane tablicy.	Datos no válidos: metadatos del lienzo.
+Invalid canvas node.	Некорректные данные: объект холста.	Nieprawidłowe dane: obiekt tablicy.	Datos no válidos: objeto del lienzo.
+Invalid canvas size.	Некорректные данные: размер холста.	Nieprawidłowe dane: rozmiar tablicy.	Datos no válidos: tamaño del lienzo.
+Invalid canvas viewport.	Некорректные данные: область просмотра холста.	Nieprawidłowe dane: widok tablicy.	Datos no válidos: vista del lienzo.
+Invalid canvas.	Некорректные данные: холст.	Nieprawidłowe dane: tablica.	Datos no válidos: lienzo.
+Invalid collapsed frame.	Некорректные данные: свёрнутая рамка.	Nieprawidłowe dane: zwinięta ramka.	Datos no válidos: marco contraído.
+Invalid confirmed focus record.	Некорректные данные: подтверждённая запись фокуса.	Nieprawidłowe dane: potwierdzony zapis skupienia.	Datos no válidos: registro de enfoque confirmado.
+Invalid event importance.	Некорректные данные: важность события.	Nieprawidłowe dane: ważność wydarzenia.	Datos no válidos: importancia del evento.
+Invalid event instants.	Некорректные данные: временные отметки события.	Nieprawidłowe dane: znaczniki czasu wydarzenia.	Datos no válidos: marcas de tiempo del evento.
+Invalid event series.	Некорректные данные: серия событий.	Nieprawidłowe dane: seria wydarzeń.	Datos no válidos: serie de eventos.
+Invalid exercise preferences.	Некорректные данные: настройки упражнения.	Nieprawidłowe dane: ustawienia ćwiczenia.	Datos no válidos: ajustes del ejercicio.
+Invalid exercise rest profile.	Некорректные данные: настройки отдыха упражнения.	Nieprawidłowe dane: ustawienia odpoczynku ćwiczenia.	Datos no válidos: ajustes de descanso del ejercicio.
+Invalid exercise.	Некорректные данные: упражнение.	Nieprawidłowe dane: ćwiczenie.	Datos no válidos: ejercicio.
+Invalid habit availability history.	Некорректные данные: история доступности привычки.	Nieprawidłowe dane: historia dostępności nawyku.	Datos no válidos: historial de disponibilidad del hábito.
+Invalid habit exceptions.	Некорректные данные: исключения привычки.	Nieprawidłowe dane: wyjątki nawyku.	Datos no válidos: excepciones del hábito.
+Invalid habit schedule.	Некорректные данные: расписание привычки.	Nieprawidłowe dane: harmonogram nawyku.	Datos no válidos: horario del hábito.
+Invalid habit source.	Некорректные данные: источник привычки.	Nieprawidłowe dane: źródło nawyku.	Datos no válidos: fuente del hábito.
+Invalid habit values.	Некорректные данные: значения привычки.	Nieprawidłowe dane: wartości nawyku.	Datos no válidos: valores del hábito.
+Invalid habit.	Некорректные данные: привычка.	Nieprawidłowe dane: nawyk.	Datos no válidos: hábito.
+Invalid logged Sport result.	Некорректные данные: записанный результат тренировки.	Nieprawidłowe dane: zapisany wynik treningu.	Datos no válidos: resultado de entrenamiento registrado.
+Invalid milestones.	Некорректные данные: этапы.	Nieprawidłowe dane: etapy.	Datos no válidos: hitos.
+Invalid note attachment.	Некорректные данные: вложение заметки.	Nieprawidłowe dane: załącznik notatki.	Datos no válidos: archivo adjunto de nota.
+Invalid note or journal entry.	Некорректные данные: заметка или запись дневника.	Nieprawidłowe dane: notatka lub wpis dziennika.	Datos no válidos: nota o entrada de diario.
+Invalid note tags.	Некорректные данные: теги заметки.	Nieprawidłowe dane: tagi notatki.	Datos no válidos: etiquetas de nota.
+Invalid notes.	Некорректные данные: заметки.	Nieprawidłowe dane: notatki.	Datos no válidos: notas.
+Invalid or duplicate Today task.	Некорректные данные: задача «Сегодня» (некорректная или повторная).	Nieprawidłowe dane: zadanie Dzisiaj (nieprawidłowe lub powtórzone).	Datos no válidos: tarea de Hoy (inválida o duplicada).
+Invalid or duplicate task.	Некорректные данные: задача (некорректная или повторная).	Nieprawidłowe dane: zadanie (nieprawidłowe lub powtórzone).	Datos no válidos: tarea (inválida o duplicada).
+Invalid program name.	Некорректные данные: название программы.	Nieprawidłowe dane: nazwa programu.	Datos no válidos: nombre del programa.
+Invalid project note links.	Некорректные данные: связи заметок проекта.	Nieprawidłowe dane: powiązania notatek projektu.	Datos no válidos: vínculos de notas del proyecto.
+Invalid project.	Некорректные данные: проект.	Nieprawidłowe dane: projekt.	Datos no válidos: proyecto.
+Invalid recurring occurrence.	Некорректные данные: повторяющееся событие.	Nieprawidłowe dane: powtarzające się wystąpienie.	Datos no válidos: evento recurrente.
+Invalid recurring series.	Некорректные данные: повторяющаяся серия.	Nieprawidłowe dane: powtarzająca się seria.	Datos no válidos: serie recurrente.
+Invalid rest pause.	Некорректные данные: пауза отдыха.	Nieprawidłowe dane: pauza odpoczynku.	Datos no válidos: pausa de descanso.
+Invalid rest timer.	Некорректные данные: таймер отдыха.	Nieprawidłowe dane: minutnik odpoczynku.	Datos no válidos: temporizador de descanso.
+Invalid skill test.	Некорректные данные: тест навыка.	Nieprawidłowe dane: test umiejętności.	Datos no válidos: prueba de habilidad.
+Invalid subtasks.	Некорректные данные: подзадачи.	Nieprawidłowe dane: podzadania.	Datos no válidos: subtareas.
+Invalid task dependencies.	Некорректные данные: зависимости задач.	Nieprawidłowe dane: zależności zadań.	Datos no válidos: dependencias de tareas.
+Invalid task importance.	Некорректные данные: важность задачи.	Nieprawidłowe dane: ważność zadania.	Datos no válidos: importancia de tarea.
+Invalid task source note.	Некорректные данные: исходная заметка задачи.	Nieprawidłowe dane: notatka źródłowa zadania.	Datos no válidos: nota de origen de tarea.
+Invalid workout duration.	Некорректные данные: длительность тренировки.	Nieprawidłowe dane: czas trwania treningu.	Datos no válidos: duración del entrenamiento.
+Invalid workout end time.	Некорректные данные: время окончания тренировки.	Nieprawidłowe dane: godzina zakończenia treningu.	Datos no válidos: hora de fin del entrenamiento.
+Invalid workout pause.	Некорректные данные: пауза тренировки.	Nieprawidłowe dane: pauza treningu.	Datos no válidos: pausa del entrenamiento.
+Invalid workout record.	Некорректные данные: запись тренировки.	Nieprawidłowe dane: zapis treningu.	Datos no válidos: registro del entrenamiento.
+Invalid workout set.	Некорректные данные: подход тренировки.	Nieprawidłowe dane: seria treningowa.	Datos no válidos: serie del entrenamiento.
+Invalid workout snapshot.	Некорректные данные: снимок тренировки.	Nieprawidłowe dane: migawka treningu.	Datos no válidos: instantánea del entrenamiento.
+Invalid workout timing.	Некорректные данные: хронометраж тренировки.	Nieprawidłowe dane: pomiar czasu treningu.	Datos no válidos: tiempos del entrenamiento.
+Invalid workout.	Некорректные данные: тренировка.	Nieprawidłowe dane: trening.	Datos no válidos: entrenamiento.
+A connection in that direction already exists.	Связь в этом направлении уже существует.	Połączenie w tym kierunku już istnieje.	Ya existe una conexión en esa dirección.
+A draft does not count as a completed workout.	Черновик не считается завершённой тренировкой.	Szkic nie jest ukończonym treningiem.	Un borrador no cuenta como entrenamiento completado.
+A little progress.	Немного прогресса.	Mały postęp.	Un pequeño avance.
+A selected workout is no longer in this program. Choose it again.	Выбранной тренировки больше нет в программе. Выберите другую.	Wybranego treningu nie ma już w programie. Wybierz ponownie.	El entrenamiento ya no está en el programa. Elige otro.
+A series must contain 2–52 occurrences.	Серия должна содержать от 2 до 52 повторений.	Seria musi zawierać od 2 do 52 wystąpień.	La serie debe tener entre 2 y 52 repeticiones.
+A workout must fit the 08:00–22:00 planning window.	Тренировка должна помещаться в интервал 08:00–22:00.	Trening musi mieścić się w przedziale 08:00–22:00.	El entrenamiento debe caber entre las 08:00 y las 22:00.
+Action	Действие	Działanie	Acción
+Active time	Активное время	Czas aktywny	Tiempo activo
+Activity Map	Карта активности	Mapa aktywności	Mapa de actividad
+Activity Overview	Обзор активности	Przegląd aktywności	Resumen de actividad
+Activity history is not connected yet.	История активности пока не подключена.	Historia aktywności nie jest jeszcze dostępna.	El historial de actividad aún no está conectado.
+Actual minutes — exclude breaks or time away	Фактические минуты — без перерывов	Rzeczywiste minuty — bez przerw	Minutos reales, sin descansos
+Actual result	Фактический результат	Rzeczywisty wynik	Resultado real
+Add Note	Добавить заметку	Dodaj notatkę	Añadir nota
+Add a note, then connect your thoughts.	Добавьте заметку и свяжите свои мысли.	Dodaj notatkę i połącz swoje myśli.	Añade una nota y conecta tus ideas.
+Add a workout with exercises to this program first.	Сначала добавьте в программу тренировку с упражнениями.	Najpierw dodaj do programu trening z ćwiczeniami.	Primero añade al programa un entrenamiento con ejercicios.
+Add another exercise to your workout library first.	Сначала добавьте ещё одно упражнение в библиотеку.	Najpierw dodaj inne ćwiczenie do biblioteki.	Primero añade otro ejercicio a la biblioteca.
+Add at least one workout template to this program.	Добавьте хотя бы один шаблон тренировки в программу.	Dodaj do programu co najmniej jeden szablon treningu.	Añade al programa al menos una plantilla de entrenamiento.
+Add at least one workout to this program.	Добавьте хотя бы одну тренировку в программу.	Dodaj do programu co najmniej jeden trening.	Añade al menos un entrenamiento al programa.
+Add exercises before scheduling.	Добавьте упражнения перед планированием.	Dodaj ćwiczenia przed zaplanowaniem.	Añade ejercicios antes de programar.
+Add exercises before starting.	Добавьте упражнения перед началом.	Dodaj ćwiczenia przed rozpoczęciem.	Añade ejercicios antes de empezar.
+Add exercises to a workout to build your library.	Добавляйте упражнения в тренировки, чтобы пополнять библиотеку.	Dodawaj ćwiczenia do treningów, aby rozbudować bibliotekę.	Añade ejercicios a los entrenamientos para ampliar tu biblioteca.
+Add exercises to this workout before scheduling.	Добавьте упражнения в тренировку перед планированием.	Dodaj ćwiczenia do treningu przed zaplanowaniem.	Añade ejercicios a este entrenamiento antes de programarlo.
+Add existing exercise	Добавить упражнение из библиотеки	Dodaj istniejące ćwiczenie	Añadir ejercicio existente
+Add existing note to Canvas	Добавить заметку на холст	Dodaj istniejącą notatkę do tablicy	Añadir nota existente al lienzo
+Add existing workout	Добавить существующую тренировку	Dodaj istniejący trening	Añadir entrenamiento existente
+Add from exercise library	Добавить из библиотеки упражнений	Dodaj z biblioteki ćwiczeń	Añadir desde la biblioteca de ejercicios
+Add to Canvas	Добавить на холст	Dodaj do tablicy	Añadir al lienzo
+Add workout to program	Добавить тренировку в программу	Dodaj trening do programu	Añadir entrenamiento al programa
+All dates	Все даты	Wszystkie daty	Todas las fechas
+All time	За всё время	Cały okres	Todo el tiempo
+Apply changes to (completion only affects this event)	Применить изменения к (выполнение — только этому событию)	Zastosuj zmiany do (ukończenie dotyczy tylko tego wydarzenia)	Aplicar cambios a (la finalización solo afecta a este evento)
+Apply from (history stays unchanged)	Применить с (история не изменится)	Zastosuj od (historia pozostanie bez zmian)	Aplicar desde (el historial no cambia)
+Attach file	Прикрепить файл	Dołącz plik	Adjuntar archivo
+Availability changed. Generate a new proposal.	Свободное время изменилось. Сформируйте новое предложение.	Dostępność się zmieniła. Wygeneruj nową propozycję.	La disponibilidad ha cambiado. Genera una nueva propuesta.
+Back to Sport	Назад к спорту	Wróć do sportu	Volver a Deporte
+Back to habits	Назад к привычкам	Wróć do nawyków	Volver a hábitos
+Backup unavailable. Export your data before closing.	Резервная копия недоступна. Экспортируйте данные перед закрытием.	Kopia jest niedostępna. Wyeksportuj dane przed zamknięciem.	La copia no está disponible. Exporta tus datos antes de cerrar.
+Best daily streak	Лучшая серия дней	Najlepsza seria dni	Mejor racha diaria
+Best weekly streak	Лучшая серия недель	Najlepsza seria tygodni	Mejor racha semanal
+Beta data imported	Тестовые данные импортированы	Zaimportowano dane testowe	Datos de prueba importados
+Beta data reset	Тестовые данные сброшены	Zresetowano dane testowe	Datos de prueba restablecidos
+Board height	Высота доски	Wysokość tablicy	Altura del tablero
+Border color	Цвет рамки	Kolor obramowania	Color del borde
+Bring forward	На передний план	Przenieś do przodu	Traer adelante
+Broken canvas connection.	Повреждённая связь на холсте.	Uszkodzone połączenie na tablicy.	Conexión del lienzo dañada.
+COMPLETED	ВЫПОЛНЕНО	UKOŃCZONE	COMPLETADO
+COMPLETED PROJECT TASKS	ВЫПОЛНЕННЫЕ ЗАДАЧИ ПРОЕКТОВ	UKOŃCZONE ZADANIA PROJEKTÓW	TAREAS DE PROYECTOS COMPLETADAS
+COMPLETED SETS	ВЫПОЛНЕННЫЕ ПОДХОДЫ	UKOŃCZONE SERIE	SERIES COMPLETADAS
+COMPLETED TASKS	ВЫПОЛНЕННЫЕ ЗАДАЧИ	UKOŃCZONE ZADANIA	TAREAS COMPLETADAS
+Calendar changes only after confirmation	Календарь изменится только после подтверждения	Kalendarz zmieni się dopiero po potwierdzeniu	El calendario solo cambia tras confirmar
+Calendar context	Контекст календаря	Kontekst kalendarza	Contexto del calendario
+Calendar day	День календаря	Dzień kalendarza	Día del calendario
+Calendar event	Событие календаря	Wydarzenie kalendarza	Evento del calendario
+Calendar sessions	Занятия в календаре	Sesje w kalendarzu	Sesiones del calendario
+Canvas card	Карточка холста	Karta tablicy	Tarjeta del lienzo
+Canvas links	Связи холста	Połączenia tablicy	Enlaces del lienzo
+Card size and position	Размер и положение карточки	Rozmiar i pozycja karty	Tamaño y posición de tarjeta
+Card title	Название карточки	Tytuł karty	Título de tarjeta
+Changes here do not alter already scheduled or completed workouts.	Эти изменения не затрагивают запланированные и завершённые тренировки.	Te zmiany nie wpływają na zaplanowane ani ukończone treningi.	Estos cambios no alteran los entrenamientos programados ni completados.
+Checklist	Список задач	Lista zadań	Lista de tareas
+Choose 2–52 occurrences for a repeating event.	Выберите от 2 до 52 повторений события.	Wybierz od 2 do 52 powtórzeń wydarzenia.	Elige entre 2 y 52 repeticiones del evento.
+Choose Daily or Weekly.	Выберите «Ежедневно» или «Еженедельно».	Wybierz codziennie lub co tydzień.	Elige a diario o semanalmente.
+Choose PNG, JPEG or WebP. HEIC and SVG are not supported.	Выберите PNG, JPEG или WebP. HEIC и SVG не поддерживаются.	Wybierz PNG, JPEG lub WebP. HEIC i SVG nie są obsługiwane.	Elige PNG, JPEG o WebP. HEIC y SVG no son compatibles.
+Choose PNG, JPEG, WebP, PDF or text up to 2 MB.	Выберите PNG, JPEG, WebP, PDF или текст до 2 МБ.	Wybierz PNG, JPEG, WebP, PDF lub tekst do 2 MB.	Elige PNG, JPEG, WebP, PDF o texto de hasta 2 MB.
+Choose a Monday for weekly schedule changes, so a week keeps one target.	Для изменения недельного расписания выберите понедельник, чтобы у недели оставалась одна цель.	Zmień harmonogram tygodniowy od poniedziałku, aby tydzień miał jeden cel.	Elige un lunes para cambiar el horario semanal y mantener un objetivo por semana.
+Choose a Path Canvas v1 export.	Выберите экспорт Path Canvas v1.	Wybierz eksport Path Canvas v1.	Elige una exportación de Path Canvas v1.
+Choose a block, then set its time. Nothing is scheduled until you save.	Выберите блок и укажите время. Событие появится после сохранения.	Wybierz blok i ustaw czas. Wydarzenie pojawi się po zapisaniu.	Elige un bloque y su hora. Solo se programa al guardar.
+Choose a connection type and a label up to 120 characters.	Выберите тип связи и подпись до 120 символов.	Wybierz typ połączenia i etykietę do 120 znaków.	Elige un tipo de conexión y una etiqueta de hasta 120 caracteres.
+Choose a day, or drag to a time.	Выберите день или перетащите на нужное время.	Wybierz dzień lub przeciągnij na godzinę.	Elige un día o arrastra a una hora.
+Choose a real opening	Выбрать свободный интервал	Wybierz wolny przedział	Elegir un hueco disponible
+Choose a supported file up to 2 MB.	Выберите поддерживаемый файл до 2 МБ.	Wybierz obsługiwany plik do 2 MB.	Elige un archivo compatible de hasta 2 MB.
+Choose a time, then Done	Выберите время и нажмите «Готово»	Wybierz godzinę i kliknij Gotowe	Elige la hora y pulsa Hecho
+Choose a valid date range.	Выберите корректный диапазон дат.	Wybierz prawidłowy zakres dat.	Elige un intervalo de fechas válido.
+Choose a valid date.	Выберите корректную дату.	Wybierz prawidłową datę.	Elige una fecha válida.
+Choose a valid day and a 15-minute time slot.	Выберите корректный день и время с шагом 15 минут.	Wybierz prawidłowy dzień i godzinę z krokiem 15 minut.	Elige un día válido y una hora en intervalos de 15 minutos.
+Choose a valid day, duration and planning window.	Проверьте день, длительность и интервал планирования.	Sprawdź dzień, czas trwania i przedział planowania.	Comprueba el día, la duración y el intervalo de planificación.
+Choose a valid effective date.	Выберите корректную дату начала действия.	Wybierz prawidłową datę wejścia w życie.	Elige una fecha de aplicación válida.
+Choose a valid importance.	Выберите корректную важность.	Wybierz prawidłową ważność.	Elige una importancia válida.
+Choose a valid past or current date.	Выберите корректную дату не позднее сегодняшней.	Wybierz prawidłową datę nie późniejszą niż dzisiaj.	Elige una fecha válida de hoy o anterior.
+Choose a valid repeat scope.	Выберите область применения повторения.	Wybierz prawidłowy zakres powtarzania.	Elige un alcance de repetición válido.
+Choose a valid set kind.	Выберите корректный тип подхода.	Wybierz prawidłowy typ serii.	Elige un tipo de serie válido.
+Choose a valid stage.	Выберите корректный этап.	Wybierz prawidłowy etap.	Elige una etapa válida.
+Choose a valid start date.	Выберите корректную дату начала.	Wybierz prawidłową datę rozpoczęcia.	Elige una fecha de inicio válida.
+Choose a valid start time.	Выберите корректное время начала.	Wybierz prawidłową godzinę rozpoczęcia.	Elige una hora de inicio válida.
+Choose a workout duration between 15 minutes and 14 hours.	Выберите длительность тренировки от 15 минут до 14 часов.	Wybierz czas treningu od 15 minut do 14 godzin.	Elige una duración entre 15 minutos y 14 horas.
+Choose a workout from this program.	Выберите тренировку из этой программы.	Wybierz trening z tego programu.	Elige un entrenamiento de este programa.
+Choose an active project.	Выберите активный проект.	Wybierz aktywny projekt.	Elige un proyecto activo.
+Choose an available exercise.	Выберите доступное упражнение.	Wybierz dostępne ćwiczenie.	Elige un ejercicio disponible.
+Choose an available project task and valid date.	Выберите доступную задачу проекта и корректную дату.	Wybierz dostępne zadanie projektu i prawidłową datę.	Elige una tarea de proyecto disponible y una fecha válida.
+Choose an image up to 25 MB.	Выберите изображение до 25 МБ.	Wybierz obraz do 25 MB.	Elige una imagen de hasta 25 MB.
+Choose the first or second occurrence of a repeated clock time.	Выберите первое или второе вхождение повторяющегося времени.	Wybierz pierwsze lub drugie wystąpienie powtarzającej się godziny.	Elige la primera o segunda aparición de la hora repetida.
+Choose training days and 1–4 weeks.	Выберите дни тренировок и от 1 до 4 недель.	Wybierz dni treningowe i od 1 do 4 tygodni.	Elige días de entrenamiento y entre 1 y 4 semanas.
+Choose valid dates, 1–7 days between workouts and 1–4 cycles.	Выберите корректные даты, 1–7 дней между тренировками и 1–4 цикла.	Wybierz prawidłowe daty, 1–7 dni między treningami i 1–4 cykle.	Elige fechas válidas, 1–7 días entre entrenamientos y 1–4 ciclos.
+Code	Код	Kod	Código
+Completed workouts will appear here.	Здесь появятся завершённые тренировки.	Tutaj pojawią się ukończone treningi.	Aquí aparecerán los entrenamientos completados.
+Confirm 1–1440 actual focus minutes and a valid past or current date.	Укажите 1–1440 минут фокуса и корректную дату не позднее сегодняшней.	Podaj 1–1440 minut skupienia i prawidłową datę nie późniejszą niż dzisiaj.	Confirma 1–1440 minutos de enfoque y una fecha válida de hoy o anterior.
+Confirm action	Подтвердить действие	Potwierdź działanie	Confirmar acción
+Confirm actual focus	Подтвердить время фокуса	Potwierdź czas skupienia	Confirmar tiempo de enfoque
+Connect	Соединить	Połącz	Conectar
+Connection type	Тип связи	Typ połączenia	Tipo de conexión
+Convert note to task	Преобразовать заметку в задачу	Zamień notatkę w zadanie	Convertir nota en tarea
+Convert to Task	Преобразовать в задачу	Zamień w zadanie	Convertir en tarea
+Copy selection	Копировать выделенное	Kopiuj zaznaczenie	Copiar selección
+Correct date / sources	Исправить дату / источники	Popraw datę / źródła	Corregir fecha / fuentes
+Could not discard the draft. Retry.	Не удалось удалить черновик. Повторите попытку.	Nie udało się odrzucić szkicu. Spróbuj ponownie.	No se pudo descartar el borrador. Reinténtalo.
+Could not export card.	Не удалось экспортировать карточку.	Nie udało się wyeksportować karty.	No se pudo exportar la tarjeta.
+Could not import board:	Не удалось импортировать холст:	Nie udało się zaimportować tablicy:	No se pudo importar el lienzo:
+Could not import:	Не удалось импортировать:	Nie udało się zaimportować:	No se pudo importar:
+Could not keep an input recovery copy. Keep this workout open and retry saving.	Не удалось сохранить копию ввода. Не закрывайте тренировку и повторите сохранение.	Nie udało się zachować kopii wpisanych danych. Nie zamykaj treningu i ponów zapis.	No se pudo guardar una copia de recuperación. Mantén el entrenamiento abierto y vuelve a guardar.
+Could not read the attachment.	Не удалось прочитать вложение.	Nie udało się odczytać załącznika.	No se pudo leer el archivo adjunto.
+Could not read the image. Try selecting it again.	Не удалось прочитать изображение. Выберите его ещё раз.	Nie udało się odczytać obrazu. Wybierz go ponownie.	No se pudo leer la imagen. Vuelve a seleccionarla.
+Could not read this file.	Не удалось прочитать файл.	Nie udało się odczytać pliku.	No se pudo leer el archivo.
+Could not remember navigation. Your saved content is unchanged.	Не удалось запомнить раздел. Сохранённые данные не изменились.	Nie udało się zapamiętać nawigacji. Zapisane dane pozostają bez zmian.	No se pudo recordar la navegación. Tus datos guardados no han cambiado.
+Could not retain the workout draft. Keep this workspace open.	Не удалось сохранить черновик тренировки. Не закрывайте этот экран.	Nie udało się zachować szkicu treningu. Nie zamykaj tego ekranu.	No se pudo conservar el borrador del entrenamiento. Mantén esta pantalla abierta.
+Could not save the workout. Keep it open and retry.	Не удалось сохранить тренировку. Не закрывайте её и повторите попытку.	Nie udało się zapisać treningu. Nie zamykaj go i spróbuj ponownie.	No se pudo guardar el entrenamiento. Déjalo abierto y reinténtalo.
+Could not save your latest input. Retry before finishing.	Не удалось сохранить последние изменения. Повторите попытку перед завершением.	Nie udało się zapisać ostatnich zmian. Ponów zapis przed zakończeniem.	No se pudieron guardar los últimos cambios. Reintenta antes de finalizar.
+Create a project first.	Сначала создайте проект.	Najpierw utwórz projekt.	Primero crea un proyecto.
+Create a project to track its tasks.	Создайте проект для отслеживания задач.	Utwórz projekt, aby śledzić zadania.	Crea un proyecto para seguir sus tareas.
+Create a task or note first.	Сначала создайте задачу или заметку.	Najpierw utwórz zadanie lub notatkę.	Primero crea una tarea o nota.
+Create a workout or add one from your library, then choose training days.	Создайте тренировку или добавьте её из библиотеки, затем выберите дни занятий.	Utwórz trening lub dodaj go z biblioteki, a potem wybierz dni treningowe.	Crea un entrenamiento o añádelo desde la biblioteca y elige los días.
+Create an active canvas first. Journal entries cannot be added.	Сначала создайте активный холст. Записи дневника добавлять нельзя.	Najpierw utwórz aktywną tablicę. Wpisów dziennika nie można dodać.	Primero crea un lienzo activo. No se pueden añadir entradas del diario.
+Create an active project first.	Сначала создайте активный проект.	Najpierw utwórz aktywny projekt.	Primero crea un proyecto activo.
+Create at this point	Создать здесь	Utwórz w tym miejscu	Crear aquí
+Create project	Создать проект	Utwórz projekt	Crear proyecto
+Create task from selected text	Создать задачу из выделенного текста	Utwórz zadanie z zaznaczonego tekstu	Crear tarea del texto seleccionado
+Create task from selection	Создать задачу из выделения	Utwórz zadanie z zaznaczenia	Crear tarea de la selección
+Create your first exercise in this workout.	Создайте первое упражнение в тренировке.	Utwórz pierwsze ćwiczenie w treningu.	Crea el primer ejercicio de este entrenamiento.
+Current streak	Текущая серия	Obecna seria	Racha actual
+Cyclic task dependencies.	Циклические зависимости задач.	Cykliczne zależności zadań.	Dependencias circulares entre tareas.
+DEADLINES	ДЕДЛАЙНЫ	TERMINY	FECHAS LÍMITE
+DONE TODAY	ВЫПОЛНЕНО СЕГОДНЯ	UKOŃCZONE DZISIAJ	COMPLETADO HOY
+Daily goal	Ежедневная цель	Cel dzienny	Objetivo diario
+Daily schedules shown here. Weekly targets contribute to the period total only for complete weeks.	Здесь показаны ежедневные цели. Недельные цели учитываются только за полные недели.	Tutaj są cele dzienne. Cele tygodniowe liczą się tylko za pełne tygodnie.	Aquí se muestran los objetivos diarios. Los semanales solo cuentan semanas completas.
+Data changed in another window. Export your pending change, then reload.	Данные изменились в другом окне. Экспортируйте несохранённые изменения и перезагрузите.	Dane zmieniły się w innym oknie. Wyeksportuj niezapisane zmiany i odśwież.	Los datos cambiaron en otra ventana. Exporta los cambios pendientes y recarga.
+Date conflicts	Конфликты дат	Konflikty dat	Conflictos de fechas
+Date credited (choose the date you worked)	Дата учёта (день фактической работы)	Data zaliczenia (dzień rzeczywistej pracy)	Fecha de registro (día en que trabajaste)
+Date to review or correct	Дата для просмотра или исправления	Data do przeglądu lub korekty	Fecha para revisar o corregir
+Days between workouts	Дней между тренировками	Dni między treningami	Días entre entrenamientos
+Deadline (independent of workflow dates)	Дедлайн (независимо от плана работы)	Termin (niezależny od planu pracy)	Fecha límite (independiente del plan)
+Deadline (independent)	Дедлайн (отдельно)	Termin (niezależny)	Fecha límite (independiente)
+Deadline link (updates the task’s deadline in Projects)	Связь дедлайна (обновляет срок задачи в проектах)	Powiązanie terminu (aktualizuje termin zadania w projektach)	Vínculo de fecha límite (actualiza la tarea en Proyectos)
+Delete card	Удалить карточку	Usuń kartę	Eliminar tarjeta
+Delete selected cards	Удалить выбранные карточки	Usuń zaznaczone karty	Eliminar tarjetas seleccionadas
+Depends on	Зависит от	Zależy od	Depende de
+Destination project	Целевой проект	Projekt docelowy	Proyecto de destino
+Details · date / skip / sources	Подробности · дата / пропуск / источники	Szczegóły · data / pominięcie / źródła	Detalles · fecha / omisión / fuentes
+Discard	Отбросить	Odrzuć	Descartar
+Discard draft	Удалить черновик	Odrzuć szkic	Descartar borrador
+Discard this unfinished workout and its entered sets? Its template and calendar plan will stay unchanged. No completed workout will be created.	Удалить незавершённую тренировку и введённые подходы? Шаблон и план календаря сохранятся. Запись о завершении не появится.	Odrzucić niedokończony trening i wpisane serie? Szablon i plan kalendarza pozostaną bez zmian. Nie powstanie zapis ukończenia.	¿Descartar el entrenamiento sin terminar y sus series? La plantilla y el plan no cambiarán. No se registrará como completado.
+Discard this unrecorded focus session?	Удалить эту незаписанную сессию фокуса?	Odrzucić tę niezapisaną sesję skupienia?	¿Descartar esta sesión de enfoque sin registrar?
+Discard this workout	Удалить эту тренировку	Odrzuć ten trening	Descartar este entrenamiento
+Discard unsaved note changes? Already saved text will remain.	Отбросить несохранённые изменения заметки? Сохранённый текст останется.	Odrzucić niezapisane zmiany notatki? Zapisany tekst pozostanie.	¿Descartar los cambios sin guardar? El texto guardado se conservará.
+Download PNG	Скачать PNG	Pobierz PNG	Descargar PNG
+Download projects, boards and events as JSON.	Скачать проекты, холсты и события в JSON.	Pobierz projekty, tablice i wydarzenia jako JSON.	Descarga proyectos, tableros y eventos en JSON.
+Draft discarded · Undo available	Черновик удалён · Можно отменить	Szkic odrzucony · Można cofnąć	Borrador descartado · Puedes deshacer
+Drag tasks from the board here. Drag bars to reschedule; pull right edge to resize.	Перетащите сюда задачи с доски. Двигайте полосы для переноса дат; тяните правый край для изменения длительности.	Przeciągnij tu zadania z tablicy. Przesuwaj paski, aby zmienić daty; ciągnij prawą krawędź, aby zmienić długość.	Arrastra tareas aquí. Mueve las barras para cambiar fechas y su borde derecho para ajustar la duración.
+Duplicate entry	Дублировать запись	Duplikuj wpis	Duplicar entrada
+Duplicate node ID.	Повторяющийся идентификатор объекта.	Powtórzony identyfikator obiektu.	Identificador de objeto duplicado.
+Duplicate recorded workout session.	Повторяющаяся запись тренировки.	Powtórzony zapis treningu.	Registro de entrenamiento duplicado.
+Duration (minutes, steps of 15)	Длительность (минуты, шаг 15)	Czas trwania (minuty, krok 15)	Duración (minutos, intervalos de 15)
+Edit card	Изменить карточку	Edytuj kartę	Editar tarjeta
+Edit note	Изменить заметку	Edytuj notatkę	Editar nota
+Empty canvas	Пустой холст	Pusta tablica	Lienzo vacío
+End date must not precede start date	Дата окончания не может быть раньше начала	Data końca nie może poprzedzać początku	La fecha final no puede ser anterior al inicio
+End when clocks repeat	Окончание при повторении времени	Koniec przy powtórzeniu godziny	Fin cuando se repite la hora
+Enter a name and 15–720 planned minutes.	Введите название и от 15 до 720 минут.	Podaj nazwę i od 15 do 720 minut.	Introduce un nombre y entre 15 y 720 minutos.
+Enter a non-negative value.	Введите неотрицательное значение.	Podaj wartość nieujemną.	Introduce un valor no negativo.
+Enter a number of zero or more.	Введите число не меньше нуля.	Podaj liczbę nie mniejszą od zera.	Introduce un número mayor o igual a cero.
+Enter a program name.	Введите название программы.	Podaj nazwę programu.	Introduce un nombre de programa.
+Enter a project name.	Введите название проекта.	Podaj nazwę projektu.	Introduce un nombre de proyecto.
+Enter a task title.	Введите название задачи.	Podaj tytuł zadania.	Introduce un título de tarea.
+Enter a title and a valid duration.	Введите название и корректную длительность.	Podaj tytuł i prawidłowy czas trwania.	Introduce un título y una duración válida.
+Enter a title and valid milestone date.	Введите название этапа и корректную дату.	Podaj nazwę etapu i prawidłową datę.	Introduce un título y una fecha de hito válida.
+Enter a title and valid web address.	Введите название и корректный веб-адрес.	Podaj tytuł i prawidłowy adres internetowy.	Introduce un título y una dirección web válida.
+Enter a title or some text.	Введите название или текст.	Podaj tytuł lub tekst.	Introduce un título o texto.
+Enter a valid web address.	Введите корректный веб-адрес.	Podaj prawidłowy adres internetowy.	Introduce una dirección web válida.
+Enter each exercise as Name | sets | target | rest seconds.	Введите упражнения в формате: название | подходы | цель | отдых в секундах.	Wpisz ćwiczenia: nazwa | serie | cel | odpoczynek w sekundach.	Introduce ejercicios: nombre | series | objetivo | descanso en segundos.
+Enter exercises in the workout template before starting.	Добавьте упражнения в шаблон перед началом.	Dodaj ćwiczenia do szablonu przed rozpoczęciem.	Añade ejercicios a la plantilla antes de empezar.
+Enter the measured hold in seconds (zero or more).	Введите измеренное удержание в секундах (не меньше нуля).	Podaj zmierzony czas utrzymania w sekundach (co najmniej zero).	Introduce la duración medida en segundos (cero o más).
+Enter to add · Esc to cancel	Enter — добавить · Esc — отменить	Enter — dodaj · Esc — anuluj	Intro para añadir · Esc para cancelar
+Enter valid goals, days and an effective date from today.	Проверьте цели, дни и дату начала не раньше сегодняшней.	Sprawdź cele, dni i datę rozpoczęcia nie wcześniejszą niż dzisiaj.	Revisa los objetivos, los días y una fecha de inicio a partir de hoy.
+Entry details	Подробности записи	Szczegóły wpisu	Detalles de entrada
+Equipment	Оборудование	Sprzęt	Equipo
+Estimated hours	Оценка в часах	Szacowane godziny	Horas estimadas
+Europe/Warsaw · Busy events, travel and protected free time remain blocked.	Europe/Warsaw · Занятое время, дорога и защищённый отдых остаются занятыми.	Europe/Warsaw · Zajęte wydarzenia, dojazdy i chroniony odpoczynek pozostają zablokowane.	Europe/Warsaw · Los eventos ocupados, viajes y descanso protegido siguen bloqueados.
+Europe/Warsaw · Click a time to add an event. Drag an event to move it. Open it to edit its duration or mark it complete.	Europe/Warsaw · Нажмите на время для создания события. Перетащите для переноса. Откройте для изменения длительности или завершения.	Europe/Warsaw · Kliknij godzinę, aby dodać wydarzenie. Przeciągnij, aby przenieść. Otwórz, aby zmienić długość lub ukończyć.	Europe/Warsaw · Haz clic en una hora para añadir un evento. Arrastra para moverlo. Ábrelo para editar la duración o completarlo.
+Europe/Warsaw · demo data	Europe/Warsaw · демонстрационные данные	Europe/Warsaw · dane demonstracyjne	Europe/Warsaw · datos de ejemplo
+Event completed	Событие выполнено	Wydarzenie ukończone	Evento completado
+Event instant and local time disagree.	Временная отметка события не совпадает с местным временем.	Znacznik czasu wydarzenia nie zgadza się z czasem lokalnym.	La marca de tiempo del evento no coincide con la hora local.
+Event updated	Событие обновлено	Wydarzenie zaktualizowane	Evento actualizado
+Exercise removed	Упражнение удалено	Ćwiczenie usunięte	Ejercicio eliminado
+Exercise settings	Настройки упражнения	Ustawienia ćwiczenia	Ajustes de ejercicio
+Exercise · movement · equipment	Упражнение · движение · оборудование	Ćwiczenie · ruch · sprzęt	Ejercicio · movimiento · equipo
+Exercises practised	Выполненные упражнения	Wykonane ćwiczenia	Ejercicios practicados
+Exercises — one per line: Name | sets | reps or seconds | rest seconds	Упражнения, по одному в строке: название | подходы | повторы или секунды | отдых в секундах	Ćwiczenia, po jednym w wierszu: nazwa | serie | powtórzenia lub sekundy | odpoczynek w sekundach	Ejercicios, uno por línea: nombre | series | repeticiones o segundos | descanso en segundos
+Export test data	Экспорт тестовых данных	Eksportuj dane testowe	Exportar datos de prueba
+Export this private Journal entry, including its attachments, to a file? Anyone with that file can read it.	Экспортировать личную запись дневника с вложениями? Любой обладатель файла сможет её прочитать.	Wyeksportować prywatny wpis dziennika z załącznikami? Każdy z tym plikiem może go przeczytać.	¿Exportar esta entrada privada con adjuntos? Cualquiera con el archivo podrá leerla.
+File / PDF	Файл / PDF	Plik / PDF	Archivo / PDF
+Find full-workout slot	Найти время для полной тренировки	Znajdź czas na pełny trening	Buscar hueco para el entrenamiento completo
+Finish or save your active workout before planning another session.	Завершите или сохраните текущую тренировку перед планированием следующей.	Zakończ lub zapisz aktualny trening przed planowaniem kolejnego.	Finaliza o guarda el entrenamiento activo antes de programar otro.
+Finish your practice?	Завершить тренировку?	Zakończyć trening?	¿Finalizar el entrenamiento?
+First occurrence	Первое вхождение	Pierwsze wystąpienie	Primera aparición
+Fit to content	По размеру содержимого	Dopasuj do zawartości	Ajustar al contenido
+Free Time: protect this time	Свободное время: защитить интервал	Czas wolny: chroń ten przedział	Tiempo libre: proteger este intervalo
+From	С	Od	Desde
+From card	От карточки	Od karty	Desde tarjeta
+Full workout scheduled	Полная тренировка запланирована	Pełny trening zaplanowany	Entrenamiento completo programado
+Habit details ·	Подробности привычки ·	Szczegóły nawyku ·	Detalles del hábito ·
+Habit history ·	История привычки ·	Historia nawyku ·	Historial del hábito ·
+Heading	Заголовок	Nagłówek	Encabezado
+History & sources	История и источники	Historia i źródła	Historial y fuentes
+IN PROGRESS	В ПРОЦЕССЕ	W TOKU	EN CURSO
+If this time is occupied	Если время занято	Jeśli ten czas jest zajęty	Si esta hora está ocupada
+If workflow conflicts with dates	При конфликте дат плана	Jeśli daty planu są sprzeczne	Si hay conflictos entre las fechas
+Illustration	Иллюстрация	Ilustracja	Ilustración
+Image added	Изображение добавлено	Obraz dodany	Imagen añadida
+Image processing is unavailable in this browser.	Обработка изображений недоступна в этой среде.	Przetwarzanie obrazów jest niedostępne w tym środowisku.	El procesamiento de imágenes no está disponible aquí.
+Import test data	Импорт тестовых данных	Importuj dane testowe	Importar datos de prueba
+In Trash · restore to edit	В корзине · восстановите для редактирования	W koszu · przywróć, aby edytować	En la papelera · restaura para editar
+Journal date	Дата дневника	Data dziennika	Fecha del diario
+Jump to today	Перейти к сегодняшнему дню	Przejdź do dzisiaj	Ir a hoy
+Keep training	Продолжить тренировку	Kontynuuj trening	Seguir entrenando
+Kind	Вид	Rodzaj	Clase
+Label (optional, up to 120 characters)	Подпись (необязательно, до 120 символов)	Etykieta (opcjonalnie, do 120 znaków)	Etiqueta (opcional, hasta 120 caracteres)
+Last saved	Последнее сохранение	Ostatni zapis	Último guardado
+Line weight	Толщина линии	Grubość linii	Grosor de línea
+Link Project	Связать с проектом	Połącz z projektem	Vincular proyecto
+Link Task / Note	Связать задачу / заметку	Połącz zadanie / notatkę	Vincular tarea / nota
+Link an existing note from its Details panel.	Свяжите существующую заметку через её панель подробностей.	Połącz istniejącą notatkę z jej panelu szczegółów.	Vincula una nota existente desde su panel de detalles.
+Link existing item	Связать существующий объект	Połącz istniejący element	Vincular elemento existente
+Link note to project	Связать заметку с проектом	Połącz notatkę z projektem	Vincular nota a proyecto
+Link project	Связать проект	Połącz projekt	Vincular proyecto
+Link to Project	Связать с проектом	Połącz z projektem	Vincular a proyecto
+Linked canvas & calendar sessions	Связанные холсты и занятия календаря	Powiązane tablice i sesje kalendarza	Lienzos y sesiones vinculados
+Linked item unavailable.	Связанный объект недоступен.	Powiązany element jest niedostępny.	El elemento vinculado no está disponible.
+Linked note unavailable	Связанная заметка недоступна	Powiązana notatka jest niedostępna	La nota vinculada no está disponible
+Linked note unavailable.	Связанная заметка недоступна.	Powiązana notatka jest niedostępna.	La nota vinculada no está disponible.
+Linked notes	Связанные заметки	Powiązane notatki	Notas vinculadas
+Linked task	Связанная задача	Powiązane zadanie	Tarea vinculada
+Linked to completed Sport records. Open Details to review sources or skip this date.	Связано с завершёнными тренировками. Откройте подробности для просмотра источников или пропуска даты.	Powiązano z ukończonymi treningami. Otwórz szczegóły, aby sprawdzić źródła lub pominąć datę.	Vinculado a entrenamientos completados. Abre Detalles para revisar las fuentes u omitir esta fecha.
+List	Список	Lista	Lista
+Living Particle Wave	Живая волна частиц	Żywa fala cząstek	Onda viva de partículas
+Local save unavailable here. Export data before closing.	Локальное сохранение недоступно. Экспортируйте данные перед закрытием.	Zapis lokalny jest niedostępny. Wyeksportuj dane przed zamknięciem.	El guardado local no está disponible. Exporta los datos antes de cerrar.
+Log at least one actual set before finishing.	Запишите хотя бы один выполненный подход перед завершением.	Zapisz co najmniej jedną wykonaną serię przed zakończeniem.	Registra al menos una serie realizada antes de finalizar.
+Make room for a thought.	Найди место для мысли.	Znajdź miejsce na myśl.	Haz espacio para una idea.
+Manage habit	Настроить привычку	Zarządzaj nawykiem	Gestionar hábito
+Manual value (only for a manual source)	Значение вручную (только для ручного источника)	Wartość ręczna (tylko dla ręcznego źródła)	Valor manual (solo para fuente manual)
+Mark at least one completed set.	Отметьте хотя бы один выполненный подход.	Oznacz co najmniej jedną ukończoną serię.	Marca al menos una serie completada.
+Measured by completed tasks	По выполненным задачам	Według ukończonych zadań	Según tareas completadas
+Measured hold · seconds	Измеренное удержание · секунды	Zmierzony czas utrzymania · sekundy	Duración medida · segundos
+Milestones are dated facts, not duration bars.	Этапы отмечают даты, а не длительность.	Etapy wskazują daty, nie czas trwania.	Los hitos indican fechas, no duración.
+Missing or duplicate ID in	Отсутствующий или повторяющийся ID в	Brakujący lub powtórzony ID w	ID ausente o duplicado en
+Missing saved image.	Сохранённое изображение отсутствует.	Brak zapisanego obrazu.	Falta una imagen guardada.
+Missing settings.	Настройки отсутствуют.	Brak ustawień.	Faltan los ajustes.
+More options	Дополнительные параметры	Więcej opcji	Más opciones
+Move the selected cards closer together before creating a frame (maximum 1600 × 1600).	Сдвиньте карточки ближе перед созданием рамки (максимум 1600 × 1600).	Przesuń karty bliżej przed utworzeniem ramki (maksymalnie 1600 × 1600).	Acerca las tarjetas antes de crear un marco (máximo 1600 × 1600).
+Move to Trash	В корзину	Przenieś do kosza	Mover a la papelera
+Movement	Движение	Ruch	Movimiento
+Muscle groups or description	Группы мышц или описание	Grupy mięśni lub opis	Grupos musculares o descripción
+New	Создать	Nowy	Nuevo
+New web link	Новая веб-ссылка	Nowy link internetowy	Nuevo enlace web
+Next update	Следующее обновление	Następna aktualizacja	Próxima actualización
+No archived habits.	Нет привычек в архиве.	Brak zarchiwizowanych nawyków.	No hay hábitos archivados.
+No completed workouts in this range.	Нет завершённых тренировок за этот период.	Brak ukończonych treningów w tym okresie.	No hay entrenamientos completados en este periodo.
+No free interval fits this event on this day. Choose another date.	В этот день нет подходящего свободного интервала. Выберите другую дату.	Brak pasującego wolnego przedziału tego dnia. Wybierz inną datę.	No hay un hueco adecuado este día. Elige otra fecha.
+No free slot fits this workout in the next 14 days.	В ближайшие 14 дней нет места для этой тренировки.	Brak miejsca na ten trening w ciągu najbliższych 14 dni.	No hay hueco para este entrenamiento en los próximos 14 días.
+No free slot on	Нет свободного времени на	Brak wolnego czasu na	No hay hueco el
+No free slot remains after this time. Choose an earlier time or another day.	После этого времени свободных интервалов нет. Выберите более раннее время или другой день.	Po tej godzinie nie ma wolnych przedziałów. Wybierz wcześniejszą godzinę lub inny dzień.	No quedan huecos después de esta hora. Elige una hora anterior u otro día.
+No history yet.	Истории пока нет.	Brak historii.	Todavía no hay historial.
+No interval fits this duration.	Нет интервала нужной длительности.	Brak przedziału o takiej długości.	No hay un intervalo de esta duración.
+No other tasks in this project.	В проекте нет других задач.	Brak innych zadań w tym projekcie.	No hay otras tareas en este proyecto.
+No previous result for this set.	Нет предыдущего результата для этого подхода.	Brak poprzedniego wyniku tej serii.	No hay resultado anterior para esta serie.
+No program	Без программы	Bez programu	Sin programa
+No subtasks yet.	Подзадач пока нет.	Brak podzadań.	Todavía no hay subtareas.
+No suitable opening on this day. Choose another day or move the full workout.	В этот день нет подходящего интервала. Выберите другой день или перенесите всю тренировку.	Brak odpowiedniego przedziału tego dnia. Wybierz inny dzień lub przenieś cały trening.	No hay hueco adecuado este día. Elige otro día o mueve el entrenamiento completo.
+No suitable slot in the next 14 days. Change the schedule or duration.	В ближайшие 14 дней нет подходящего времени. Измените расписание или длительность.	Brak odpowiedniego czasu w najbliższych 14 dniach. Zmień harmonogram lub długość.	No hay hueco adecuado en los próximos 14 días. Cambia el horario o la duración.
+No tracked focus sessions yet. Calendar reservations are planned time.	Подтверждённых сессий фокуса пока нет. Записи календаря — это план.	Brak zarejestrowanych sesji skupienia. Rezerwacje w kalendarzu to czas planowany.	Todavía no hay sesiones de enfoque registradas. Las reservas son tiempo planificado.
+No unassigned workouts. Create a workout here or change its program in the workout editor.	Нет тренировок без программы. Создайте тренировку здесь или измените её программу в редакторе.	Brak nieprzypisanych treningów. Utwórz trening tutaj lub zmień jego program w edytorze.	No hay entrenamientos sin asignar. Crea uno aquí o cambia su programa en el editor.
+No unscheduled tasks.	Нет незапланированных задач.	Brak niezaplanowanych zadań.	No hay tareas sin programar.
+Not a Path beta export	Это не экспорт Path beta	To nie jest eksport Path beta	No es una exportación de Path beta
+Not linked to a canvas.	Не связано с холстом.	Brak powiązania z tablicą.	Sin vínculo a un lienzo.
+Not linked to a project.	Не связано с проектом.	Brak powiązania z projektem.	Sin vínculo a un proyecto.
+Not saved. Review and retry.	Не сохранено. Проверьте и повторите.	Nie zapisano. Sprawdź i spróbuj ponownie.	No guardado. Revisa y reintenta.
+Note or project unavailable.	Заметка или проект недоступны.	Notatka lub projekt są niedostępne.	La nota o el proyecto no están disponibles.
+Note text	Текст заметки	Treść notatki	Texto de nota
+Notes & rest	Заметки и отдых	Notatki i odpoczynek	Notas y descanso
+Nothing pending. Add a new task.	Нет ожидающих задач. Добавьте новую.	Brak oczekujących zadań. Dodaj nowe.	No hay tareas pendientes. Añade una nueva.
+Now	Сейчас	Teraz	Ahora
+Occurrences (2–52, including first; only for repeats)	Повторения (2–52, включая первое)	Powtórzenia (2–52, w tym pierwsze)	Repeticiones (2–52, incluida la primera)
+Only actual results in the same unit appear here.	Здесь показаны только реальные результаты в одинаковых единицах.	Tu są tylko rzeczywiste wyniki w tej samej jednostce.	Aquí solo aparecen resultados reales en la misma unidad.
+Only an available ordinary note can create a task.	Задачу можно создать только из доступной обычной заметки.	Zadanie można utworzyć tylko z dostępnej zwykłej notatki.	Solo puedes crear una tarea desde una nota normal disponible.
+Only the scheduled session changes. Existing templates and completed history remain intact.	Изменится только запланированная тренировка. Шаблоны и история сохранятся.	Zmieni się tylko zaplanowana sesja. Szablony i historia pozostaną bez zmian.	Solo cambia la sesión programada. Las plantillas y el historial se conservan.
+Open saved workout	Открыть сохранённую тренировку	Otwórz zapisany trening	Abrir entrenamiento guardado
+Open the original workspace to resume this draft.	Откройте исходный раздел, чтобы продолжить черновик.	Otwórz oryginalny obszar, aby wznowić szkic.	Abre el espacio original para continuar el borrador.
+Optional task	Необязательная задача	Opcjonalne zadanie	Tarea opcional
+Ordered by entry date. Editing keeps the original date.	По дате записи. Редактирование не меняет исходную дату.	Według daty wpisu. Edycja zachowuje pierwotną datę.	Ordenado por fecha de entrada. La edición conserva la fecha original.
+Original item	Исходный объект	Oryginalny element	Elemento original
+Other tasks, sessions and deadlines are never shifted automatically.	Другие задачи, занятия и дедлайны не переносятся автоматически.	Inne zadania, sesje i terminy nie są przesuwane automatycznie.	Otras tareas, sesiones y fechas límite nunca se mueven automáticamente.
+PATH / PRACTICE	PATH / ПРАКТИКА	PATH / TRENING	PATH / PRÁCTICA
+Paste cards	Вставить карточки	Wklej karty	Pegar tarjetas
+Paused. This draft is not a completed workout.	Пауза. Этот черновик не является завершённой тренировкой.	Wstrzymano. Ten szkic nie jest ukończonym treningiem.	En pausa. Este borrador no es un entrenamiento completado.
+Place workout	Разместить тренировку	Umieść trening	Colocar entrenamiento
+Planned minutes	Планируемые минуты	Planowane minuty	Minutos planificados
+Planning window contains a nonexistent local time.	Интервал содержит несуществующее местное время.	Przedział zawiera nieistniejącą godzinę lokalną.	El intervalo incluye una hora local inexistente.
+Press N to add a note	Нажмите N для добавления заметки	Naciśnij N, aby dodać notatkę	Pulsa N para añadir una nota
+Prev.	Пред.	Poprz.	Ant.
+Preview chart · demo values	Предпросмотр графика · демоданные	Podgląd wykresu · dane przykładowe	Vista previa del gráfico · datos de ejemplo
+Previous performance	Предыдущий результат	Poprzedni wynik	Resultado anterior
+Private journal ·	Личный дневник ·	Prywatny dziennik ·	Diario privado ·
+Program notes	Заметки программы	Notatki programu	Notas del programa
+Program scheduled	Программа запланирована	Program zaplanowany	Programa planificado
+Progress %	Прогресс %	Postęp %	Progreso %
+Progress & History	Прогресс и история	Postępy i historia	Progreso e historial
+Project links	Связи проекта	Powiązania projektu	Vínculos del proyecto
+Project status	Статус проекта	Status projektu	Estado del proyecto
+Proposed times only. Protected rest and other busy events are preserved.	Это предлагаемые интервалы. Защищённый отдых и занятые события сохраняются.	To proponowane godziny. Chroniony odpoczynek i zajęte wydarzenia pozostają bez zmian.	Son horas propuestas. Se conservan el descanso protegido y los eventos ocupados.
+Proposed workflow end	Предлагаемое окончание плана	Proponowany koniec planu	Fin propuesto del plan
+Proposed workflow start	Предлагаемое начало плана	Proponowany początek planu	Inicio propuesto del plan
+Quick task	Быстрая задача	Szybkie zadanie	Tarea rápida
+Quote	Цитата	Cytat	Cita
+RECORDED WORKOUTS	ЗАПИСАННЫЕ ТРЕНИРОВКИ	ZAPISANE TRENINGI	ENTRENAMIENTOS REGISTRADOS
+Records (read only)	Записи (только просмотр)	Zapisy (tylko odczyt)	Registros (solo lectura)
+Recovered draft · Review and save	Восстановленный черновик · Проверьте и сохраните	Odzyskany szkic · Sprawdź i zapisz	Borrador recuperado · Revisa y guarda
+Reload saved data first. If it is damaged, keep the recovery export and open a separate local copy for recovery.	Сначала загрузите сохранённые данные. Если они повреждены, сохраните экспорт восстановления и откройте отдельную локальную копию.	Najpierw wczytaj zapisane dane. Jeśli są uszkodzone, zachowaj eksport odzyskiwania i otwórz osobną kopię lokalną.	Primero carga los datos guardados. Si están dañados, conserva la exportación de recuperación y abre una copia local aparte.
+Reload the last saved version? Export recovery first if you want to keep a failed change.	Загрузить последнюю сохранённую версию? Сначала экспортируйте восстановление, чтобы сохранить неудавшееся изменение.	Wczytać ostatnią zapisaną wersję? Najpierw wyeksportuj odzyskiwanie, aby zachować niezapisaną zmianę.	¿Cargar la última versión guardada? Exporta primero la recuperación para conservar el cambio fallido.
+Reload the saved data before making changes.	Загрузите сохранённые данные перед изменением.	Wczytaj zapisane dane przed zmianami.	Carga los datos guardados antes de hacer cambios.
+Reminder before event	Напоминание до события	Przypomnienie przed wydarzeniem	Recordatorio antes del evento
+Remove from program	Убрать из программы	Usuń z programu	Quitar del programa
+Remove link	Удалить связь	Usuń powiązanie	Quitar vínculo
+Removed from program · Undo available	Убрано из программы · Можно отменить	Usunięto z programu · Można cofnąć	Quitado del programa · Puedes deshacer
+Removing a connection keeps both cards and their source items.	Удаление связи сохраняет обе карточки и исходные объекты.	Usunięcie połączenia zachowuje obie karty i ich źródła.	Eliminar la conexión conserva ambas tarjetas y sus elementos originales.
+Rename	Переименовать	Zmień nazwę	Renombrar
+Rename board	Переименовать доску	Zmień nazwę tablicy	Renombrar tablero
+Rename canvas	Переименовать холст	Zmień nazwę tablicy	Renombrar lienzo
+Repetitions must be a whole number.	Число повторений должно быть целым.	Liczba powtórzeń musi być całkowita.	Las repeticiones deben ser un número entero.
+Rest (seconds)	Отдых (секунды)	Odpoczynek (sekundy)	Descanso (segundos)
+Rest timer	Таймер отдыха	Minutnik odpoczynku	Temporizador de descanso
+Restore entry	Восстановить запись	Przywróć wpis	Restaurar entrada
+Restore habit	Восстановить привычку	Przywróć nawyk	Restaurar hábito
+Resume draft	Продолжить черновик	Wznów szkic	Reanudar borrador
+Resume editing	Продолжить редактирование	Wznów edycję	Reanudar edición
+Resume the workout before swapping.	Продолжите тренировку перед заменой.	Wznów trening przed zamianą.	Reanuda el entrenamiento antes de sustituir.
+Resume the workout first.	Сначала продолжите тренировку.	Najpierw wznów trening.	Primero reanuda el entrenamiento.
+Review & record	Проверить и записать	Sprawdź i zapisz	Revisar y registrar
+Review next target	Проверить следующую цель	Sprawdź następny cel	Revisar siguiente objetivo
+Review the next available slot before moving anything.	Проверьте следующий свободный интервал перед переносом.	Sprawdź następny wolny przedział przed przeniesieniem.	Revisa el siguiente hueco antes de mover nada.
+Review workflow dates	Проверить даты плана	Sprawdź daty planu	Revisar fechas del plan
+SCHEDULED WORKOUTS	ЗАПЛАНИРОВАННЫЕ ТРЕНИРОВКИ	ZAPLANOWANE TRENINGI	ENTRENAMIENTOS PROGRAMADOS
+SESSION REVIEW	ОБЗОР ТРЕНИРОВКИ	PODSUMOWANIE SESJI	RESUMEN DE SESIÓN
+Save action	Сохранить действие	Zapisz działanie	Guardar acción
+Save completed workout	Сохранить завершённую тренировку	Zapisz ukończony trening	Guardar entrenamiento completado
+Save draft & exit	Сохранить черновик и выйти	Zapisz szkic i wyjdź	Guardar borrador y salir
+Saved workout draft	Сохранённый черновик тренировки	Zapisany szkic treningu	Borrador de entrenamiento guardado
+Saved workout draft · separate from history	Черновик сохранён · Отдельно от истории	Szkic zapisany · Oddzielnie od historii	Borrador guardado · Separado del historial
+Schedule a workout to reserve time.	Запланируйте тренировку, чтобы выделить время.	Zaplanuj trening, aby zarezerwować czas.	Programa un entrenamiento para reservar tiempo.
+Schedule program	Запланировать программу	Zaplanuj program	Programar programa
+Schedule this short session	Запланировать короткую тренировку	Zaplanuj krótką sesję	Programar esta sesión corta
+Scheduled	Запланировано	Zaplanowane	Programado
+Second occurrence	Второе вхождение	Drugie wystąpienie	Segunda aparición
+Select a card, choose Connect, then select its destination.	Выберите карточку, нажмите «Соединить» и выберите цель.	Wybierz kartę, kliknij Połącz i wybierz cel.	Elige una tarjeta, pulsa Conectar y selecciona el destino.
+Select a card, then drag a side handle.	Выберите карточку и потяните за боковую ручку.	Wybierz kartę i przeciągnij boczny uchwyt.	Elige una tarjeta y arrastra un tirador lateral.
+Select another card to connect	Выберите другую карточку для связи	Wybierz inną kartę do połączenia	Elige otra tarjeta para conectar
+Select another card to connect. Escape cancels.	Выберите другую карточку. Escape отменяет связь.	Wybierz inną kartę. Escape anuluje połączenie.	Elige otra tarjeta. Escape cancela la conexión.
+Select every predecessor. Dates stay independent.	Выберите все предшествующие задачи. Даты остаются независимыми.	Wybierz wszystkie poprzednie zadania. Daty pozostają niezależne.	Elige todas las tareas previas. Las fechas siguen siendo independientes.
+Select text and enter a task title.	Выделите текст и введите название задачи.	Zaznacz tekst i podaj tytuł zadania.	Selecciona texto e introduce un título de tarea.
+Select text in the note editor first.	Сначала выделите текст в заметке.	Najpierw zaznacz tekst w edytorze notatki.	Primero selecciona texto en el editor de notas.
+Selected days: 1 Mon … 6 Sat, 0 Sun	Дни: 1 Пн … 6 Сб, 0 Вс	Dni: 1 Pon … 6 Sob, 0 Niedz	Días: 1 Lun … 6 Sáb, 0 Dom
+Send backward	На задний план	Przenieś do tyłu	Enviar atrás
+Separate checkmarks. Completing all subtasks does not complete the parent task.	Отдельные галочки. Выполнение всех подзадач не завершает основную задачу.	Oddzielne oznaczenia. Ukończenie podzadań nie kończy zadania głównego.	Marcas independientes. Completar las subtareas no completa la tarea principal.
+Session completion and task completion are separate.	Завершение занятия и задачи учитываются отдельно.	Ukończenie sesji i zadania jest niezależne.	Completar una sesión y una tarea son acciones independientes.
+Session outline	План занятия	Plan sesji	Plan de sesión
+Sessions per week (1–7)	Занятий в неделю (1–7)	Sesje w tygodniu (1–7)	Sesiones por semana (1–7)
+Set	Подход	Seria	Serie
+Set no longer exists.	Подход больше не существует.	Seria już nie istnieje.	La serie ya no existe.
+Sets logged	Записанные подходы	Zapisane serie	Series registradas
+Short session scheduled. Original template unchanged.	Короткая тренировка запланирована. Исходный шаблон сохранён.	Krótka sesja zaplanowana. Oryginalny szablon bez zmian.	Sesión corta programada. La plantilla original no cambia.
+Size / position	Размер / положение	Rozmiar / pozycja	Tamaño / posición
+Skip rest	Пропустить отдых	Pomiń odpoczynek	Omitir descanso
+Smart Rest	Умный отдых	Inteligentny odpoczynek	Descanso inteligente
+Source (applies from the chosen date)	Источник (с выбранной даты)	Źródło (od wybranej daty)	Fuente (desde la fecha elegida)
+Source note	Исходная заметка	Notatka źródłowa	Nota de origen
+Source note unavailable	Исходная заметка недоступна	Notatka źródłowa jest niedostępna	La nota de origen no está disponible
+Stage tested	Проверяемый этап	Testowany etap	Etapa evaluada
+Start from	Начать с	Zacznij od	Empezar desde
+Start hour (8–19)	Час начала (8–19)	Godzina rozpoczęcia (8–19)	Hora de inicio (8–19)
+Start time (15-minute steps)	Начало (шаг 15 минут)	Początek (krok 15 minut)	Inicio (intervalos de 15 minutos)
+Start time · 15-minute steps	Время начала · шаг 15 минут	Godzina rozpoczęcia · krok 15 minut	Hora de inicio · intervalos de 15 minutos
+Start with an idea.	Начни с идеи.	Zacznij od pomysłu.	Empieza con una idea.
+State	Состояние	Stan	Estado
+Streaks & history	Серии и история	Serie i historia	Rachas e historial
+Swap	Заменить	Zamień	Sustituir
+Swap this session only	Заменить только в этой тренировке	Zamień tylko w tej sesji	Sustituir solo en esta sesión
+Synced with Calendar · Europe/Warsaw	Связано с календарём · Europe/Warsaw	Połączone z kalendarzem · Europe/Warsaw	Sincronizado con Calendario · Europe/Warsaw
+TASKS COMPLETED	ВЫПОЛНЕННЫЕ ЗАДАЧИ	UKOŃCZONE ZADANIA	TAREAS COMPLETADAS
+TOTAL PROJECTS	ВСЕГО ПРОЕКТОВ	WSZYSTKIE PROJEKTY	TOTAL DE PROYECTOS
+TOTAL TASKS	ВСЕГО ЗАДАЧ	WSZYSTKIE ZADANIA	TOTAL DE TAREAS
+Target date	Целевая дата	Data docelowa	Fecha objetivo
+Targets describe your plan. Actual results are recorded separately during the workout.	Цели описывают план. Фактические результаты записываются отдельно во время тренировки.	Cele opisują plan. Rzeczywiste wyniki zapisujesz oddzielnie podczas treningu.	Los objetivos describen el plan. Los resultados reales se registran durante el entrenamiento.
+Task description	Описание задачи	Opis zadania	Descripción de tarea
+Task description (the original note stays unchanged)	Описание задачи (исходная заметка не изменится)	Opis zadania (oryginalna notatka bez zmian)	Descripción de tarea (la nota original no cambia)
+Task identifier already exists.	Идентификатор задачи уже существует.	Identyfikator zadania już istnieje.	El identificador de tarea ya existe.
+Task status updated	Статус задачи обновлён	Status zadania zaktualizowany	Estado de tarea actualizado
+Task visibility	Видимость задачи	Widoczność zadania	Visibilidad de tarea
+Tasks are hidden from Today while this project is archived.	Задачи скрыты из «Сегодня», пока проект в архиве.	Zadania są ukryte w Dzisiaj, gdy projekt jest w archiwum.	Las tareas se ocultan en Hoy mientras el proyecto está archivado.
+Technique & equipment note	Заметка о технике и оборудовании	Notatka o technice i sprzęcie	Nota de técnica y equipo
+Technique notes & rest presets	Техника и настройки отдыха	Technika i ustawienia odpoczynku	Técnica y ajustes de descanso
+Technique, recovery and readiness	Техника, восстановление и готовность	Technika, regeneracja i gotowość	Técnica, recuperación y preparación
+Text length is informational and is not a productivity score.	Длина текста дана для справки, это не оценка продуктивности.	Długość tekstu jest informacyjna, nie ocenia produktywności.	La longitud del texto es informativa, no mide la productividad.
+The destination Canvas no longer exists.	Целевой холст больше не существует.	Docelowa tablica już nie istnieje.	El lienzo de destino ya no existe.
+The entry changed. Attach the file again to the intended entry.	Запись изменилась. Прикрепите файл ещё раз к нужной записи.	Wpis się zmienił. Dołącz plik ponownie do właściwego wpisu.	La entrada cambió. Adjunta el archivo de nuevo a la entrada correcta.
+The image could not be reduced enough for local storage.	Не удалось достаточно уменьшить изображение для локального хранения.	Nie udało się dostatecznie zmniejszyć obrazu do zapisu lokalnego.	No se pudo reducir la imagen lo suficiente para guardarla localmente.
+The image has no dimensions.	Не удалось определить размеры изображения.	Nie można ustalić wymiarów obrazu.	No se pueden determinar las dimensiones de la imagen.
+The image is empty.	Изображение пустое.	Obraz jest pusty.	La imagen está vacía.
+The note or canvas is unavailable.	Заметка или холст недоступны.	Notatka lub tablica są niedostępne.	La nota o el lienzo no están disponibles.
+This card already links to a source.	Карточка уже связана с источником.	Ta karta ma już źródło.	Esta tarjeta ya tiene un origen vinculado.
+This date is linked to Sport. Correct the source record instead of adding a duplicate.	Дата связана со спортом. Исправьте исходную запись вместо создания дубликата.	Ta data jest powiązana ze sportem. Popraw zapis źródłowy zamiast dodawać duplikat.	Esta fecha está vinculada a Deporte. Corrige el registro original en vez de duplicarlo.
+This draft has no exercises. Return to your program.	В черновике нет упражнений. Вернитесь к программе.	Szkic nie zawiera ćwiczeń. Wróć do programu.	Este borrador no tiene ejercicios. Vuelve al programa.
+This entry is excluded from Canvas and Today.	Эта запись не отображается на холсте и в «Сегодня».	Ten wpis nie pojawia się w Tablicy ani w Dzisiaj.	Esta entrada no aparece en Lienzo ni en Hoy.
+This file could not be decoded as an image.	Не удалось распознать файл как изображение.	Nie udało się odczytać pliku jako obrazu.	No se pudo interpretar el archivo como imagen.
+This focus session is already recorded.	Эта сессия фокуса уже записана.	Ta sesja skupienia jest już zapisana.	Esta sesión de enfoque ya está registrada.
+This habit had not started on that date.	В эту дату привычка ещё не началась.	W tym dniu nawyk jeszcze się nie rozpoczął.	Este hábito aún no había empezado en esa fecha.
+This opening changed. Choose another slot.	Этот интервал изменился. Выберите другой.	Ten przedział się zmienił. Wybierz inny.	Este hueco cambió. Elige otro.
+This proposal was already scheduled.	Это предложение уже добавлено в расписание.	Ta propozycja jest już zaplanowana.	Esta propuesta ya está programada.
+This session is already complete.	Занятие уже завершено.	Ta sesja jest już ukończona.	Esta sesión ya está completada.
+This slot changed. Find another opening.	Интервал изменился. Найдите другой.	Przedział się zmienił. Znajdź inny.	El intervalo cambió. Busca otro hueco.
+This task is no longer available.	Задача больше недоступна.	To zadanie jest już niedostępne.	Esta tarea ya no está disponible.
+This time is occupied, including protected free time. Choose a different time or Find the next free slot.	Время занято, в том числе защищённым отдыхом. Выберите другое время или найдите следующий свободный интервал.	Czas jest zajęty, także przez chroniony odpoczynek. Wybierz inną godzinę lub następny wolny przedział.	La hora está ocupada, incluido el descanso protegido. Elige otra o busca el siguiente hueco.
+This time is occupied. Choose another time.	Время занято. Выберите другое.	Ta godzina jest zajęta. Wybierz inną.	Esta hora está ocupada. Elige otra.
+This window is no longer free.	Этот интервал больше не свободен.	Ten przedział nie jest już wolny.	Este intervalo ya no está libre.
+This workout already belongs to another program.	Тренировка уже относится к другой программе.	Ten trening należy już do innego programu.	Este entrenamiento ya pertenece a otro programa.
+This workout has already been recorded.	Тренировка уже записана.	Ten trening został już zapisany.	Este entrenamiento ya se ha registrado.
+This workout is already recorded.	Тренировка уже записана.	Ten trening jest już zapisany.	Este entrenamiento ya está registrado.
+This workout is no longer available.	Тренировка больше недоступна.	Ten trening jest już niedostępny.	Este entrenamiento ya no está disponible.
+Time conflict. Choose a free time.	Конфликт времени. Выберите свободный интервал.	Konflikt czasu. Wybierz wolny przedział.	Conflicto de horario. Elige una hora libre.
+Title (optional for notes)	Название (необязательно для заметок)	Tytuł (opcjonalny dla notatek)	Título (opcional para notas)
+To	До	Do	Hasta
+To card	К карточке	Do karty	A tarjeta
+Tracking type	Тип отслеживания	Typ śledzenia	Tipo de seguimiento
+Training Schedule	Расписание тренировок	Harmonogram treningów	Horario de entrenamientos
+Training days	Дни тренировок	Dni treningowe	Días de entrenamiento
+Training schedule	Расписание тренировок	Harmonogram treningów	Horario de entrenamientos
+Undo the logged sets before swapping this exercise.	Отмените записанные подходы перед заменой упражнения.	Cofnij zapisane serie przed zamianą ćwiczenia.	Deshaz las series registradas antes de sustituir el ejercicio.
+Undo the logged sets before swapping. The original program stays unchanged.	Отмените записанные подходы перед заменой. Исходная программа не изменится.	Cofnij zapisane serie przed zamianą. Oryginalny program pozostaje bez zmian.	Deshaz las series registradas antes de sustituir. El programa original no cambia.
+Unfinished changes are available.	Есть незавершённые изменения.	Dostępne są niedokończone zmiany.	Hay cambios pendientes.
+Ungroup frame	Разгруппировать рамку	Rozgrupuj ramkę	Desagrupar marco
+Unit	Единица	Jednostka	Unidad
+Unscheduled Tasks	Незапланированные задачи	Niezaplanowane zadania	Tareas sin programar
+Unsupported checkpoint format.	Неподдерживаемый формат сохранения.	Nieobsługiwany format zapisu.	Formato de guardado no compatible.
+Unsupported image checkpoint.	Неподдерживаемый формат сохранения изображений.	Nieobsługiwany format zapisu obrazów.	Formato de guardado de imágenes no compatible.
+Upcoming:	Предстоящие:	Nadchodzące:	Próximos:
+Use Schedule on a task to reserve time in your calendar.	Используйте «Запланировать» у задачи, чтобы выделить время в календаре.	Użyj Zaplanuj przy zadaniu, aby zarezerwować czas w kalendarzu.	Usa Programar en una tarea para reservar tiempo en el calendario.
+Use an image smaller than 800 KB for local storage.	Используйте изображение меньше 800 КБ.	Użyj obrazu mniejszego niż 800 KB.	Usa una imagen menor de 800 KB.
+Use finite positions, width 160–1600 and height 100–1600.	Укажите конечные координаты, ширину 160–1600 и высоту 100–1600.	Podaj skończone współrzędne, szerokość 160–1600 i wysokość 100–1600.	Usa coordenadas finitas, ancho 160–1600 y alto 100–1600.
+View results	Показать результаты	Pokaż wyniki	Ver resultados
+Web address	Веб-адрес	Adres internetowy	Dirección web
+Weekly goals are capped by available days during pauses.	Во время пауз недельные цели ограничены доступными днями.	Podczas przerw cele tygodniowe są ograniczone dostępnymi dniami.	Durante las pausas, los objetivos semanales se limitan a los días disponibles.
+Weekly overview	Обзор недели	Podsumowanie tygodnia	Resumen semanal
+Weeks / interval cycles	Недели / циклы интервалов	Tygodnie / cykle	Semanas / ciclos
+When clocks repeat: first or second occurrence (Europe/Warsaw)	При повторении времени: первое или второе вхождение (Europe/Warsaw)	Przy powtórzeniu godziny: pierwsze lub drugie wystąpienie (Europe/Warsaw)	Si se repite la hora: primera o segunda aparición (Europe/Warsaw)
+Words / characters	Слова / символы	Słowa / znaki	Palabras / caracteres
+Workflow date warnings	Предупреждения о датах плана	Ostrzeżenia o datach planu	Avisos sobre fechas del plan
+Workflow dates assigned	Даты плана назначены	Daty planu przypisane	Fechas del plan asignadas
+Workflow end	Окончание плана	Koniec planu	Fin del plan
+Workflow periods are not calendar appointments. Deadlines are separate from time blocks.	Периоды плана не являются встречами календаря. Дедлайны отделены от временных блоков.	Okresy planu nie są spotkaniami kalendarza. Terminy są oddzielne od bloków czasu.	Los periodos del plan no son citas del calendario. Las fechas límite están separadas de los bloques de tiempo.
+Workflow start	Начало плана	Początek planu	Inicio del plan
+Workflow updated	План обновлён	Plan zaktualizowany	Plan actualizado
+Workout / exercise	Тренировка / упражнение	Trening / ćwiczenie	Entrenamiento / ejercicio
+Workout from program	Тренировка из программы	Trening z programu	Entrenamiento del programa
+Workout history	История тренировок	Historia treningów	Historial de entrenamientos
+Workout order saved · Undo available	Порядок тренировок сохранён · Можно отменить	Kolejność treningów zapisana · Można cofnąć	Orden guardado · Puedes deshacer
+Workout recorded	Тренировка записана	Trening zapisany	Entrenamiento registrado
+Workout saved	Тренировка сохранена	Trening zapisany	Entrenamiento guardado
+Workout scheduled in both calendars	Тренировка добавлена в оба календаря	Trening zaplanowany w obu kalendarzach	Entrenamiento programado en ambos calendarios
+Workout sequence	Порядок тренировок	Kolejność treningów	Secuencia de entrenamientos
+Workout templates	Шаблоны тренировок	Szablony treningów	Plantillas de entrenamientos
+Workouts repeat in this order. Review proposed times before adding them to Calendar.	Тренировки повторяются в этом порядке. Проверьте время перед добавлением в календарь.	Treningi powtarzają się w tej kolejności. Sprawdź godziny przed dodaniem do kalendarza.	Los entrenamientos se repiten en este orden. Revisa las horas antes de añadirlos al calendario.
+Write and save the entry first.	Сначала напишите и сохраните запись.	Najpierw napisz i zapisz wpis.	Primero escribe y guarda la entrada.
+Invalid	Некорректные данные	Nieprawidłowe dane	Datos no válidos
+Waste no more time arguing what a good man should be. Be one.	Не трать время на споры о том, каким должен быть хороший человек. Будь им.	Nie trać czasu na spory o to, jaki powinien być dobry człowiek. Bądź nim.	No pierdas más tiempo debatiendo cómo debe ser una buena persona. Sé una.
+The beginning is the most important part of the work.	Начало — важнейшая часть работы.	Początek jest najważniejszą częścią pracy.	El comienzo es la parte más importante del trabajo.
+No great thing is created suddenly.	Ничто великое не создаётся внезапно.	Nic wielkiego nie powstaje nagle.	Nada grande se crea de repente.
+While we are postponing, life speeds by.	Пока мы откладываем, жизнь проходит.	Gdy odkładamy sprawy na później, życie przemija.	Mientras posponemos las cosas, la vida pasa.
+The more we value things outside our control, the less control we have.	Чем больше мы ценим то, что нам неподвластно, тем меньше у нас власти над собой.	Im bardziej cenimy to, na co nie mamy wpływu, tym mniej mamy kontroli.	Cuanto más valoramos lo que no controlamos, menos control tenemos.
+MARCUS AURELIUS	МАРК АВРЕЛИЙ	MAREK AURELIUSZ	MARCO AURELIO
+PLATO	ПЛАТОН	PLATON	PLATÓN
+EPICTETUS	ЭПИКТЕТ	EPIKTET	EPICTETO
+SENECA	СЕНЕКА	SENEKA	SÉNECA
+SOCRATES	СОКРАТ	SOKRATES	SÓCRATES
+ARISTOTLE	АРИСТОТЕЛЬ	ARYSTOTELES	ARISTÓTELES
+Front Lever	Передний вис	Waga przodem	Palanca frontal
+Planche	Горизонт	Planche	Plancha
+Tuck	Группировка	Pozycja skulona	Agrupado
+Advanced tuck	Раскрытая группировка	Zaawansowana pozycja skulona	Agrupado avanzado
+Straddle	Ноги врозь	Rozkrok	Piernas abiertas
+Full	Полная форма	Pełna forma	Forma completa
+Lean	Наклон	Wychylenie	Inclinación
+Unscheduled Tasks · {count}	Незапланированные задачи · {count}	Niezaplanowane zadania · {count}	Tareas sin programar · {count}
+{count} events · Europe/Warsaw	Событий: {count} · Europe/Warsaw	Wydarzenia: {count} · Europe/Warsaw	Eventos: {count} · Europe/Warsaw
+Day context · {date}	Обзор дня · {date}	Podsumowanie dnia · {date}	Resumen del día · {date}
+{time} · {count} min free	{time} · свободно {count} мин	{time} · wolne: {count} min	{time} · {count} min libres
+Last 26 weeks · Monday first · as of {date}	Последние 26 недель · с понедельника · на {date}	Ostatnie 26 tygodni · od poniedziałku · na {date}	Últimas 26 semanas · desde el lunes · a {date}
+Week of {date}	Неделя с {date}	Tydzień od {date}	Semana del {date}
+tasks	задачи	zadania	tareas
+Could not save: {reason}	Не удалось сохранить: {reason}	Nie udało się zapisać: {reason}	No se pudo guardar: {reason}
+Could not import board: {reason}	Не удалось импортировать холст: {reason}	Nie udało się zaimportować tablicy: {reason}	No se pudo importar el lienzo: {reason}
+Could not import: {reason}	Не удалось импортировать: {reason}	Nie udało się zaimportować: {reason}	No se pudo importar: {reason}
+Habit details · {name}	Подробности привычки · {name}	Szczegóły nawyku · {name}	Detalles del hábito · {name}
+Habit history · {name}	История привычки · {name}	Historia nawyku · {name}	Historial del hábito · {name}
+Private journal · {date}	Личный дневник · {date}	Prywatny dziennik · {date}	Diario privado · {date}
+No free slot on {date}	Нет свободного времени на {date}	Brak wolnego czasu na {date}	No hay hueco el {date}
+Paused	На паузе	Wstrzymane	En pausa
+Video	Видео	Wideo	Vídeo
+Game	Игра	Gra	Juego
+Website	Сайт	Strona internetowa	Sitio web
+Idea	Идея	Pomysł	Idea
+In Progress	В процессе	W toku	En curso
+Archived — excluded from active progress	В архиве — не входит в активный прогресс	Archiwum — poza aktywnymi postępami	Archivado — excluido del progreso activo
+Stop for review	Остановить для проверки	Zatrzymaj do sprawdzenia	Detener para revisar
+Keep these dates explicitly	Оставить эти даты	Zachowaj te daty	Conservar estas fechas
+Delete · Undo available	Удалить · Можно отменить	Usuń · Można cofnąć	Eliminar · Puedes deshacer
+Routine	Рутина	Rutyna	Rutina
+Focused work	Сосредоточенная работа	Praca w skupieniu	Trabajo concentrado
+Free Time	Свободное время	Czas wolny	Tiempo libre
+Study	Учёба	Nauka	Estudio
+Training	Тренировка	Trening	Entrenamiento
+Elapsed duration in minutes (15-minute steps)	Прошедшее время в минутах (шаг 15)	Czas w minutach (krok 15)	Tiempo transcurrido en minutos (intervalos de 15)
+Does not repeat	Без повторения	Bez powtarzania	No se repite
+First occurrence (earlier instant)	Первое вхождение (раньше)	Pierwsze wystąpienie (wcześniej)	Primera aparición (antes)
+Second occurrence (later instant)	Второе вхождение (позже)	Drugie wystąpienie (później)	Segunda aparición (después)
+Soft reservation	Гибкий резерв	Elastyczna rezerwacja	Reserva flexible
+Protected — block scheduling suggestions	Защищено — исключить из предложений	Chronione — blokuj propozycje planowania	Protegido — bloquear propuestas de horario
+Stop and let me review	Остановить и проверить	Zatrzymaj i pozwól sprawdzić	Detener y revisar
+Find free time on this day (08:00–22:00)	Найти время в этот день (08:00–22:00)	Znajdź czas tego dnia (08:00–22:00)	Buscar tiempo este día (08:00–22:00)
+Keep both — explicitly override conflicts	Оставить оба — разрешить конфликт	Zachowaj oba — dopuść konflikt	Conservar ambos — permitir el conflicto
+Standalone calendar deadline	Отдельный дедлайн календаря	Niezależny termin kalendarza	Fecha límite independiente
+Event type	Тип события	Typ wydarzenia	Tipo de evento
+Count	Количество	Liczba	Cantidad
+Selected days	Выбранные дни	Wybrane dni	Días seleccionados
+N per week	N раз в неделю	N razy w tygodniu	N veces por semana
+Manual entries	Ручные отметки	Wpisy ręczne	Registros manuales
+Completed Sport records — no duplicate manual check	Завершённые тренировки — без повторной ручной отметки	Ukończone treningi — bez podwójnego oznaczenia	Entrenamientos completados — sin duplicar marcas manuales
+Directed arrow	Направленная стрелка	Strzałka kierunkowa	Flecha dirigida
+Undirected line	Линия без направления	Linia bez kierunku	Línea sin dirección
+Fine	Тонкая	Cienka	Fina
+Regular	Обычная	Zwykła	Normal
+Strong	Толстая	Gruba	Gruesa
+New milestone	Новый этап	Nowy etap	Nuevo hito
+Actually reached	Фактически достигнуто	Faktycznie osiągnięte	Alcanzado realmente
+All Projects	Все проекты	Wszystkie projekty	Todos los proyectos
+An idea becomes a plan.	Идея становится планом.	Pomysł staje się planem.	Una idea se convierte en un plan.
+active	активен	aktywny	activo
+Earlier	Раньше	Wcześniej	Antes
+Later	Позже	Później	Después
+Drag tasks from the board here. Drag bars to reschedule; resize either edge. Enter opens task details.	Перетащите задачи с доски сюда. Двигайте полосы и меняйте оба края. Enter открывает подробности.	Przeciągnij tu zadania z tablicy. Przesuwaj paski i zmieniaj oba brzegi. Enter otwiera szczegóły.	Arrastra tareas aquí. Mueve las barras y ajusta sus bordes. Intro abre los detalles.
+Year	Год	Rok	Año
+Shift + click to select · Arrow keys to move (Shift: 10 px) · Space + drag to pan · Ctrl + wheel to zoom · {count} cards	Shift + щелчок — выделить · Стрелки — переместить (Shift: 10 px) · Пробел + перетаскивание — обзор · Ctrl + колесо — масштаб · Карточек: {count}	Shift + klik — zaznacz · Strzałki — przesuń (Shift: 10 px) · Spacja + przeciąganie — widok · Ctrl + kółko — skala · Karty: {count}	Mayús + clic — seleccionar · Flechas — mover (Mayús: 10 px) · Espacio + arrastrar — desplazar · Ctrl + rueda — zoom · Tarjetas: {count}
+Connections ({count})	Связи ({count})	Połączenia ({count})	Conexiones ({count})
+Build a repeatable practice.	Создай регулярную практику.	Zbuduj regularną praktykę.	Crea una práctica constante.
+Keep your training intent close.	Помни о цели тренировки.	Pamiętaj o celu treningu.	Ten presente el objetivo de tu entrenamiento.
+Place in calendar	Добавить в календарь	Dodaj do kalendarza	Colocar en el calendario
+Build the session one exercise at a time.	Добавляй упражнения одно за другим.	Dodawaj ćwiczenia jedno po drugim.	Construye la sesión ejercicio a ejercicio.
+reps	повт.	powt.	rep.
+seconds	сек.	sek.	s
+kg	кг	kg	kg
+custom	свой вариант	własne	personalizado
+pull	тяга	przyciąganie	tracción
+push	жим	wypychanie	empuje
+base	база	baza	base
+hold	удержание	utrzymanie	isométrico
+Ready to write	Можно писать	Gotowe do pisania	Listo para escribir
+Days of the week	Дни недели	Dni tygodnia	Días de la semana
+Interval between workouts	Интервал между тренировками	Odstęp między treningami	Intervalo entre entrenamientos
+Monday workout	Тренировка в понедельник	Trening w poniedziałek	Entrenamiento del lunes
+Tuesday workout	Тренировка во вторник	Trening we wtorek	Entrenamiento del martes
+Wednesday workout	Тренировка в среду	Trening w środę	Entrenamiento del miércoles
+Thursday workout	Тренировка в четверг	Trening w czwartek	Entrenamiento del jueves
+Friday workout	Тренировка в пятницу	Trening w piątek	Entrenamiento del viernes
+Saturday workout	Тренировка в субботу	Trening w sobotę	Entrenamiento del sábado
+Sunday workout	Тренировка в воскресенье	Trening w niedzielę	Entrenamiento del domingo
+Next in sequence	Следующая по порядку	Następny w kolejności	Siguiente de la secuencia
+Number of weeks	Количество недель	Liczba tygodni	Número de semanas
+Date marker only. Does not reserve time or count as completed work.	Только отметка даты. Не занимает время и не считается выполненной работой.	Tylko znacznik daty. Nie rezerwuje czasu ani nie liczy się jako wykonana praca.	Solo marca una fecha. No reserva tiempo ni cuenta como trabajo completado.
+Routine · Set Daily or Weekly under More options to repeat.	Рутина · Для повторения выберите «Ежедневно» или «Еженедельно» в дополнительных параметрах.	Rutyna · Aby powtarzać, wybierz codziennie lub co tydzień w dodatkowych opcjach.	Rutina · Para repetir, elige a diario o semanalmente en Más opciones.
+Activity metric	Показатель активности	Wskaźnik aktywności	Métrica de actividad
+Add 15 seconds	Добавить 15 секунд	Dodaj 15 sekund	Añadir 15 segundos
+Animated dotted silhouette of a classical philosopher	Анимированный точечный портрет античного философа	Animowany punktowy portret antycznego filozofa	Retrato animado con puntos de un filósofo clásico
+Appearance settings	Настройки внешнего вида	Ustawienia wyglądu	Ajustes de apariencia
+Begin with a thought…	Начни с мысли…	Zacznij od myśli…	Empieza con una idea…
+Bold	Жирный	Pogrubienie	Negrita
+Cancel connection	Отменить связь	Anuluj połączenie	Cancelar conexión
+Canvas breadcrumb	Путь к холсту	Ścieżka tablicy	Ruta del lienzo
+Canvas tools	Инструменты холста	Narzędzia tablicy	Herramientas del lienzo
+Canvas workspace. Space and drag to pan; Control and wheel to zoom.	Холст. Пробел и перетаскивание — обзор; Control и колесо — масштаб.	Tablica. Spacja i przeciąganie — widok; Control i kółko — skala.	Lienzo. Espacio y arrastrar para desplazar; Control y rueda para ampliar.
+Choose calendar date	Выбрать дату календаря	Wybierz datę kalendarza	Elegir fecha del calendario
+Close date picker	Закрыть выбор даты	Zamknij wybór daty	Cerrar selector de fecha
+Close details	Закрыть подробности	Zamknij szczegóły	Cerrar detalles
+Complete subtask	Выполнить подзадачу	Ukończ podzadanie	Completar subtarea
+Completed workout sets	Выполненные подходы тренировок	Ukończone serie treningowe	Series de entrenamiento completadas
+Could not save · draft remains open	Не удалось сохранить · Черновик остаётся открытым	Nie zapisano · Szkic pozostaje otwarty	No se pudo guardar · El borrador sigue abierto
+Day context	Обзор дня	Podsumowanie dnia	Resumen del día
+Drag end; arrows adjust one day	Перетащите конец; стрелки меняют дату на день	Przeciągnij koniec; strzałki zmieniają o dzień	Arrastra el final; las flechas ajustan un día
+Drag start; arrows adjust one day	Перетащите начало; стрелки меняют дату на день	Przeciągnij początek; strzałki zmieniają o dzień	Arrastra el inicio; las flechas ajustan un día
+Drag to calendar to choose a workout, or click to open program	Перетащите в календарь для выбора тренировки или нажмите, чтобы открыть программу	Przeciągnij do kalendarza, aby wybrać trening, lub kliknij, aby otworzyć program	Arrastra al calendario para elegir un entrenamiento o pulsa para abrir el programa
+Drag to calendar, or click to choose a day	Перетащите в календарь или нажмите для выбора дня	Przeciągnij do kalendarza lub kliknij, aby wybrać dzień	Arrastra al calendario o pulsa para elegir un día
+Drag to change duration	Перетащите для изменения длительности	Przeciągnij, aby zmienić długość	Arrastra para cambiar la duración
+Drag to connect	Потяните для соединения	Przeciągnij, aby połączyć	Arrastra para conectar
+Drag to mini calendar or click to choose a day	Перетащите в мини-календарь или нажмите для выбора дня	Przeciągnij do minikalendarza lub kliknij, aby wybrać dzień	Arrastra al minicalendario o pulsa para elegir un día
+Edit recurring event	Изменить повторяющееся событие	Edytuj powtarzające się wydarzenie	Editar evento recurrente
+Entry library	Библиотека записей	Biblioteka wpisów	Biblioteca de entradas
+Exercise name	Название упражнения	Nazwa ćwiczenia	Nombre del ejercicio
+Exercise queue	Очередь упражнений	Kolejka ćwiczeń	Cola de ejercicios
+Filter Journal by entry date	Фильтр дневника по дате записи	Filtruj dziennik według daty wpisu	Filtrar diario por fecha de entrada
+Filter projects	Фильтр проектов	Filtruj projekty	Filtrar proyectos
+Italic	Курсив	Kursywa	Cursiva
+Keep this workout in your library	Сохранить тренировку в библиотеке	Zachowaj trening w bibliotece	Conservar entrenamiento en la biblioteca
+Logged sets	Записанные подходы	Zapisane serie	Series registradas
+More Canvas actions	Другие действия холста	Więcej działań tablicy	Más acciones del lienzo
+More actions	Другие действия	Więcej działań	Más acciones
+Next month	Следующий месяц	Następny miesiąc	Mes siguiente
+Next training week	Следующая тренировочная неделя	Następny tydzień treningowy	Siguiente semana de entrenamiento
+Note title (optional)	Название заметки (необязательно)	Tytuł notatki (opcjonalny)	Título de nota (opcional)
+Open settings	Открыть настройки	Otwórz ustawienia	Abrir ajustes
+Open streaks and history	Открыть серии и историю	Otwórz serie i historię	Abrir rachas e historial
+Preview schedule	Предпросмотр расписания	Podgląd harmonogramu	Vista previa del horario
+Previous month	Предыдущий месяц	Poprzedni miesiąc	Mes anterior
+Previous training week	Предыдущая тренировочная неделя	Poprzedni tydzień treningowy	Semana de entrenamiento anterior
+Project task deadline	Дедлайн задачи проекта	Termin zadania projektu	Fecha límite de tarea del proyecto
+Remove subtask	Удалить подзадачу	Usuń podzadanie	Eliminar subtarea
+Remove task	Удалить задачу	Usuń zadanie	Eliminar tarea
+Rename Canvas	Переименовать холст	Zmień nazwę tablicy	Renombrar lienzo
+Repeating event	Повторяющееся событие	Powtarzające się wydarzenie	Evento recurrente
+Reps / seconds / weight	Повторы / секунды / вес	Powtórzenia / sekundy / ciężar	Repeticiones / segundos / peso
+Resize	Изменить размер	Zmień rozmiar	Cambiar tamaño
+Resize Board and Workflow	Изменить размер доски и плана	Zmień rozmiar tablicy i planu	Cambiar tamaño del tablero y del plan
+Review calendar move	Проверить перенос в календаре	Sprawdź przeniesienie w kalendarzu	Revisar traslado en el calendario
+Schedule task session	Запланировать работу над задачей	Zaplanuj sesję zadania	Programar sesión de tarea
+Schedule workout	Запланировать тренировку	Zaplanuj trening	Programar entrenamiento
+Search canvases	Поиск холстов	Szukaj tablic	Buscar lienzos
+Search current library	Поиск в текущей библиотеке	Szukaj w bieżącej bibliotece	Buscar en la biblioteca actual
+Search history	Поиск в истории	Szukaj w historii	Buscar en el historial
+Search projects	Поиск проектов	Szukaj projektów	Buscar proyectos
+Separate tags with commas	Разделяйте теги запятыми	Oddzielaj tagi przecinkami	Separa las etiquetas con comas
+Separate with commas	Разделяйте запятыми	Oddzielaj przecinkami	Separa con comas
+Shared with Projects. Saving changes the task deadline; deleting removes its deadline, not the task.	Связано с проектами. Сохранение меняет срок задачи; удаление убирает срок, сохраняя задачу.	Powiązane z projektami. Zapis zmienia termin zadania; usunięcie usuwa termin, zachowując zadanie.	Vinculado a Proyectos. Guardar cambia la fecha límite; eliminar quita la fecha, conservando la tarea.
+Sort canvases	Сортировка холстов	Sortuj tablice	Ordenar lienzos
+Sport sections	Разделы спорта	Sekcje sportu	Secciones de deporte
+Start with an idea…	Начни с идеи…	Zacznij od pomysłu…	Empieza con una idea…
+Subtask title	Название подзадачи	Tytuł podzadania	Título de subtarea
+Subtract 15 seconds	Убавить 15 секунд	Odejmij 15 sekund	Restar 15 segundos
+Task or project name	Название задачи или проекта	Nazwa zadania lub projektu	Nombre de tarea o proyecto
+Technique notes and rest presets	Заметки о технике и настройки отдыха	Notatki o technice i ustawienia odpoczynku	Notas de técnica y ajustes de descanso
+Text formatting	Форматирование текста	Formatowanie tekstu	Formato de texto
+Title (optional)	Название (необязательно)	Tytuł (opcjonalny)	Título (opcional)
+Toggle item	Переключить пункт	Przełącz element	Alternar elemento
+Untitled	Без названия	Bez tytułu	Sin título
+What is this session for?	Для чего эта сессия?	Czego dotyczy ta sesja?	¿Para qué es esta sesión?
+What needs to be done?	Что нужно сделать?	Co trzeba zrobić?	¿Qué hay que hacer?
+Your habits	Твои привычки	Twoje nawyki	Tus hábitos
+e.g. Pull A	например, Тяга A	np. Przyciąganie A	p. ej., Tracción A
+e.g. rings	например, кольца	np. kółka	p. ej., anillas
+Add event {date} {time}	Добавить событие {date} {time}	Dodaj wydarzenie {date} {time}	Añadir evento {date} {time}
+Current time {time}	Текущее время {time}	Aktualna godzina {time}	Hora actual {time}
+Profile (settings inside)	Профиль и настройки	Profil i ustawienia	Perfil y ajustes
+15 minutes	15 минут	15 minut	15 minutos
+30 minutes	30 минут	30 minut	30 minutos
+1 hour	1 час	1 godzina	1 hora
+{zone} · Click a time to add an event. Drag an event to move it. Hold an event to complete, or press Shift+Enter. Open it to edit.	{zone} · Нажми на время, чтобы добавить событие. Перетащи для переноса. Удерживай или нажми Shift+Enter для завершения. Открой для редактирования.	{zone} · Kliknij godzinę, aby dodać wydarzenie. Przeciągnij, aby je przenieść. Przytrzymaj lub naciśnij Shift+Enter, aby ukończyć. Otwórz, aby edytować.	{zone} · Haz clic en una hora para añadir un evento. Arrastra para moverlo. Mantén pulsado o usa Mayús+Intro para completarlo. Ábrelo para editar.
+{zone} · Click a time to add an event. Drag an event to move it. Open it to edit its duration or mark it complete.	{zone} · Нажмите на время для создания события. Перетащите для переноса. Откройте для изменения длительности или завершения.	{zone} · Kliknij godzinę, aby dodać wydarzenie. Przeciągnij, aby przenieść. Otwórz, aby zmienić długość lub ukończyć.	{zone} · Haz clic en una hora para añadir un evento. Arrastra para moverlo. Ábrelo para editar la duración o completarlo.
+{count} events · {zone}	Событий: {count} · {zone}	Wydarzenia: {count} · {zone}	Eventos: {count} · {zone}
+{done} / {count} tasks	Задачи: {done} / {count}	Zadania: {done} / {count}	Tareas: {done} / {count}
+{done} / {count} tasks complete	Выполнено задач: {done} / {count}	Ukończone zadania: {done} / {count}	Tareas completadas: {done} / {count}
+{count} planned sessions	Запланировано занятий: {count}	Zaplanowane sesje: {count}	Sesiones planificadas: {count}
+{duration} estimated	Оценка времени: {duration}	Szacowany czas: {duration}	Tiempo estimado: {duration}
+{count} exercises	Упражнений: {count}	Ćwiczenia: {count}	Ejercicios: {count}
+{count} workouts	Тренировок: {count}	Treningi: {count}	Entrenamientos: {count}
+{count} min / cycle	Минут на цикл: {count}	Minut na cykl: {count}	Minutos por ciclo: {count}
+{done} / {count} sets logged	Записано подходов: {done} / {count}	Zapisane serie: {done} / {count}	Series registradas: {done} / {count}
+{done} of {count} sets completed	Выполнено подходов: {done} из {count}	Ukończone serie: {done} z {count}	Series completadas: {done} de {count}
+{done} / {count} obligations	Выполнено: {done} / {count}	Wykonano: {done} / {count}	Completado: {done} / {count}
+{count} completed days	Выполнено дней: {count}	Ukończone dni: {count}	Días completados: {count}
+{count} cards · {connections} connections	Карточек: {count} · Связей: {connections}	Karty: {count} · Połączenia: {connections}	Tarjetas: {count} · Conexiones: {connections}
+{count}% complete	Выполнено: {count}%	Ukończono: {count}%	Completado: {count}%
+Search Notes…	Поиск заметок…	Szukaj notatek…	Buscar notas…
+Search Journal…	Поиск в дневнике…	Szukaj w dzienniku…	Buscar en el diario…
+15-minute steps · {zone}	Шаг 15 минут · {zone}	Krok 15 minut · {zone}	Intervalos de 15 minutos · {zone}
+Find a training window	Найти время для тренировки	Znajdź czas na trening	Buscar tiempo para entrenar
+PROGRAM {count}	ПРОГРАММА {count}	PROGRAM {count}	PROGRAMA {count}
+Show {date}	Показать {date}	Pokaż {date}	Mostrar {date}
+{date} training timeline, 08:00 to 22:00	Тренировки {date}, с 08:00 до 22:00	Treningi {date}, od 08:00 do 22:00	Entrenamientos {date}, de 08:00 a 22:00
+Schedule {name}	Запланировать: {name}	Zaplanuj: {name}	Programar: {name}
+Place {name} in mini calendar	Поместить в мини-календарь: {name}	Umieść w minikalendarzu: {name}	Colocar en el minicalendario: {name}
+Pause workout	Приостановить тренировку	Wstrzymaj trening	Pausar entrenamiento
+Pause rest	Приостановить отдых	Wstrzymaj odpoczynek	Pausar descanso
+Resume rest	Продолжить отдых	Wznów odpoczynek	Reanudar descanso
+Workout mode · one exercise at a time	Режим тренировки · одно упражнение за раз	Tryb treningu · jedno ćwiczenie naraz	Modo entrenamiento · un ejercicio a la vez
+Short session · original program unchanged	Короткая тренировка · исходная программа сохранена	Krótki trening · oryginalny program bez zmian	Sesión corta · programa original sin cambios
+No previous logged result	Предыдущих результатов пока нет	Brak wcześniejszych wyników	Aún no hay resultados anteriores
+Sets are recorded only when you press Log.	Подход засчитывается только после нажатия кнопки записи.	Seria jest zaliczana dopiero po naciśnięciu przycisku zapisu.	La serie cuenta solo al pulsar el botón de registro.
+Workout paused. Resume to log results.	Тренировка на паузе. Продолжи её, чтобы записывать результаты.	Trening wstrzymany. Wznów go, aby zapisywać wyniki.	Entrenamiento en pausa. Reanúdalo para registrar resultados.
+← Previous exercise	← Предыдущее упражнение	← Poprzednie ćwiczenie	← Ejercicio anterior
+Next exercise →	Следующее упражнение →	Następne ćwiczenie →	Siguiente ejercicio →
+Review results →	Посмотреть результаты →	Sprawdź wyniki →	Revisar resultados →
+Review your actual results before saving	Проверь свои результаты перед сохранением	Sprawdź wyniki przed zapisaniem	Revisa tus resultados antes de guardar
+The linked Calendar session will be marked complete after saving.	Связанная тренировка в календаре будет выполнена после сохранения.	Powiązany trening w kalendarzu zostanie ukończony po zapisaniu.	La sesión vinculada del calendario se marcará como completada al guardar.
+The session will be added to History and Progress.	Тренировка появится в истории и прогрессе.	Trening pojawi się w historii i postępach.	La sesión aparecerá en el historial y el progreso.
+No sets logged	Подходы не записаны	Brak zapisanych serii	No hay series registradas
+A practice built on your own records.	История твоих тренировок и результатов.	Historia Twoich treningów i wyników.	Un historial de tus entrenamientos y resultados.
+Warm-up	Разминочный	Rozgrzewkowa	Calentamiento
+Working	Рабочий	Robocza	Trabajo
+Heavy	Тяжёлый	Ciężka	Intensa
+Actual set {count} · {unit}	Результат подхода {count} · {unit}	Wynik serii {count} · {unit}	Resultado de la serie {count} · {unit}
+Set {count} kind	Тип подхода {count}	Rodzaj serii {count}	Tipo de serie {count}
+Log set {count}	Записать подход {count}	Zapisz serię {count}	Registrar serie {count}
+Logged set {count}	Подход {count} записан	Seria {count} zapisana	Serie {count} registrada
+Undo set {count}	Отменить подход {count}	Cofnij serię {count}	Deshacer serie {count}
+Warm-up {count}s	Разминка: {count} сек.	Rozgrzewka: {count} s	Calentamiento: {count} s
+Working {count}s	Рабочий: {count} сек.	Robocza: {count} s	Trabajo: {count} s
+Heavy {count}s	Тяжёлый: {count} сек.	Ciężka: {count} s	Intensa: {count} s
+{time} · Paused	{time} · Пауза	{time} · Pauza	{time} · Pausa
+Target {target} · {count} sets ·	Цель: {target} · Подходов: {count} ·	Cel: {target} · Serie: {count} ·	Objetivo: {target} · Series: {count} ·
+Target {target} · {count} sets · {equipment}	Цель: {target} · Подходов: {count} · {equipment}	Cel: {target} · Serie: {count} · {equipment}	Objetivo: {target} · Series: {count} · {equipment}
+{count} unfinished set will stay uncompleted.	Останется незавершённых подходов: {count}.	Niezakończone serie: {count}.	Series que quedarán sin completar: {count}.
+{count} unfinished sets will stay uncompleted.	Останется незавершённых подходов: {count}.	Niezakończone serie: {count}.	Series que quedarán sin completar: {count}.
+{count} entered result has not been logged. Return to the workout to log them.	Введено, но не записано результатов: {count}. Вернись к тренировке, чтобы записать их.	Wpisane, ale niezapisane wyniki: {count}. Wróć do treningu, aby je zapisać.	Resultados introducidos sin registrar: {count}. Vuelve al entrenamiento para registrarlos.
+{count} entered results have not been logged. Return to the workout to log them.	Введено, но не записано результатов: {count}. Вернись к тренировке, чтобы записать их.	Wpisane, ale niezapisane wyniki: {count}. Wróć do treningu, aby je zapisać.	Resultados introducidos sin registrar: {count}. Vuelve al entrenamiento para registrarlos.
+{workouts} completed workouts · {sets} completed sets · {minutes} active minutes · {days} training days	Тренировок: {workouts} · Подходов: {sets} · Активных минут: {minutes} · Дней тренировок: {days}	Treningi: {workouts} · Serie: {sets} · Aktywne minuty: {minutes} · Dni treningowe: {days}	Entrenamientos: {workouts} · Series: {sets} · Minutos activos: {minutes} · Días de entrenamiento: {days}
+{date} · {count} sets · {minutes} min active	{date} · Подходов: {count} · Активных минут: {minutes}	{date} · Serie: {count} · Aktywne minuty: {minutes}	{date} · Series: {count} · Minutos activos: {minutes}
+Completed at {time} · {zone}	Завершено в {time} · {zone}	Ukończono o {time} · {zone}	Completado a las {time} · {zone}
+Linked calendar session	Связано с календарём	Powiązane z kalendarzem	Vinculado al calendario
+set {count}:	подход {count}:	seria {count}:	serie {count}:
+target at start: {target}	цель на старте: {target}	cel na początku: {target}	objetivo inicial: {target}
+{date} · last comparable session	{date} · последняя сопоставимая тренировка	{date} · ostatni porównywalny trening	{date} · última sesión comparable
+{date} · {count} logged sets	{date} · Записано подходов: {count}	{date} · Zapisane serie: {count}	{date} · Series registradas: {count}
+Workout recorded · {sets} sets · {exercises} exercises · {minutes} active min	Тренировка записана · Подходов: {sets} · Упражнений: {exercises} · Активных минут: {minutes}	Trening zapisany · Serie: {sets} · Ćwiczenia: {exercises} · Aktywne minuty: {minutes}	Entrenamiento guardado · Series: {sets} · Ejercicios: {exercises} · Minutos activos: {minutes}
+workouts	тренировки	treningi	entrenamientos
+minutes	минуты	minuty	minutos
+% · daily schedules	% · ежедневные привычки	% · codzienne nawyki	% · hábitos diarios
+{date}: {count} workouts	{date}: тренировок — {count}	{date}: treningi — {count}	{date}: entrenamientos — {count}
+{date}: {count} tasks	{date}: задач — {count}	{date}: zadania — {count}	{date}: tareas — {count}
+{date}: {value} minutes	{date}: минут — {value}	{date}: minuty — {value}	{date}: minutos — {value}
+{date}: No schedule	{date}: нет расписания	{date}: brak harmonogramu	{date}: sin horario
+{date}: {value} % · daily schedules	{date}: {value} % · ежедневные привычки	{date}: {value} % · codzienne nawyki	{date}: {value} % · hábitos diarios
+Complete this field.	Заполни это поле.	Uzupełnij to pole.	Completa este campo.
+Choose date	Выбрать дату	Wybierz datę	Elegir fecha

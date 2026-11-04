@@ -1,0 +1,18 @@
+{
+  "version": "6.1",
+  "status": "approved",
+  "supersedes": "Motion Master v5 Path Pulse behavior only",
+  "retains": "All other Motion Master v5 sections unchanged",
+  "chargeHoldMs": 800,
+  "forcePercent": 125,
+  "radiusPx": 560,
+  "neighborReturnMs": 1060,
+  "neighborHighlightFadeMs": 1010,
+  "centralReturnMs": 850,
+  "neighborDirection": "360deg radial from completed card",
+  "neighborHorizontalBias": 1.43,
+  "directionDependentStaggerMsMax": 410,
+  "reverseOvershoot": 0,
+  "keyboardAndReducedMotion": "must support",
+  "completion": "only after confirmed persistence; demo uses simulated save"
+}

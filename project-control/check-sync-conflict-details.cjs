@@ -1,0 +1,10 @@
+const assert=require('node:assert/strict');
+const {Replica,changes}=require('../cloud-sync/replica.cjs');
+const base={schema:1,homeTasks:[{id:'t',title:'Original'}],projects:[]},local=structuredClone(base),remote=structuredClone(base);local.homeTasks[0].title='Local';remote.homeTasks[0].done=true;
+const create=()=>{let raw=null;return new Replica({ownerId:'a',store:{read:()=>raw,write:v=>raw=v}});};
+const r=create();r.capture(base);r.prepare({revision:1,payload:base});r.capture(local);assert.equal(r.prepare({revision:2,payload:remote}).kind,'conflict');assert.deepEqual(r.status().details.local.items[0].fields,['title']);assert.deepEqual(r.status().details.remote.items[0].fields,['done']);
+r.capture(base);assert.equal(r.prepare({revision:2,payload:remote}).kind,'pull');assert(!r.status().conflict);
+r.capture(local);assert.equal(r.prepare({revision:3,payload:base}).kind,'conflict');assert.equal(r.prepare({revision:4,payload:local}).kind,'pull');assert(!r.status().conflict);
+r.capture(remote);r.prepare({revision:5,payload:base});assert.throws(()=>r.prepare({revision:4,payload:local}),/backwards/);assert.throws(()=>r.prepare({revision:5,payload:remote}),/without a revision/);
+assert.equal(changes(null,base),null);assert.equal(changes(base,base).count,0);
+console.log('PASS conflict detail field reporting, reverted/equal conflict recovery and stale/reused revision rejection');

@@ -1,0 +1,8 @@
+{
+  "enabled": false,
+  "phase": "tasks-projects-private-test",
+  "schemaVersion": 1,
+  "maxSnapshotBytes": 2097152,
+  "conflictPolicy": "manual-preserve-both",
+  "scope": "personal"
+}

@@ -1,0 +1,78 @@
+{
+  "version": "2.0",
+  "pixel_style_reference": "latest approved Ionic sidebar image",
+  "viewBox": {
+    "width": 180,
+    "height": 1190
+  },
+  "tab_order": [
+    {
+      "id": "today_temple",
+      "label": "Today · Greek temple",
+      "y": 216,
+      "svg": "01_today_temple.svg"
+    },
+    {
+      "id": "calendar",
+      "label": "Calendar",
+      "y": 327,
+      "svg": "02_calendar.svg"
+    },
+    {
+      "id": "sport",
+      "label": "Sport",
+      "y": 438,
+      "svg": "03_sport.svg"
+    },
+    {
+      "id": "projects",
+      "label": "Projects",
+      "y": 549,
+      "svg": "04_projects.svg"
+    },
+    {
+      "id": "canvas",
+      "label": "Canvas",
+      "y": 660,
+      "svg": "05_canvas.svg"
+    },
+    {
+      "id": "habits",
+      "label": "Habits",
+      "y": 771,
+      "svg": "06_habits.svg"
+    },
+    {
+      "id": "notes",
+      "label": "Notes / Journal",
+      "y": 882,
+      "svg": "07_notes.svg"
+    },
+    {
+      "id": "progress",
+      "label": "Progress",
+      "y": 993,
+      "svg": "08_progress.svg"
+    }
+  ],
+  "profile": "09_profile.svg (outside sidebar)",
+  "settings": "10_settings.svg (inside Profile only)",
+  "states": [
+    "idle",
+    "hover",
+    "active"
+  ],
+  "single_focus_frame": "svg/column/Active_Focus_Frame.svg",
+  "motion": {
+    "frame_ms": 560,
+    "frame_easing": "cubic-bezier(.18,1.15,.32,1)",
+    "hover_ms": 180,
+    "press_min_scale": 0.92,
+    "reduced_motion": "instant"
+  },
+  "notes": [
+    "Icons are vector. Profile/Settings are not counted among the eight sidebar tabs.",
+    "No permanent right-side labels.",
+    "At small viewport heights, use responsive nav."
+  ]
+}

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="71" height="375" viewBox="0 0 71 375" role="img" aria-label="Path 2.0 Ionic navigation column without icons">
+  <title>Path 2.0 — Ionic column, no icons</title>
+  <desc>Scalable transparent-background vector reconstruction of the provided navigation column: two Ionian scrolls, dark rectangular shaft, small upper cap and two perfectly straight lower lines; no navigation icons or selection frame.</desc>
+  <defs>
+    <linearGradient id="shaftFill" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.03"/>
+      <stop offset="12%" stop-color="#151618" stop-opacity=".85"/>
+      <stop offset="32%" stop-color="#1A1B1C" stop-opacity=".88"/>
+      <stop offset="52%" stop-color="#18191A" stop-opacity=".92"/>
+      <stop offset="75%" stop-color="#171819" stop-opacity=".82"/>
+      <stop offset="92%" stop-color="#141516" stop-opacity=".75"/>
+      <stop offset="100%" stop-color="#090A0B" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="shaftVertical" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#171719" stop-opacity=".10"/>
+      <stop offset="10%" stop-color="#1C1D1F" stop-opacity=".18"/>
+      <stop offset="88%" stop-color="#18191A" stop-opacity=".11"/>
+      <stop offset="100%" stop-color="#141516" stop-opacity=".02"/>
+    </linearGradient>
+    <linearGradient id="ivory" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8E8E8"/>
+      <stop offset="100%" stop-color="#D6D6D6"/>
+    </linearGradient>
+    <filter id="luminous" x="-85%" y="-120%" width="270%" height="340%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.65" result="glow"/>
+      <feColorMatrix in="glow" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .39 0" result="dimGlow"/>
+      <feMerge><feMergeNode in="dimGlow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="diffuse" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+
+  <!-- Dark supporting shaft: straight sided, no taper or rounded ends. -->
+  <rect x="13.7" y="33.0" width="33.3" height="315.7" fill="url(#shaftFill)"/>
+  <rect x="14.0" y="33.0" width="32.9" height="315.7" fill="url(#shaftVertical)"/>
+  <path d="M14.7 38 V347" fill="none" stroke="#414244" stroke-opacity=".085" stroke-width=".75"/>
+  <path d="M46.0 39 V347" fill="none" stroke="#464749" stroke-opacity=".06" stroke-width=".7"/>
+
+  <!-- Discrete upper straight cap; no link to volutes. -->
+  <g filter="url(#luminous)" stroke="#E9E9E9" stroke-width="1.12" stroke-linecap="square" fill="none">
+    <path d="M17.0 17.25 H41.4"/>
+  </g>
+
+  <!-- Ionic cap: gracefully opposing volutes, same dimensions as reference, subtle warm-white glow. -->
+  <g filter="url(#luminous)" fill="none" stroke="#E9E9E9" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M29.2 21.35 H13.4 C9.8 21.35 7.0 23.55 6.8 27.65 C6.55 32.35 10.35 35.15 14.65 34.88 C18.75 34.6 21.25 31.64 20.62 28.15 C20.13 25.42 17.87 24.25 15.61 24.65 C13.30 25.05 11.84 26.83 12.20 28.86 C12.50 30.45 14.38 31.34 15.85 30.60 C16.58 30.24 16.95 29.48 16.77 28.75"/>
+    <path d="M29.2 21.35 H45.05 C48.85 21.35 51.75 23.55 52.00 27.65 C52.2 32.35 48.40 35.15 44.15 34.88 C39.95 34.60 37.45 31.64 38.12 28.15 C38.62 25.42 40.88 24.25 43.16 24.65 C45.47 25.05 46.92 26.83 46.54 28.86 C46.26 30.45 44.38 31.34 42.90 30.60 C42.20 30.24 41.80 29.48 42.00 28.75"/>
+    <path d="M19.5 25.1 Q29.4 24.12 39.0 25.1" stroke-width="1.0" opacity=".83"/>
+  </g>
+
+  <!-- The foot follows the image: exactly TWO straight parallel bars, never spirals. -->
+  <g fill="none" stroke="#E6E6E6" stroke-width="1.6" stroke-linecap="square" filter="url(#luminous)">
+    <path d="M10.65 349.55 H50.55"/>
+    <path d="M10.65 357.15 H50.55"/>
+  </g>
+</svg>

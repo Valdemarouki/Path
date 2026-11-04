@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+role="img" aria-label="Notes / Journal — active">
+<title>Notes / Journal — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 2.75h8.2l4.25 4.2V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1Z" stroke-width="1.95"/>
+    <path d="M14.2 2.75v4.7h4.25M8 11h7.8M8 14.8h7.8M8 18.6h5.1"/>
+</g>
+</svg>

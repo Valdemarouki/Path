@@ -1,0 +1,13 @@
+.tab-heading-tools{display:flex;align-items:center;justify-content:flex-end;gap:24px;flex-shrink:0}
+.tab-philosopher{width:128px;height:168px;flex:none;pointer-events:none}
+.tab-philosopher .portrait-anchor{display:block;width:100%;height:100%}
+.tab-heading-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;max-width:420px}
+.tab-heading-actions>.row{flex-wrap:wrap;justify-content:flex-end}
+body[data-page=progress] .progress-overview{grid-template-columns:minmax(0,1fr)}
+@media(max-width:900px){.tab-heading-tools{gap:12px}.tab-philosopher{width:94px;height:123px}.tab-heading-actions{max-width:240px}}
+@media(max-width:650px){.page-intro:has(.tab-heading-tools){flex-wrap:wrap;align-items:center}.tab-heading-tools{flex:1;justify-content:space-between}.tab-philosopher{width:76px;height:100px}.tab-heading-actions{max-width:calc(100% - 92px);flex-wrap:wrap}}
+
+/* Keep title actions usable instead of squeezing them beside the heading. */
+@media(max-width:650px){.page-intro:has(.tab-heading-tools)>div:first-child{flex-basis:100%}.page-intro .tab-heading-tools{flex-basis:100%;min-width:0}.tab-heading-actions{flex:1;min-width:0}.tab-heading-actions .btn{white-space:nowrap}.tab-heading-actions>.row{gap:6px}}
+/* Keep Undo/Redo above the bottom navigation on compact windows. */
+@media(max-width:650px){.storage-tools{bottom:80px;left:14px;max-width:calc(100vw - 28px)}}

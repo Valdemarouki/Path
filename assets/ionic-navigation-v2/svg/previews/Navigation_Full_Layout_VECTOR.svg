@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1190" viewBox="0 0 1400 1190"><title>Path 2.0 Navigation vector presentation</title><rect width="1400" height="1190" fill="#111214"/>
+<rect x="230" y="42" width="1133" height="1103" rx="26" fill="#141516" stroke="#2D2E31" stroke-width="1.5"/>
+<text x="280" y="132" font-family="sans-serif" font-size="34" fill="#F0F0EE">Path 2.0</text>
+<text x="280" y="178" font-family="sans-serif" font-size="18" fill="#939598">Navigation · pure vector design preview</text>
+<path d="M280 222 H1310" stroke="#2D2E31" stroke-width="1.3"/>
+<svg x="8" y="0" width="180" height="1190" viewBox="0 0 180 1190"><defs>
+  <linearGradient id="shaft" x1="0" x2="1">
+    <stop stop-color="#08090A" stop-opacity=".65"/>
+    <stop offset=".13" stop-color="#242528" stop-opacity=".92"/>
+    <stop offset=".38" stop-color="#191A1C" stop-opacity=".98"/>
+    <stop offset=".68" stop-color="#141516" stop-opacity=".98"/>
+    <stop offset=".88" stop-color="#242527" stop-opacity=".92"/>
+    <stop offset="1" stop-color="#08090A" stop-opacity=".65"/>
+  </linearGradient>
+  <linearGradient id="innerSheen" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#ECECEC" stop-opacity=".06"/>
+    <stop offset=".3" stop-color="#FFFFFF" stop-opacity="0"/>
+    <stop offset=".75" stop-color="#FFFFFF" stop-opacity=".012"/>
+    <stop offset="1" stop-color="#EEEEEE" stop-opacity=".05"/>
+  </linearGradient>
+  <filter id="lineGlow" x="-160%" y="-160%" width="420%" height="420%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="3.0" result="blur"/>
+    <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 .34 0" result="dim"/>
+    <feMerge><feMergeNode in="dim"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="shadow" x="-100%" y="-100%" width="300%" height="300%">
+    <feGaussianBlur stdDeviation="9"/>
+  </filter>
+</defs>
+<rect x="40" y="129" width="100" height="977" rx="0" fill="#000" opacity=".35" filter="url(#shadow)"/>
+<rect x="44" y="122" width="92" height="978" fill="url(#shaft)"/>
+<rect x="44" y="122" width="92" height="978" fill="url(#innerSheen)"/>
+<path d="M44.8 132V1099 M135.2 132V1099" stroke="#DDDDDE" stroke-opacity=".13" stroke-width="1.1"/>
+<!-- Straight upper cap and Ionic volutes: intentionally do not merge column with a rounded sidebar. -->
+<g filter="url(#lineGlow)" stroke="#E8E9E9" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M38 46.5H142" stroke-width="3.15"/>
+  <path d="M58 73H122" stroke-width="2.5" opacity=".96"/>
+  <path d="M54 87.5H126" stroke-width="1.55" opacity=".8"/>
+  <path d="M89.9 65H44C27 65 18.2 73.8 18.2 89.2C18.2 105.5 29.3 113.4 41.7 112.6C53.7 111.8 61.4 103.1 59.6 92.8C58.6 84.4 52.1 79.7 44.5 80.8C36.5 81.8 33.6 87.9 34.7 93.3C35.7 98.6 41.4 101.2 45.8 99.2C48.2 98.0 49.1 95.9 48.6 94.0" stroke-width="3.35"/>
+  <path d="M90.1 65H136C153 65 161.8 73.8 161.8 89.2C161.8 105.5 150.7 113.4 138.3 112.6C126.3 111.8 118.6 103.1 120.4 92.8C121.4 84.4 127.9 79.7 135.5 80.8C143.5 81.8 146.4 87.9 145.3 93.3C144.3 98.6 138.6 101.2 134.2 99.2C131.8 98.0 130.9 95.9 131.4 94.0" stroke-width="3.35"/>
+  <path d="M31 1118.3H149 M31 1136.3H149" stroke-width="3.25" stroke-linecap="square"/>
+</g>
+</svg><rect x="8" y="0" width="180" height="1190" opacity="0" /><rect x="50" y="169" width="96" height="94" rx="18" fill="#202124" fill-opacity=".23" stroke="#D8D9DA" stroke-width="1.8" filter="url(#lineGlow)"/><svg x="74" y="192" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Today · Greek temple — active</title>
+<g fill="none" stroke="#F1F1F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 9 12 3.5 21.4 9v1.4H2.6Z" fill="#F1F1F0" stroke="#F1F1F0"/>
+    <path d="M4.3 20.1h15.4M3.4 22h17.2M5 11h14" />
+    <path d="M6.7 11.5v8M11.7 11.5v8M16.7 11.5v8" fill="#F1F1F0" stroke="#F1F1F0"/>
+</g>
+</svg><svg x="74" y="303" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Calendar — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.6" y="5.3" width="16.8" height="16.1" rx="2.5"/>
+    <path d="M7.7 3.2v4.2M16.3 3.2v4.2M3.6 9.5h16.8"/>
+    <rect x="7.1" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="11" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="14.9" y="12.7" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="7.1" y="16.5" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+    <rect x="11" y="16.5" width="2.1" height="2.1" rx=".3" fill="#BABCC0" stroke="none"/>
+</g>
+</svg><svg x="74" y="414" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Sport — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4.6 9.2H2.9a1 1 0 0 0-1 1v3.6a1 1 0 0 0 1 1h1.7M9.2 11.3h5.6M9.2 12.7h5.6M19.4 9.2h1.7a1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1h-1.7"/>
+    <rect x="4.7" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+    <rect x="15.1" y="5.4" width="4.2" height="13.2" rx="1.25"/>
+</g>
+</svg><svg x="74" y="525" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Projects — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<rect x="3.2" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="3.2" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="3.2" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+    <rect x="13.6" y="13.6" width="7.2" height="7.2" rx="1.2"/>
+</g>
+</svg><svg x="74" y="636" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Canvas — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6.7 15.7 10.6 8.5M13.5 8.3l4.1 7.7M8.2 18.5l8.1.5" />
+    <circle cx="12.0" cy="5.6" r="3.15"/>
+    <circle cx="5.5" cy="18" r="3.15"/>
+    <circle cx="19" cy="18.4" r="3.15"/>
+</g>
+</svg><svg x="74" y="747" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Habits — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M19 7.4a8.6 8.6 0 1 1-2.8-2.7"/>
+    <path d="m7.9 12.1 2.8 2.8 5.9-6.2"/>
+    <circle cx="18.9" cy="4.8" r="1.55" fill="#BABCC0" stroke="none"/>
+</g>
+</svg><svg x="74" y="858" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Notes / Journal — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M6 2.75h8.2l4.25 4.2V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.75a1 1 0 0 1 1-1Z"/>
+    <path d="M14.2 2.75v4.7h4.25M8 11h7.8M8 14.8h7.8M8 18.6h5.1"/>
+</g>
+</svg><svg x="74" y="969" width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<title>Progress — idle</title>
+<g fill="none" stroke="#BABCC0" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round">
+<path d="M2.6 22h19"/>
+    <rect x="4.1" y="15.1" width="3.5" height="6.9" rx=".8"/>
+    <rect x="10.25" y="10.0" width="3.5" height="12" rx=".8"/>
+    <rect x="16.4" y="4.7" width="3.5" height="17.3" rx=".8"/>
+</g>
+</svg><text x="295" y="295" fill="#EAEAEA" font-family="sans-serif" font-size="25">Today</text>
+<text x="500" y="295" fill="#86898C" font-family="sans-serif" font-size="18">Greek temple</text><text x="295" y="388" fill="#EAEAEA" font-family="sans-serif" font-size="25">Calendar</text>
+<text x="500" y="388" fill="#86898C" font-family="sans-serif" font-size="18">Minimal calendar</text><text x="295" y="481" fill="#EAEAEA" font-family="sans-serif" font-size="25">Sport</text>
+<text x="500" y="481" fill="#86898C" font-family="sans-serif" font-size="18">Dumbbell</text><text x="295" y="574" fill="#EAEAEA" font-family="sans-serif" font-size="25">Projects</text>
+<text x="500" y="574" fill="#86898C" font-family="sans-serif" font-size="18">Four panels</text><text x="295" y="667" fill="#EAEAEA" font-family="sans-serif" font-size="25">Canvas</text>
+<text x="500" y="667" fill="#86898C" font-family="sans-serif" font-size="18">Connected nodes</text><text x="295" y="760" fill="#EAEAEA" font-family="sans-serif" font-size="25">Habits</text>
+<text x="500" y="760" fill="#86898C" font-family="sans-serif" font-size="18">Completion ring</text><text x="295" y="853" fill="#EAEAEA" font-family="sans-serif" font-size="25">Notes</text>
+<text x="500" y="853" fill="#86898C" font-family="sans-serif" font-size="18">Folded document</text><text x="295" y="946" fill="#EAEAEA" font-family="sans-serif" font-size="25">Progress</text>
+<text x="500" y="946" fill="#86898C" font-family="sans-serif" font-size="18">Ascending bars</text></svg>

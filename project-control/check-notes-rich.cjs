@@ -1,0 +1,21 @@
+const fs=require('fs'),vm=require('vm'),assert=require('assert/strict'),path=require('path');const {JSDOM,VirtualConsole}=require('./i18n-tools/node_modules/jsdom');const root=path.resolve(__dirname,'..');
+const d=new JSDOM(fs.readFileSync(root+'/path2-beta-standalone.html','utf8').replace(/<script>[\s\S]*?<\/script>/g,''),{url:'https://path.test',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:new VirtualConsole()}),w=d.window,run=s=>vm.runInContext(s,d.getInternalVMContext());
+w.matchMedia=()=>({matches:true,addEventListener(){}});w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};
+for(const f of ['check0.js','check1.js'])run(fs.readFileSync(root+'/'+f,'utf8'));
+run(`data=pathEmpty();data.notes=[{id:'n',kind:'note',title:'Note',body:'Hello world',updatedAt:'2026-10-30T12:00:00Z'}];save();openNoteDocument('n');`);
+const rich=w.document.querySelector('#note-rich-body');assert(rich);assert(w.document.querySelector('#note-body').hidden);assert.equal(w.document.querySelector('[data-note-preview]'),null);
+const original=run('data.notes[0].body');run('flushNote()');assert.equal(run('data.notes[0].body'),original,'opening rich editor must not rewrite legacy text');
+const range=w.document.createRange();range.selectNodeContents(rich.querySelector('p').firstChild);range.setEnd(rich.querySelector('p').firstChild,5);w.getSelection().removeAllRanges();w.getSelection().addRange(range);
+// Native Chromium editing is mocked here; validate actual toolbar wiring and storage.
+w.document.execCommand=(command,_ui,value)=>{const selected=w.getSelection().getRangeAt(0);if(command==='bold'){const b=w.document.createElement('b');selected.surroundContents(b);}else if(command==='insertText'){selected.deleteContents();selected.insertNode(w.document.createTextNode(value));}else throw Error('Unexpected command '+command);return true;};
+w.document.querySelector('[data-note-format="bold"]').click();assert.equal(rich.querySelector('b').textContent,'Hello');assert.equal(run('noteDraft.body'),'**Hello** world');assert(run('noteDirty'));run('flushNote()');assert.equal(run('data.notes[0].body'),'**Hello** world');
+run("openNoteDocument('n')");assert.equal(w.document.querySelector('#note-rich-body strong').textContent,'Hello');
+const fixtures=[['<h2>Title</h2><p><b>Bold</b> and <i>italic</i></p>','## Title\n**Bold** and *italic*'],['<ul><li>One</li><li>Two</li></ul>','- One\n- Two'],['<p>☐ Test</p><p>☑ Done</p>','- [ ] Test\n- [x] Done'],['<blockquote>Quote</blockquote><pre><code>a &lt; b\nnext</code></pre>','> Quote\n```\na < b\nnext\n```'],['<div>A<div>B</div></div>','A\nB']];
+for(const [html,expected] of fixtures){const el=w.document.createElement('div');el.innerHTML=html;w.fixtureRoot=el;assert.equal(run('pathNoteRichMarkdown(fixtureRoot)'),expected);}
+assert.equal(run("noteInline('**bold *italic***')"),'<strong>bold <em>italic</em></strong>');assert.equal(run("noteInline('*italic **bold***')"),'<em>italic <strong>bold</strong></em>');
+assert(!run("pathNoteRichMarkup('<img src=x onerror=alert(1)>')").includes('<img'));
+// Flush failure retains the rich draft and does not replace the mounted editor.
+const live=w.document.querySelector('#note-rich-body');live.innerHTML='<p>Latest <strong>draft</strong></p>';live.dispatchEvent(new w.Event('input',{bubbles:true}));const setItem=w.Storage.prototype.setItem;w.Storage.prototype.setItem=()=>{throw Error('quota');};assert.equal(run('flushNote()'),false);assert.equal(run('noteDraft.body'),'Latest **draft**');assert.equal(w.document.querySelector('#note-rich-body'),live);w.Storage.prototype.setItem=setItem;assert(run('flushNote()'));
+// Rich selection remains available to the existing task-from-selection action.
+const r=w.document.createRange();r.selectNodeContents(live);w.getSelection().removeAllRanges();w.getSelection().addRange(r);assert.equal(run('pathNoteRichSelection()'),'Latest draft');
+console.log('PASS rich DOM, hidden compatibility field, toolbar selection/Markdown save/reopen, headings/lists/checklists/quotes/code serialization, escaped HTML, draft retention/retry and task selection. Native execCommand mocked; Windows typing/Undo/IME requires manual QA.');d.window.close();

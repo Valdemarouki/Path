@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+ xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+ xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+ xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+ xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
+ IgnorableNamespaces="uap desktop6 rescap virtualization">
+ <Identity Name="__IDENTITY__" Publisher="__PUBLISHER__" Version="__VERSION__" ProcessorArchitecture="x64" />
+ <Properties>
+  <DisplayName>Path 2.0</DisplayName><PublisherDisplayName>__PUBLISHER_DISPLAY__</PublisherDisplayName><Logo>Assets\StoreLogo.png</Logo>
+  <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+  <virtualization:FileSystemWriteVirtualization><virtualization:ExcludedDirectories>
+   <virtualization:ExcludedDirectory>$(KnownFolder:RoamingAppData)\Path-Paperclip-Test</virtualization:ExcludedDirectory>
+  </virtualization:ExcludedDirectories></virtualization:FileSystemWriteVirtualization>
+ </Properties>
+ <Resources><Resource Language="en-US"/><Resource Language="ru-RU"/><Resource Language="pl-PL"/><Resource Language="es-ES"/></Resources>
+ <Dependencies><TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26100.0"/></Dependencies>
+ <Applications><Application Id="Path2" Executable="app\Path 2.0.exe" EntryPoint="Windows.FullTrustApplication">
+  <uap:VisualElements DisplayName="Path 2.0" Description="Your personal planner" BackgroundColor="#111214" Square44x44Logo="Assets\Square44x44Logo.png" Square150x150Logo="Assets\Square150x150Logo.png" />
+ </Application></Applications>
+ <Capabilities><rescap:Capability Name="runFullTrust"/><rescap:Capability Name="unvirtualizedResources"/></Capabilities>
+</Package>

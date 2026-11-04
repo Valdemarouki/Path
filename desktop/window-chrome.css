@@ -1,0 +1,18 @@
+/* Native Windows controls are painted by Electron's Window Controls Overlay. */
+.path-window-chrome{position:fixed;inset:0 0 auto;height:32px;background:#101111;z-index:2147483646;user-select:none;pointer-events:none}
+.path-window-drag{position:absolute;top:0;left:env(titlebar-area-x,0px);width:env(titlebar-area-width,calc(100% - 144px));height:32px;-webkit-app-region:drag;app-region:drag;pointer-events:auto}
+.topbar{top:46px!important}
+.topbar .brand{display:none!important}
+.topbar .topright{margin-left:auto}
+.app-main{padding-top:112px!important}
+#editor-overlay .editor{max-height:calc(100vh - 60px)}
+@media (display-mode:fullscreen){.path-window-chrome{display:none}}
+/* Keep the profile reachable beneath the native caption buttons while scrolling. */
+.topbar{z-index:61}
+.topbar [data-profile-toggle]{position:fixed;top:46px;right:32px;display:grid!important;width:44px!important;height:44px!important;transform-origin:top right;transform:scale(1);transition:transform 180ms ease,background 180ms ease;-webkit-app-region:no-drag;app-region:no-drag}
+body.path-profile-compact .topbar [data-profile-toggle]{transform:scale(.73)}
+#path-profile-menu{position:fixed;top:100px;right:32px;z-index:62;max-height:calc(100dvh - 116px);max-width:calc(100vw - 32px);overflow-y:auto;box-sizing:border-box}
+@media(max-width:650px){.topbar [data-profile-toggle],#path-profile-menu{right:16px}}
+@media(prefers-reduced-motion:reduce){.topbar [data-profile-toggle]{transition:none}}
+body[data-ui-motion=off] .topbar [data-profile-toggle]{transition:none}
+[data-account-action][hidden]{display:none!important;}
