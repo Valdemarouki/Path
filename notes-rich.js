@@ -19,7 +19,8 @@ function pathNoteRichMarkdown(root){
   if(tag==='pre')return '```\n'+node.textContent.replace(/\n$/,'')+'\n```\n';
   if(tag==='ul'||tag==='ol')return [...node.children].map((li,i)=>(tag==='ul'?'- ':String(i+1)+'. ')+children(li).replace(/\n$/,'')+'\n').join('');
   const value=children(node).replace(/\n$/,'');
-  if(/^h[1-6]$/.test(tag))return '#'.repeat(Math.min(3,Number(tag[1])))+' '+value+'\n';
+  // Native formatBlock can merge several paragraphs into one heading with BRs.
+  if(/^h[1-6]$/.test(tag))return value.split('\n').map(line=>'#'.repeat(Math.min(3,Number(tag[1])))+' '+line).join('\n')+'\n';
   if(tag==='blockquote')return value.split('\n').map(line=>'> '+line).join('\n')+'\n';
   const check=/^[☐☑] ?/.exec(value);if(check)return '- ['+(value[0]==='☑'?'x':' ')+'] '+value.slice(check[0].length)+'\n';
   return value+'\n';
@@ -33,16 +34,25 @@ function pathNoteRichSync(){
 function pathNoteRichRestore(){
  const el=pathNoteRichElement();if(!el||noteDraft?.deletedAt)return null;const selection=window.getSelection();
  const current=selection.rangeCount?selection.getRangeAt(0):null;
+ // Replacing a live caret range clears native pending Bold/Italic typing state.
+ // Toolbar pointerdown already keeps focus here; restore only after focus/selection leaves.
+ if(document.activeElement===el&&current&&el.contains(current.commonAncestorContainer))return el;
  let range=current&&el.contains(current.commonAncestorContainer)?current.cloneRange():pathNoteRichRange&&el.contains(pathNoteRichRange.commonAncestorContainer)?pathNoteRichRange.cloneRange():null;
  el.focus({preventScroll:true});if(!range){range=document.createRange();range.selectNodeContents(el);range.collapse(false);}
  selection.removeAllRanges();selection.addRange(range);return el;
+}
+function pathNoteRichHeadingSelected(){
+ // Chromium reports an empty formatBlock value across separate H2 siblings.
+ const selection=window.getSelection();if(!selection.rangeCount||selection.isCollapsed)return false;
+ const nodes=[...selection.getRangeAt(0).cloneContents().childNodes].filter(node=>node.nodeType===1||node.textContent.trim());
+ return nodes.length>0&&nodes.every(node=>node.nodeType===1&&node.tagName==='H2');
 }
 function pathNoteRichFormat(kind){
  const el=pathNoteRichRestore();if(!el)return;
  // Native editing commands preserve the browser's typing/formatting Undo stack.
  if(typeof document.execCommand!=='function'){toast('Text formatting is unavailable in this browser.');return;}
  const command={bold:['bold'],italic:['italic'],heading:['formatBlock','h2'],list:['insertUnorderedList'],quote:['formatBlock','blockquote'],code:['formatBlock','pre']}[kind];
- if(command){if(command[0]==='formatBlock'&&String(document.queryCommandValue?.('formatBlock')||'').replace(/[<>]/g,'').toLowerCase()===command[1])command[1]='p';document.execCommand(command[0],false,command[1]||null);}
+ if(command){if(command[0]==='formatBlock'&&(String(document.queryCommandValue?.('formatBlock')||'').replace(/[<>]/g,'').toLowerCase()===command[1]||kind==='heading'&&pathNoteRichHeadingSelected()))command[1]='p';document.execCommand(command[0],false,command[1]||null);}
  else if(kind==='check'){document.execCommand('formatBlock',false,'p');document.execCommand('insertText',false,'☐ ');}
  pathNoteRichSync();const selection=window.getSelection();if(selection?.rangeCount)pathNoteRichRange=selection.getRangeAt(0).cloneRange();
 }
