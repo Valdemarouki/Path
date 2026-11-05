@@ -1,11 +1,27 @@
-/* One visible, persistent save result; no successful toast after a failed write. */
+/* Success follows a new checkpoint; errors and history controls remain available. */
+let pathStorageRevision=pathRepository.revision,pathStorageSuccessUntil=0,pathStorageTimer=null;
 function paintStorage(){
  let panel=document.getElementById('path-storage');
  if(!panel){panel=document.createElement('div');panel.id='path-storage';document.body.appendChild(panel);}
  const error=pathRepository.error;
+ const now=Date.now();
+ if(pathStorageRevision!==pathRepository.revision){
+  pathStorageRevision=pathRepository.revision;
+  pathStorageSuccessUntil=error?0:now+3000;
+  clearTimeout(pathStorageTimer);pathStorageTimer=null;
+ }
+ if(error)pathStorageSuccessUntil=0;
+ const success=pathStorageSuccessUntil>now,dirty=!!editor?.contextDirty;
+ if(!success){clearTimeout(pathStorageTimer);pathStorageTimer=null;}
+ else if(pathStorageTimer===null)pathStorageTimer=setTimeout(()=>{pathStorageTimer=null;paintStorage();},pathStorageSuccessUntil-now);
+ // Keep Undo/Redo reachable after the success text expires, including after reload.
+ const status=error||(dirty?'Unsaved editor changes':success?'Saved locally':'');
+ panel.hidden=!status&&!pathRepository.undo.length&&!pathRepository.redo.length;
  panel.className=error?'storage-tools storage-error':'storage-tools';
- panel.innerHTML=`<span role="${error?'alert':'status'}">${error?esc(error):'Saved locally'}</span><button class="btn small" data-history="undo" ${!pathRepository.undo.length||editor||error?'disabled':''} title="Ctrl+Z outside text fields">Undo</button><button class="btn small" data-history="redo" ${!pathRepository.redo.length||editor||error?'disabled':''} title="Ctrl+Shift+Z outside text fields">Redo</button>${error?`${pathRepository.pending&&!pathRepository.blocked?'<button class="btn small" data-save-retry>Retry save</button>':''}<button class="btn small" data-recovery-export>Export recovery</button><button class="btn small" data-recovery-reload>Reload saved data</button>`:''}`;
+ panel.innerHTML=`<span role="${error?'alert':'status'}" ${!status?'hidden':''}>${esc(status)}</span><button class="btn small" data-history="undo" ${!pathRepository.undo.length||editor||error?'disabled':''} title="Ctrl+Z outside text fields">Undo</button><button class="btn small" data-history="redo" ${!pathRepository.redo.length||editor||error?'disabled':''} title="Ctrl+Shift+Z outside text fields">Redo</button>${error?`${pathRepository.pending&&!pathRepository.blocked?'<button class="btn small" data-save-retry>Retry save</button>':''}<button class="btn small" data-recovery-export>Export recovery</button><button class="btn small" data-recovery-reload>Reload saved data</button>`:''}`;
 }
+// Background tabs can throttle timers. Returning must respect the original deadline.
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)paintStorage();});
 const renderBeforeStorage=render;
 render=function(){renderBeforeStorage();paintStorage();};
 const editorBeforeStorage=renderEditor;
