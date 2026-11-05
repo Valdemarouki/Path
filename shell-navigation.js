@@ -23,7 +23,22 @@ function navigatePath(route){if(!pathValidRoute(route))return false;if(!flushNot
 const headerBeforeProfile=header;
 header=function(){return headerBeforeProfile().replace('data-nav="settings" aria-label="Profile and settings"',`data-profile-toggle aria-label="Profile" aria-expanded="${pathProfileOpen}" aria-controls="path-profile-menu"`)+(pathProfileOpen?`<div class="profile-menu panel" id="path-profile-menu" role="dialog" aria-label="Profile"><strong>Personal · Local</strong><p class="muted">Your data stays in this browser.</p><button class="btn" data-nav="settings">Settings</button><button class="btn ghost" data-profile-close>Close</button></div>`:'');};
 const renderBeforeNavigation=render;
-render=function(){renderBeforeNavigation();const main=document.querySelector('.app-main');if(main)main.setAttribute('tabindex','-1');pathPersistNavigation();};
+let pathDailySystemDate=pathToday();
+function pathRefreshDailyDate(){
+ const today=pathToday(),previous=pathDailySystemDate;pathDailySystemDate=today;
+ // Follow midnight only when showing the live day, retaining deliberate date browsing.
+ if(today===previous||!['today','habits'].includes(view)||homeDate!==previous)return false;
+ homeDate=today;return true;
+}
+render=function(){pathRefreshDailyDate();renderBeforeNavigation();const main=document.querySelector('.app-main');if(main)main.setAttribute('tabindex','-1');pathPersistNavigation();};
+function pathResumeDailyDate(){
+ // Do not redraw an open form; its next normal render will catch up after saving.
+ if(document.hidden||editor)return;
+ if(pathRefreshDailyDate())render();
+}
+window.addEventListener('focus',pathResumeDailyDate);
+document.addEventListener('visibilitychange',pathResumeDailyDate);
+setInterval(pathResumeDailyDate,30000);
 const openEditorBeforeFocus=openEditor;
 openEditor=function(...args){if(!editor)pathEditorReturnFocus=document.activeElement;openEditorBeforeFocus(...args);};
 const renderEditorBeforeFocus=renderEditor;
