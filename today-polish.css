@@ -43,6 +43,13 @@ body[data-page=today][data-ui-motion=on] .home-layout button{transition:backgrou
 @media(min-width:1001px){.home-layout{grid-template-columns:minmax(0,.87fr) minmax(0,1.05fr) minmax(0,.98fr)}.home-portrait{padding:0 8px}}
 @media(min-width:651px) and (max-width:1000px){.home-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.home-bottom-row > section:last-child{display:block;grid-column:1/-1}.home-portrait .quote{font-size:17px}.next-event .btn{gap:8px;padding:10px}}
 @media(max-width:650px){.home-bottom-row > section+section{margin-top:14px}.home-layout .next-event{gap:12px}.home-intro{padding-right:112px;height:auto;min-height:140px}.home-intro h1{font-size:clamp(56px,15vw,80px)}.home-intro .eyebrow{letter-spacing:.18em}.home-layout .home-task-list{max-height:360px}.home-layout .home-week{height:auto;min-height:195px}}
+/* Reserve a text column: flex:1 has a zero basis, so flex-wrap alone lets the
+   localized Calendar button consume nearly the entire first row. */
+@media(max-width:650px){
+ .home-layout .next-event{display:grid;grid-template-columns:auto minmax(0,1fr)}
+ .next-event .btn{grid-column:2;justify-self:start;margin-left:0;max-width:100%;white-space:normal}
+ .next-copy .event-name{white-space:normal;overflow-wrap:anywhere}
+}
 @media(prefers-reduced-motion:reduce){body[data-page=today] .home-layout button{transition:none!important}}
 /* Focus occupies the space it clears; no detached timer below the dashboard. */
 .home-layout.is-focus .focus-tracker{grid-column:2;grid-row:2/4;display:flex;flex-direction:column;justify-content:center;padding:24px}
