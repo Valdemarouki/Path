@@ -1,7 +1,8 @@
 /* A stable text editor: autosave does not rebuild the DOM or move the caret. */
 let selectedNote=null,noteDraft=null,noteTimer=null,noteDirty=false,noteFocus=false;
 function flushNote(){clearTimeout(noteTimer);if(!noteDirty||!noteDraft)return true;if(!noteDraft.title.trim()&&!noteDraft.body.trim()&&!selectedNote){noteDirty=false;return true;}
- const candidate={...noteDraft,updatedAt:new Date().toISOString()},before=pathClone(data);data.notes??=[];const i=data.notes.findIndex(n=>n.id===candidate.id);if(i>=0)data.notes[i]=candidate;else data.notes.push(candidate);
+ // Rollback restores nested records in place; keep the live draft independent.
+ const candidate={...pathClone(noteDraft),updatedAt:new Date().toISOString()},before=pathClone(data);data.notes??=[];const i=data.notes.findIndex(n=>n.id===candidate.id);if(i>=0)data.notes[i]=candidate;else data.notes.push(candidate);
  if(!save()){pathRestore(data,before);const status=document.querySelector('#note-save-status');if(status)status.textContent='Could not save · draft remains open';return false;}
  selectedNote=candidate.id;noteDraft=pathClone(candidate);noteDirty=false;const status=document.querySelector('#note-save-status');if(status)status.textContent='Saved locally';return true;
 }
