@@ -441,7 +441,7 @@ Task title	Название задачи	Tytuł zadania	Título de la tarea
 Duration (minutes)	Длительность (минуты)	Czas trwania (minuty)	Duración (minutos)
 Apply and close	Применить и закрыть	Zastosuj i zamknij	Aplicar y cerrar
 Changes save automatically	Изменения сохраняются автоматически	Zmiany zapisują się automatycznie	Los cambios se guardan automáticamente
-Completed tasks by day, Europe/Warsaw	Выполненные задачи по дням, Europe/Warsaw	Ukończone zadania według dni, Europe/Warsaw	Tareas completadas por día, Europe/Warsaw
+Completed tasks by day, {zone}	Выполненные задачи по дням, {zone}	Ukończone zadania według dni, {zone}	Tareas completadas por día, {zone}
 Event title	Название события	Tytuł wydarzenia	Título del evento
 Workout name	Название тренировки	Nazwa treningu	Nombre del entrenamiento
 Program name	Название программы	Nazwa programu	Nombre del programa

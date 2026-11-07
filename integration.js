@@ -7,7 +7,19 @@ homeTasks=function(){return tasksForDay(homeDate).map(({task,project})=>({...tas
 taskRows=function(){return tasksForDay(homeDate).filter(({task})=>showCompleted||!taskComplete(task)).map(({task:t,project:p})=>`<div class="task-row">${motionTaskControl(t,true)}<button class="task-label note-open ${taskComplete(t)?'done':''}" data-shared-open="${esc(t.id)}">${esc(t.title)}${t.importance&&t.importance!=='none'?`<small class="task-project">Importance: ${esc(t.importance)}</small>`:''}${p?'<small class="task-project">'+esc(p.name)+'</small>':''}</button><span class="task-duration">${p?(t.estimate||0)+' h':t.duration?durationText(t.duration):''}</span></div>`).join('')||'<p class="home-empty">No tasks for this day.</p>';};
 function setTaskComplete(id,done){const r=findTask(id);if(!r)return;const t=r.task;if(taskComplete(t)===done)return;if(r.project){t.status=done?'done':'planned';t.progress=done?100:0;}else t.done=done;t.completedAt=done?new Date().toISOString():null;}
 const initialTodayPage=todayPage;
-todayPage=function(){let html=initialTodayPage();const start=calendarMonday(homeDate);const days=Array.from({length:7},(_,i)=>addDays(start,i));const tasks=taskRecords().map(r=>r.task);const counts=days.map(d=>new Set(tasks.filter(t=>taskComplete(t)&&t.completedAt&&pathToday(new Date(t.completedAt))===d).map(t=>t.id)).size);const max=Math.max(1,...counts);html=html.replace('<span class="focus-count">—</span></div><p class="home-empty">Activity history is not connected yet.</p>',`<span class="focus-count">${counts.reduce((a,b)=>a+b,0)} ${counts.reduce((a,b)=>a+b,0)===1?'task':'tasks'}</span></div>${tasks.length?'':'<p class="muted">No task records yet.</p>'}<div class="week-bars" role="img" aria-label="Completed tasks by day, Europe/Warsaw">${counts.map((n,i)=>`<div class="week-col" title="${days[i]}: ${n} completed"><span class="week-bar ${n?'active':''}" data-motion-bar="${days[i]}" data-bar-height="${Math.max(0,Math.min(80,n/max*80))}" style="height:${Math.max(0,Math.min(80,n/max*80))}px"></span><span>${['M','T','W','T','F','S','S'][i]}</span></div>`).join('')}</div>`);return html;};
+todayPage=function(){
+ let html=initialTodayPage();
+ const translate=typeof pathT==='function'?pathT:text=>text;
+ const weekdays=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(translate);
+ const label=translate('Completed tasks by day, '+pathSystemTimeZone());
+ const start=calendarMonday(homeDate);
+ const days=Array.from({length:7},(_,i)=>addDays(start,i));
+ const tasks=taskRecords().map(r=>r.task);
+ const counts=days.map(d=>new Set(tasks.filter(t=>taskComplete(t)&&t.completedAt&&pathToday(new Date(t.completedAt))===d).map(t=>t.id)).size);
+ const max=Math.max(1,...counts);
+ html=html.replace('<span class="focus-count">—</span></div><p class="home-empty">Activity history is not connected yet.</p>',`<span class="focus-count">${counts.reduce((a,b)=>a+b,0)} ${counts.reduce((a,b)=>a+b,0)===1?'task':'tasks'}</span></div>${tasks.length?'':'<p class="muted">No task records yet.</p>'}<div class="week-bars" role="img" aria-label="${esc(label)}">${counts.map((n,i)=>`<div class="week-col" title="${days[i]}: ${n} completed"><span class="week-bar ${n?'active':''}" data-motion-bar="${days[i]}" data-bar-height="${Math.max(0,Math.min(80,n/max*80))}" style="height:${Math.max(0,Math.min(80,n/max*80))}px"></span><span>${esc(weekdays[i])}</span></div>`).join('')}</div>`);
+ return html;
+};
 homeEvents=function(){const now=new Intl.DateTimeFormat('en-GB',{timeZone:pathSystemTimeZone(),hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date()).split(':').map(Number),hour=now[0]+now[1]/60;return data.events.filter(e=>!e.done&&(calendarInterval(e).end>calendarMinute(homeDate,homeDate===pathToday()?hour:0))).sort((a,b)=>a.date.localeCompare(b.date)||a.hour-b.hour);};
 const initialHeader=header;
 header=function(){return initialHeader().replace(/<button class="sun-button"[\s\S]*?<\/button>/,'').replace(/<button class="avatar"[\s\S]*?<\/button>/,`<button class="avatar profile-button" data-nav="settings" aria-label="Profile and settings">${NAV_ASSETS['09_profile']}</button>`);};
