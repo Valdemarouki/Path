@@ -46,10 +46,13 @@ body[data-page=calendar] .page-intro{margin-bottom:22px}
 .calendar-inspector .editor-actions{position:sticky;bottom:0;background:#181a1d;padding:16px 0 4px;border-top:1px solid #ffffff12;flex-wrap:wrap}
 @media(max-width:650px){body[data-page=calendar] .app-main{padding-right:14px}.calendar-toolbar{padding:10px}.calendar-range{font-size:16px}.calendar-help{min-width:0}.calendar-mini-picker{left:8px;top:105px;width:min(304px,calc(100% - 16px))}.calendar-inspector{padding:6px}.calendar-scroll{max-height:65vh}.calendar-v2{overflow:hidden}}
 
-/* Keyboard focus remains legible inside the independently scrolling timeline. */
-.calendar-slot:focus-visible{outline:2px solid #f3f3f3;outline-offset:-2px;background:#ffffff18;z-index:1}
+/* Only the pointer-transparent ring paints above events. The slot itself must
+   not create a stacking context or cover event click/drag/resize targets. */
+.calendar-slot:focus-visible{position:relative;outline:none;background:#ffffff18;z-index:auto}
+.calendar-slot:focus-visible::after{content:"";position:absolute;inset:-1px 0 0;outline:2px solid #f3f3f3;outline-offset:-2px;z-index:3;pointer-events:none}
 .calendar-mini-grid button:focus-visible,.calendar-agenda-item:focus-visible,[data-calendar-context-date]:focus-visible{outline:2px solid #f3f3f3;outline-offset:-3px}
 .calendar-mini-grid span{min-width:0;font-size:11px;text-align:center}
 .calendar-context-control{display:flex;flex-wrap:wrap;gap:8px}
 .calendar-agenda-item small{white-space:normal;overflow-wrap:anywhere}
+.calendar-agenda-item time{flex:none;white-space:nowrap}
 .calendar-mini-grid .selected:focus-visible,.month-date.selected-day:focus-visible{outline-color:#17191c}

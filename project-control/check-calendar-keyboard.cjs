@@ -24,7 +24,7 @@ const snapshot=()=>run('JSON.stringify(data)');
  pathStampEvent({id:'late',title:'Late',date:'2026-11-03',hour:14,duration:60,type:'busy'}),
  pathStampEvent({id:'early',title:'Title <b>literal</b> $& — очень длинное название / descripción completa',date:'2026-11-03',hour:9,duration:60,type:'workout',importance:'high'}),
  pathStampEvent({id:'rest',title:'Rest title',date:'2026-11-03',hour:12,duration:30,type:'free_time',protected:true}),
- {id:'deadline',title:'Due title',date:'2026-11-03',hour:0,duration:0,type:'deadline'},
+ {id:'deadline',title:'Due <literal> $& — очень длинный срок / fecha límite muy larga',date:'2026-11-03',hour:0,duration:0,type:'deadline'},
  pathStampEvent({id:'next',title:'Next day',date:'2026-11-04',hour:10,duration:60,type:'busy'})];save();view='calendar';homeDate='2026-11-03';calendarMode='week';render();`);
  const original=snapshot();
  assert.equal(doc.querySelectorAll('[data-calendar-slot]').length,672);
@@ -72,6 +72,8 @@ const snapshot=()=>run('JSON.stringify(data)');
   if(language!=='en'){assert(!summary.includes('Planned'));assert(!/\bEvent\b/.test(summary));assert(!label.includes('Does not repeat'));}
   const rest=q('.calendar-agenda-item[data-event="rest"]').getAttribute('aria-label');assert(!rest.includes(run("pathT('Completed')")));assert(rest.includes(run("pathT('Protected rest')")));
   const deadline=q('.calendar-agenda-item[data-event="deadline"]').getAttribute('aria-label');assert(!deadline.includes('00:00'));assert(deadline.includes(run("pathT('Date only')")));
+  assert.equal(q('.calendar-agenda-item[data-event="deadline"] time').textContent,{en:'Due',ru:'Срок',es:'Vence',pl:'Termin'}[language],'Visible deadline label must be translated inside the protected row');
+  assert.equal(q('.calendar-agenda-item[data-event="deadline"] strong').textContent,'Due <literal> $& — очень длинный срок / fecha límite muy larga','Deadline user title stays literal');
  }
  run(`data.events.push(pathStampEvent({id:'fold',title:'Fold',date:'2026-10-25',hour:2.5,duration:60,type:'busy',tzid:'Europe/Warsaw',fold:'earlier'}));homeDate='2026-10-25';render();`);
  assert(q('.calendar-agenda-item[data-event="fold"] small').textContent.includes('60'));
