@@ -3,6 +3,6 @@ function calendarImportance(event){if(event.type==='free_time')return 'none';con
 const calendarButtonBeforeImportance=calendarEventButton;
 calendarEventButton=function(event,style=''){
  const html=calendarButtonBeforeImportance(event,style);if(event.type==='free_time')return html;
- const level=calendarImportance(event),label=level[0].toUpperCase()+level.slice(1);
- return html.replace('class="cal-entry ',`data-importance="${level}" class="cal-entry calendar-importance-${level} `).replace(' title="',` title="${label} importance · `);
+ const level=calendarImportance(event);
+ return html.replace('class="cal-entry ',`data-importance="${level}" class="cal-entry calendar-importance-${level} `);
 };

@@ -18,5 +18,5 @@ const reconcileBeforeZone=reconcileTaskCompletion;
 reconcileTaskCompletion=function(){reconcileBeforeZone();for(const e of data.events){const old=pathRepository.state.events.find(x=>x.id===e.id);if(!e.start_at||!old||['date','hour','duration','fold','tzid'].some(k=>e[k]!==old[k]))pathStampEvent(e);}};
 homeEvents=function(){const threshold=homeDate===pathToday()?Date.now()/60000:calendarDayBoundary(homeDate);return data.events.filter(e=>{try{return e.type!=='deadline'&&!e.done&&calendarInterval(e).end>threshold;}catch{return false;}}).sort((a,b)=>calendarInterval(a).start-calendarInterval(b).start);};
 const calendarButtonBeforeZone=calendarEventButton;
-calendarEventButton=function(e,style=''){let html=calendarButtonBeforeZone(e,style);if(e.timeError)html=html.replace('<strong>','<strong>⚠ Check time · ');if(e.foldProjection)html=html.replace('</small>',' · clock repeats</small>');return html;};
+calendarEventButton=function(e,style=''){let html=calendarButtonBeforeZone(e,style);if(e.timeError)html=html.replace('<strong>','<strong>⚠ '+esc(pathT('Check time'))+' · ');if(e.foldProjection)html=html.replace('</small>',' · '+esc(pathT('Clock repeats'))+'</small>');return html;};
 render();

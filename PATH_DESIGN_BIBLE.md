@@ -275,6 +275,10 @@ The designer may improve grouping, scanning, empty states and action placement. 
 
 For recurring events, make the edit scope explicit where the model supports occurrence and series changes. Preserve cross-midnight meaning, daylight-saving behavior and the relation between displayed time and persisted time. Label a different day when an event is converted across a date boundary.
 
+### Accepted Calendar decision — 7 November 2026
+
+[PAT-51 specification](/PAT/issues/PAT-51#document-spec), revision `c9b2a0b7-151f-471f-80bc-c15865752089`, was accepted by Path Lead in the [native design review](/PAT/issues/PAT-51#document-design-review). It supersedes the open Calendar improvement direction below with a staged implementation contract. [PAT-52](/PAT/issues/PAT-52) implements only the keyboard/semantic foundation: one roving time-grid entry, chronological event access, identity-based focus retention, keyboard date pickers and localized event descriptions. Layout, density, temporal compatibility and editor/motion slices remain separate. The accepted dimensions are Calendar-specific, not universal design tokens.
+
 ### Current improvement candidates
 
 The history contains complaints about excessive editor text, weak importance distinctions and difficult scheduling interactions. Treat these as high-value audit targets rather than a claim that every earlier defect is still present. Examine overlapping events, crowded weeks, very short events, drag handles, offscreen editor placement, Free Time discoverability and narrow-window readability. An agenda alternative for narrow windows is **Open** and should be designed around the same event model.

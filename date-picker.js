@@ -3,6 +3,21 @@ let pathDatePopup=null;
 function pathDateClose(restore=false){const old=pathDatePopup;pathDatePopup=null;old?.panel.remove();if(restore&&old?.input.isConnected)old.input.focus({preventScroll:true});}
 function pathDateISO(date){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
 function pathDateParse(value){const [y,m,d]=(value||pathToday()).split('-').map(Number);return new Date(y,m-1,d,12);}
+// Retain the intended day through short months (Jan 31 → Feb 28 → Mar 31).
+function pathDateShiftMonth(value,step,preferredDay=Number(value.slice(-2))){const d=pathDateParse(value);d.setDate(1);d.setMonth(d.getMonth()+step);d.setDate(Math.min(preferredDay,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));return pathDateISO(d);}
+function pathDateKey(value,key,preferredDay){
+ const delta={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7}[key],d=pathDateParse(value);
+ if(delta!==undefined)d.setDate(d.getDate()+delta);
+ else if(key==='Home'||key==='End')d.setDate(d.getDate()-(d.getDay()+6)%7+(key==='End'?6:0));
+ else if(key==='PageUp'||key==='PageDown')return pathDateShiftMonth(value,key==='PageUp'?-1:1,preferredDay);
+ else return null;
+ return pathDateISO(d);
+}
+function pathDateFocus(value){
+ const s=pathDatePopup;if(!s)return;
+ s.focus=s.input.min&&value<s.input.min?s.input.min:s.input.max&&value>s.input.max?s.input.max:value;
+ s.month=pathDateParse(s.focus);pathDateDraw();s.panel.querySelector('[tabindex="0"]')?.focus({preventScroll:true});
+}
 function pathDateAllowed(input,iso){return (!input.min||iso>=input.min)&&(!input.max||iso<=input.max);}
 function pathDateChoose(iso){const state=pathDatePopup;if(!state||!pathDateAllowed(state.input,iso))return;const input=state.input;pathDateClose(true);input.value=iso;input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true}));}
 function pathDateDraw(){
@@ -15,8 +30,8 @@ function pathDateDraw(){
 }
 function pathDateOpen(input){
  if(input.disabled||input.readOnly)return;pathDateClose();const panel=document.createElement('div');panel.dataset.pathDatePicker='';panel.className='path-date-picker';panel.setAttribute('role','dialog');panel.setAttribute('aria-label',pathT('Choose date'));panel.dataset.noTranslate='';
- (input.closest('#editor-overlay')||document.body).appendChild(panel);const focus=input.value||pathToday();pathDatePopup={input,panel,month:pathDateParse(focus),focus};pathDateDraw();panel.querySelector('[tabindex="0"]')?.focus({preventScroll:true});
- panel.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.preventDefault();e.stopPropagation();if(b.dataset.dateDay)return pathDateChoose(b.dataset.dateDay);if(b.hasAttribute('data-date-today'))return pathDateChoose(pathToday());if(b.hasAttribute('data-date-close'))return pathDateClose(true);if(b.dataset.dateMonth){const s=pathDatePopup;s.month=new Date(s.month.getFullYear(),s.month.getMonth()+Number(b.dataset.dateMonth),1,12);s.focus=pathDateISO(s.month);pathDateDraw();panel.querySelector(`[data-date-month="${b.dataset.dateMonth}"]`)?.focus();}});
+ (input.closest('#editor-overlay')||document.body).appendChild(panel);const focus=input.value||pathToday();pathDatePopup={input,panel,month:pathDateParse(focus),focus,preferredDay:Number(focus.slice(-2))};pathDateFocus(focus);
+ panel.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.preventDefault();e.stopPropagation();if(b.dataset.dateDay)return pathDateChoose(b.dataset.dateDay);if(b.hasAttribute('data-date-today'))return pathDateChoose(pathToday());if(b.hasAttribute('data-date-close'))return pathDateClose(true);if(b.dataset.dateMonth){const s=pathDatePopup;pathDateFocus(pathDateShiftMonth(s.focus,Number(b.dataset.dateMonth),s.preferredDay));}});
 }
 document.addEventListener('click',e=>{const input=e.target.closest('input[type=date]');if(view==='calendar'&&input){e.preventDefault();pathDateOpen(input);}},true);
 window.addEventListener('pointerdown',e=>{if(pathDatePopup&&!pathDatePopup.panel.contains(e.target)&&e.target!==pathDatePopup.input)pathDateClose();},true);
@@ -25,9 +40,14 @@ window.addEventListener('keydown',e=>{
  if(!pathDatePopup.panel.contains(e.target))return;
  if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();pathDateClose(true);return;}
  const s=pathDatePopup,day=e.target.dataset.dateDay;
- if(e.key==='Tab'){const items=[...s.panel.querySelectorAll('button:not(:disabled)')].filter(b=>b.tabIndex>=0),index=items.indexOf(e.target);e.preventDefault();e.stopImmediatePropagation();items[(index+(e.shiftKey?-1:1)+items.length)%items.length]?.focus();return;}
- if(!day)return;const delta={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7}[e.key];
- if(delta!==undefined||['Home','End','PageUp','PageDown'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();const d=pathDateParse(day);if(delta!==undefined)d.setDate(d.getDate()+delta);else if(e.key==='Home'||e.key==='End')d.setDate(d.getDate()-(d.getDay()+6)%7+(e.key==='End'?6:0));else{const n=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+(e.key==='PageUp'?-1:1));d.setDate(Math.min(n,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));}s.focus=pathDateISO(d);s.month=d;pathDateDraw();s.panel.querySelector(`[data-date-day="${s.focus}"]`)?.focus();}
+ // This is a nonmodal popup: ordinary Tab can leave it.
+ if(!day)return;
+ const next=pathDateKey(day,e.key,s.preferredDay);if(!next)return;
+ e.preventDefault();e.stopImmediatePropagation();
+ if(!['PageUp','PageDown'].includes(e.key))s.preferredDay=Number(next.slice(-2));
+ pathDateFocus(next);
 },true);
 window.addEventListener('resize',()=>pathDateClose());
 document.addEventListener('scroll',e=>{if(pathDatePopup&&!pathDatePopup.panel.contains(e.target))pathDateClose();},true);
+
+window.addEventListener('focusin',e=>{if(pathDatePopup&&!pathDatePopup.panel.contains(e.target))pathDateClose();},true);
