@@ -1,5 +1,9 @@
 # Adaptive glass navigation — 9 November 2026
 
+> The later [targeted refinement](../refinement/README.md) supersedes the tint,
+> noise, scrim clipping, compact dimensions, handle focus and task counter below.
+> This page retains the initial implementation evidence and state contract.
+
 This is the current design contract, superseding the historical five-position
 More row, the opaque edge panel and the floating capsule. Baseline working copy:
 `/workspace/Path`, branch `feature/path-mobile-alpha`, initial HEAD
