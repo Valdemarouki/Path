@@ -30,7 +30,7 @@ test('write failures preserve memory, disk and revision',()=>{
   assert.deepEqual(repo.state,before);assert.equal(storage.getItem(STORAGE_KEY),serialized);
 });
 test('corrupt and newer schemas are not overwritten',()=>{
-  for(const raw of ['{bad',JSON.stringify({...seed(now),schemaVersion:4})]){
+  for(const raw of ['{bad',JSON.stringify({...seed(now),schemaVersion:5})]){
     const storage=memory();storage.setItem(STORAGE_KEY,raw);assert.throws(()=>createRepository(storage,now),/load/);assert.equal(storage.getItem(STORAGE_KEY),raw);
   }
 });

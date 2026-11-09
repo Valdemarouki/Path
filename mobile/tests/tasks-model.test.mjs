@@ -6,10 +6,10 @@ function storage(initial){let value=initial??null;return {getItem:()=>value,setI
 test('v1 migration preserves every entity and leaves bytes untouched until successful write',()=>{
   const old=seed(now);old.homeTasks[0].note='old note';old.habits[0].checkIns[day]=true;old.habits[0].values[day]=1;
   const raw=JSON.stringify(old),disk=storage(raw),r=createRepository(disk,now);
-  assert.equal(disk.getItem(),raw);assert.equal(r.state.schemaVersion,3);
+  assert.equal(disk.getItem(),raw);assert.equal(r.state.schemaVersion,4);
   for(const key of ['homeTasks','habits','events'])assert.deepEqual(r.state[key],old[key]);
   assert.equal(r.state.mainTasks[day],old.homeTasks[0].id);
-  r.commit(s=>toggleTask(s,s.homeTasks[0].id));assert.equal(JSON.parse(disk.getItem()).schemaVersion,3);
+  r.commit(s=>toggleTask(s,s.homeTasks[0].id));assert.equal(JSON.parse(disk.getItem()).schemaVersion,4);
   assert.equal(createRepository(disk,now).state.homeTasks[0].id,old.homeTasks[0].id);
 });
 test('full task lifecycle retains ID and main references are never copied or broken',()=>{

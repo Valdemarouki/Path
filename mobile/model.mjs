@@ -27,7 +27,7 @@ export function seed(now = new Date()) {
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function validate(state) {
   const fail = () => { throw Error('invalid'); };
-  if (!record(state) || ![1,2,3].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
+  if (!record(state) || ![1,2,3,4].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
   const ids = new Set();
   for (const list of ['homeTasks','events','habits']) {
     if (!Array.isArray(state[list]) || state[list].length>5000) fail();
@@ -43,10 +43,11 @@ export function validate(state) {
     if(!record(state.mainTasks))fail();
     for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!state.homeTasks.some(t=>t.id===id&&t.date===date))fail();
   }
-  for (const event of state.events) {
-    const deadline=event.type==='deadline';
-    if (!validDay(event.date) || !Number.isFinite(event.hour) || event.hour<0 || event.hour>=24 || !Number.isFinite(event.duration) || (deadline?event.duration!==0:event.duration<=0)) fail();
-    if(!deadline||event.start_at!==undefined||event.end_at!==undefined){if(!Number.isFinite(Date.parse(event.start_at))||Date.parse(event.end_at)-Date.parse(event.start_at)!==event.duration*60000||typeof event.tzid!=='string')fail();}
+  for (const event of state.events) validateEventRecord(event);
+  if(state.schemaVersion>=4&&state.mobileEventUndo!==undefined){
+    const undo=state.mobileEventUndo;
+    if(!record(undo)||undo.version!==1||!Number.isSafeInteger(undo.index)||undo.index<0||undo.index>5000)fail();
+    validateEventRecord(undo.event);
   }
   for (const habit of state.habits) {
     if (!validDay(habit.startDate) || !record(habit.checkIns) || !record(habit.values) || !Array.isArray(habit.schedules) || !habit.schedules.length) fail();
@@ -54,6 +55,15 @@ export function validate(state) {
     if (habit.schedules.some(r=>!record(r)||!validDay(r.from)||!['daily','days'].includes(r.frequency)||r.kind!=='completion'||r.goal!==1||r.source!=='manual'||typeof r.days!=='string'||!/^([0-6])(,[0-6])*$/.test(r.days))) fail();
   }
   return state;
+}
+// Undo snapshots obey the same event contract, without rewriting extension fields.
+export function validateEventRecord(event){
+  const fail=()=>{throw Error('invalid');};
+  if(!record(event)||typeof event.id!=='string'||!event.id||typeof event.title!=='string'||!event.title.trim()||event.title.length>500)fail();
+  const deadline=event.type==='deadline';
+  if(!validDay(event.date)||!Number.isFinite(event.hour)||event.hour<0||event.hour>=24||!Number.isFinite(event.duration)||(deadline?event.duration!==0:event.duration<=0))fail();
+  if(!deadline||event.start_at!==undefined||event.end_at!==undefined){if(!Number.isFinite(Date.parse(event.start_at))||Date.parse(event.end_at)-Date.parse(event.start_at)!==event.duration*60000||typeof event.tzid!=='string')fail();}
+  return event;
 }
 export function eligible(habit, date) {
   const rule = habit.schedules.filter(r=>r.from<=date).sort((a,b)=>b.from.localeCompare(a.from))[0];
@@ -75,7 +85,11 @@ export function toggleHabit(state,id,date) {
 }
 export function eventsOnDay(state,date) {
   const start=+new Date(`${date}T00:00:00`), end=+new Date(`${shiftDay(date,1)}T00:00:00`);
-  return state.events.filter(e=>e.type==='deadline'?e.date===date:Date.parse(e.start_at)<end&&Date.parse(e.end_at)>start).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at));
+  return state.events.filter(e=>e.type==='deadline'?e.date===date:Date.parse(e.start_at)<end&&Date.parse(e.end_at)>start).sort((a,b)=>{
+    // Date-only deadlines have no instant; keep them first rather than comparing NaN.
+    const startA=a.type==='deadline'?-Infinity:Date.parse(a.start_at),startB=b.type==='deadline'?-Infinity:Date.parse(b.start_at);
+    return startA===startB?a.id.localeCompare(b.id):startA-startB;
+  });
 }
 export const nextEvent = (state,now=new Date()) => state.events.filter(e=>e.type!=='deadline'&&!e.done&&Date.parse(e.end_at)>+now).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at))[0];
 export function createRepository(storage,now=new Date()) {
@@ -99,7 +113,7 @@ export function createRepository(storage,now=new Date()) {
   };
 }
 
-// Versions 1/2 stay untouched on disk until the next successful user write.
+// Versions 1/2/3 stay untouched on disk until the next successful user write.
 // Migration adds references, never rewrites IDs, tasks, schedules or history.
 export function migrate(input){
   const state=structuredClone(input);
@@ -108,6 +122,7 @@ export function migrate(input){
     for(const task of state.homeTasks)if(!state.mainTasks[task.date])state.mainTasks[task.date]=task.id;
   }
   if(state.schemaVersion===2)state.schemaVersion=3;
+  if(state.schemaVersion===3)state.schemaVersion=4;
   return validate(state);
 }
 export function editTask(state,id,fields){
