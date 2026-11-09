@@ -62,10 +62,19 @@ function todayView() {
     <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>
     <aside class="reflection"><img src="assets/marcus.svg" alt="" aria-hidden="true"><div><p>${tr('reflection')}</p><small>${tr('reflectionNote')}</small></div></aside>`;
 }
+function calendarEventCard(event) {
+  const types={busy:['calendar','eventTypeBusy'],workout:['sport','eventTypeWorkout'],routine:['calendar','eventTypeRoutine'],deadline:['spark','eventTypeDeadline'],focus:['spark','eventTypeFocus'],free_time:['spark','eventTypeFree']};
+  const [glyph,typeKey]=types[event.type]||types.busy;
+  const importance=['low','medium','high'].includes(event.importance)?event.importance:null;
+  return `<article class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
+    <div class="event-card-content"><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${tr(typeKey)}</span></span>${importance?`<span class="event-importance" data-importance="${importance}">${tr('importance'+importance)}</span>`:''}${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div>
+    <div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(eventTime(event))}${dayKey(new Date(event.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(event.start_at)))):''}</p></div></div>
+  </article>`;
+}
 function calendarView() {
   const events=eventsOnDay(state,selected),tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
   return `${intro('calendar')}<label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
-  <section aria-label="${tr('schedule')}">${events.map(e=>`<article class="agenda-item"><div class="agenda-time">${escape(time(e.start_at))}<small>${escape(time(e.end_at))}</small></div><div class="event-copy"><h3>${escape(label(e,lang))}</h3><p>${escape(eventTime(e))}${dayKey(new Date(e.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(e.start_at)))):''}</p></div></article>`).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
+  <section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="text-link" data-add>${tr('add')}</button>`;
 }
 function settingsView() {
