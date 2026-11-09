@@ -29,8 +29,8 @@ test('last deletion replaces only the one-level buffer, not other entities',()=>
 test('migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields',()=>{
  for(const version of [1,2,3]){
   const s=version===1?seed(now):migrate(seed(now));s.schemaVersion=version;s.extension={opaque:['keep']};s.events[0].extension={nested:{value:7}};
-  const disk=memory(),raw=JSON.stringify(s);disk.setItem(STORAGE_KEY,raw);const r=createRepository(disk,now);assert.equal(r.state.schemaVersion,4);assert.equal(disk.getItem(STORAGE_KEY),raw);assert.deepEqual(r.state.events,s.events);assert.deepEqual(migrate(r.state),r.state);
-  r.commit(t=>{t.language='ru';});assert.equal(JSON.parse(disk.getItem(STORAGE_KEY)).schemaVersion,4);assert.deepEqual(createRepository(disk,now).state.events,s.events);
+  const disk=memory(),raw=JSON.stringify(s);disk.setItem(STORAGE_KEY,raw);const r=createRepository(disk,now);assert.equal(r.state.schemaVersion,5);assert.equal(disk.getItem(STORAGE_KEY),raw);assert.deepEqual(r.state.events,s.events);assert.deepEqual(migrate(r.state),r.state);
+  r.commit(t=>{t.language='ru';});assert.equal(JSON.parse(disk.getItem(STORAGE_KEY)).schemaVersion,5);assert.deepEqual(createRepository(disk,now).state.events,s.events);
  }
 });
 test('future/invalid undo schemas fail closed without overwriting original stored bytes',()=>{

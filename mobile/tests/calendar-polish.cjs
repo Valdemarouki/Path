@@ -50,7 +50,7 @@ async function main(){
   await edit(p,id);await p.locator('#event-done').check();await save(p);
   const original=structuredClone((await read(p)).events[0]);await edit(p,id);await p.locator('#event-delete').click();await p.locator('#event-delete-confirm').click();await closed(p);await p.locator('#event-undo-bar').waitFor({state:'visible'});
   assert.equal(await p.evaluate(()=>document.activeElement.id),'event-undo');assert((await p.locator('#event-undo').getAttribute('aria-label')).includes(names[lang]));s=await read(p);assert.equal(s.events.length,0);assert.deepEqual(s.mobileEventUndo.event,original);
-  if(recording)await wait(650);await p.reload();await p.locator('#event-undo').click();await p.waitForFunction(k=>!JSON.parse(localStorage.getItem(k)).mobileEventUndo,key);s=await read(p);assert.deepEqual(s.events,[original]);assert.deepEqual(s.extension,{opaque:['keep',3]});assert.equal(s.schemaVersion,4);
+  if(recording)await wait(650);await p.reload();await p.locator('#event-undo').click();await p.waitForFunction(k=>!JSON.parse(localStorage.getItem(k)).mobileEventUndo,key);s=await read(p);assert.deepEqual(s.events,[original]);assert.deepEqual(s.extension,{opaque:['keep',3]});assert.equal(s.schemaVersion,5);
   await chooseDay(p,'2026-11-10');assert.equal(await p.locator(`[data-calendar-event="${id}"]`).count(),1);assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await chooseDay(p,'2026-11-11');assert.equal(await p.locator('.event-card').count(),1);assert.equal((await read(p)).events.length,1);await chooseDay(p,'2026-11-10');
   if(recording){await wait(700);await cdp.send('Page.stopScreencast');await cdp.detach();recording=false;}

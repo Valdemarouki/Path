@@ -1,15 +1,10 @@
 // Deliberately separate from all desktop storage and sync adapters.
 export const STORAGE_KEY = 'path-mobile-alpha-v1';
 export const LANGUAGES = ['en', 'ru', 'es'];
-export const dayKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
-export function validDay(value) {
-  if (typeof value !== 'string' || !/^(20\d{2})-\d{2}-\d{2}$/.test(value)) return false;
-  const date = new Date(`${value}T12:00:00`);
-  return Number.isFinite(+date) && dayKey(date) === value;
-}
-export function shiftDay(day, delta) {
-  const date = new Date(`${day}T12:00:00`); date.setDate(date.getDate()+delta); return dayKey(date);
-}
+export {dayKey,validDay,shiftDay} from './date-utils.mjs';
+import {dayKey,validDay,shiftDay} from './date-utils.mjs';
+import {taskEntry,taskProjection,tasksForDate,projectTaskEditable} from './task-selectors.mjs';
+import {validateAlphaExtensions} from './alpha-model.mjs';
 export function seed(now = new Date()) {
   const date = dayKey(now), zone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
   const event = (id, key, start, duration) => ({id, title:key, titleKey:key, date:dayKey(start), hour:start.getHours()+start.getMinutes()/60, duration, tzid:zone, fold:'earlier', start_at:start.toISOString(), end_at:new Date(+start+duration*60000).toISOString(), type:'busy', done:false});
@@ -27,7 +22,7 @@ export function seed(now = new Date()) {
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function validate(state) {
   const fail = () => { throw Error('invalid'); };
-  if (!record(state) || ![1,2,3,4].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
+  if (!record(state) || ![1,2,3,4,5].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
   const ids = new Set();
   for (const list of ['homeTasks','events','habits']) {
     if (!Array.isArray(state[list]) || state[list].length>5000) fail();
@@ -41,7 +36,7 @@ export function validate(state) {
   for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean' || (task.duration!==undefined && (!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)) || (task.note!==undefined && (typeof task.note!=='string'||task.note.length>10000))) fail();
   if(state.schemaVersion>=2){
     if(!record(state.mainTasks))fail();
-    for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!state.homeTasks.some(t=>t.id===id&&t.date===date))fail();
+    for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!tasksForDate(state,date).some(t=>t.id===id))fail();
   }
   for (const event of state.events) validateEventRecord(event);
   if(state.schemaVersion>=4&&state.mobileEventUndo!==undefined){
@@ -54,6 +49,7 @@ export function validate(state) {
     if (Object.entries(habit.checkIns).some(([d,v])=>!validDay(d)||typeof v!=='boolean') || Object.entries(habit.values).some(([d,v])=>!validDay(d)||![0,1].includes(v))) fail();
     if (habit.schedules.some(r=>!record(r)||!validDay(r.from)||!['daily','days'].includes(r.frequency)||r.kind!=='completion'||r.goal!==1||r.source!=='manual'||typeof r.days!=='string'||!/^([0-6])(,[0-6])*$/.test(r.days))) fail();
   }
+  validateAlphaExtensions(state);
   return state;
 }
 // Undo snapshots obey the same event contract, without rewriting extension fields.
@@ -67,7 +63,8 @@ export function validateEventRecord(event){
 }
 export function eligible(habit, date) {
   const rule = habit.schedules.filter(r=>r.from<=date).sort((a,b)=>b.from.localeCompare(a.from))[0];
-  return !!rule && date>=habit.startDate && !habit.archived && habit.exceptions?.[date]!=='skipped' && (rule.frequency==='daily'||rule.days.split(',').includes(String(new Date(`${date}T12:00:00`).getDay())));
+  const availability=Array.isArray(habit.availability)?habit.availability.filter(v=>v.from<=date).sort((a,b)=>b.from.localeCompare(a.from))[0]?.state||'active':habit.archived?'archived':'active';
+  return !!rule && date>=habit.startDate && availability==='active' && habit.exceptions?.[date]!=='skipped' && (rule.frequency==='daily'||rule.days.split(',').includes(String(new Date(`${date}T12:00:00`).getDay())));
 }
 export const habitDone = (habit,date) => (habit.values[date] ?? Number(habit.checkIns[date] || false)) >= 1;
 export function addTask(state,title,date,id) {
@@ -76,8 +73,10 @@ export function addTask(state,title,date,id) {
   if (!id || state.homeTasks.some(t=>t.id===id)) throw Error('id');
   state.homeTasks.push({id,title,date,done:false});
 }
-export function toggleTask(state,id) {
-  const task=state.homeTasks.find(t=>t.id===id); if (!task) throw Error('task'); task.done=!task.done;
+export function toggleTask(state,id,now=new Date()) {
+  const entry=taskEntry(state,id);if(!entry)throw Error('task');const {task,project}=entry;
+  if(!projectTaskEditable(state,entry))throw Error('alphaReadOnly');
+  const done=project?task.status!=='done':!task.done;if(project){task.status=done?'done':'planned';task.progress=done?100:0;}else task.done=done;task.completedAt=done?now.toISOString():null;
 }
 export function toggleHabit(state,id,date) {
   const habit=state.habits.find(h=>h.id===id); if (!habit || !eligible(habit,date)) throw Error('habit');
@@ -113,7 +112,7 @@ export function createRepository(storage,now=new Date()) {
   };
 }
 
-// Versions 1/2/3 stay untouched on disk until the next successful user write.
+// Versions 1/2/3/4 stay untouched on disk until the next successful user write.
 // Migration adds references, never rewrites IDs, tasks, schedules or history.
 export function migrate(input){
   const state=structuredClone(input);
@@ -123,6 +122,7 @@ export function migrate(input){
   }
   if(state.schemaVersion===2)state.schemaVersion=3;
   if(state.schemaVersion===3)state.schemaVersion=4;
+  if(state.schemaVersion===4){state.schemaVersion=5;for(const key of ['projects','notes','workouts','workoutRecords','canvases','programs'])if(state[key]===undefined)state[key]=[];if(state.mobilePreferences===undefined)state.mobilePreferences={motion:'system'};}
   return validate(state);
 }
 export function editTask(state,id,fields){
@@ -136,7 +136,7 @@ export function editTask(state,id,fields){
   validate(state);
 }
 export function setMainTask(state,id){
-  const task=state.homeTasks.find(t=>t.id===id);if(!task)throw Error('task');state.mainTasks[task.date]=id;
+  const entry=taskEntry(state,id);if(!entry)throw Error('task');const date=entry.project?entry.task.deadline:entry.task.date;if(!validDay(date))throw Error('task');state.mainTasks[date]=id;
 }
 export function deleteTask(state,id){
   const index=state.homeTasks.findIndex(t=>t.id===id);if(index<0)throw Error('task');
@@ -148,5 +148,5 @@ export function restoreTask(state,removed){
   state.homeTasks.splice(removed.index,0,structuredClone(removed.task));
   if(removed.main&&!state.mainTasks[removed.task.date])state.mainTasks[removed.task.date]=removed.task.id;
 }
-export const mainTaskOnDay=(state,date)=>state.homeTasks.find(t=>t.id===state.mainTasks?.[date]&&t.date===date);
-export const overdueTasks=(state,date)=>state.homeTasks.filter(t=>!t.done&&t.date<date).sort((a,b)=>a.date.localeCompare(b.date));
+export const mainTaskOnDay=(state,date)=>tasksForDate(state,date).find(t=>t.id===state.mainTasks?.[date]);
+export const overdueTasks=(state,date)=>[...state.homeTasks,...(Array.isArray(state.projects)?state.projects:[]).filter(p=>!p.archived).flatMap(p=>Array.isArray(p.tasks)?p.tasks.map(t=>taskProjection(state,{task:t,project:p},t.deadline)):[])].filter(t=>t&&!t.archived&&validDay(t.date)&&!t.done&&t.date<date).sort((a,b)=>a.date.localeCompare(b.date));

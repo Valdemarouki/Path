@@ -6,7 +6,7 @@ root = Path(__file__).resolve().parent
 mobile = root.parent
 target = root / 'dist'
 target.mkdir(exist_ok=True)
-for name in ('styles.css', 'navigation.css', 'navigation.mjs', 'app.mjs', 'i18n.mjs', 'typography.css', 'tasks.css', 'calendar-cards.css', 'calendar-model.mjs', 'event-editor.mjs'):
+for name in ('styles.css', 'navigation.css', 'navigation.mjs', 'app.mjs', 'i18n.mjs', 'typography.css', 'tasks.css', 'calendar-cards.css', 'calendar-model.mjs', 'event-editor.mjs', 'date-utils.mjs', 'task-selectors.mjs', 'alpha-model.mjs', 'desktop-adapter.mjs'):
     shutil.copy2(mobile / name, target / name)
 model = (mobile / 'model.mjs').read_text()
 assert "'path-mobile-alpha-v1'" in model
