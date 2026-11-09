@@ -1,5 +1,9 @@
 # Glass, compact state and task-counter correction — 9 November 2026
 
+> The later [unified-grid transformation](../transformation/README.md) supersedes
+> the expanded bottom row and compact geometry. Glass, counter scope and pointer
+> focus treatment from this revision are retained.
+
 Working copy `/workspace/Path`, local branch `feature/path-mobile-alpha`.
 Started clean at `9889469eb2370af10f94457317442e0e939e85d7`.
 Implementation/tests: `a44de346d14d54ee10638fe79c424f0fc66f5bb9`.

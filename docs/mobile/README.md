@@ -1,6 +1,7 @@
 # Path Mobile alpha 01
 
-> Current UI contract (9 November 2026): [glass/compact refinement](refinement/README.md),
+> Current UI contract (9 November 2026): [unified navigation transformation](transformation/README.md),
+> following [glass/compact refinement](refinement/README.md),
 > building on [adaptive glass navigation](glass/README.md).
 > The bottom row is Today / Calendar / + / Sport / Habits. Open the handle to
 > access additional sections. Language and mobile export are in Settings.
