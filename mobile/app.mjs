@@ -1,6 +1,7 @@
 import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay, editTask, setMainTask, deleteTask, restoreTask, mainTaskOnDay, overdueTasks} from './model.mjs';
 import {t, label, LOCALES} from './i18n.mjs';
 import {createNavigation} from './navigation.mjs';
+import {createEventEditor} from './event-editor.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -11,6 +12,7 @@ const paths = {
   more:'M7 8v12m5-12v12m5-12v12M5 22h14M7 8C1 8 2 2 6 3c4 1 0 5 0 2m11 3c6 0 5-6 1-5-4 1 0 5 0 2M7 4h10',
   book:'M12 6C8 3 4 3 2 4v15c4-1 7-1 10 2 3-3 6-3 10-2V4c-4-1-7-1-10 2Zm0 0v15',
   move:'M6 17 10 4h4l4 13M4 20h16M8 12h8',spark:'m12 3 2 6 7 3-7 2-2 7-2-7-7-2 7-3Z',
+  target:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM12 11v2',sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1',flag:'M5 21V3h14l-3 5 3 5H5',repeat:'M20 8A8 8 0 0 0 5 6L3 9m0-5v5h5m-4 7a8 8 0 0 0 15 2l2-3m0 5v-5h-5',
   check:'m5 12 4 4L19 6', projects:'m3 7 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 17l9 5 9-5',
   notes:'M5 20 17 3l4 2L9 22H5v-2ZM14 7l4 3',canvas:'M6 4h12v13H6ZM12 1v3M8 17l-3 5m11-5 3 5M12 17v5',
   habits:'M7 3C0 9 3 18 10 21M17 3c7 6 4 15-3 18M4 8l4 1M3 13l5 1m-2 4 3-1m11-9-4 1m5 4-5 1m2 4-3-1',
@@ -20,11 +22,13 @@ const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${path
 let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, removed=null;
 const tr = key => t(key,lang);
 const navigation = createNavigation($('navigation'));
+const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,getError:()=>$('storage-error').textContent,navigation,refresh:refreshData});
 try { repo=navigator.locks?await navigator.locks.request(STORAGE_KEY,()=>createRepository(localStorage)):createRepository(localStorage); state=repo.state; lang=state.language; }
 catch { fatal=true; }
 const dateText = date => new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
 const time = instant => new Intl.DateTimeFormat(LOCALES[lang],{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(instant));
 function eventTime(event) {
+  if(event.type==='deadline')return tr('eventTypeDeadline')+' · '+dateText(event.date);
   const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
   return `${time(event.start_at)} – ${time(event.end_at)}${start!==end?' · '+dateText(end):''}`;
 }
@@ -64,16 +68,20 @@ function todayView() {
 }
 function calendarEventCard(event) {
   const types={busy:['calendar','eventTypeBusy'],workout:['sport','eventTypeWorkout'],routine:['calendar','eventTypeRoutine'],deadline:['spark','eventTypeDeadline'],focus:['spark','eventTypeFocus'],free_time:['spark','eventTypeFree']};
-  const [glyph,typeKey]=types[event.type]||types.busy;
-  const importance=event.type!=='free_time'&&['low','medium','high'].includes(event.importance)?event.importance:'none';
-  return `<article data-importance="${importance}" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
-    <div class="event-card-content"><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${tr(typeKey)}</span></span><span class="event-importance" data-importance="${importance}">${tr('importance'+importance)}</span>${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div>
-    <div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(eventTime(event))}${dayKey(new Date(event.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(event.start_at)))):''}</p></div></div>
+  let [glyph,typeKey]=types[event.type]||types.busy;
+  glyph=({busy:'calendar',routine:'repeat',deadline:'flag',focus:'target',free_time:'sun',workout:'sport'})[event.type]||glyph;
+  const customGlyph=({book:'book',focus:'target',sport:'sport',sun:'sun'})[event.eventIcon];
+  const linked=event.taskId?(state.homeTasks.find(t=>t.id===event.taskId)||(state.projects||[]).flatMap(p=>p.tasks||[]).find(t=>t.id===event.taskId)):null;
+  const sourceImportance=linked?linked.importance:event.importance;
+  const importance=event.type!=='free_time'&&['low','medium','high'].includes(sourceImportance)?sourceImportance:'none';
+  const importanceLabel=event.taskId&&!linked&&event.type!=='free_time'?tr('eventLinkedPriority'):tr('importance'+importance);
+  return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
+    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(eventTime(event))}${event.type!=='deadline'&&dayKey(new Date(event.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(event.start_at)))):''}</p></div><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${importanceLabel}</span>${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div></div>
   </article>`;
 }
 function calendarView() {
   const events=eventsOnDay(state,selected),tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `${intro('calendar')}<label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
+  return `${intro('calendar')}<button class="text-link" data-new-event>${tr('newEvent')}</button><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
   <section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="text-link" data-add>${tr('add')}</button>`;
 }

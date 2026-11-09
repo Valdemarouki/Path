@@ -26,7 +26,7 @@ async function main(){
   await p.locator('.event-card').first().locator('..').screenshot({path:path.join(out,`examples-${language}-${width}.png`),animations:'disabled'});
   const first=p.locator('.event-card').first();await first.focus();assert.equal(await first.evaluate(e=>getComputedStyle(e).outlineStyle),'solid');assert.equal(await first.evaluate(e=>document.activeElement===e),true);
   const before=await p.locator('.event-card').nth(1).boundingBox(),box=await first.boundingBox();await p.mouse.move(box.x+20,box.y+20);await p.mouse.down();assert.deepEqual(await p.locator('.event-card').nth(1).boundingBox(),before);await p.mouse.up();
-  assert.equal(await p.evaluate(()=>localStorage.getItem('path-mobile-alpha-v1')),raw);assert.equal(await p.locator('dialog[open]').count(),0);assert.deepEqual(errors,[]);cases++;await c.close();
+  assert.equal(await p.evaluate(()=>localStorage.getItem('path-mobile-alpha-v1')),raw);assert.equal(await p.locator('#event-editor[open]').count(),1);await p.locator('#event-close').click();assert.deepEqual(errors,[]);cases++;await c.close();
  }console.log('PASS '+cases+' calendar-card cases: locales, widths, long titles, completion, opaque surfaces, focus, stable press, unchanged stored data.');await fs.writeFile(path.join(out,'verification.json'),JSON.stringify({cases,widths:[320,390,430],languages:['en','ru','es'],reducedMotion:true,editor:'not implemented in existing mobile app; no fake action added',selectedState:'not implemented',completedState:'styled from existing done flag',physicalDevices:'not tested'},null,2));
  }finally{await browser.close();}
 }

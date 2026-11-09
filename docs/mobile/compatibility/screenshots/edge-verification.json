@@ -1,0 +1,11 @@
+{
+  "cases": 6,
+  "checks": [
+    "six distinct type icons",
+    "deadline date-only",
+    "free time protection",
+    "explicit overlap",
+    "stale tab retry",
+    "linked recurrence read-only"
+  ]
+}

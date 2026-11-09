@@ -1,3 +1,5 @@
+> Latest Calendar functionality and schema 3: [compatibility stage](../compatibility/README.md). Earlier milestone descriptions below are historical.
+
 # Calendar importance variations
 
 Read-only desktop references: calendar-importance.js and calendar-importance-refinement.css. Desktop uses none/low/medium/high with progressively brighter graphite, a more visible contour, and a 0/1/2/3px left accent (#696a6d, #a8aaae, #f0f0ef). Mobile now follows that hierarchy while retaining the approved opaque gradient/noise material, card sizes, Manrope 400 and quiet contours without strong glow.

@@ -1,3 +1,5 @@
+> Latest Calendar functionality and schema 3: [compatibility stage](compatibility/README.md). Earlier milestone descriptions below are historical.
+
 # Local task lifecycle — schema 2
 
 Scope: mobile/ and docs/mobile/ only, based on feature/path-mobile-alpha HEAD fca7eaabaee7c34dbec3b209ee30ac100d1a22d8. Prior uncommitted typography preview files were preserved. No account, production transport or desktop data is involved.

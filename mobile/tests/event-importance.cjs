@@ -1,5 +1,5 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
-const origin='http://127.0.0.1:8010',out=path.resolve(__dirname,'../../docs/mobile/calendar-importance');
+const origin='http://127.0.0.1:8010',out=process.env.MOBILE_IMPORTANCE_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/calendar-importance');
 (async()=>{const {seed}=await import('../model.mjs');await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});let cases=0;
 try{for(const width of [320,390,430])for(const lang of ['en','ru','es']){
  const c=await browser.newContext({viewport:{width,height:1100},timezoneId:'Europe/Warsaw',reducedMotion:'reduce'});await c.route('**/*',r=>r.request().url().startsWith(origin+'/')?r.continue():r.abort());

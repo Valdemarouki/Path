@@ -1,3 +1,5 @@
+> Latest Calendar functionality and schema 3: [compatibility stage](../compatibility/README.md). Earlier milestone descriptions below are historical.
+
 # Calendar event-card material
 
 Baseline: feature/path-mobile-alpha d125b6ba1989cf91220d25ffca5eae98811e8562, clean working tree. Scope is mobile Calendar list presentation only.

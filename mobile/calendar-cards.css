@@ -28,3 +28,21 @@
 .event-card[data-importance=high]{--event-top:#38383a;--event-mid:#2c2c30;--event-bottom:#212124;--event-edge:#606066;--event-accent:#f0f0ef;--event-accent-width:3px;--event-title:#f3f3f3;}
 .event-card::after{content:'';position:absolute;inset:0;border-radius:inherit;border-left:var(--event-accent-width,0px) solid var(--event-accent,transparent);pointer-events:none;z-index:0;}
 .event-card:not(.event-completed) .event-copy h3{color:var(--event-title);}
+/* Event information hierarchy and compact editor; glass navigation is untouched. */
+.event-card{cursor:pointer;}
+.event-card .event-card-meta{margin:12px 0 0;}
+.event-card[aria-expanded=true]{outline:2px solid #deddda;outline-offset:2px;}
+#event-editor h2{font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:200;font-size:30px;letter-spacing:-.7px;}
+#event-editor fieldset{border:0;padding:0;margin:0;min-width:0;}
+#event-editor summary{min-height:44px;padding:10px 0;font-size:13px;cursor:pointer;}
+#event-editor .event-check{display:flex;align-items:center;gap:10px;margin-top:14px;}
+#event-editor .event-check input{width:22px;height:44px;min-height:44px;flex-shrink:0;}
+#event-editor input[readonly]{color:var(--muted);}
+#event-editor .event-preserved{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;max-height:220px;overflow:auto;}
+#event-editor #event-discard button{display:block;}
+#event-editor :focus-visible{outline:2px solid #eeede9;outline-offset:3px;}
+
+#event-editor .event-time-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+#event-editor .event-time-fields>div{min-width:0;}
+#event-editor .event-time-fields label{min-height:40px;display:flex;align-items:flex-end;margin-top:12px;}
+#event-editor .event-time-fields input{min-width:0;}

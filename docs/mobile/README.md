@@ -1,3 +1,5 @@
+> Latest Calendar functionality and schema 3: [compatibility stage](compatibility/README.md). Earlier milestone descriptions below are historical.
+
 # Path Mobile alpha 01
 
 > Current functional contract: [local task lifecycle](TASK_MODEL.md) and
