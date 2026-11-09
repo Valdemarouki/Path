@@ -2,7 +2,7 @@ const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const path=require('node:path');
-const origin='http://127.0.0.1:8010',out=path.resolve(__dirname,'../../docs/mobile/calendar-cards');
+const origin='http://127.0.0.1:8010',out=process.env.MOBILE_CALENDAR_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/calendar-cards');
 async function main(){
  const {seed}=await import('../model.mjs');await fs.mkdir(out,{recursive:true});
  const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});let cases=0;

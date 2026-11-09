@@ -1,0 +1,18 @@
+{
+  "cases": 9,
+  "widths": [
+    320,
+    390,
+    430
+  ],
+  "languages": [
+    "en",
+    "ru",
+    "es"
+  ],
+  "reducedMotion": true,
+  "editor": "not implemented in existing mobile app; no fake action added",
+  "selectedState": "not implemented",
+  "completedState": "styled from existing done flag",
+  "physicalDevices": "not tested"
+}

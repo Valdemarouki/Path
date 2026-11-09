@@ -2,12 +2,12 @@
 .agenda-item.event-card{
   position:relative;isolation:isolate;display:block;margin:0 0 12px;padding:18px 20px;
   border:1px solid #0d0d0f;border-radius:24px;
-  background:linear-gradient(140deg,#272729 0%,#202022 48%,#19191b 100%);
-  box-shadow:inset 0 1px 0 #ffffff12,inset 1px 0 0 #ffffff04;
+  background:linear-gradient(140deg,#38383a 0%,#29292b 46%,#19191b 100%);
+  box-shadow:inset 0 0 0 1px #08080980,inset 1px 2px 0 #ffffff0c;
   backdrop-filter:none;-webkit-backdrop-filter:none;
   min-width:0;overflow:hidden;
 }
-.event-card::before{content:'';position:absolute;inset:0;z-index:0;border-radius:inherit;background:url('assets/panel-noise.svg') repeat;opacity:.018;pointer-events:none;}
+.event-card::before{content:'';position:absolute;inset:0;z-index:0;border-radius:inherit;background:url('assets/panel-noise.svg') repeat;opacity:.024;pointer-events:none;}
 .event-card-content{position:relative;z-index:1;min-width:0;}
 .event-card .event-card-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-bottom:10px;color:var(--muted);font-size:11px;font-weight:400;}
 .event-kind,.event-status{display:inline-flex;align-items:center;gap:6px;min-width:0;}
@@ -17,6 +17,6 @@
 .event-card .event-copy h3{font-family:'Manrope Preview',sans-serif;font-size:17px;line-height:1.45;font-weight:400;margin:0 0 8px;overflow-wrap:anywhere;}
 .event-card .event-copy .event-card-time{font-size:12px;font-weight:400;color:var(--muted);line-height:1.5;font-variant-numeric:tabular-nums;}
 .event-card.event-completed .event-copy h3{color:#bdbdc2;text-decoration:line-through;text-decoration-color:#707075;}
-.event-card:active{background:linear-gradient(140deg,#2d2d30,#252527 48%,#1d1d20);}
+.event-card:active{background:linear-gradient(140deg,#3d3d3f,#2e2e30 46%,#1d1d20);}
 .event-card:focus-visible{outline:2px solid #e3e2df;outline-offset:3px;}
 @media(max-width:350px){.agenda-item.event-card{padding:16px;border-radius:22px;}.event-card .event-copy h3{font-size:16px;}}

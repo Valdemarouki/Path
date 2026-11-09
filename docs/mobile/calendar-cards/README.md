@@ -34,3 +34,14 @@ node --test mobile/tests/model.test.mjs mobile/tests/tasks-model.test.mjs
 ```
 
 Physical iOS/Android and Safari have not been tested. No dependency installation, environment configuration/publication, account/production API, Paperclip/Daytona access, GitHub write or deployment is involved.
+
+## Supplied material reference refinement
+
+After the actual graphite material image was attached, only the event surface
+was refined: upper-left #38383a, midpoint #29292b at 46%, lower-right #19191b,
+with the same dark external border, a dark inset line and a weak upper/left
+highlight. Static noise opacity is .024. Geometry, labels, fonts, data and
+navigation are unchanged. Press uses a slightly lighter version of that material.
+New screenshots and the nine-case verification report are under reference/;
+earlier screenshots remain historical. Reproduce with
+`MOBILE_CALENDAR_EVIDENCE=docs/mobile/calendar-cards/reference node mobile/tests/calendar-cards.cjs`.
