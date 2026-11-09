@@ -8,7 +8,7 @@ const os=require('node:os');
 const origin='http://127.0.0.1:8010',output=process.env.MOBILE_PANEL_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/glass');
 const pause=ms=>new Promise(r=>setTimeout(r,ms));
 async function settle(page){await page.waitForTimeout(450);}
-async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();}
+async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function touchDrag(page,delta){
   const box=await page.locator('#panel-toggle').boundingBox(),x=box.x+box.width/2,y=box.y+box.height/2;
   const cdp=await page.context().newCDPSession(page);
@@ -54,8 +54,8 @@ async function main(){
     assert(await page.locator('#content').evaluate(el=>el.inert));assert.equal(await page.evaluate(()=>scrollY),0);assert.equal(await page.locator('#panel-toggle').getAttribute('aria-expanded'),'true');cases++;
     await page.screenshot({path:path.join(output,'expanded-390.png'),animations:'disabled'});
     const panelBox=await page.locator('#navigation').boundingBox();await page.screenshot({path:path.join(output,'material-390.png'),clip:panelBox,animations:'disabled'});
-    await page.locator('#panel-toggle').focus();await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'nav-habits');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'panel-toggle');cases++;
-    await page.keyboard.press('Escape');await settle(page);assert.equal(await page.evaluate(()=>document.activeElement.id),'panel-toggle');assert.equal(await page.evaluate(()=>scrollY),scrollBefore);assert.deepEqual(await page.locator('.focus-card').boundingBox(),cardBefore);cases++;await page.waitForTimeout(120);await page.locator('.today-intro h1').click();await page.evaluate(()=>scrollTo(0,120));await page.waitForFunction(()=>document.getElementById('navigation').dataset.state==='compact');await settle(page);assert(await page.locator('.nav-label').evaluateAll(nodes=>nodes.every(el=>getComputedStyle(el).opacity==='0'&&el.getBoundingClientRect().height===0)));await page.screenshot({path:path.join(output,'compact-390.png'),animations:'disabled'});await page.evaluate(()=>scrollTo(0,0));await settle(page);
+    await page.locator('#panel-toggle').focus();await page.keyboard.press('Shift+Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'extra-sync');await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.id),'panel-toggle');cases++;
+    await page.keyboard.press('Escape');await settle(page);assert.equal(await page.evaluate(()=>document.activeElement.id),'panel-toggle');assert.equal(await page.evaluate(()=>scrollY),scrollBefore);assert.deepEqual(await page.locator('.focus-card').boundingBox(),cardBefore);cases++;await page.waitForTimeout(120);await page.locator('.today-intro h1').click();await page.evaluate(()=>scrollTo(0,120));await page.waitForFunction(()=>document.getElementById('navigation').dataset.state==='compact');await settle(page);assert(await page.locator('.nav-primary .nav-label').evaluateAll(nodes=>nodes.every(el=>getComputedStyle(el).opacity==='0'&&el.getBoundingClientRect().height===0)));await page.screenshot({path:path.join(output,'compact-390.png'),animations:'disabled'});await page.evaluate(()=>scrollTo(0,0));await settle(page);
     // Real touch gestures, including continuous following before release.
     const height=(await page.locator('#navigation').boundingBox()).height;const during=await touchDrag(page,-280);assert(during.height>height+50);assert.equal(await page.locator('#navigation').getAttribute('data-state'),'expanded');cases++;
     await touchDrag(page,300);assert.equal(await page.locator('#navigation').getAttribute('data-state'),'normal');cases++;
@@ -88,7 +88,7 @@ async function main(){
         await page.locator('#nav-today').click();assert(!/ min /.test(await page.locator('.focus-card').textContent())||language!=='ru');
         await page.locator('#panel-toggle').click();await settle(page);
         const panel=await page.locator('#navigation').boundingBox();assert(panel.y>=0&&Math.abs(panel.y+panel.height-844)<1);assert(Math.abs(panel.width-width)<1);
-        for(const button of await page.locator('#navigation button').all()){const r=await button.boundingBox();assert(r.width>=44&&r.height>=44);}
+        for(const button of await page.locator('#navigation .panel-handle,#navigation .nav-destinations button').all()){const r=await button.boundingBox();assert(r.width>=44&&r.height>=44);}
         assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
         await page.keyboard.press('Escape');await page.locator('#nav-habits').click();assert(await page.locator('[data-habit]').first().isVisible());cases++;
       }

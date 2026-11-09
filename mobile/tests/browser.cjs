@@ -6,7 +6,7 @@ const fs=require('node:fs');
 const origin='http://127.0.0.1:8010';
 const evidence=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/regression');
 const key='path-mobile-alpha-v1';
-async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();}
+async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function main(){
   fs.mkdirSync(evidence,{recursive:true});
   const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});

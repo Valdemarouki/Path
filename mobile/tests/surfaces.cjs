@@ -6,7 +6,7 @@ const fs=require('node:fs/promises');
 const origin='http://127.0.0.1:8010';
 const output=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/surfaces');
 const before=process.argv.includes('--capture-before');
-async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();}
+async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function main(){
   await fs.mkdir(output,{recursive:true});
   const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -30,7 +30,7 @@ async function main(){
       for(const language of ['en','ru','es']){
         await settings(page);await page.locator('#language').selectOption(language);
         for(const route of ['today','habits']){
-          await page.locator(`#nav-${route}`).click();await page.waitForTimeout(420);
+          await page.locator(`#nav-${route}`).click();await page.waitForTimeout(500);
           assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
           const nav=await page.locator('nav').boundingBox();assert(Math.abs(nav.x)<1&&Math.abs(nav.width-width)<1&&Math.abs(nav.y+nav.height-844)<1,'Panel touches viewport bottom and both sides');
           const radii=await page.locator('nav').evaluate(el=>{const s=getComputedStyle(el);return [s.borderTopLeftRadius,s.borderTopRightRadius,s.borderBottomLeftRadius,s.borderBottomRightRadius,s.borderBottomWidth];});
