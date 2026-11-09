@@ -1,0 +1,116 @@
+{
+  "suites": 13,
+  "passed": 13,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 198,
+      "cases": 40,
+      "log": "validation/models.txt"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 28077,
+      "cases": 55,
+      "log": "validation/browser.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 36052,
+      "cases": 24,
+      "log": "validation/tasks.txt"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 15016,
+      "cases": 72,
+      "log": "validation/calendar-editor.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8521,
+      "cases": 6,
+      "log": "validation/calendar-compatibility.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6121,
+      "cases": 9,
+      "log": "validation/importance.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6832,
+      "cases": 9,
+      "log": "validation/calendar-cards.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 33734,
+      "cases": 14,
+      "log": "validation/calendar-polish.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 50166,
+      "cases": 30,
+      "log": "validation/navigation-panel.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 30757,
+      "cases": 13,
+      "log": "validation/refinement.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 27204,
+      "cases": 26,
+      "log": "validation/surfaces.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 56524,
+      "cases": 21,
+      "log": "validation/transformation.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5477,
+      "cases": 26,
+      "log": "validation/typography.txt"
+    }
+  ],
+  "note": "navigation.cjs delegates to panel.cjs; that suite is counted once. Each browser profile contains synthetic data only.",
+  "focusedFollowup": {
+    "cases": 14,
+    "report": "verification.json",
+    "reason": "Final deadline control and storage-status checks included in the focused Calendar rerun"
+  }
+}

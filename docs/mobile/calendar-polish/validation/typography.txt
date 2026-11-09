@@ -1,0 +1,1 @@
+PASS 26 typography preview cases; all heading/task/navigation glyphs use the local custom Manrope font; production surfaces and panel geometry match.

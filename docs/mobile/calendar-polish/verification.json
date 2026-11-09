@@ -1,0 +1,76 @@
+{
+  "cases": 14,
+  "results": [
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 320,
+      "lang": "en",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 320,
+      "lang": "ru",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 320,
+      "lang": "es",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 390,
+      "lang": "en",
+      "reducedMotion": false
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 390,
+      "lang": "ru",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 390,
+      "lang": "es",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 430,
+      "lang": "en",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 430,
+      "lang": "ru",
+      "reducedMotion": true
+    },
+    {
+      "name": "full lifecycle + Today/Quick Add",
+      "width": 430,
+      "lang": "es",
+      "reducedMotion": true
+    },
+    {
+      "name": "save/delete/Undo quota failures and retry"
+    },
+    {
+      "name": "blank name + explicit invalid end + deadline type conversion"
+    },
+    {
+      "name": "queued writer locks captured form"
+    },
+    {
+      "name": "101-event order, footer clearance, extensions and recurrence read-only"
+    },
+    {
+      "name": "keyboard, dirty-close, reduced motion and Undo accessibility"
+    }
+  ],
+  "videoFrames": 231,
+  "physicalDevices": "not tested; viewport/keyboard emulation only"
+}

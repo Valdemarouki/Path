@@ -1,0 +1,1 @@
+PASS 26 surface cases: locales, 320/390px, full-width edge panel, hit areas, persistence, inset simulation and reduced motion.

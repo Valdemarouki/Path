@@ -1,0 +1,1 @@
+PASS 13 refinement cases; measured normal 118px / compact 64px; evidence and two recordings saved.

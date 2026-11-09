@@ -1,3 +1,5 @@
+> Current Calendar functionality and schema 4: [Functional Polish](../calendar-polish/README.md). Earlier milestone descriptions below are historical.
+
 # Calendar compatibility stage
 
 Baseline: /workspace/Path, feature/path-mobile-alpha, e5ec8dc9c03d6f83c7059710fccfbb2048eead5b, clean working tree. Desktop source was inspected read-only; existing user data, accounts and desktop runtime were not used.
