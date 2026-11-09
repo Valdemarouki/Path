@@ -1,0 +1,44 @@
+// Desktop contract: calendar.js, timezone.js, calendar-planning.js.
+// No desktop runtime/storage imports. Unknown properties are retained by patches.
+export const EVENT_TYPES=['busy','workout','routine','deadline','focus','free_time'];
+export const IMPORTANCE=['none','low','medium','high'];
+export const EVENT_ICONS=['calendar','book','focus','sport','sun'];
+export const systemZone=()=>Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+export function zoneParts(instant,tzid=systemZone()){
+ const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:tzid,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(instant)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+ return {date:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`,hour:Number(p.hour)+Number(p.minute)/60};
+}
+export function wallCandidates(date,hour,tzid=systemZone()){
+ const wall=Date.parse(date+'T00:00:00Z')+Math.round(hour*60)*60000,offsets=new Set();
+ for(const shift of [-36,-12,0,12,36]){const instant=wall+shift*3600000,p=zoneParts(instant,tzid);offsets.add(Date.parse(p.date+'T00:00:00Z')+Math.round(p.hour*60)*60000-instant);}
+ return [...offsets].map(offset=>wall-offset).filter(instant=>{const p=zoneParts(instant,tzid);return p.date===date&&Math.round(p.hour*60)===Math.round(hour*60);}).sort((a,b)=>a-b);
+}
+export function eventReadOnly(event){
+ if(event&&((event.fold!==undefined&&!['earlier','later'].includes(event.fold))||(event.tzid!==undefined&&(typeof event.tzid!=='string'||!event.tzid))||event.duration>10080))return true;
+ if(event){try{zoneParts(Date.now(),event.tzid||systemZone());}catch{return true;}if((event.notes!==undefined&&(typeof event.notes!=='string'||event.notes.length>10000))||(event.location!==undefined&&(typeof event.location!=='string'||event.location.length>500)))return true;}
+ return !!event&&(Object.entries(event).some(([k,v])=>/(Id|Ref|Snapshot)$/.test(k)&&v!==undefined&&v!==null&&v!=='')||!!['seriesId','taskId','projectId','workoutId','plannedSnapshot','fullWorkoutSnapshot','sessionId','sourceNoteId','seriesException','occurrenceDate'].find(k=>event[k]!==undefined)||!EVENT_TYPES.includes(event.type)||!IMPORTANCE.includes(event.importance??'none')||!EVENT_ICONS.includes(event.eventIcon??'calendar'));
+}
+export const blocksTime=e=>e.type!=='deadline'&&(e.type!=='free_time'||e.protected===true);
+export function saveEvent(state,id,fields,{allowOverlap=false}={}){
+ const existing=state.events.find(e=>e.id===id);if(eventReadOnly(existing))throw Error('eventReadOnly');
+ const e=existing?structuredClone(existing):{id},title=fields.title?.trim();
+ if(!title||title.length>500||!/^20\d{2}-\d{2}-\d{2}$/.test(fields.date)||!EVENT_TYPES.includes(fields.type)||!IMPORTANCE.includes(fields.importance)||!EVENT_ICONS.includes(fields.eventIcon)||typeof fields.notes!=='string'||fields.notes.length>10000||typeof fields.location!=='string'||fields.location.length>500)throw Error('eventInvalid');
+ const check=new Date(fields.date+'T12:00:00Z');if(!Number.isFinite(+check)||check.toISOString().slice(0,10)!==fields.date)throw Error('eventInvalid');
+ const tzid=existing?.tzid||systemZone(),time=fields.type==='deadline'?'00:00':fields.time;
+ if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)||!['earlier','later'].includes(fields.fold))throw Error('eventInvalid');
+ const [h,m]=time.split(':').map(Number),hour=h+m/60,duration=fields.type==='deadline'?0:Number(fields.duration);
+ if(!Number.isInteger(duration)||duration<0||duration>10080||(fields.type!=='deadline'&&duration<1))throw Error('eventInvalid');
+ const timingChanged=!existing||existing.date!==fields.date||existing.hour!==hour||existing.duration!==duration||existing.type!==fields.type||(existing.fold||'earlier')!==fields.fold;
+ // Keep legacy mobile minute values unchanged, but new/retimed intervals follow desktop's 15-minute editor grid.
+ if(timingChanged&&fields.type!=='deadline'&&(m%15||duration%15))throw Error('eventQuarter');
+ const choices=wallCandidates(fields.date,hour,tzid);if(!choices.length)throw Error('eventGap');
+ const start=choices[fields.fold==='later'?choices.length-1:0];
+ Object.assign(e,{title,date:fields.date,hour,duration,tzid,fold:fields.fold,type:fields.type,notes:fields.notes,location:fields.location,eventIcon:fields.eventIcon,importance:fields.type==='free_time'?'none':fields.importance,done:fields.type==='free_time'?false:fields.type==='deadline'?!!existing?.done:!!fields.done,protected:fields.type==='free_time'&&!!fields.protected});
+ if(timingChanged){e.start_at=new Date(start).toISOString();e.end_at=new Date(start+duration*60000).toISOString();}
+ delete e.titleKey;
+ // Explicit overlap acknowledgement. Never shift dates or rest reservations automatically.
+ const reservationChanged=timingChanged||e.protected!==existing?.protected;
+ if(reservationChanged&&blocksTime(e)&&state.events.some(x=>x.id!==id&&blocksTime(x)&&Date.parse(x.start_at)<Date.parse(e.end_at)&&Date.parse(x.end_at)>Date.parse(e.start_at))&&!allowOverlap)throw Error('eventOverlap');
+ if(existing)Object.assign(existing,e);else state.events.push(e);
+ return e;
+}

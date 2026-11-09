@@ -27,7 +27,7 @@ export function seed(now = new Date()) {
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function validate(state) {
   const fail = () => { throw Error('invalid'); };
-  if (!record(state) || ![1,2].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
+  if (!record(state) || ![1,2,3].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
   const ids = new Set();
   for (const list of ['homeTasks','events','habits']) {
     if (!Array.isArray(state[list]) || state[list].length>5000) fail();
@@ -39,12 +39,14 @@ export function validate(state) {
     }
   }
   for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean' || (task.duration!==undefined && (!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)) || (task.note!==undefined && (typeof task.note!=='string'||task.note.length>10000))) fail();
-  if(state.schemaVersion===2){
+  if(state.schemaVersion>=2){
     if(!record(state.mainTasks))fail();
     for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!state.homeTasks.some(t=>t.id===id&&t.date===date))fail();
   }
   for (const event of state.events) {
-    if (!validDay(event.date) || !Number.isFinite(event.hour) || event.hour<0 || event.hour>=24 || !Number.isFinite(event.duration) || event.duration<=0 || !Number.isFinite(Date.parse(event.start_at)) || Date.parse(event.end_at)-Date.parse(event.start_at)!==event.duration*60000 || typeof event.tzid!=='string') fail();
+    const deadline=event.type==='deadline';
+    if (!validDay(event.date) || !Number.isFinite(event.hour) || event.hour<0 || event.hour>=24 || !Number.isFinite(event.duration) || (deadline?event.duration!==0:event.duration<=0)) fail();
+    if(!deadline||event.start_at!==undefined||event.end_at!==undefined){if(!Number.isFinite(Date.parse(event.start_at))||Date.parse(event.end_at)-Date.parse(event.start_at)!==event.duration*60000||typeof event.tzid!=='string')fail();}
   }
   for (const habit of state.habits) {
     if (!validDay(habit.startDate) || !record(habit.checkIns) || !record(habit.values) || !Array.isArray(habit.schedules) || !habit.schedules.length) fail();
@@ -73,9 +75,9 @@ export function toggleHabit(state,id,date) {
 }
 export function eventsOnDay(state,date) {
   const start=+new Date(`${date}T00:00:00`), end=+new Date(`${shiftDay(date,1)}T00:00:00`);
-  return state.events.filter(e=>Date.parse(e.start_at)<end&&Date.parse(e.end_at)>start).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at));
+  return state.events.filter(e=>e.type==='deadline'?e.date===date:Date.parse(e.start_at)<end&&Date.parse(e.end_at)>start).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at));
 }
-export const nextEvent = (state,now=new Date()) => state.events.filter(e=>!e.done&&Date.parse(e.end_at)>+now).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at))[0];
+export const nextEvent = (state,now=new Date()) => state.events.filter(e=>e.type!=='deadline'&&!e.done&&Date.parse(e.end_at)>+now).sort((a,b)=>Date.parse(a.start_at)-Date.parse(b.start_at))[0];
 export function createRepository(storage,now=new Date()) {
   let state, previous;
   try {
@@ -97,7 +99,7 @@ export function createRepository(storage,now=new Date()) {
   };
 }
 
-// Version 1 stays untouched on disk until the next successful user write.
+// Versions 1/2 stay untouched on disk until the next successful user write.
 // Migration adds references, never rewrites IDs, tasks, schedules or history.
 export function migrate(input){
   const state=structuredClone(input);
@@ -105,6 +107,7 @@ export function migrate(input){
     state.schemaVersion=2;state.mainTasks={};
     for(const task of state.homeTasks)if(!state.mainTasks[task.date])state.mainTasks[task.date]=task.id;
   }
+  if(state.schemaVersion===2)state.schemaVersion=3;
   return validate(state);
 }
 export function editTask(state,id,fields){
