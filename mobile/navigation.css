@@ -1,6 +1,7 @@
 /* One material surface; persistent controls move between row and unified grid. */
 #navigation {
   --compact-inset:18px;
+  --panel-safe-top:env(safe-area-inset-top,0px);
   position:fixed;left:0;right:0;bottom:0;transform:none;width:auto;max-width:none;display:block;
   padding:0 max(8px,env(safe-area-inset-right,0px)) calc(8px + var(--mobile-safe-bottom)) max(8px,env(safe-area-inset-left,0px));
   border:0;border-radius:30px 30px 0 0;background:#171719;box-shadow:0 -5px 18px #00000012;

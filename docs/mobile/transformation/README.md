@@ -22,7 +22,9 @@ Expanded cards share one grid/cell/button style, including primary destinations.
 The current destination is highlighted in its card. The grid uses three columns
 at 390/430 and two at 320; rows share a minimum 120 px sizing system and grow for
 text. At insufficient height the grid scrolls internally. The handle is separate
-from that scroller and remains pinned and available.
+from that scroller and remains pinned and available. Maximum panel height leaves
+at least 16 px or the upper safe-area inset, whichever is larger; a simulated
+64 px upper inset was checked in addition to the 34 px lower inset.
 
 The normal primary buttons themselves move between the row and the first four
 grid cells. They keep their DOM identity, IDs, handlers and accessible names.

@@ -42,6 +42,7 @@ export function createNavigation(nav){
   const flights=new Map();
   const safe=()=>Math.max(0,parseFloat(getComputedStyle(nav).paddingBottom)-8);
   const compactInset=()=>parseFloat(getComputedStyle(nav).getPropertyValue('--compact-inset'))||18;
+  const topGap=()=>Math.max(16,parseFloat(getComputedStyle(nav).getPropertyValue('--panel-safe-top'))||0);
   const closedGeometry=()=>({height:(mode==='compact'?64:118)+safe(),inset:mode==='compact'?compactInset():0});
   const geometry=()=>({height:nav.getBoundingClientRect().height,inset:nav.getBoundingClientRect().x});
   const setGeometry=g=>{nav.style.height=g.height+'px';nav.style.left=g.inset+'px';nav.style.right=g.inset+'px';};
@@ -65,8 +66,8 @@ export function createNavigation(nav){
     nav.dataset.measuring='true';
     layout(false);setGeometry(closedGeometry());
     const closed={g:closedGeometry(),icons:new Map(mainKeys.map(k=>[k,svgRect(k)]))};
-    layout(true);setGeometry({height:innerHeight-16,inset:0});
-    const h=Math.min(innerHeight-16,nav.querySelector('#panel-title').getBoundingClientRect().height+16+nav.querySelector('.nav-destinations').getBoundingClientRect().height+44+8+safe());
+    layout(true);setGeometry({height:innerHeight-topGap(),inset:0});
+    const h=Math.min(innerHeight-topGap(),nav.querySelector('#panel-title').getBoundingClientRect().height+16+nav.querySelector('.nav-destinations').getBoundingClientRect().height+44+8+safe());
     setGeometry({height:h,inset:0});
     const result={closed,open:{g:{height:h,inset:0},icons:new Map(mainKeys.map(k=>[k,svgRect(k)]))}};delete nav.dataset.measuring;return result;
   }
