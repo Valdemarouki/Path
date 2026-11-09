@@ -4,8 +4,9 @@ const assert=require('node:assert/strict');
 const path=require('node:path');
 const fs=require('node:fs');
 const origin='http://127.0.0.1:8010';
-const evidence=path.resolve(__dirname,'../../docs/mobile/screenshots');
+const evidence=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/regression');
 const key='path-mobile-alpha-v1';
+async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();}
 async function main(){
   fs.mkdirSync(evidence,{recursive:true});
   const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -43,20 +44,20 @@ async function main(){
     await page.getByRole('button',{name:'Quick Add',exact:true}).click();await page.locator('#task-title').fill('Tomorrow task');await page.locator('#save-task').click();
     assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),1);cases++;
     await page.getByRole('button',{name:'Today',exact:true}).click();assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),0);cases++;
-    await page.getByRole('button',{name:'More',exact:true}).click();await page.screenshot({path:path.join(evidence,'more-en-390.png'),animations:'disabled'});
+    await settings(page);await page.screenshot({path:path.join(evidence,'settings-en-390.png'),animations:'disabled'});
     for(const [language,todayLabel] of [['ru','Сегодня'],['es','Hoy'],['en','Today']]){
       await page.locator('#language').selectOption(language);await page.reload();
       await page.getByRole('button',{name:todayLabel,exact:true}).click();
       assert.equal(await page.locator('html').getAttribute('lang'),language);
       assert.equal(await page.getByText('Synthetic mobile task',{exact:true}).count(),1);
       if(language!=='en')await page.screenshot({path:path.join(evidence,`today-${language}-390.png`),animations:'disabled'});
-      await page.locator('#nav-more').click();cases++;
+      await settings(page);cases++;
     }
     // Keyboard focus and modal lifecycle with Escape, no pointer-only dismissal.
     await page.locator('nav [data-add]').focus();await page.keyboard.press('Enter');
     assert.equal(await page.locator('#task-title').evaluate(el=>document.activeElement===el),true);
     await page.keyboard.press('Escape');assert.equal(await page.locator('#quick-add').evaluate(el=>el.open),false);
-    assert(await page.locator('nav [data-add]').evaluate(el=>document.activeElement===el));cases++;
+    await page.waitForFunction(()=>!document.querySelector('nav').hidden&&document.activeElement===document.querySelector('nav [data-add]'));cases++;
     // Storage failure injected only in this disposable browser context.
     await page.locator('nav [data-add]').click();await page.locator('#task-title').fill('Retained draft');
     await page.evaluate(()=>{window.originalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(){throw Error('quota test');};});
@@ -67,8 +68,8 @@ async function main(){
     for(const width of [320,390,844]){
       await page.setViewportSize({width,height:width===844?390:844});
       for(const language of ['en','ru','es']){
-        await page.locator('#nav-more').click();await page.locator('#language').selectOption(language);
-        for(const route of ['today','calendar','sport','more']){
+        await settings(page);await page.locator('#language').selectOption(language);
+        for(const route of ['today','calendar','sport','habits']){
           await page.locator(`#nav-${route}`).click();
           assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}/${language}/${route} overflow`);
           const nav=await page.locator('nav').boundingBox();assert(nav.y>=0&&nav.y+nav.height<= (width===844?390:844)+1);
@@ -76,7 +77,7 @@ async function main(){
         }
       }
     }
-    await page.setViewportSize({width:320,height:740});await page.locator('#language').selectOption('ru');await page.locator('#nav-today').click();
+    await page.setViewportSize({width:320,height:740});await settings(page);await page.locator('#language').selectOption('ru');await page.locator('#nav-today').click();
     await page.emulateMedia({reducedMotion:'reduce'});
     await page.locator('.focus-card [data-task]').click();
     assert.equal(await page.locator('.tick').first().evaluate(el=>getComputedStyle(el).animationName),'none');
@@ -101,7 +102,7 @@ async function main(){
     await page.screenshot({path:path.join(evidence,'quick-add-ru-390.png'),animations:'disabled'});
     await page.locator('#close-add').click();await page.locator('#nav-today').click();assert.equal(await page.locator('.focus-card [data-task]').count(),1); // Tomorrow fixture task becomes today's task.
     assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),1);cases++;
-    const other=await context.newPage();await other.goto(origin);await other.locator('#nav-more').click();await other.locator('#language').selectOption('en');
+    const other=await context.newPage();await other.goto(origin);await settings(other);await other.locator('#language').selectOption('en');
     await page.waitForFunction(()=>!document.getElementById('storage-error').hidden);
     assert.match(await page.locator('#storage-error').textContent(),/другой вкладке/);cases++;
     await other.close();await context.close();

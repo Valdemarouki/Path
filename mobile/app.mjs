@@ -1,6 +1,6 @@
 import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay} from './model.mjs';
 import {t, label, LOCALES} from './i18n.mjs';
-import {activeTab, createNavigation} from './navigation.mjs';
+import {createNavigation} from './navigation.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -19,7 +19,7 @@ const paths = {
 const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[key]||paths.spark}"/></svg>`;
 let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus;
 const tr = key => t(key,lang);
-const updateNavigation = createNavigation($('navigation'));
+const navigation = createNavigation($('navigation'));
 try { repo=createRepository(localStorage); state=repo.state; lang=state.language; }
 catch { fatal=true; }
 const dateText = date => new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
@@ -38,10 +38,10 @@ function commit(change,focusId) {
 function taskRow(task,primary=false) {
   const name=escape(label(task,lang));
   const button=`<button id="task-${escape(task.id)}" class="check" data-task="${escape(task.id)}" aria-pressed="${task.done}" aria-label="${escape(tr(task.done?'undo':'complete'))}: ${name}"><span class="tick">${icon('check')}</span></button>`;
-  if(primary)return `<section class="focus-card ${task.done?'completed':''}"><span class="eyebrow">${tr('mainTask')}</span><div class="focus-row">${button}<div class="task-copy"><p>${name}</p><small>${task.duration?`${task.duration} min · `:''}${escape(dateText(task.date))}</small></div></div></section>`;
+  if(primary)return `<section class="focus-card ${task.done?'completed':''}"><span class="eyebrow">${tr('mainTask')}</span><div class="focus-row">${button}<div class="task-copy"><p>${name}</p><small>${task.duration?`${task.duration} ${tr('minutes')} · `:''}${escape(dateText(task.date))}</small></div></div></section>`;
   return `<div class="task-row ${task.done?'completed':''}">${button}<span class="task-name">${name}</span></div>`;
 }
-function intro(title,subtitle='') {return `<div class="intro"><span class="eyebrow">${tr('greeting')}</span><h1>${tr(title)}.</h1>${subtitle?`<p>${tr(subtitle)}</p>`:''}</div>`;}
+function intro(title) {return `<div class="intro ${title==='today'?'today-intro':''}"><h1>${tr(title)}</h1></div>`;}
 function todayView() {
   const tasks=state.homeTasks.filter(task=>task.date===today),habits=state.habits.filter(h=>eligible(h,today)),next=nextEvent(state);
   return `${intro('today','subtitle')}<p class="date-line">${escape(dateText(today))}</p>
@@ -57,26 +57,33 @@ function calendarView() {
   <section aria-label="${tr('schedule')}">${events.map(e=>`<article class="agenda-item"><div class="agenda-time">${escape(time(e.start_at))}<small>${escape(time(e.end_at))}</small></div><div class="event-copy"><h3>${escape(label(e,lang))}</h3><p>${escape(eventTime(e))}${dayKey(new Date(e.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(e.start_at)))):''}</p></div></article>`).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="text-link" data-add>${tr('add')}</button>`;
 }
-function moreView() {
-  return `${intro('sections')}<section class="destination-grid" aria-label="${tr('sections')}">${['habits','notes','projects','canvas','progress'].map(key=>`<article class="destination">${icon(key)}<h2>${tr(key)}</h2><small>${tr('unavailable')}</small></article>`).join('')}</section><div class="unavailable"><span>${tr('sync')}</span><small>${tr('unavailable')}</small></div><label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><p class="muted">${tr('localNote')}</p><button class="text-link" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>`;
+function settingsView() {
+  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><p class="muted">${tr('localNote')}</p><button class="text-link" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>`;
+}
+function habitsView() {
+  const habits=state.habits.filter(h=>eligible(h,today));
+  return `${intro('navHabits')}<p class="date-line">${escape(dateText(today))}</p><section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>`;
+}
+function unavailableView(key) {
+  return `${intro(key)}<section class="notice">${icon(key)}<h2>${tr('unavailable')}</h2><p>${tr(key==='sync'?'syncDetail':key==='sport'?'sportNote':'unavailableDetail')}</p></section>`;
 }
 function render() {
   document.documentElement.lang=lang;document.querySelector('.skip').textContent=tr('skip');$('navigation').setAttribute('aria-label',tr('navigation'));
-  updateNavigation(route, lang);
+  navigation.update(route, lang);
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
-  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='more'?moreView():`${intro('sport')}<section class="notice">${icon('sport')}<h2>${tr('unavailable')}</h2><p>${tr('sportNote')}</p></section>`)+`<p class="local-tag">${tr('demo')}</p>`;
+  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='habits'?habitsView():route==='settings'?settingsView():unavailableView(route))+`<p class="local-tag">${tr('demo')}</p>`;
   for(const [id,key] of Object.entries({'add-eyebrow':'quick','add-title':'add','task-label':'title','date-label':'date','add-note':'addNote','save-task':'save'}))$(id).textContent=tr(key);
   $('close-add').setAttribute('aria-label',tr('close'));
 }
 function navigate(destination) {
   const root=String(destination).replace(/^\//,'').split(/[/?#]/)[0];
-  if(!['today','calendar','sport','more','projects','habits','notes','canvas','progress','profile','settings'].includes(root))return;
-  route=activeTab(root);render();$('content').classList.remove('page-enter');void $('content').offsetWidth;$('content').classList.add('page-enter');$('content').focus({preventScroll:true});window.scrollTo(0,0);
+  if(!['today','calendar','sport','more','projects','habits','notes','canvas','progress','profile','settings','sync'].includes(root))return;
+  route=root==='more'?'settings':root;render();$('content').classList.remove('page-enter');void $('content').offsetWidth;$('content').classList.add('page-enter');$('content').focus({preventScroll:true});window.scrollTo(0,0);
 }
 function openAdd() {
-  if(fatal||blocked)return;lastFocus=document.activeElement;$('task-form').reset();$('form-error').hidden=true;$('task-date').value=route==='calendar'?selected:today;$('quick-add').showModal();$('task-title').focus();
+  if(fatal||blocked)return;lastFocus=document.activeElement;navigation.suspend(true);$('task-form').reset();$('form-error').hidden=true;$('task-date').value=route==='calendar'?selected:today;$('quick-add').showModal();$('task-title').focus();
 }
-$('quick-add').addEventListener('close',()=>{if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});else document.querySelector('nav [data-add]')?.focus({preventScroll:true});});
+$('quick-add').addEventListener('close',()=>{navigation.suspend(false);if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});else document.querySelector('nav [data-add]')?.focus({preventScroll:true});});
 $('close-add').addEventListener('click',()=>$('quick-add').close());
 document.addEventListener('click',event=>{
   const button=event.target.closest('button');if(!button)return;

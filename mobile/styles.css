@@ -5,3 +5,22 @@ nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-w
 dialog{position:fixed;top:auto;bottom:0;margin:0 auto;width:min(100%,540px);max-width:100%;max-height:calc(100dvh - 24px);overflow:auto;border:1px solid var(--surface-border);border-bottom:0;border-radius:32px 32px 0 0;background:var(--surface-top),var(--surface);color:var(--ink);padding:20px 20px max(24px,var(--mobile-safe-bottom));box-shadow:0 -12px 40px #0005,inset 0 1px 0 #ffffff05}dialog::backdrop{background:#000a;backdrop-filter:blur(4px)}dialog[open]{animation:sheet .24s ease-out}.sheet-head{display:flex;align-items:center;justify-content:space-between}dialog h2{font:italic 38px Georgia,serif;margin:16px 0 25px}.page-enter{animation:page .18s ease-out}@keyframes page{from{opacity:.4}to{opacity:1}}@keyframes sheet{from{transform:translateY(14px);opacity:.4}to{transform:translateY(0);opacity:1}}@keyframes check{0%{transform:scale(.28)}35%{transform:scale(1.32)}67%{transform:scale(.89)}85%{transform:scale(1.055)}100%{transform:scale(1)}}
 .destination-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:24px 0}.destination{border:1px solid var(--surface-border);background:var(--surface-top),var(--surface);border-radius:26px;min-height:142px;padding:20px;text-align:center;box-shadow:inset 0 1px 0 #ffffff05}.destination svg{width:31px;height:31px}.destination h2{font:24px Georgia,serif;margin:9px 0 4px}.destination small{color:var(--muted);font-size:11px}.intro h1{font-family:'Z003','URW Chancery L','Apple Chancery','Segoe Script',Georgia,serif;font-size:clamp(49px,17vw,76px);overflow-wrap:anywhere}nav button{border:1px solid transparent}nav button[aria-current=page]{border-color:#e3e3e0;box-shadow:0 0 12px #ffffff14}nav .quick{width:49px;height:49px;min-height:49px;border:1px solid #aaa;border-radius:15px;background:linear-gradient(135deg,#363739,#1a1b1d);color:#f0eeea;box-shadow:none}
 @media(max-width:350px){.shell{padding-left:18px;padding-right:18px}.brand small{display:none}.habit-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.focus-card{padding:18px}.focus-row{gap:10px}.task-copy p{font-size:19px}.reflection{gap:12px}.reflection img{width:88px;flex-basis:88px}.reflection p{font-size:20px}nav button{font-size:9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Glass-panel revision: quieter typography, a double graphite edge, stable page clearance. */
+:root{--surface-top:linear-gradient(165deg,#ffffff07,transparent 38%,#00000018);}
+.shell{padding-bottom:calc(146px + var(--mobile-safe-bottom));}
+.topbar{margin-bottom:16px;}
+.topbar .alpha{font-size:9px;}
+.intro h1{font:500 34px/1.2 Arial,Helvetica,sans-serif;letter-spacing:-1px;margin:16px 0;overflow-wrap:anywhere;}
+.intro.today-intro{margin-bottom:0;text-align:center;}
+.intro.today-intro h1{font:italic 76px/1.05 'Z003','URW Chancery L','Apple Chancery','Segoe Script',Georgia,serif;letter-spacing:-2px;margin:6px 0;}
+.today-intro+.date-line{justify-content:center;margin:12px 0 24px;}
+.today-intro+.date-line:before{display:none;}
+.focus-card,.habit,.next-event,.destination,.notice,dialog{
+  border-color:#ffffff1c;
+  box-shadow:inset 0 0 0 1px #08080a80,inset 0 2px 0 #ffffff06,0 6px 20px #00000026;
+}
+.notice{background:var(--surface-top),var(--surface);border-radius:30px;padding:20px;}
+.habit[aria-pressed=true]{border-color:#ffffff65;}
+.task-row{background:none;border-radius:0;box-shadow:none;}
+#quick-add h2{font:500 30px/1.2 Arial,Helvetica,sans-serif;letter-spacing:-.7px;}
+@media(max-width:350px){.intro.today-intro h1{font-size:68px;}.intro h1{font-size:30px;}}

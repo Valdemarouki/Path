@@ -4,8 +4,9 @@ const assert=require('node:assert/strict');
 const path=require('node:path');
 const fs=require('node:fs/promises');
 const origin='http://127.0.0.1:8010';
-const output=path.resolve(__dirname,'../../docs/mobile/surfaces');
+const output=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/surfaces');
 const before=process.argv.includes('--capture-before');
+async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();}
 async function main(){
   await fs.mkdir(output,{recursive:true});
   const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -19,7 +20,7 @@ async function main(){
     const prefix=before?'before':'after';
     await page.screenshot({path:path.join(output,`${prefix}-today-390.png`),animations:'disabled'});
     await page.locator('.reflection').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,`${prefix}-habits-390.png`),animations:'disabled'});
-    await page.locator('#nav-more').click();await page.screenshot({path:path.join(output,`${prefix}-more-390.png`),animations:'disabled'});
+    await settings(page);await page.screenshot({path:path.join(output,`${prefix}-more-390.png`),animations:'disabled'});
     await page.locator('#nav-today').click();await page.locator('nav [data-add]').click();await page.locator('#task-title').fill('Make time for a quiet walk');
     await page.screenshot({path:path.join(output,`${prefix}-quick-add-390.png`),animations:'disabled'});
     await page.keyboard.press('Escape');
@@ -27,14 +28,14 @@ async function main(){
     for(const width of [320,390]){
       await page.setViewportSize({width,height:844});
       for(const language of ['en','ru','es']){
-        await page.locator('#nav-more').click();await page.locator('#language').selectOption(language);
-        for(const route of ['today','more']){
-          await page.locator(`#nav-${route}`).click();
+        await settings(page);await page.locator('#language').selectOption(language);
+        for(const route of ['today','habits']){
+          await page.locator(`#nav-${route}`).click();await page.waitForTimeout(420);
           assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
           const nav=await page.locator('nav').boundingBox();assert(Math.abs(nav.x)<1&&Math.abs(nav.width-width)<1&&Math.abs(nav.y+nav.height-844)<1,'Panel touches viewport bottom and both sides');
           const radii=await page.locator('nav').evaluate(el=>{const s=getComputedStyle(el);return [s.borderTopLeftRadius,s.borderTopRightRadius,s.borderBottomLeftRadius,s.borderBottomRightRadius,s.borderBottomWidth];});
           assert.deepEqual(radii,['30px','30px','0px','0px','0px']);
-          for(const b of await page.locator('nav button').all()){const box=await b.boundingBox();assert(box.width>=44&&box.height>=44);}
+          for(const b of await page.locator('.nav-primary button').all()){const box=await b.boundingBox();assert(box.width>=44&&box.height>=44);}
           await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));const last=await page.locator('.local-tag').boundingBox();assert(last.y+last.height<nav.y);
           cases++;
         }
@@ -54,10 +55,10 @@ async function main(){
     await page.evaluate(()=>document.documentElement.style.setProperty('--mobile-safe-bottom','34px'));
     const safe=await page.locator('nav').evaluate(el=>({padding:parseFloat(getComputedStyle(el).paddingBottom),height:el.getBoundingClientRect().height,bottom:el.getBoundingClientRect().bottom}));
     assert.equal(safe.padding,42);assert.equal(safe.bottom,844);
-    for(const b of await page.locator('nav button').all()){const box=await b.boundingBox();assert(box.y+box.height<=810);}
+    for(const b of await page.locator('.nav-primary button').all()){const box=await b.boundingBox();assert(box.y+box.height<=810);}
     await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));assert((await page.locator('.local-tag').boundingBox()).y+(await page.locator('.local-tag').boundingBox()).height<(await page.locator('nav').boundingBox()).y);cases++;
     await page.evaluate(()=>document.documentElement.style.removeProperty('--mobile-safe-bottom'));
-    await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#nav-more').click();assert.equal(await page.locator('.nav-frame').evaluate(el=>el.getAnimations().length),0);
+    await page.emulateMedia({reducedMotion:'reduce'});await settings(page);assert.equal(await page.locator('.nav-frame').evaluate(el=>el.getAnimations().length),0);
     await page.locator('nav [data-add]').click();assert.equal(await page.locator('dialog').evaluate(el=>getComputedStyle(el).animationName),'none');await page.keyboard.press('Escape');cases++;
     assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${cases} surface cases: locales, 320/390px, full-width edge panel, hit areas, persistence, inset simulation and reduced motion.`);
   }finally{await browser.close();}
