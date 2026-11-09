@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="typography.css">
   <link rel="stylesheet" href="tasks.css">
   <link rel="stylesheet" href="calendar-cards.css">
+  <link rel="stylesheet" href="alpha.css">
   <script type="module" src="app.mjs"></script>
 </head>
 <body>
@@ -26,6 +27,7 @@
   <dialog id="quick-add" aria-labelledby="add-title">
     <form id="task-form">
       <div class="sheet-head"><span class="eyebrow" id="add-eyebrow"></span><button type="button" class="icon-button" id="close-add" aria-label="Close">×</button></div>
+      <div id="quick-kinds" class="quick-kinds"><button type="button" id="quick-task" data-quick-kind="task" aria-pressed="true"></button><button type="button" id="quick-event" data-quick-kind="event"></button><button type="button" id="quick-note" data-quick-kind="note"></button></div>
       <h2 id="add-title"></h2>
       <label for="task-title" id="task-label"></label>
       <input id="task-title" name="title" type="text" maxlength="500" required autocomplete="off">

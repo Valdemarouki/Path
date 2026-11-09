@@ -1,4 +1,5 @@
 // UI strings and synthetic fixture labels only; user titles are never translated.
+import {alphaRows} from './alpha-i18n.mjs';
 const rows = {
   calendarToday:['Go to today','Перейти на сегодня','Ir a hoy'],
   eventSetEnd:['Set end date and time','Задать дату и время окончания','Elegir fecha y hora de fin'],
@@ -65,5 +66,5 @@ const rows = {
   demoEvent:['A focused study session','Сосредоточенная учёба','Una sesión de estudio'], demoEvent2:['An evening walk','Вечерняя прогулка','Un paseo al atardecer'], demoRead:['Read','Читать','Leer'], demoMove:['Move','Двигаться','Moverse'], demoReflect:['Reflect','Размышлять','Reflexionar']
 };
 export const LOCALES = {en:'en-US',ru:'ru-RU',es:'es-ES'};
-export const t = (key,lang='en') => rows[key]?.[{en:0,ru:1,es:2}[lang]??0] ?? key;
+export const t = (key,lang='en') => (rows[key]||alphaRows[key])?.[{en:0,ru:1,es:2}[lang]??0] ?? key;
 export const label = (record,lang) => record.titleKey ? t(record.titleKey,lang) : record.nameKey ? t(record.nameKey,lang) : record.title ?? record.name;

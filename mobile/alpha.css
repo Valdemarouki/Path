@@ -1,0 +1,46 @@
+/* Functional Alpha sections share the existing graphite card material. */
+.alpha-card{position:relative;isolation:isolate;overflow:hidden;display:block;width:100%;padding:20px;margin:14px 0;border:1px solid #080809;border-radius:28px;background:linear-gradient(145deg,#252527,#1d1d1f 52%,#171719);box-shadow:inset 0 0 0 1px #ffffff09,inset 0 2px 0 #ffffff06,0 5px 18px #0002;text-align:left;}
+.alpha-card:before{content:'';position:absolute;inset:0;background:url('assets/panel-noise.svg');opacity:.018;pointer-events:none;z-index:-1;}
+.alpha-card h2{font-size:21px;font-weight:300;line-height:1.4;margin:0;overflow-wrap:anywhere;}
+.alpha-card .section-head{justify-content:flex-start;margin:0;}.alpha-card .section-head h2{flex:1;}
+.alpha-card p{overflow-wrap:anywhere;}.alpha-card small{font-size:13px;font-weight:400;color:var(--muted);}
+#content>h2,.active-workout>h2{font-weight:200;font-size:25px;margin:28px 0 12px;overflow-wrap:anywhere;}
+.alpha-card svg,.board-card svg{width:28px;height:28px;flex-shrink:0;}
+.row-actions,.toolbar{display:flex;flex-wrap:wrap;align-items:center;column-gap:18px;row-gap:4px;}.toolbar{margin:8px 0 16px;}
+.state-label{font-size:12px;font-weight:400;color:var(--muted);border-bottom:1px solid #ffffff18;}
+.project-card{cursor:pointer;}.project-card h2{margin:14px 0 8px;}.project-card:active,.board-card:active{filter:brightness(.92);}
+.note-text,.source-preview{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
+.source-preview{font:400 13px/1.6 'Manrope Preview',sans-serif;max-height:40dvh;overflow:auto;border-top:1px solid #ffffff10;padding-top:14px;}
+.list-item{display:flex;gap:14px;align-items:center;justify-content:space-between;width:100%;padding:14px 0;border-bottom:1px solid #ffffff13;text-align:left;}
+.list-item strong{font-weight:400;overflow-wrap:anywhere;}.list-item>div{min-width:0;}
+.item-title{display:block;flex:1;min-width:0;padding:8px 0;text-align:left;border-radius:6px;overflow-wrap:anywhere;}
+.item-title span,.item-title small{display:block;}.item-title small,.history-result small{font-size:12px;color:var(--muted);margin-top:6px;}
+.history-result{flex-wrap:wrap;overflow-wrap:anywhere;}.history-result span{min-width:0;}
+.quick-kinds{display:flex;gap:6px;border-bottom:1px solid #ffffff13;padding-bottom:8px;}.quick-kinds button{flex:1;font-size:14px;border-radius:14px;}.quick-kinds [aria-pressed=true]{background:#ffffff0a;}
+#alpha-editor{padding-bottom:max(24px,env(safe-area-inset-bottom));}
+#alpha-editor h2{font:200 30px/1.3 'Manrope Preview',sans-serif;letter-spacing:-.5px;overflow-wrap:anywhere;margin:14px 0 22px;}
+#alpha-editor h3{font-size:18px;font-weight:300;overflow-wrap:anywhere;}#alpha-editor label{font-weight:400;}
+#alpha-fields{border:0;padding:0;margin:0;min-width:0;}#alpha-fields:disabled{opacity:.85;}
+#alpha-discard{padding-top:16px;border-top:1px solid #ffffff16;}
+#alpha-editor[data-busy] #alpha-fields,#alpha-editor[data-busy] [data-alpha]{pointer-events:none;}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px;}.form-grid>div{min-width:0;}.form-grid input,.form-grid select{min-width:0;}
+.weekdays{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:18px 0;}.weekdays label{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;margin:0;font-size:12px;border:1px solid #ffffff15;border-radius:12px;color:var(--ink);}.weekdays input{width:16px;min-height:16px;padding:0;accent-color:#ddd;}
+.dated-history{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}.dated-history button{border-bottom:1px solid #ffffff18;display:flex;justify-content:space-between;align-items:center;padding:8px;font-size:13px;border-radius:8px;}.dated-history svg{width:20px;height:20px;}.dated-history [aria-pressed=true]{background:#ffffff08;}
+.exercise-editor{margin-top:18px;padding-top:4px;border-top:1px solid #ffffff16;}
+.active-workout{border-bottom:1px solid #ffffff18;padding-bottom:20px;}.workout-clock{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;}.workout-clock output{display:block;color:var(--ink);font-size:24px;font-weight:300;margin:6px 0;}
+.workout-set{padding:16px 0;border-top:1px solid #ffffff18;}.workout-set h3{font-size:17px;font-weight:400;margin:0;overflow-wrap:anywhere;}.workout-set .muted{margin:6px 0;}.workout-set label{margin-top:10px;font-size:12px;}.set-log{display:flex;gap:8px;align-items:center;padding:10px 14px;margin-top:12px;border:1px solid #ffffff24;border-radius:14px;font-size:14px;}.set-log svg{width:20px;height:20px;}.set-log[aria-pressed=true]{background:#ffffff0a;}
+.result-row{padding:12px 0;border-bottom:1px solid #ffffff14;display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;font-size:14px;overflow-wrap:anywhere;}
+.board-card{display:flex;align-items:center;gap:16px;min-height:96px;overflow-wrap:anywhere;}
+.canvas-viewport{width:100%;height:52dvh;min-height:220px;max-height:460px;position:relative;overflow:hidden;border:1px solid #ffffff20;border-radius:24px;background:#101012;touch-action:none;outline-offset:3px;}
+.canvas-viewport:focus-visible{outline:2px solid #fff;}.canvas-world{position:absolute;width:1px;height:1px;transform-origin:0 0;}
+.canvas-edges{position:absolute;width:1px;height:1px;overflow:visible;color:#b7b7bc;pointer-events:none;}.canvas-edges line{stroke:currentColor;stroke-width:1.5;}.canvas-edges text{fill:currentColor;font-size:13px;}
+.canvas-node{position:absolute;overflow:hidden;border:1px solid #ffffff20;background:#242426;border-radius:14px;padding:12px;text-align:left;min-height:0;min-width:0;touch-action:manipulation;}.canvas-node strong{font-size:15px;font-weight:400;display:block;}.canvas-node span{display:block;font-size:12px;color:var(--muted);margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere;}
+.progress-stats{margin:24px 0;}.progress-stats>div{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0;border-bottom:1px solid #ffffff16;}.progress-stats dt{font-size:14px;max-width:70%;}.progress-stats dd{font-size:29px;font-weight:200;margin:0;white-space:nowrap;font-variant-numeric:tabular-nums;}
+html[data-motion=off] *,html[data-motion=off] *:before,html[data-motion=off] *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important;}
+@media(max-width:350px){.alpha-card{padding:18px;border-radius:26px;}.row-actions,.toolbar{column-gap:14px;}.workout-clock output{font-size:21px;}.weekdays{grid-template-columns:repeat(3,minmax(0,1fr));}}
+
+.set-log.celebrate svg{animation:check .565s ease-out;}
+/* Route focus belongs to the heading, not a browser outline around the whole page.
+   Navigation already tracks actual pointer/keyboard input across the document. */
+#content:focus{outline:none;}
+.shell:has(#navigation[data-focus-origin=keyboard]) #content:focus-visible>.intro h1{outline:2px solid #ffffff90;outline-offset:6px;border-radius:4px;}

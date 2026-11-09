@@ -32,7 +32,8 @@ export function createNavigation(nav){
   const handle=nav.querySelector('.panel-handle'),extra=nav.querySelector('.nav-extra'),scroll=nav.querySelector('.nav-extra-scroll'),row=nav.querySelector('.nav-primary'),frame=nav.querySelector('.nav-frame'),quick=row.querySelector('.quick');
   const buttons=new Map(mainKeys.map(k=>[k,nav.querySelector('#nav-'+k)]));
   const cells=new Map(allKeys.map(k=>[k,nav.querySelector('[data-cell="'+k+'"]')]));
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const systemReduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const reduced={get matches(){return systemReduced.matches||document.documentElement.dataset.motion==='off';},addEventListener(type,fn){systemReduced.addEventListener(type,fn);window.addEventListener('path-motion-change',fn);}};
   const shade=document.createElement('div');shade.className='nav-shade';shade.hidden=true;shade.setAttribute('aria-hidden','true');document.body.append(shade);
   nav.dataset.blur=CSS.supports('backdrop-filter','blur(1px)')||CSS.supports('-webkit-backdrop-filter','blur(1px)')?'supported':'fallback';
   let destination='today',language='en',opened=false,modalActive=false,suspended=false,mode='normal',motion=null,rootAnimation=null,serial=0;
@@ -154,7 +155,7 @@ export function createNavigation(nav){
     update(route,lang){
       const changed=destination!==route;destination=route;language=lang;if(changed){close({focus:false});collapsed('normal');lastY=window.scrollY;travel=0;ignoreScrollUntil=performance.now()+400;}
       nav.setAttribute('aria-label',t('navigation',lang));handle.setAttribute('aria-label',t(opened?'closeSections':'openSections',lang));nav.querySelector('#panel-title').textContent=t('sections',lang);
-      for(const b of nav.querySelectorAll('[data-route],[data-add]')){const key=b.hasAttribute('data-add')?'quick':b.dataset.route,label=t(key==='habits'?'navHabits':key,lang);b.setAttribute('aria-label',label);if(key===route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');const span=b.querySelector('.nav-label')||b.querySelector('span');if(span)span.textContent=label;const small=b.querySelector('small');if(small)small.textContent=key==='settings'?t('language',lang):['today','calendar','habits'].includes(key)?'':t('unavailable',lang);}
+      for(const b of nav.querySelectorAll('[data-route],[data-add]')){const key=b.hasAttribute('data-add')?'quick':b.dataset.route,label=t(key==='habits'?'navHabits':key,lang);b.setAttribute('aria-label',label);if(key===route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');const span=b.querySelector('.nav-label')||b.querySelector('span');if(span)span.textContent=label;const small=b.querySelector('small');if(small)small.textContent=key==='settings'?t('language',lang):['today','calendar','habits'].includes(key)?'':t('local',lang);}
       for(const [key,cell]of cells)cell.dataset.active=String(key===route);paintFrame(changed);
     },
     suspend(value){if(value){close({focus:false});stopAnimations();finishFlights();motion=null;delete nav.dataset.transitioning;layout(false);}suspended=value;nav.hidden=value;collapsed('normal',false);},open,close
