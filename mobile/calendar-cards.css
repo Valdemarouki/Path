@@ -46,3 +46,18 @@
 #event-editor .event-time-fields>div{min-width:0;}
 #event-editor .event-time-fields label{min-height:40px;display:flex;align-items:flex-end;margin-top:12px;}
 #event-editor .event-time-fields input{min-width:0;}
+/* Functional controls only; existing event materials and navigation are unchanged. */
+.calendar-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.calendar-actions button{min-height:44px;}
+#event-delete-prompt button{display:block;min-height:44px;}
+#event-latest h3{font-size:16px;font-weight:400;}
+#event-undo-bar{position:relative;width:100%;margin:12px 0 20px;max-height:220px;overflow:auto;padding:12px 16px;border:1px solid #4b4b50;border-radius:18px;background:#202022;box-shadow:0 6px 20px #0006;display:flex;align-items:center;flex-wrap:wrap;gap:4px 14px;}
+#event-undo-bar>div{flex:1;min-width:130px;font-size:14px;}
+#event-undo-bar small{display:block;font-size:11px;line-height:1.4;color:var(--muted);}
+#event-undo-bar button{min-height:44px;min-width:88px;}
+#event-undo-bar:focus-within{border-color:#e1e0dc;}
+#event-undo-bar button:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+#event-undo-bar.event-undo-obscured{visibility:hidden;pointer-events:none;}
+
+#event-undo-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;font-size:13px;font-weight:400;}

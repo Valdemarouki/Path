@@ -19,10 +19,10 @@ const paths = {
   progress:'M3 21h18V3h-5v5h-5v5H7v4H3v4',left:'m15 5-7 7 7 7',right:'m9 5 7 7-7 7'
 };
 const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[key]||paths.spark}"/></svg>`;
-let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, removed=null;
+let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, removed=null, announcementSerial=0;
 const tr = key => t(key,lang);
 const navigation = createNavigation($('navigation'));
-const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,getError:()=>$('storage-error').textContent,navigation,refresh:refreshData});
+const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,getError:()=>$('storage-error').textContent,navigation,refresh:refreshData,isStale:()=>blocked});
 try { repo=navigator.locks?await navigator.locks.request(STORAGE_KEY,()=>createRepository(localStorage)):createRepository(localStorage); state=repo.state; lang=state.language; }
 catch { fatal=true; }
 const dateText = date => new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
@@ -32,9 +32,16 @@ function eventTime(event) {
   const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
   return `${time(event.start_at)} – ${time(event.end_at)}${start!==end?' · '+dateText(end):''}`;
 }
-function announce(message) { $('announcement').textContent=''; requestAnimationFrame(()=>$('announcement').textContent=message); }
+function calendarEventTime(event){
+  if(event.type==='deadline')return eventTime(event);
+  const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
+  return start===end?eventTime(event):`${dateText(start)} · ${time(event.start_at)} – ${dateText(end)} · ${time(event.end_at)}`;
+}
+function clearAnnouncement(){announcementSerial++;$('announcement').textContent='';}
+function announce(message) { const serial=++announcementSerial;$('announcement').textContent='';requestAnimationFrame(()=>{if(serial===announcementSerial)$('announcement').textContent=message;}); }
 function showError(key) { const el=$('storage-error');el.textContent=tr(key);el.hidden=false;if($('quick-add').open){$('form-error').textContent=tr(key);$('form-error').hidden=false;} }
 async function commit(change,focusId) {
+  clearAnnouncement();
   if(fatal||blocked||writing)return false;
   if(!navigator.locks){showError('lockUnavailable');return false;}
   writing=true;document.documentElement.setAttribute('data-saving','true');
@@ -71,17 +78,17 @@ function calendarEventCard(event) {
   let [glyph,typeKey]=types[event.type]||types.busy;
   glyph=({busy:'calendar',routine:'repeat',deadline:'flag',focus:'target',free_time:'sun',workout:'sport'})[event.type]||glyph;
   const customGlyph=({book:'book',focus:'target',sport:'sport',sun:'sun'})[event.eventIcon];
-  const linked=event.taskId?(state.homeTasks.find(t=>t.id===event.taskId)||(state.projects||[]).flatMap(p=>p.tasks||[]).find(t=>t.id===event.taskId)):null;
+  const linked=event.taskId?(state.homeTasks.find(t=>t.id===event.taskId)||(Array.isArray(state.projects)?state.projects:[]).flatMap(p=>Array.isArray(p?.tasks)?p.tasks:[]).find(t=>t.id===event.taskId)):null;
   const sourceImportance=linked?linked.importance:event.importance;
   const importance=event.type!=='free_time'&&['low','medium','high'].includes(sourceImportance)?sourceImportance:'none';
   const importanceLabel=event.taskId&&!linked&&event.type!=='free_time'?tr('eventLinkedPriority'):tr('importance'+importance);
   return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
-    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(eventTime(event))}${event.type!=='deadline'&&dayKey(new Date(event.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(event.start_at)))):''}</p></div><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${importanceLabel}</span>${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div></div>
+    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(calendarEventTime(event))}</p></div><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${importanceLabel}</span>${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div></div>
   </article>`;
 }
 function calendarView() {
   const events=eventsOnDay(state,selected),tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `${intro('calendar')}<button class="text-link" data-new-event>${tr('newEvent')}</button><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
+  return `${intro('calendar')}<div class="calendar-actions"><button class="text-link" data-new-event>${tr('newEvent')}</button><button class="text-link" data-calendar-today>${tr('calendarToday')}</button></div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
   <section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="text-link" data-add>${tr('add')}</button>`;
 }
@@ -104,6 +111,7 @@ function render() {
   $('close-add').setAttribute('aria-label',tr('close'));
   for(const [id,key] of Object.entries({'date-today':'today','date-tomorrow':'tomorrow','date-other':'otherDate','details-label':'details','duration-label':'duration','note-label':'note','make-main':'makeMain','move-tomorrow':'moveTomorrow','delete-task':'deleteTask','discard-question':'discardQuestion','continue-edit':'continueEdit','discard-edit':'discardEdit','deleted-label':'deleted','undo-delete':'undoDelete','refresh-data':'refreshData','reload-in-editor':'refreshData'}))$(id).textContent=tr(key);
   if($('quick-add').open)$('add-title').textContent=tr(editing?'editTask':'add');
+  eventEditor.updateUndo();
 }
 function navigate(destination) {
   const root=String(destination).replace(/^\//,'').split(/[/?#]/)[0];
@@ -150,6 +158,7 @@ $('refresh-data').addEventListener('click',refreshData);
 $('reload-in-editor').addEventListener('click',refreshData);
 document.addEventListener('click',async event=>{
   const button=event.target.closest('button');if(!button)return;
+  if(button.hasAttribute('data-calendar-today')){selected=dayKey();render();document.querySelector('[data-calendar-today]')?.focus({preventScroll:true});return;}
   if(button.dataset.edit)return openAdd(button.dataset.edit);
   if(button.dataset.date){$('task-date').value=button.dataset.date==='today'?dayKey():shiftDay(dayKey(),1);return;}
   if(button.hasAttribute('data-add'))return openAdd();

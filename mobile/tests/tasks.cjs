@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {execFileSync}=require('node:child_process');
-const origin='http://127.0.0.1:8010',key='path-mobile-alpha-v1',out=path.resolve(__dirname,'../../docs/mobile/tasks');
+const origin='http://127.0.0.1:8010',key='path-mobile-alpha-v1',out=process.env.MOBILE_TASK_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/tasks');
 let recording=false;
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const visible=async(p,s)=>p.waitForFunction(s=>!!document.querySelector(s)&&!document.querySelector(s).hidden,s);

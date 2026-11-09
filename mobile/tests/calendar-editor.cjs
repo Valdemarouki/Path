@@ -1,5 +1,5 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
-const origin='http://127.0.0.1:8010',key='path-mobile-alpha-v1',out=path.resolve(__dirname,'../../docs/mobile/compatibility/screenshots');
+const origin='http://127.0.0.1:8010',key='path-mobile-alpha-v1',out=process.env.MOBILE_EDITOR_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/compatibility/screenshots');
 const data=async p=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),key);
 const close=async p=>p.waitForFunction(()=>!document.querySelector('#event-editor').open);
 const save=async p=>{await p.locator('#event-save').click();await close(p);};

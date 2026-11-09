@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {pathToFileURL}=require('node:url');
-const output=path.resolve(__dirname,'../../docs/mobile/typography-manrope');
+const output=process.env.MOBILE_TYPOGRAPHY_EVIDENCE||path.resolve(__dirname,'../../docs/mobile/typography-manrope');
 const origin='http://127.0.0.1:8020';
 const previewKey='path-mobile-manrope-preview-v1';
 const samples={
@@ -44,11 +44,11 @@ async function main(){
       const previewStyles=await styles(page),base=await context.newPage();await base.goto('http://127.0.0.1:8010');await base.waitForSelector('.focus-card');assert.deepEqual(previewStyles,await styles(base),'Surface tokens and normal panel geometry must be identical');await base.close();cases++;
       // Header line box retained; paragraph can wrap naturally without truncation.
       const fit=await page.locator('.task-copy p').evaluate(e=>({scroll:e.scrollWidth,client:e.clientWidth,height:e.offsetHeight,line:parseFloat(getComputedStyle(e).lineHeight)}));assert(fit.scroll<=fit.client);assert(fit.height>=fit.line*2);
-      await page.locator('.focus-card [data-task]').click();await page.reload();await page.waitForSelector('.focus-card');assert.equal(await page.locator('.focus-card [data-task]').getAttribute('aria-pressed'),'true');assert.equal(await page.evaluate(()=>localStorage.getItem('path-mobile-alpha-v1')),null);cases++;
-      await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#nav-habits').click();assert.equal(await page.locator('.nav-frame').evaluate(e=>e.getAnimations().length),0);cases++;
+      await page.locator('.focus-card [data-task]').click();await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));await page.reload();await page.waitForSelector('.focus-card');assert.equal(await page.locator('.focus-card [data-task]').getAttribute('aria-pressed'),'true');assert.equal(await page.evaluate(()=>localStorage.getItem('path-mobile-alpha-v1')),null);cases++;
+      await page.emulateMedia({reducedMotion:'reduce'});await page.locator('#nav-habits').click();await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));assert.equal(await page.locator('.nav-frame').evaluate(e=>e.getAnimations().length),0);cases++;
       if(width===390&&lang==='en'){
-        await page.goto(origin+'/?card-weight=200');await page.locator('.focus-card [data-task]').click();await page.evaluate(()=>document.fonts.ready);assert.equal(await page.locator('.section-head h2').evaluate(e=>getComputedStyle(e).fontWeight),'200');await page.screenshot({path:path.join(output,'en-390-card-200.png'),animations:'disabled'});cases++;
-        await page.goto(origin);await page.locator('.nav-primary [data-add]').click();await page.locator('#task-title').fill('Plan a calm evening');await page.screenshot({path:path.join(output,'quick-add-en-390.png'),animations:'disabled'});await page.keyboard.press('Escape');cases++;
+        await page.goto(origin+'/?card-weight=200');await page.locator('.focus-card [data-task]').click();await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));await page.evaluate(()=>document.fonts.ready);assert.equal(await page.locator('.section-head h2').evaluate(e=>getComputedStyle(e).fontWeight),'200');await page.screenshot({path:path.join(output,'en-390-card-200.png'),animations:'disabled'});cases++;
+        await page.goto(origin);await page.locator('.nav-primary [data-add]').click();await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));await page.locator('#task-title').fill('Plan a calm evening');await page.screenshot({path:path.join(output,'quick-add-en-390.png'),animations:'disabled'});await page.keyboard.press('Escape');cases++;
       }
       assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
       report.push({width,language:lang,heading,weights,fontUsage,fontRequests,taskTitle:samples[lang].task});await context.close();

@@ -1,3 +1,5 @@
+// Await durable asynchronous UI writes before asserting persistence.
+async function settled(page){await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));}
 // Reproducible screenshots and layout/behavior checks for mobile surface geometry.
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
@@ -6,7 +8,7 @@ const fs=require('node:fs/promises');
 const origin='http://127.0.0.1:8010';
 const output=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/surfaces');
 const before=process.argv.includes('--capture-before');
-async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
+async function settings(page){await page.locator('#panel-toggle').click();await settled(page);await page.locator('#extra-settings').click();await settled(page);await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function main(){
   await fs.mkdir(output,{recursive:true});
   const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -21,16 +23,18 @@ async function main(){
     await page.screenshot({path:path.join(output,`${prefix}-today-390.png`),animations:'disabled'});
     await page.locator('.reflection').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,`${prefix}-habits-390.png`),animations:'disabled'});
     await settings(page);await page.screenshot({path:path.join(output,`${prefix}-more-390.png`),animations:'disabled'});
-    await page.locator('#nav-today').click();await page.locator('nav [data-add]').click();await page.locator('#task-title').fill('Make time for a quiet walk');
+    await page.locator('#nav-today').click();await settled(page);await page.locator('nav [data-add]').click();await settled(page);await page.locator('#task-title').fill('Make time for a quiet walk');
     await page.screenshot({path:path.join(output,`${prefix}-quick-add-390.png`),animations:'disabled'});
     await page.keyboard.press('Escape');
+    // The screenshot fixture has a dirty task: explicitly discard it before navigating.
+    assert(await page.locator('#discard-prompt').isVisible());await page.locator('#discard-edit').click();
     if(before){console.log('Captured four BEFORE screenshots at 390×844.');await context.close();return;}
     for(const width of [320,390]){
       await page.setViewportSize({width,height:844});
       for(const language of ['en','ru','es']){
-        await settings(page);await page.locator('#language').selectOption(language);
+        await settings(page);await page.locator('#language').selectOption(language);await settled(page);
         for(const route of ['today','habits']){
-          await page.locator(`#nav-${route}`).click();await page.waitForTimeout(500);
+          await page.locator(`#nav-${route}`).click();await settled(page);await page.waitForTimeout(500);
           assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
           const nav=await page.locator('nav').boundingBox();assert(Math.abs(nav.x)<1&&Math.abs(nav.width-width)<1&&Math.abs(nav.y+nav.height-844)<1,'Panel touches viewport bottom and both sides');
           const radii=await page.locator('nav').evaluate(el=>{const s=getComputedStyle(el);return [s.borderTopLeftRadius,s.borderTopRightRadius,s.borderBottomLeftRadius,s.borderBottomRightRadius,s.borderBottomWidth];});
@@ -39,16 +43,16 @@ async function main(){
           await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));const last=await page.locator('.local-tag').boundingBox();assert(last.y+last.height<nav.y);
           cases++;
         }
-        await page.locator('#nav-today').click();await page.locator('nav [data-add]').click();
+        await page.locator('#nav-today').click();await settled(page);await page.locator('nav [data-add]').click();await settled(page);
         await page.locator('#task-title').fill(`Synthetic ${language} ${width}`);
-        await page.locator('dialog').evaluate(el=>Promise.all(el.getAnimations().map(a=>a.finished)));
-        const sheet=await page.locator('dialog').boundingBox();assert(sheet.x>=0&&sheet.x+sheet.width<=width+1&&sheet.y+sheet.height<=844+1);
+        await page.locator('#quick-add').evaluate(el=>Promise.all(el.getAnimations().map(a=>a.finished)));
+        const sheet=await page.locator('#quick-add').boundingBox();assert(sheet.x>=0&&sheet.x+sheet.width<=width+1&&sheet.y+sheet.height<=844+1);
         assert(await page.locator('#save-task').isVisible());
         for(const id of ['task-title','task-date','save-task','close-add']){const box=await page.locator(`#${id}`).boundingBox();assert(box.width>=44&&box.height>=44);}
-        await page.locator('#save-task').click();await page.reload();await page.waitForSelector('.focus-card');assert.equal(await page.getByText(`Synthetic ${language} ${width}`,{exact:true}).count(),1);cases++;
-        await page.locator('.focus-card [data-task]').click();await page.locator('[data-habit]').first().click();
+        await page.locator('#save-task').click();await settled(page);await page.reload();await page.waitForSelector('.focus-card');assert.equal(await page.getByText(`Synthetic ${language} ${width}`,{exact:true}).count(),1);cases++;
+        await page.locator('.focus-card [data-task]').click();await settled(page);await page.locator('[data-habit]').first().click();await settled(page);
         await page.reload();await page.waitForSelector('.focus-card');assert.equal(await page.locator('[data-habit]').first().getAttribute('aria-pressed'),'true');
-        await page.locator('[data-habit]').first().click();await page.locator('.focus-card [data-task]').click();cases++;
+        await page.locator('[data-habit]').first().click();await settled(page);await page.locator('.focus-card [data-task]').click();await settled(page);cases++;
       }
     }
     // Emulate a 34px bottom inset through the same CSS variable used by env().
@@ -59,7 +63,7 @@ async function main(){
     await page.evaluate(()=>scrollTo(0,document.documentElement.scrollHeight));assert((await page.locator('.local-tag').boundingBox()).y+(await page.locator('.local-tag').boundingBox()).height<(await page.locator('nav').boundingBox()).y);cases++;
     await page.evaluate(()=>document.documentElement.style.removeProperty('--mobile-safe-bottom'));
     await page.emulateMedia({reducedMotion:'reduce'});await settings(page);assert.equal(await page.locator('.nav-frame').evaluate(el=>el.getAnimations().length),0);
-    await page.locator('nav [data-add]').click();assert.equal(await page.locator('dialog').evaluate(el=>getComputedStyle(el).animationName),'none');await page.keyboard.press('Escape');cases++;
+    await page.locator('nav [data-add]').click();await settled(page);assert.equal(await page.locator('#quick-add').evaluate(el=>getComputedStyle(el).animationName),'none');await page.keyboard.press('Escape');cases++;
     assert.deepEqual(errors,[]);await context.close();console.log(`PASS ${cases} surface cases: locales, 320/390px, full-width edge panel, hit areas, persistence, inset simulation and reduced motion.`);
   }finally{await browser.close();}
 }
