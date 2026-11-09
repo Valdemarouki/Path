@@ -1,5 +1,10 @@
 # Path Mobile alpha 01
 
+> Current UI contract (9 November 2026): [adaptive glass navigation](glass/README.md).
+> The bottom row is Today / Calendar / + / Sport / Habits. Open the handle to
+> access additional sections. Language and mobile export are in Settings.
+> Earlier More-tab screenshots and reports below are historical evidence.
+
 Standalone mobile web prototype, based on `Valdemarouki/Path` commit
 `2f4d73bfa18d2a04c1d7520116b0d9bd8d5d173c`, local branch
 `feature/path-mobile-alpha`. No native app, account, backend, sync, installation,
@@ -24,7 +29,8 @@ Stop it with Ctrl+C. No desktop build script is involved.
 
 ```sh
 node --test mobile/tests/model.test.mjs
-node mobile/tests/browser.cjs
+MOBILE_EVIDENCE_DIR=/tmp/path-mobile-regression node mobile/tests/browser.cjs
+node mobile/tests/panel.cjs
 ```
 
 The browser tests require the environment's existing `playwright` and
@@ -38,9 +44,10 @@ the next ongoing/future event, and habits due today. The first task remains in
 place on completion; it is not automatically replaced. Quick Add creates a task
 for today or the selected Calendar date. The title is required (160 characters
 maximum). Tasks and habits can be marked and unmarked. Calendar is a read-only
-day agenda of events plus actionable tasks for that date. More offers language
-selection and JSON export of the mobile test state. Sport and unsupported More
-destinations are explicitly marked unavailable, with no pretend actions.
+day agenda of events plus actionable tasks for that date. Settings, reached
+through the expanded navigation, offers language selection and JSON export of
+the mobile test state. Sport and unsupported secondary destinations are
+explicitly marked unavailable, with no pretend actions.
 
 EN is always the initial language; explicit EN/RU/ES selection is persisted.
 Only UI and synthetic fixture labels are translated, never user-authored titles.
