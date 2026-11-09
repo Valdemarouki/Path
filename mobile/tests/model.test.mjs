@@ -30,7 +30,7 @@ test('write failures preserve memory, disk and revision',()=>{
   assert.deepEqual(repo.state,before);assert.equal(storage.getItem(STORAGE_KEY),serialized);
 });
 test('corrupt and newer schemas are not overwritten',()=>{
-  for(const raw of ['{bad',JSON.stringify({...seed(now),schemaVersion:2})]){
+  for(const raw of ['{bad',JSON.stringify({...seed(now),schemaVersion:3})]){
     const storage=memory();storage.setItem(STORAGE_KEY,raw);assert.throws(()=>createRepository(storage,now),/load/);assert.equal(storage.getItem(STORAGE_KEY),raw);
   }
 });
@@ -42,7 +42,7 @@ test('stale tab commit rejected without overwriting newer data',()=>{
 });
 test('invalid task titles and dates leave state unchanged',()=>{
   const repo=createRepository(memory(),now),before=repo.state;
-  for(const [title,date] of [['  ','2026-11-08'],['x'.repeat(161),'2026-11-08'],['test','2026-02-30']])assert.throws(()=>repo.commit(s=>addTask(s,title,date,'invalid')));
+  for(const [title,date] of [['  ','2026-11-08'],['x'.repeat(501),'2026-11-08'],['test','2026-02-30']])assert.throws(()=>repo.commit(s=>addTask(s,title,date,'invalid')));
   assert.deepEqual(repo.state,before);
 });
 test('validation rejects duplicate IDs and unsupported habit kinds',()=>{

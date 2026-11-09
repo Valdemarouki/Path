@@ -27,7 +27,7 @@ export function seed(now = new Date()) {
 const record = value => value && typeof value === 'object' && !Array.isArray(value);
 export function validate(state) {
   const fail = () => { throw Error('invalid'); };
-  if (!record(state) || state.schemaVersion!==1 || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
+  if (!record(state) || ![1,2].includes(state.schemaVersion) || !Number.isSafeInteger(state.revision) || state.revision<0 || !LANGUAGES.includes(state.language) || !Number.isFinite(Date.parse(state.createdAt))) fail();
   const ids = new Set();
   for (const list of ['homeTasks','events','habits']) {
     if (!Array.isArray(state[list]) || state[list].length>5000) fail();
@@ -38,7 +38,11 @@ export function validate(state) {
       if (typeof title!=='string' || !title.trim() || title.length>500) fail();
     }
   }
-  for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean') fail();
+  for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean' || (task.duration!==undefined && (!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)) || (task.note!==undefined && (typeof task.note!=='string'||task.note.length>10000))) fail();
+  if(state.schemaVersion===2){
+    if(!record(state.mainTasks))fail();
+    for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!state.homeTasks.some(t=>t.id===id&&t.date===date))fail();
+  }
   for (const event of state.events) {
     if (!validDay(event.date) || !Number.isFinite(event.hour) || event.hour<0 || event.hour>=24 || !Number.isFinite(event.duration) || event.duration<=0 || !Number.isFinite(Date.parse(event.start_at)) || Date.parse(event.end_at)-Date.parse(event.start_at)!==event.duration*60000 || typeof event.tzid!=='string') fail();
   }
@@ -56,7 +60,7 @@ export function eligible(habit, date) {
 export const habitDone = (habit,date) => (habit.values[date] ?? Number(habit.checkIns[date] || false)) >= 1;
 export function addTask(state,title,date,id) {
   title = title.trim();
-  if (!title || title.length>160 || !validDay(date)) throw Error('task');
+  if (!title || title.length>500 || !validDay(date)) throw Error('task');
   if (!id || state.homeTasks.some(t=>t.id===id)) throw Error('id');
   state.homeTasks.push({id,title,date,done:false});
 }
@@ -76,11 +80,12 @@ export function createRepository(storage,now=new Date()) {
   let state, previous;
   try {
     previous=storage.getItem(STORAGE_KEY);
-    state=validate(previous===null?seed(now):JSON.parse(previous));
+    state=migrate(validate(previous===null?seed(now):JSON.parse(previous)));
     if (previous===null) { previous=JSON.stringify(state); storage.setItem(STORAGE_KEY,previous); }
   } catch { throw Error('load'); }
   return {
     get state() { return structuredClone(state); },
+    refresh(){const raw=storage.getItem(STORAGE_KEY);const next=migrate(validate(JSON.parse(raw)));state=next;previous=raw;return this.state;},
     commit(change) {
       // Reject stale tabs before writing; localStorage cannot provide a cross-tab transaction.
       if (storage.getItem(STORAGE_KEY)!==previous) throw Error('conflict');
@@ -91,3 +96,39 @@ export function createRepository(storage,now=new Date()) {
     }
   };
 }
+
+// Version 1 stays untouched on disk until the next successful user write.
+// Migration adds references, never rewrites IDs, tasks, schedules or history.
+export function migrate(input){
+  const state=structuredClone(input);
+  if(state.schemaVersion===1){
+    state.schemaVersion=2;state.mainTasks={};
+    for(const task of state.homeTasks)if(!state.mainTasks[task.date])state.mainTasks[task.date]=task.id;
+  }
+  return validate(state);
+}
+export function editTask(state,id,fields){
+  const task=state.homeTasks.find(t=>t.id===id);if(!task)throw Error('task');
+  const title=fields.title.trim(),date=fields.date;
+  if(!title||title.length>500||!validDay(date))throw Error('task');
+  if(task.date!==date)for(const [day,main]of Object.entries(state.mainTasks))if(main===id)delete state.mainTasks[day];
+  Object.assign(task,{title,date});delete task.titleKey;
+  if(fields.duration===undefined)delete task.duration;else task.duration=fields.duration;
+  if(fields.note)task.note=fields.note;else delete task.note;
+  validate(state);
+}
+export function setMainTask(state,id){
+  const task=state.homeTasks.find(t=>t.id===id);if(!task)throw Error('task');state.mainTasks[task.date]=id;
+}
+export function deleteTask(state,id){
+  const index=state.homeTasks.findIndex(t=>t.id===id);if(index<0)throw Error('task');
+  const task=structuredClone(state.homeTasks[index]),main=state.mainTasks[task.date]===id;
+  state.homeTasks.splice(index,1);if(main)delete state.mainTasks[task.date];return {task,index,main};
+}
+export function restoreTask(state,removed){
+  if(state.homeTasks.some(t=>t.id===removed.task.id))throw Error('id');
+  state.homeTasks.splice(removed.index,0,structuredClone(removed.task));
+  if(removed.main&&!state.mainTasks[removed.task.date])state.mainTasks[removed.task.date]=removed.task.id;
+}
+export const mainTaskOnDay=(state,date)=>state.homeTasks.find(t=>t.id===state.mainTasks?.[date]&&t.date===date);
+export const overdueTasks=(state,date)=>state.homeTasks.filter(t=>!t.done&&t.date<date).sort((a,b)=>a.date.localeCompare(b.date));
