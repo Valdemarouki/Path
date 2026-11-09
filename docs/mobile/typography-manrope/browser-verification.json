@@ -1,0 +1,499 @@
+{
+  "cases": 26,
+  "results": [
+    {
+      "width": 320,
+      "language": "en",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "50px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 70
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 18
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 8
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 6
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Prepare a thoughtful presentation about building sustainable daily habits"
+    },
+    {
+      "width": 320,
+      "language": "ru",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "50px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 73
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 8
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Подготовить подробную презентацию о формировании устойчивых ежедневных привычек"
+    },
+    {
+      "width": 320,
+      "language": "es",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "50px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 3
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 69
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 3
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 10
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Preparar una presentación sobre cómo mantener hábitos diarios sostenibles"
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "56px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 70
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 18
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 8
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 6
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Prepare a thoughtful presentation about building sustainable daily habits"
+    },
+    {
+      "width": 390,
+      "language": "ru",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "56px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 74
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 8
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Подготовить подробную презентацию о формировании устойчивых ежедневных привычек"
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "heading": {
+        "family": "\"Manrope Preview\", sans-serif",
+        "weight": "200",
+        "style": "normal",
+        "size": "56px",
+        "synthesis": "none"
+      },
+      "weights": {
+        "task": "400",
+        "date": "400",
+        "nav": "400",
+        "card": "300",
+        "field": "400",
+        "primary": "500"
+      },
+      "fontUsage": {
+        ".today-intro h1": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 3
+          }
+        ],
+        ".task-copy p": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 70
+          }
+        ],
+        ".date-line": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 21
+          }
+        ],
+        "#nav-today .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 3
+          }
+        ],
+        "#nav-calendar .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 10
+          }
+        ],
+        "#nav-sport .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ],
+        "#nav-habits .nav-label": [
+          {
+            "familyName": "Manrope ExtraLight",
+            "postScriptName": "Manrope-ExtraLight",
+            "isCustomFont": true,
+            "glyphCount": 7
+          }
+        ]
+      },
+      "fontRequests": [
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf",
+        "http://127.0.0.1:8020/fonts/Manrope-Variable.ttf"
+      ],
+      "taskTitle": "Preparar una presentación sobre cómo mantener hábitos diarios sostenibles"
+    }
+  ]
+}

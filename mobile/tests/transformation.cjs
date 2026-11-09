@@ -4,7 +4,7 @@ const fs=require('node:fs/promises');
 const path=require('node:path');
 const os=require('node:os');
 const {execFileSync}=require('node:child_process');
-const origin='http://127.0.0.1:8010',output=path.resolve(__dirname,'../../docs/mobile/transformation');
+const origin='http://127.0.0.1:8010',output=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/transformation');
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function scene(browser,name,action){

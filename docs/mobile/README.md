@@ -1,5 +1,12 @@
 # Path Mobile alpha 01
 
+> Current functional contract: [local task lifecycle](TASK_MODEL.md) and
+> [task-stage validation, evidence and recovery](tasks/README.md).
+> Manrope is now locally loaded in the application using the selected 200/300/400/500
+> roles. The former first-task convention below is historical: schema 2 uses an
+> explicit mainTasks reference and a complete editor/transfer/delete/Undo flow.
+
+
 > Current UI contract (9 November 2026): [unified navigation transformation](transformation/README.md),
 > following [glass/compact refinement](refinement/README.md),
 > building on [adaptive glass navigation](glass/README.md).

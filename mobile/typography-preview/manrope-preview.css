@@ -1,0 +1,36 @@
+/* Optional experiment loaded only by the separate preview build. */
+@font-face {
+  font-family:'Manrope Preview';
+  src:url('fonts/Manrope-Variable.ttf') format('truetype');
+  font-style:normal;
+  font-weight:200 800;
+  font-display:block;
+}
+:root {
+  font-family:'Manrope Preview',sans-serif;
+  font-weight:400;
+  font-synthesis:none;
+  --preview-card-weight:300;
+}
+body,button,input,select,label {font-family:'Manrope Preview',sans-serif;font-weight:400;font-style:normal;font-synthesis:none;}
+.brand {font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:200;}
+.brand span,.brand small,.alpha {font-family:'Manrope Preview',sans-serif;font-weight:400;}
+.intro h1,#quick-add h2 {font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:200;}
+/* Preserve the original Today title block's height, margins and card start. */
+.intro.today-intro h1 {
+  font-family:'Manrope Preview',sans-serif;
+  font-style:normal;
+  font-weight:200;
+  font-size:56px;
+  line-height:79.8px;
+  letter-spacing:-1.4px;
+}
+.section-head h2,.event-copy h3,.notice h2,.destination h2 {font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:var(--preview-card-weight);}
+.task-copy p,.task-name,.date-line,.counter,.event-copy p,.task-copy small,.eyebrow,.habit span,.small-label,.muted {font-family:'Manrope Preview',sans-serif;font-weight:400;font-style:normal;}
+.reflection p {font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:300;}
+.primary {font-family:'Manrope Preview',sans-serif;font-weight:500;}
+#navigation button,#navigation .nav-cell small,#navigation #panel-title {font-family:'Manrope Preview',sans-serif;font-style:normal;font-weight:400;}
+#navigation #panel-title {font-weight:200;}
+@media(max-width:350px) {
+  .intro.today-intro h1 {font-size:50px;line-height:71.4px;letter-spacing:-1.2px;}
+}

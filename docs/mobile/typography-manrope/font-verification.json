@@ -1,0 +1,22 @@
+{
+  "family": "Manrope",
+  "subfamily": "ExtraLight",
+  "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+  "weight_axis": [
+    200.0,
+    200.0,
+    800.0
+  ],
+  "style": "upright, not synthetic italic",
+  "coverage": {
+    "russian": "complete",
+    "spanish": "complete",
+    "headings": "complete"
+  },
+  "outline_sha256_by_weight": {
+    "200": "bdb41f4048be256279c6b9430e317480bc5a7c4377ae5e7d1989d959d21d74a1",
+    "300": "a348b1b039745f0003cd97a3e0c9cef5329538713085424ad4d956f03ea7adf8",
+    "400": "00015aa985dfd835bb7f8ef35c31ffd21a1dc19ab18973dad5d1e22534d6eb3f",
+    "500": "11fecef402dfb290a3035165e7f8583ff2525d9d66349a2dd6414a2d847c7b33"
+  }
+}

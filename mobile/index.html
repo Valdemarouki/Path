@@ -8,6 +8,8 @@
   <title>Path Mobile · Alpha</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="navigation.css">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="tasks.css">
   <script type="module" src="app.mjs"></script>
 </head>
 <body>
@@ -15,6 +17,8 @@
   <div class="shell">
     <header class="topbar"><a class="brand" href="#today" aria-label="Path">P<span>ATH</span><small> / MOBILE</small></a><span class="alpha">ALPHA 01</span></header>
     <p id="storage-error" class="error" role="alert" hidden></p>
+    <div id="conflict-actions" hidden><button id="refresh-data" class="text-link"></button></div>
+    <div id="undo-bar" role="status" hidden><span id="deleted-label"></span> <button id="undo-delete" class="text-link"></button></div>
     <main id="content" tabindex="-1"></main>
     <nav id="navigation" aria-label="Main navigation"></nav>
   </div>
@@ -23,10 +27,18 @@
       <div class="sheet-head"><span class="eyebrow" id="add-eyebrow"></span><button type="button" class="icon-button" id="close-add" aria-label="Close">×</button></div>
       <h2 id="add-title"></h2>
       <label for="task-title" id="task-label"></label>
-      <input id="task-title" name="title" type="text" maxlength="160" required autocomplete="off">
+      <input id="task-title" name="title" type="text" maxlength="500" required autocomplete="off">
+      <div class="date-shortcuts"><button type="button" data-date="today" id="date-today"></button><button type="button" data-date="tomorrow" id="date-tomorrow"></button><button type="button" id="date-other"></button></div>
       <label for="task-date" id="date-label"></label>
       <input id="task-date" name="date" type="date" required min="2000-01-01" max="2099-12-31">
+      <details id="task-details"><summary id="details-label"></summary>
+        <label id="duration-label" for="task-duration"></label><input id="task-duration" type="number" min="1" max="10080" step="1" inputmode="numeric">
+        <label id="note-label" for="task-note"></label><textarea id="task-note" maxlength="10000" rows="3"></textarea>
+      </details>
+      <div id="edit-actions" hidden><button type="button" id="make-main" class="text-link"></button><button type="button" id="move-tomorrow" class="text-link"></button><button type="button" id="delete-task" class="text-link"></button></div>
+      <div id="discard-prompt" hidden role="group"><p id="discard-question"></p><button type="button" id="continue-edit" class="text-link"></button><button type="button" id="discard-edit" class="text-link"></button></div>
       <p class="muted" id="add-note"></p><p class="error" id="form-error" role="alert" hidden></p>
+      <button type="button" id="reload-in-editor" class="text-link" hidden></button>
       <button type="submit" class="primary" id="save-task"></button>
     </form>
   </dialog>

@@ -1,3 +1,5 @@
+> Latest functional-stage results: [tasks/README.md](tasks/README.md). Earlier results below describe prior milestones.
+
 # Alpha 01 validation — 8 November 2026
 
 Implementation commit: `bf0f769` on local `feature/path-mobile-alpha`.

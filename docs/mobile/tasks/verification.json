@@ -1,0 +1,52 @@
+{
+  "cases": 24,
+  "matrix": [
+    {
+      "width": 320,
+      "language": "en",
+      "reducedMotion": true
+    },
+    {
+      "width": 320,
+      "language": "ru",
+      "reducedMotion": true
+    },
+    {
+      "width": 320,
+      "language": "es",
+      "reducedMotion": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "reducedMotion": true
+    },
+    {
+      "width": 390,
+      "language": "ru",
+      "reducedMotion": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "reducedMotion": true
+    },
+    {
+      "width": 430,
+      "language": "en",
+      "reducedMotion": true
+    },
+    {
+      "width": 430,
+      "language": "ru",
+      "reducedMotion": true
+    },
+    {
+      "width": 430,
+      "language": "es",
+      "reducedMotion": true
+    }
+  ],
+  "videoFrames": 149,
+  "scope": "Chromium desktop emulation, synthetic data only; virtual keyboard simulated by viewport reduction, not physical iOS/Android"
+}

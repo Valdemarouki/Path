@@ -6,6 +6,7 @@ const fs=require('node:fs');
 const origin='http://127.0.0.1:8010';
 const evidence=process.env.MOBILE_EVIDENCE_DIR||path.resolve(__dirname,'../../docs/mobile/glass/regression');
 const key='path-mobile-alpha-v1';
+async function settled(page){await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-saving'));}
 async function settings(page){await page.locator('#panel-toggle').click();await page.locator('#extra-settings').click();await page.waitForFunction(()=>!document.getElementById('navigation').hasAttribute('data-transitioning'));}
 async function main(){
   fs.mkdirSync(evidence,{recursive:true});
@@ -23,30 +24,30 @@ async function main(){
     await page.locator('.reflection').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(evidence,'today-en-habits-390.png'),animations:'disabled'});await page.evaluate(()=>scrollTo(0,0));
     const id=await page.locator('.focus-card [data-task]').getAttribute('data-task');
     const before=await page.locator('.next-event').boundingBox();
-    await page.locator('.focus-card [data-task]').click();
+    await page.locator('.focus-card [data-task]').click();await settled(page);
     assert.equal(await page.locator('.focus-card [data-task]').getAttribute('aria-pressed'),'true');
     const after=await page.locator('.next-event').boundingBox();assert(Math.abs(before.y-after.y)<1,'Completion must not move adjacent sections');cases++;
-    await page.locator('[data-habit]').first().click();assert.equal(await page.locator('[data-habit]').first().getAttribute('aria-pressed'),'true');cases++;
+    await page.locator('[data-habit]').first().click();await settled(page);assert.equal(await page.locator('[data-habit]').first().getAttribute('aria-pressed'),'true');cases++;
     await page.getByRole('button',{name:'Quick Add',exact:true}).click();
-    await page.locator('#save-task').click();assert(await page.locator('#form-error').isVisible());cases++;
-    await page.locator('#task-title').fill('Synthetic mobile task');await page.locator('#save-task').click();
+    await page.locator('#save-task').click();await settled(page);assert(await page.locator('#form-error').isVisible());cases++;
+    await page.locator('#task-title').fill('Synthetic mobile task');await page.locator('#save-task').click();await settled(page);
     await page.reload();await page.waitForSelector('.focus-card');
     assert.equal(await page.locator(`[data-task="${id}"]`).getAttribute('aria-pressed'),'true');
     assert.equal(await page.locator('[data-habit]').first().getAttribute('aria-pressed'),'true');
     assert.equal(await page.getByText('Synthetic mobile task',{exact:true}).count(),1);cases++;
     const created=await page.locator('.task-row').filter({hasText:'Synthetic mobile task'}).locator('[data-task]').getAttribute('data-task');
-    await page.locator(`[data-task="${created}"]`).click();await page.reload();
+    await page.locator(`[data-task="${created}"]`).click();await settled(page);await page.reload();
     assert.equal(await page.locator(`[data-task="${created}"]`).getAttribute('aria-pressed'),'true');cases++;
     await page.getByRole('button',{name:'Calendar',exact:true}).click();await page.waitForSelector('#selected-date');
     assert.equal(await page.getByText('Synthetic mobile task',{exact:true}).count(),1);
     await page.screenshot({path:path.join(evidence,'calendar-en-390.png'),animations:'disabled'});
     await page.getByRole('button',{name:'Next day',exact:true}).click();assert.equal(await page.getByText('Synthetic mobile task',{exact:true}).count(),0);
-    await page.getByRole('button',{name:'Quick Add',exact:true}).click();await page.locator('#task-title').fill('Tomorrow task');await page.locator('#save-task').click();
+    await page.getByRole('button',{name:'Quick Add',exact:true}).click();await page.locator('#task-title').fill('Tomorrow task');await page.locator('#save-task').click();await settled(page);
     assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),1);cases++;
     await page.getByRole('button',{name:'Today',exact:true}).click();assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),0);cases++;
     await settings(page);await page.screenshot({path:path.join(evidence,'settings-en-390.png'),animations:'disabled'});
     for(const [language,todayLabel] of [['ru','Сегодня'],['es','Hoy'],['en','Today']]){
-      await page.locator('#language').selectOption(language);await page.reload();
+      await page.locator('#language').selectOption(language);await settled(page);await page.reload();
       await page.getByRole('button',{name:todayLabel,exact:true}).click();
       assert.equal(await page.locator('html').getAttribute('lang'),language);
       assert.equal(await page.getByText('Synthetic mobile task',{exact:true}).count(),1);
@@ -61,14 +62,14 @@ async function main(){
     // Storage failure injected only in this disposable browser context.
     await page.locator('nav [data-add]').click();await page.locator('#task-title').fill('Retained draft');
     await page.evaluate(()=>{window.originalSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(){throw Error('quota test');};});
-    await page.locator('#save-task').click();assert.equal(await page.locator('#task-title').inputValue(),'Retained draft');assert(await page.locator('#form-error').isVisible());
-    await page.evaluate(()=>{Storage.prototype.setItem=window.originalSetItem;});await page.locator('#save-task').click();
+    await page.locator('#save-task').click();await settled(page);assert.equal(await page.locator('#task-title').inputValue(),'Retained draft');assert(await page.locator('#form-error').isVisible());
+    await page.evaluate(()=>{Storage.prototype.setItem=window.originalSetItem;});await page.locator('#save-task').click();await settled(page);
     assert.equal(await page.locator('#quick-add').evaluate(el=>el.open),false);cases++;
     // Narrow, localized layouts, landscape and text enlargement.
     for(const width of [320,390,844]){
       await page.setViewportSize({width,height:width===844?390:844});
       for(const language of ['en','ru','es']){
-        await settings(page);await page.locator('#language').selectOption(language);
+        await settings(page);await page.locator('#language').selectOption(language);await settled(page);
         for(const route of ['today','calendar','sport','habits']){
           await page.locator(`#nav-${route}`).click();
           assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}/${language}/${route} overflow`);
@@ -77,9 +78,9 @@ async function main(){
         }
       }
     }
-    await page.setViewportSize({width:320,height:740});await settings(page);await page.locator('#language').selectOption('ru');await page.locator('#nav-today').click();
+    await page.setViewportSize({width:320,height:740});await settings(page);await page.locator('#language').selectOption('ru');await settled(page);await page.locator('#nav-today').click();
     await page.emulateMedia({reducedMotion:'reduce'});
-    await page.locator('.focus-card [data-task]').click();
+    await page.locator('.focus-card [data-task]').click();await settled(page);
     assert.equal(await page.locator('.tick').first().evaluate(el=>getComputedStyle(el).animationName),'none');
     assert.equal(await page.locator('#content').evaluate(el=>getComputedStyle(el).animationName),'none');
     await page.screenshot({path:path.join(evidence,'today-ru-320-reduced-motion.png'),animations:'disabled'});cases++;
@@ -100,9 +101,9 @@ async function main(){
     assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),1,'Today refreshes behind the intact dialog');
     assert(await page.locator('#quick-add').evaluate(el=>el.open));cases++;
     await page.screenshot({path:path.join(evidence,'quick-add-ru-390.png'),animations:'disabled'});
-    await page.locator('#close-add').click();await page.locator('#nav-today').click();assert.equal(await page.locator('.focus-card [data-task]').count(),1); // Tomorrow fixture task becomes today's task.
+    await page.locator('#close-add').click();await page.locator('#discard-edit').click();await page.locator('#nav-today').click();assert.equal(await page.locator('.focus-card [data-task]').count(),0); // Tomorrow fixture task becomes today's task.
     assert.equal(await page.getByText('Tomorrow task',{exact:true}).count(),1);cases++;
-    const other=await context.newPage();await other.goto(origin);await settings(other);await other.locator('#language').selectOption('en');
+    const other=await context.newPage();await other.goto(origin);await settings(other);await other.locator('#language').selectOption('en');await settled(other);
     await page.waitForFunction(()=>!document.getElementById('storage-error').hidden);
     assert.match(await page.locator('#storage-error').textContent(),/другой вкладке/);cases++;
     await other.close();await context.close();
