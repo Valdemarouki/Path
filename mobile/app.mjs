@@ -43,10 +43,10 @@ function taskRow(task,primary=false) {
 }
 function intro(title) {return `<div class="intro ${title==='today'?'today-intro':''}"><h1>${tr(title)}</h1></div>`;}
 function todayView() {
-  const tasks=state.homeTasks.filter(task=>task.date===today),habits=state.habits.filter(h=>eligible(h,today)),next=nextEvent(state);
+  const tasks=state.homeTasks.filter(task=>task.date===today),otherTasks=tasks.slice(1),habits=state.habits.filter(h=>eligible(h,today)),next=nextEvent(state);
   return `${intro('today','subtitle')}<p class="date-line">${escape(dateText(today))}</p>
     ${tasks.length?taskRow(tasks[0],true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noTasks')}</p><button class="text-link" data-add>${tr('add')}</button></section>`}
-    ${tasks.length>1?`<section class="extra-tasks"><div class="section-head"><span class="eyebrow">${tr('tasks')}</span><span class="counter">${tasks.filter(t=>t.done).length} / ${tasks.length}</span></div>${tasks.slice(1).map(task=>taskRow(task)).join('')}</section>`:''}
+    ${otherTasks.length?`<section class="extra-tasks"><div class="section-head"><span class="eyebrow">${tr('otherTasks')}</span><span class="counter">${otherTasks.filter(t=>t.done).length} / ${otherTasks.length}</span></div>${otherTasks.map(task=>taskRow(task)).join('')}</section>`:''}
     <section class="next-event"><span class="event-symbol">${icon('calendar')}</span><div class="event-copy"><span class="eyebrow">${tr('next')}</span><h3>${next?escape(label(next,lang)):tr('noEvents')}</h3>${next?`<p>${escape(eventTime(next))} · ${escape(dateText(dayKey(new Date(next.start_at))))}</p>`:''}<button class="text-link" data-open-calendar>${tr('schedule')}</button></div></section>
     <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>
     <aside class="reflection"><img src="assets/marcus.svg" alt="" aria-hidden="true"><div><p>${tr('reflection')}</p><small>${tr('reflectionNote')}</small></div></aside>`;

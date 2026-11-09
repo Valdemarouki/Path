@@ -33,6 +33,10 @@ export function createNavigation(nav){
   nav.dataset.blur=CSS.supports('backdrop-filter','blur(1px)')||CSS.supports('-webkit-backdrop-filter','blur(1px)')?'supported':'fallback';
   let destination='today',language='en',opened=false,suspended=false,dragging=null,suppressClickUntil=0;
   let lastY=scrollY,direction=0,travel=0,ignoreScrollUntil=0,savedY=0,opener=null,inertBefore=[],bodyBefore='',pendingBack=0,ownsHistory=false;
+  // Pointer and keyboard focus are tracked only for this handle's visual ring.
+  document.addEventListener('pointerdown',()=>{nav.dataset.focusOrigin='pointer';},{capture:true,passive:true});
+  document.addEventListener('keydown',()=>{nav.dataset.focusOrigin='keyboard';},true);
+  const positionShade=()=>{shade.style.bottom=nav.getBoundingClientRect().height+'px';};
   const maxReveal=()=>Math.max(0,Math.min(scroll.scrollHeight,innerHeight-20-44-row.getBoundingClientRect().height-parseFloat(getComputedStyle(nav).paddingBottom)));
   function position(animate=false){
     const active=activeTab(destination),button=active&&row.querySelector('[data-route="'+active+'"]');frame.hidden=!button;
@@ -45,6 +49,7 @@ export function createNavigation(nav){
   function collapsed(next){nav.dataset.state=next;requestAnimationFrame(()=>position());}
   function modal(on){
     shade.hidden=!on;
+    if(on)positionShade();
     if(on){
       opener=handle;savedY=window.scrollY;bodyBefore=document.body.style.cssText;
       inertBefore=[...document.querySelectorAll('.topbar,#content,.skip,#storage-error')].map(el=>[el,el.inert]);for(const [el]of inertBefore)el.inert=true;
@@ -94,7 +99,9 @@ export function createNavigation(nav){
     if(y<32){collapsed('normal');lastY=y;travel=0;direction=0;return;}const delta=y-lastY;lastY=y;if(Math.abs(delta)<2)return;
     const next=Math.sign(delta);if(next!==direction){direction=next;travel=0;}travel+=Math.abs(delta);if(travel>=36){collapsed(direction>0?'compact':'normal');travel=0;}
   },{passive:true});
-  window.addEventListener('resize',()=>{if(opened&&!dragging)nav.style.setProperty('--reveal',maxReveal()+'px');position();});new ResizeObserver(()=>position()).observe(row);
+  window.addEventListener('resize',()=>{if(opened&&!dragging)nav.style.setProperty('--reveal',maxReveal()+'px');position();});
+  new ResizeObserver(()=>{position();if(opened&&!dragging)nav.style.setProperty('--reveal',maxReveal()+'px');}).observe(row);
+  new ResizeObserver(positionShade).observe(nav);
   reduced.addEventListener('change',()=>{frame.getAnimations().forEach(a=>a.cancel());position();});collapsed('normal');
   return{
     update(route,lang){

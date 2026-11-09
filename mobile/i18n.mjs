@@ -1,5 +1,6 @@
 // UI strings and synthetic fixture labels only; user titles are never translated.
 const rows = {
+  otherTasks:['Other tasks','Другие задачи','Otras tareas'],
   navHabits:['Habits','Привычки','Hábitos'], profile:['Profile','Профиль','Perfil'], settings:['Settings','Настройки','Ajustes'],
   openSections:['Open all sections','Открыть все разделы','Abrir todas las secciones'], closeSections:['Close sections','Закрыть разделы','Cerrar secciones'],
   unavailableDetail:['This section is not available in the mobile alpha yet. Your local tasks and habits are unchanged.','Этот раздел пока недоступен в мобильной альфе. Ваши локальные задачи и привычки сохранены.','Esta sección aún no está disponible en la alfa móvil. Tus tareas y hábitos locales se conservan.'],
