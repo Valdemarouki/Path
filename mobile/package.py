@@ -20,7 +20,7 @@ head = subprocess.check_output(['git', 'rev-parse', '--short=12', 'HEAD'], cwd=r
 out = (args.output_dir or root.parent / 'path-mobile-deliveries' / head).resolve()
 if out == root or root in out.parents:
     raise SystemExit('Choose an export directory outside the repository')
-out.mkdir(exist_ok=True)
+out.mkdir(parents=True, exist_ok=True)
 source = out / 'path-mobile-alpha-source.tar.gz'
 bundle = out / 'path-mobile-alpha.bundle'
 subprocess.run(['git', 'archive', '--format=tar.gz', '--prefix=path-mobile-alpha/', '--output=' + str(source), 'HEAD', 'mobile', 'docs/mobile'], cwd=root, check=True)
