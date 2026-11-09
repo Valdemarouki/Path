@@ -1,5 +1,6 @@
 import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay} from './model.mjs';
 import {t, label, LOCALES} from './i18n.mjs';
+import {activeTab, createNavigation} from './navigation.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -18,6 +19,7 @@ const paths = {
 const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[key]||paths.spark}"/></svg>`;
 let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus;
 const tr = key => t(key,lang);
+const updateNavigation = createNavigation($('navigation'));
 try { repo=createRepository(localStorage); state=repo.state; lang=state.language; }
 catch { fatal=true; }
 const dateText = date => new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
@@ -60,15 +62,16 @@ function moreView() {
 }
 function render() {
   document.documentElement.lang=lang;document.querySelector('.skip').textContent=tr('skip');$('navigation').setAttribute('aria-label',tr('navigation'));
-  $('navigation').innerHTML=['today','calendar','quick','sport','more'].map(key=>`<button ${key==='quick'?'class="quick" data-add':`data-route="${key}" id="nav-${key}" ${route===key?'aria-current="page"':''}`} aria-label="${tr(key)}">${icon(key)}${key==='quick'?'':`<span>${tr(key)}</span>`}</button>`).join('');
+  updateNavigation(route, lang);
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
   $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='more'?moreView():`${intro('sport')}<section class="notice">${icon('sport')}<h2>${tr('unavailable')}</h2><p>${tr('sportNote')}</p></section>`)+`<p class="local-tag">${tr('demo')}</p>`;
   for(const [id,key] of Object.entries({'add-eyebrow':'quick','add-title':'add','task-label':'title','date-label':'date','add-note':'addNote','save-task':'save'}))$(id).textContent=tr(key);
   $('close-add').setAttribute('aria-label',tr('close'));
 }
 function navigate(destination) {
-  if(!['today','calendar','sport','more'].includes(destination))return;
-  route=destination;render();$('content').classList.remove('page-enter');void $('content').offsetWidth;$('content').classList.add('page-enter');$('content').focus({preventScroll:true});window.scrollTo(0,0);
+  const root=String(destination).replace(/^\//,'').split(/[/?#]/)[0];
+  if(!['today','calendar','sport','more','projects','habits','notes','canvas','progress','profile','settings'].includes(root))return;
+  route=activeTab(root);render();$('content').classList.remove('page-enter');void $('content').offsetWidth;$('content').classList.add('page-enter');$('content').focus({preventScroll:true});window.scrollTo(0,0);
 }
 function openAdd() {
   if(fatal||blocked)return;lastFocus=document.activeElement;$('task-form').reset();$('form-error').hidden=true;$('task-date').value=route==='calendar'?selected:today;$('quick-add').showModal();$('task-title').focus();
@@ -106,3 +109,4 @@ setInterval(refreshClock,30000);window.addEventListener('focus',refreshClock);do
 window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY||event.key===null){blocked=true;showError('conflict');}});
 window.addEventListener('hashchange',()=>navigate(location.hash.slice(1)));
 render();
+if(location.hash)navigate(location.hash.slice(1));
