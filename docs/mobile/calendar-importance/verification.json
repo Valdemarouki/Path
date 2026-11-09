@@ -1,0 +1,26 @@
+{
+  "cases": 9,
+  "widths": [
+    320,
+    390,
+    430
+  ],
+  "languages": [
+    "en",
+    "ru",
+    "es"
+  ],
+  "levels": [
+    "none",
+    "low",
+    "medium",
+    "high"
+  ],
+  "leftAccentPx": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "modelChanged": false
+}

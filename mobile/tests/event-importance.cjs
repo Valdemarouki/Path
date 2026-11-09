@@ -1,0 +1,17 @@
+const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
+const origin='http://127.0.0.1:8010',out=path.resolve(__dirname,'../../docs/mobile/calendar-importance');
+(async()=>{const {seed}=await import('../model.mjs');await fs.mkdir(out,{recursive:true});const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});let cases=0;
+try{for(const width of [320,390,430])for(const lang of ['en','ru','es']){
+ const c=await browser.newContext({viewport:{width,height:1100},timezoneId:'Europe/Warsaw',reducedMotion:'reduce'});await c.route('**/*',r=>r.request().url().startsWith(origin+'/')?r.continue():r.abort());
+ const now=new Date('2026-11-09T12:30:00+01:00'),s=seed(now);s.language=lang;const levels=['none','low','medium','high'];
+ s.events=levels.map((importance,i)=>{const start=new Date(+now+i*3600000);return {...s.events[0],id:'importance-'+i,title:{en:'Review the project plan',ru:'Обсудить план проекта',es:'Revisar el plan del proyecto'}[lang],titleKey:undefined,importance,start_at:start.toISOString(),end_at:new Date(+start+1800000).toISOString(),duration:30};});
+ await c.addInitScript(s=>{if(!localStorage.getItem('path-mobile-alpha-v1'))localStorage.setItem('path-mobile-alpha-v1',JSON.stringify(s));},s);const p=await c.newPage();await p.clock.install({time:now});await p.goto(origin+'/#calendar');await p.locator('.event-card').first().waitFor();await p.evaluate(()=>document.fonts.ready);const raw=await p.evaluate(()=>localStorage.getItem('path-mobile-alpha-v1'));
+ for(const [i,level] of levels.entries()){
+  const card=p.locator('.event-card').nth(i);assert.equal(await card.getAttribute('data-importance'),level);
+  const st=await card.evaluate(e=>({stripe:getComputedStyle(e,'::after').borderLeftWidth,blur:getComputedStyle(e).backdropFilter,weight:getComputedStyle(e.querySelector('h3')).fontWeight,label:e.querySelector('.event-importance').textContent}));assert.equal(st.stripe,i+'px');assert.equal(st.blur,'none');assert.equal(st.weight,'400');assert(st.label&&!st.label.startsWith('importance'));
+ }
+ assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await p.evaluate(()=>document.activeElement?.blur());await p.locator('.event-card').first().locator('..').screenshot({path:path.join(out,`levels-${lang}-${width}.png`)});
+ // Completion must preserve the importance marker. Free time has no priority, as on desktop.
+ await p.evaluate(()=>{const key='path-mobile-alpha-v1',s=JSON.parse(localStorage.getItem(key));s.events[3].done=true;s.events[0].type='free_time';s.events[0].importance='high';localStorage.setItem(key,JSON.stringify(s));});await p.reload();await p.locator('.event-card').first().waitFor();assert.equal(await p.locator('.event-completed').getAttribute('data-importance'),'high');assert.equal(await p.locator('.event-card').first().getAttribute('data-importance'),'none');
+ assert(JSON.parse(raw).events.every((e,i)=>e.importance===levels[i]));await c.close();cases++;
+}await fs.writeFile(path.join(out,'verification.json'),JSON.stringify({cases,widths:[320,390,430],languages:['en','ru','es'],levels:['none','low','medium','high'],leftAccentPx:[0,1,2,3],modelChanged:false},null,2));console.log('PASS '+cases+' importance cases.');}finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

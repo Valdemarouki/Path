@@ -1,6 +1,7 @@
 // UI strings and synthetic fixture labels only; user titles are never translated.
 const rows = {
   eventTypeBusy:['Event','Событие','Evento'],eventTypeWorkout:['Workout','Тренировка','Entrenamiento'],eventTypeRoutine:['Routine','Рутина','Rutina'],eventTypeDeadline:['Deadline','Срок','Fecha límite'],eventTypeFocus:['Focus','Фокус','Concentración'],eventTypeFree:['Free time','Свободное время','Tiempo libre'],
+  importancenone:['No priority','Без важности','Sin prioridad'],
   importancelow:['Low priority','Низкая важность','Prioridad baja'],importancemedium:['Medium priority','Средняя важность','Prioridad media'],importancehigh:['High priority','Высокая важность','Prioridad alta'],eventCompleted:['Completed','Завершено','Completado'],
 
   editTask:['Edit task','Изменить задачу','Editar tarea'],

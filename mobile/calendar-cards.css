@@ -1,8 +1,8 @@
 /* Opaque Calendar list cards. Texture sits behind content, never over glyphs. */
 .agenda-item.event-card{
   position:relative;isolation:isolate;display:block;margin:0 0 12px;padding:18px 20px;
-  border:1px solid #0d0d0f;border-radius:24px;
-  background:linear-gradient(140deg,#38383a 0%,#29292b 46%,#19191b 100%);
+  border:1px solid var(--event-edge,#0d0d0f);border-radius:24px;
+  background:linear-gradient(140deg,var(--event-top,#38383a) 0%,var(--event-mid,#29292b) 46%,var(--event-bottom,#19191b) 100%);
   box-shadow:inset 0 0 0 1px #08080980,inset 1px 2px 0 #ffffff0c;
   backdrop-filter:none;-webkit-backdrop-filter:none;
   min-width:0;overflow:hidden;
@@ -17,6 +17,14 @@
 .event-card .event-copy h3{font-family:'Manrope Preview',sans-serif;font-size:17px;line-height:1.45;font-weight:400;margin:0 0 8px;overflow-wrap:anywhere;}
 .event-card .event-copy .event-card-time{font-size:12px;font-weight:400;color:var(--muted);line-height:1.5;font-variant-numeric:tabular-nums;}
 .event-card.event-completed .event-copy h3{color:#bdbdc2;text-decoration:line-through;text-decoration-color:#707075;}
-.event-card:active{background:linear-gradient(140deg,#3d3d3f,#2e2e30 46%,#1d1d20);}
+.event-card:active{background-image:linear-gradient(#ffffff05,#ffffff05),linear-gradient(140deg,var(--event-top),var(--event-mid) 46%,var(--event-bottom));}
 .event-card:focus-visible{outline:2px solid #e3e2df;outline-offset:3px;}
 @media(max-width:350px){.agenda-item.event-card{padding:16px;border-radius:22px;}.event-card .event-copy h3{font-size:16px;}}
+
+/* Desktop importance hierarchy: monochrome tone, edge and 0/1/2/3px left accent. */
+.event-card[data-importance=none]{--event-top:#29292c;--event-mid:#222225;--event-bottom:#19191b;--event-edge:#151517;--event-accent:transparent;--event-accent-width:0px;--event-title:#c7c7cb;}
+.event-card[data-importance=low]{--event-top:#2e2e31;--event-mid:#252528;--event-bottom:#1b1b1e;--event-edge:#303034;--event-accent:#696a6d;--event-accent-width:1px;--event-title:#cfd0d2;}
+.event-card[data-importance=medium]{--event-top:#333336;--event-mid:#28282c;--event-bottom:#1e1e21;--event-edge:#45454b;--event-accent:#a8aaae;--event-accent-width:2px;--event-title:#e1e2e2;}
+.event-card[data-importance=high]{--event-top:#38383a;--event-mid:#2c2c30;--event-bottom:#212124;--event-edge:#606066;--event-accent:#f0f0ef;--event-accent-width:3px;--event-title:#f3f3f3;}
+.event-card::after{content:'';position:absolute;inset:0;border-radius:inherit;border-left:var(--event-accent-width,0px) solid var(--event-accent,transparent);pointer-events:none;z-index:0;}
+.event-card:not(.event-completed) .event-copy h3{color:var(--event-title);}

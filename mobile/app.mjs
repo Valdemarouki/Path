@@ -65,9 +65,9 @@ function todayView() {
 function calendarEventCard(event) {
   const types={busy:['calendar','eventTypeBusy'],workout:['sport','eventTypeWorkout'],routine:['calendar','eventTypeRoutine'],deadline:['spark','eventTypeDeadline'],focus:['spark','eventTypeFocus'],free_time:['spark','eventTypeFree']};
   const [glyph,typeKey]=types[event.type]||types.busy;
-  const importance=['low','medium','high'].includes(event.importance)?event.importance:null;
-  return `<article class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
-    <div class="event-card-content"><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${tr(typeKey)}</span></span>${importance?`<span class="event-importance" data-importance="${importance}">${tr('importance'+importance)}</span>`:''}${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div>
+  const importance=event.type!=='free_time'&&['low','medium','high'].includes(event.importance)?event.importance:'none';
+  return `<article data-importance="${importance}" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}">
+    <div class="event-card-content"><div class="event-card-meta"><span class="event-kind">${icon(glyph)}<span>${tr(typeKey)}</span></span><span class="event-importance" data-importance="${importance}">${tr('importance'+importance)}</span>${event.done?`<span class="event-status">${icon('check')} ${tr('eventCompleted')}</span>`:''}</div>
     <div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time">${escape(eventTime(event))}${dayKey(new Date(event.start_at))!==selected?' · '+escape(dateText(dayKey(new Date(event.start_at)))):''}</p></div></div>
   </article>`;
 }
