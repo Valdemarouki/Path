@@ -1,0 +1,151 @@
+{
+  "suites": 18,
+  "passed": 18,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 285,
+      "cases": 72,
+      "log": "/tmp/path-review-baseline/models/run.log"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 27942,
+      "cases": 55,
+      "log": "/tmp/path-review-baseline/browser/run.log"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 35048,
+      "cases": 24,
+      "log": "/tmp/path-review-baseline/tasks/run.log"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 41650,
+      "cases": 34,
+      "log": "/tmp/path-review-baseline/functional-alpha/run.log"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 33456,
+      "cases": 93,
+      "log": "/tmp/path-review-baseline/actions/run.log"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 19900,
+      "cases": 72,
+      "log": "/tmp/path-review-baseline/calendar-editor/run.log"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8700,
+      "cases": 6,
+      "log": "/tmp/path-review-baseline/calendar-compatibility/run.log"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6895,
+      "cases": 9,
+      "log": "/tmp/path-review-baseline/importance/run.log"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6175,
+      "cases": 9,
+      "log": "/tmp/path-review-baseline/calendar-cards/run.log"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34934,
+      "cases": 14,
+      "log": "/tmp/path-review-baseline/calendar-polish/run.log"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 122165,
+      "cases": 31,
+      "log": "/tmp/path-review-baseline/calendar-completion/run.log"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43872,
+      "cases": 13,
+      "log": "/tmp/path-review-baseline/calendar-impact/run.log"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 48798,
+      "cases": 30,
+      "log": "/tmp/path-review-baseline/navigation-panel/run.log"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 21989,
+      "cases": 13,
+      "log": "/tmp/path-review-baseline/habits-navigation/run.log"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 30849,
+      "cases": 13,
+      "log": "/tmp/path-review-baseline/refinement/run.log"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31854,
+      "cases": 26,
+      "log": "/tmp/path-review-baseline/surfaces/run.log"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 56844,
+      "cases": 21,
+      "log": "/tmp/path-review-baseline/transformation/run.log"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5850,
+      "cases": 26,
+      "log": "/tmp/path-review-baseline/typography/run.log"
+    }
+  ],
+  "note": "navigation.cjs delegates to panel.cjs; that suite is counted once. Each browser profile contains synthetic data only."
+}

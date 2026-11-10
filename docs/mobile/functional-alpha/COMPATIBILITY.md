@@ -1,5 +1,17 @@
 # Path Mobile / desktop: Functional Alpha contract
 
+## Current verification — comprehensive review, 2026-11-10
+
+The current review starts from `905c9dcb39bdc6794c6a29e7af6e20bc77b57c0d`; see [readiness, defects and verification](../review/REPORT.md). The runtime remains schema **5** and uses the separate `path-mobile-alpha-v1` namespace. These changes do not enable desktop import, accounts or synchronization.
+
+- `mobileTaskUndo` version 1 is a **mobile-only optional extension**: `{version,index,main,task}`. It retains the entire deleted home task, including unknown fields, after reload. Restoration keeps its ID and position, respects a newer main-task choice, and refuses an occupied ID without overwriting either record. Only the most recent deletion is retained; the UI states this explicitly. This is not a server tombstone log.
+- Linked/archived/explicitly protected or ambiguous home tasks now obey the same read-only rule in the editor and in the entity mutation functions. A linked Calendar reference can no longer be orphaned through that editor. Cross-scope identity collisions are preserved, not renamed: a legacy home task remains the canonical projection; ambiguous nested copies do not add extra Progress completions. Resolving project-scoped identities remains necessary before runtime import.
+- Changing category between timed events does not retime an existing legacy interval. Original non-quarter `start_at`/`end_at` survive a busy↔focus/routine/workout/free_time category-only edit. Actual start/date/duration/fold changes and crossing the date-only deadline boundary still use the existing 15-minute/new interval rules. Reservation protection is checked independently.
+- A workout refresh retains inputs for the same active session and shows the current stored result for comparison. If the original session/set disappears or changes identity, the unapplied values move to a labelled read-only recovery area. They are **tab-local**, not applied to a result/new session, and must be copied before reload/close. Discard requires an explicit action. This is manual recovery, not automatic merge or complete conflict resolution.
+- Migration remains lazy and repeatable; the optional Undo snapshot creates no new schema version and no bulk rewrite. Mobile backup preserves it; staging/re-export preserves all opaque data without activating the mobile document as desktop state. No real user export or account data was used.
+
+Desktop values rechecked read-only: `calendar.js` + `calendar-planning.js` (types busy/workout/routine/deadline/focus/free_time, importance none/low/medium/high), `projects.js` + `storage.js` (project active/paused/completed; task planned/progress/done), `timezone.js` (civil dates, IANA zone/fold and instants), `sport-smart-model.js` (reps/seconds/kg, one-based set index), `privacy-export.js` + `storage.js` (checkpoint envelope format/version). The tables below still distinguish preserved fields from supported editing. Global desktop `createdAt`, scoped identities, unsupported habits, attachments and recurrence activation remain unresolved integration contracts, not silently converted data.
+
 Audited desktop source is read-only. This stage continues mobile baseline `3d80a0776b4519e0ebabdbd0088e15e0c26c1d64`. No desktop storage, account, export or production data was opened. Source references below are paths relative to the repository root, not runtime imports.
 
 ## Boundaries and round-trip

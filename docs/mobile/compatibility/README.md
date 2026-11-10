@@ -1,4 +1,4 @@
-> Current Calendar functionality and schema 4: [Functional Polish](../calendar-polish/README.md). Earlier milestone descriptions below are historical.
+> Current schema 5 verification: [Comprehensive review](../review/REPORT.md) and [updated desktop/mobile contract](../functional-alpha/COMPATIBILITY.md). Earlier milestone descriptions below are historical.
 
 # Calendar compatibility stage
 

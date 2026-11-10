@@ -1,0 +1,22 @@
+[
+  {
+    "priority": "P1",
+    "issue": "Linked home task checkbox is read-only but editor can overwrite task",
+    "protectedCheck": true,
+    "editable": true,
+    "changed": "Changed despite linked read-only projection"
+  },
+  {
+    "priority": "P1",
+    "issue": "Deleted home task recovery disappears on reload",
+    "undoVisibleAfterReload": false,
+    "deletedInStore": true
+  },
+  {
+    "priority": "P1",
+    "issue": "Refresh after another tab finishes workout silently drops entered draft",
+    "inputCountAfterRefresh": 0,
+    "recoveryCount": 0,
+    "storedResult": "8"
+  }
+]

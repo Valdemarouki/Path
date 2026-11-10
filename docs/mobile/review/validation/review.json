@@ -1,0 +1,157 @@
+{
+  "cases": 32,
+  "results": [
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "linked task editor guarded; return to normal creation restores focus/controls",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "durable Undo/reload, quota retry, stale refresh, background inertness and honest search state",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "cross-tab workout finish retains unapplied input; explicit discard leaves immutable result unchanged",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "task becoming linked during editing preserves a copyable unapplied draft after refresh"
+    },
+    {
+      "name": "same-session refresh preserves draft and exposes current stored value for manual comparison"
+    },
+    {
+      "name": "legacy timed category/importance edit preserves non-quarter schedule and opaque fields"
+    },
+    {
+      "name": "successful scoped Calendar write clears stale quota status without reflow during completion"
+    },
+    {
+      "name": "1000 long tasks: correct count, no duplicates/overflow, footer accessible above compact panel",
+      "elapsedMs": 1106
+    }
+  ],
+  "note": "Synthetic profiles only. Browser width/locale/lifecycle tests, not physical iOS/Android/keyboard tests. Recovered workout inputs remain in this tab until explicitly discarded or copied; they are not auto-applied or a full conflict resolver."
+}
