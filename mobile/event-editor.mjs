@@ -17,7 +17,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  const text=(id,value,extra='')=>`<input id="${id}" value="${esc(value)}" ${extra}>`;
  const locale=()=>({en:'en-US',ru:'ru-RU',es:'es-ES'}[document.documentElement.lang]||'en-US');
  const formatted=instant=>new Intl.DateTimeFormat(locale(),{timeZone:$('event-tz').value,dateStyle:'medium',timeStyle:'short'}).format(new Date(instant));
- function snapshot(){return JSON.stringify([...dialog.querySelectorAll('input,select,textarea')].map(e=>[e.id,e.type==='checkbox'?e.checked:e.value]));}
+ function snapshot(){return JSON.stringify([...dialog.querySelectorAll('input,select,textarea')].filter(e=>!e.closest('[data-numeric-step]')).map(e=>[e.id,e.type==='checkbox'?e.checked:e.value]));}
  function error(key){$('event-error').textContent=tr(key);$('event-error').hidden=false;}
  function focusEvent(id,preserveScroll=false){
   const card=[...document.querySelectorAll('[data-calendar-event]')].find(c=>c.dataset.calendarEvent===id);

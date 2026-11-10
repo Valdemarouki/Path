@@ -9,6 +9,7 @@ import {HABITS_ICON_PATH} from './habit-icon.mjs';
 import {canSetEventCompletion} from './calendar-model.mjs';
 import {createCalendarCompletion} from './calendar-completion.mjs';
 import {actionButton,setActionIcon} from './actions.mjs';
+import {installNumericFields} from './numeric-fields.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -29,6 +30,7 @@ const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${path
 let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, announcementSerial=0,lastSaveError='';
 const tr = key => t(key,lang);
 const navigation = createNavigation($('navigation'));
+const numericPicker=installNumericFields({navigation,tr});
 const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
 const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:()=>navigate('sport'),getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
 const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing,isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
