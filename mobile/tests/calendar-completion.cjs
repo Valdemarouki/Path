@@ -25,7 +25,8 @@ async function main(){
  async function start(p,cdp,id='pulse-0',edge=false){const pt=await point(p,id,edge);await touch(cdp,'touchStart',pt);return pt;}
  const end=cdp=>touch(cdp,'touchEnd');
  const completed=async(p,id='pulse-0')=>p.waitForFunction(({key,id})=>JSON.parse(localStorage.getItem(key)).events.find(e=>e.id===id)?.done,{key,id});
- const stable=async p=>p.locator('.event-card').evaluateAll(es=>es.map(e=>({id:e.dataset.calendarEvent,x:e.getBoundingClientRect().x,y:e.getBoundingClientRect().y,width:e.offsetWidth,height:e.offsetHeight,transform:getComputedStyle(e).transform})));
+ // Paint transforms now respond to impact; layout and author styles must stay fixed.
+ const stable=async p=>p.locator('.event-card').evaluateAll(es=>es.map(e=>({id:e.dataset.calendarEvent,x:e.offsetLeft,y:e.offsetTop,width:e.offsetWidth,height:e.offsetHeight,style:e.getAttribute('style')})));
  const finish=async(c,errors,name,extra={})=>{assert.deepEqual(errors,[]);results.push({name,...extra});await c.close();};
  async function caption(p,text){await p.evaluate(text=>{let el=document.getElementById('evidence-step');if(!el){el=document.createElement('div');el.id='evidence-step';Object.assign(el.style,{position:'fixed',top:'0',left:'0',right:'0',zIndex:1000,padding:'4px 10px',font:'11px sans-serif',background:'#0b0b0ce8',color:'#dededc',pointerEvents:'none'});document.body.append(el);}el.textContent=text;},text);}
  try{

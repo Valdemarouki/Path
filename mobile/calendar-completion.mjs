@@ -1,6 +1,7 @@
 import {canSetEventCompletion,setEventCompletion} from './calendar-model.mjs';
+import {CALENDAR_IMPACT,impactVector,boundImpact,impactFrames,sourceFrames,waveFrames} from './calendar-impact.mjs';
 // Audited desktop references and deliberate touch adaptations: docs/mobile/calendar-completion/AUDIT.md.
-export const CALENDAR_COMPLETION_MOTION=Object.freeze({hold:800,tap:200,move:7,cancel:180,check:565,radius:560,central:850,return:1060,highlight:1010,stagger:410});
+export const CALENDAR_COMPLETION_MOTION=Object.freeze({hold:800,tap:200,move:7,cancel:180,check:565,...CALENDAR_IMPACT});
 const C=CALENDAR_COMPLETION_MOTION;
 function response(t){const phase=.19,k=6.4,end=(1+k)*Math.exp(-k);if(t<=phase)return Math.sin(t/phase*Math.PI/2);const u=(t-phase)/(1-phase);return Math.max(0,((1+k*u)*Math.exp(-k*u)-end)/(1-end));}
 export function createCalendarCompletion({getState,commit,tr,label,getContext,isBlocked,isStale,getError,refresh,announce}){
@@ -31,39 +32,48 @@ export function createCalendarCompletion({getState,commit,tr,label,getContext,is
   for(const [name,b]of Object.entries(buttons)){b.textContent=tr({undo:'completionUndo',retry:'completionRetry',refresh:'refreshData',dismiss:'completionDismiss'}[name]);b.hidden=name==='undo'?!notice.done||notice.error:name==='retry'?!notice.error:name==='refresh'?!notice.error||!isStale():false;b.disabled=busy||name==='retry'&&isStale();}
  }
  function patch(id){const el=card(id),e=event(id);if(!el||!e)return;el.classList.toggle('event-completed',!!e.done);el.querySelector('.event-status')?.setAttribute('aria-hidden',String(!e.done));const described=[el.querySelector('.event-card-time').id,el.querySelector('.event-card-meta').id];if(!e.done&&canSetEventCompletion(e,getState())){el.setAttribute('aria-keyshortcuts','Shift+Enter');described.push('calendar-completion-hint');}else el.removeAttribute('aria-keyshortcuts');el.setAttribute('aria-describedby',described.join(' '));}
- function feedback(id,done,origin=null){
+ function feedback(id,done){
   stopEffects();const el=card(id);if(!el||!available()||!!event(id)?.done!==done)return;
   notice={id,done,error:false,text:tr(done?'completionDone':'completionUndone')+': '+label(event(id))};syncNotice();announce(tr(done?'completionDone':'completionUndone'));
   const status=el.querySelector('.event-status'),glyph=status?.querySelector('svg');
   if(reduced()||!done){if(status)animate(status,[{visibility:'visible',opacity:done?0:1},{visibility:'visible',opacity:done?1:0}],{duration:reduced()?120:180});return;}
   if(glyph){const scales=[.28,1.32,.89,1.055,1],offsets=[0,.35,.67,.85,1],rotations=[-9,2,-1,.5,0];animate(glyph,scales.map((s,i)=>({transform:`scale(${s}) rotate(${rotations[i]}deg)`,opacity:i?1:0,offset:offsets[i]})),{duration:C.check,easing:'linear'});}
   const list=el.closest('section'),b=list.getBoundingClientRect(),n=nav.getBoundingClientRect();
-  const top=Math.max(0,b.top),bottom=Math.min(innerHeight,b.bottom,n.top),left=Math.max(0,b.left),right=Math.min(innerWidth,b.right);if(bottom<=top||right<=left)return;
+  const top=Math.max(0,b.top-C.max),bottom=Math.min(innerHeight,b.bottom+C.max,n.top),left=Math.max(0,b.left-C.max),right=Math.min(innerWidth,b.right+C.max);if(bottom<=top||right<=left)return;
   const layer=document.createElement('div');layer.className='calendar-pulse-layer';layer.setAttribute('aria-hidden','true');Object.assign(layer.style,{left:left+'px',top:top+'px',width:right-left+'px',height:bottom-top+'px'});document.body.append(layer);effects.add(layer);
-  const r=el.getBoundingClientRect(),cx=Math.max(left+4,Math.min(right-4,origin?.x??r.left+r.width/2)),cy=Math.max(top+4,Math.min(bottom-4,origin?.y??r.top+r.height/2));
+  // Like desktop, use the card centre (not the finger) so one-column neighbors
+  // above/below move vertically; the same vector also works in multiple columns.
+  const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,viewport={width:innerWidth,height:innerHeight};
+  const cards=[...list.querySelectorAll('.event-card')].map(item=>({item,box:item.getBoundingClientRect()}));
   const ring=document.createElement('span');ring.className='calendar-pulse-ring';ring.style.left=cx-left+'px';ring.style.top=cy-top+'px';layer.append(ring);
-  animate(ring,[{transform:'translate(-50%,-50%) scale(.025)',opacity:0,offset:0},{transform:'translate(-50%,-50%) scale(.13)',opacity:.65,offset:.12},{transform:'translate(-50%,-50%) scale(.62)',opacity:.25,offset:.55},{transform:'translate(-50%,-50%) scale(1)',opacity:0,offset:1}],{duration:C.return,easing:'cubic-bezier(.16,.6,.3,1)'});
-  let end=C.return;
-  for(const item of list.querySelectorAll('.event-card')){const box=item.getBoundingClientRect();if(box.bottom<top||box.top>bottom)continue;const d=Math.hypot(box.left+box.width/2-cx,box.top+box.height/2-cy);if(d>=C.radius&&item!==el)continue;
+  animate(ring,waveFrames(),{duration:C.wave,easing:'linear'});
+  let end=Math.max(C.wave,C.check);
+  for(const {item,box} of cards){if(box.bottom<top||box.top>bottom)continue;const v=impactVector(box.left+box.width/2-cx,box.top+box.height/2-cy);if(!v&&item!==el)continue;
+   const delay=item===el?0:v.delay,duration=item===el?C.central:C.return;
+   const frames=item===el?sourceFrames(box,viewport):impactFrames(boundImpact(v,box,viewport));
+   // Additive independent translate preserves an existing transform/translate;
+   // cancelling only our own animation leaves other interactions intact.
+   const motion=animate(item,frames,{duration,delay,easing:'linear',composite:'add'});motion.id=item===el?'calendar-impact-source':'calendar-impact-neighbor';
    const echo=document.createElement('span');echo.className='calendar-pulse-echo';Object.assign(echo.style,{left:box.left-left+'px',top:box.top-top+'px',width:box.width+'px',height:box.height+'px',borderRadius:getComputedStyle(item).borderRadius});layer.append(echo);
-   const delay=item===el?0:Math.round(d/C.radius*C.stagger),duration=item===el?C.central:C.highlight,strength=.18*1.25*Math.pow(Math.max(0,1-d/C.radius),.9);
-   animate(echo,Array.from({length:65},(_,i)=>({opacity:response(i/64)*strength,offset:i/64})),{duration,delay,easing:'linear'});end=Math.max(end,duration+delay);
+   animate(echo,frames,{duration,delay,easing:'linear'});
+   const d=v?.distance??0,strength=.18*1.25*Math.pow(Math.max(0,1-d/C.radius),.9);
+   animate(echo,Array.from({length:65},(_,i)=>({opacity:response(i/64)*strength,offset:i/64})),{duration:C.highlight,delay,easing:'linear'});end=Math.max(end,duration+delay,C.highlight+delay);
   }
   // One finite cleanup animation owns the layer, including delayed echoes.
   animate(layer,[{visibility:'visible'},{visibility:'visible'}],{duration:end+1},()=>{layer.remove();effects.delete(layer);});
  }
- async function change(id,done,origin=null){
+ async function change(id,done){
   if(busy||isBlocked()||!available())return;const current=event(id);if(!canSetEventCompletion(current,getState())||!!current.done===done)return;
   const context=key(),token=++version,keyboardNotice=node.contains(document.activeElement)&&document.activeElement.matches(':focus-visible');busy=true;pending={id,done};syncNotice();const target=card(id);target?.setAttribute('aria-busy','true');let problem;
   try{
    const ok=await commit(s=>{try{setEventCompletion(s,id,done,!done);}catch(e){problem=e.message;throw e;}},undefined,{calendarCompletion:true,guard:()=>version===token&&context===key()&&available()});
    if(version!==token||context!==key()||!available())return;
-   if(ok){patch(id);feedback(id,done,origin);}else{notice={id,done,error:true,text:problem?tr(problem):getError()||tr('saveError')};syncNotice();}
+   if(ok){patch(id);feedback(id,done);}else{notice={id,done,error:true,text:problem?tr(problem):getError()||tr('saveError')};syncNotice();}
   }finally{busy=false;pending=null;target?.removeAttribute('aria-busy');syncNotice();if(keyboardNotice&&!node.hidden)Object.values(buttons).find(b=>!b.hidden&&!b.disabled)?.focus({preventScroll:true});}
  }
  function finishHold(h){
   if(hold!==h||document.hidden||!h.card.isConnected)return;
-  hold=null;clearTimeout(h.timer);h.card.removeAttribute('data-calendar-holding');h.animation.cancel();h.svg.remove();charges.delete(h.svg);suppress={id:h.id,pointer:h.pointer};change(h.id,true,{x:h.x,y:h.y});
+  hold=null;clearTimeout(h.timer);h.card.removeAttribute('data-calendar-holding');h.animation.cancel();h.svg.remove();charges.delete(h.svg);suppress={id:h.id,pointer:h.pointer};change(h.id,true);
  }
  function begin(e){
   if(hold&&e.pointerId!==hold.pointer){cancelAll();return;}
