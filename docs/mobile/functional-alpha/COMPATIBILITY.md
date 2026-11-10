@@ -43,7 +43,7 @@ All supported mobile edits patch the original record in a cloned candidate. Unkn
 | Project `archived` | `projects.js`, `integration.js` | Archived project tasks omitted from Today | Preserved; archive UI is outside this stage |
 | Nested task `title`, `description` | `projects.js`, `project-task-details.js` | Basic editor | Same / reversible |
 | Nested task `status` | `projects.js`: **planned / progress / done** | Planned / In progress / Done | Same / reversible |
-| Nested task `progress` | `integration.js:setTaskComplete` | Completion sets 100, reopening 0 | Same rule for Boolean completion; fractional task progress is not an editor feature |
+| Nested task `progress` | `integration.js:setTaskComplete` | Completion sets 100, reopening 0; a metadata edit with unchanged status preserves existing fractional progress | Same rule for Boolean completion; fractional task progress is not an editor feature |
 | Nested task `deadline` | `projects.js`, `integration.js:tasksForDay` | Optional civil date; feeds Today and a derived Calendar deadline | Same / reversible; **no project-level deadline was confirmed**, so no new field was invented |
 | Nested task `importance` | Existing task/calendar importance contract | none / low / medium / high; derived Calendar card uses it | Same / reversible |
 | `start`, `end` | Workflow schedule civil date range | Displayed on eligible Today dates as read-only projection | Preserved; no Gantt or workflow editing |
@@ -148,7 +148,7 @@ Typed workout values are draft input until **Log set** or **Save entered results
 
 ## Migration, backup and future sync proposal
 
-Schema 4 → 5 adds only absent collections and mobile motion preferences. Versions 1–4 migrate in memory without rewriting stored bytes until the next successful user write; repeating migration changes nothing. IDs, event intervals, habit history and unknown fields stay intact. `mobileProjectUndo` version 1 retains the exact removed task, project ID, insertion position and affected main references. It is a mobile extension, not a desktop operation log.
+Schema 4 → 5 adds only absent collections and mobile motion preferences. Versions 1–4 migrate in memory without rewriting stored bytes until the next successful user write; repeating migration changes nothing. IDs, event intervals, habit history and unknown fields stay intact. Existing archived main-task references remain valid on migration; hidden tasks are omitted from the live Today projection rather than making an old repository unloadable. Unsupported known field shapes make editing read-only instead of flattening their contents. `mobileProjectUndo` version 1 retains the exact removed task, project ID, insertion position and affected main references. It is a mobile extension, not a desktop operation log.
 
 Settings export uses a distinct `{format:'path-mobile-backup',version:1,schemaVersion:5,exportedAt,state}` JSON wrapper. It is not labelled a desktop export. There is no UI import/merge; validated recovery tooling and conflict review must precede that feature. A source archive or Git bundle contains code/history, **not browser localStorage**.
 

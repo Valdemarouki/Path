@@ -63,17 +63,17 @@ export function searchNotes(state,query='',trash=false){
 }
 export function saveProject(state,id,fields){
  const projects=collection(state,'projects'),existing=projects.find(p=>p.id===id);
- if(existing&&(!['active','paused','completed'].includes(existing.status)||!Array.isArray(existing.tasks)))fail('alphaReadOnly');
+ if(existing&&(!['active','paused','completed'].includes(existing.status)||!Array.isArray(existing.tasks)||existing.description!==undefined&&typeof existing.description!=='string'))fail('alphaReadOnly');
  const patch={name:title(fields.name),description:text(fields.description),status:fields.status};
  if(!['active','paused','completed'].includes(patch.status))fail('invalid');
  if(existing)Object.assign(existing,patch);else{unique(state,id);projects.push({id,...patch,tasks:[]});}
 }
 export function saveProjectTask(state,projectId,id,fields,now=new Date()){
- const project=list(state,'projects').find(p=>p.id===projectId);if(!project||project.archived||!Array.isArray(project.tasks))fail('alphaReadOnly');
+ const project=list(state,'projects').find(p=>p.id===projectId);if(!project||project.archived||!['active','paused','completed'].includes(project.status)||!Array.isArray(project.tasks))fail('alphaReadOnly');
  const existing=project.tasks.find(t=>t.id===id);if(existing&&!projectTaskEditable(state,{task:existing,project}))fail('alphaReadOnly');
  const patch={title:title(fields.title),description:text(fields.description),status:fields.status,deadline:fields.deadline||null,importance:fields.importance||'none'};
  if(!['planned','progress','done'].includes(patch.status)||patch.deadline&&!validDay(patch.deadline)||!['none','low','medium','high'].includes(patch.importance))fail('invalid');
- patch.progress=patch.status==='done'?100:0;
+ patch.progress=patch.status==='done'?100:existing?.status===patch.status?existing.progress??0:0;
  const task=existing||{id};if(!existing){unique(state,id);project.tasks.push(task);}
  if(task.status!=='done'&&patch.status==='done')patch.completedAt=stamp(now);else if(patch.status!=='done')patch.completedAt=null;
  if(task.deadline!==patch.deadline)for(const [d,main]of Object.entries(state.mainTasks))if(main===id)delete state.mainTasks[d];

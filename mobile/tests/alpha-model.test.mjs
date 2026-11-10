@@ -76,3 +76,10 @@ test('undoing a set clears its actual value and only cancels its own rest timer'
  const s=fresh();template(s);a.startWorkout(s,'w','session',null,now);const [aSet,bSet]=s.activeWorkout.sets;
  a.logWorkoutSet(s,aSet.id,{result:'8',load:'10'},now);a.logWorkoutSet(s,bSet.id,{result:'9',load:'12'},new Date(+now+5000));const until=s.activeWorkout.restUntil;a.logWorkoutSet(s,aSet.id,{result:'8',load:'10'},new Date(+now+10000),false);assert.equal(aSet.actualValue,undefined);assert.equal(s.activeWorkout.restUntil,until);a.logWorkoutSet(s,bSet.id,{result:'9',load:'12'},new Date(+now+15000),false);assert.equal(s.activeWorkout.restUntil,undefined);
 });
+test('old archived main-task references remain valid on migration without exposing hidden tasks',()=>{
+ const s=fresh();s.schemaVersion=4;s.homeTasks[0].archived=true;const raw=JSON.stringify(s),disk=memory();disk.setItem(STORAGE_KEY,raw);const r=createRepository(disk,now);assert.equal(disk.getItem(STORAGE_KEY),raw);assert.equal(mainTaskOnDay(r.state,day),undefined);assert.equal(r.state.mainTasks[day],s.homeTasks[0].id);r.commit(t=>t.language='ru');assert.equal(r.state.homeTasks[0].archived,true);
+});
+test('metadata-only project task edits preserve fractional progress; unknown field shapes cannot be flattened',()=>{
+ const s=fresh();project(s);task(s,{status:'progress'});s.projects[0].tasks[0].progress=45;task(s,{title:'Only title changed',status:'progress'});assert.equal(s.projects[0].tasks[0].progress,45);
+ s.projects[0].tasks[0].description={future:'rich'};const before=structuredClone(s);assert.throws(()=>task(s),/alphaReadOnly/);assert.deepEqual(s,before);s.projects[0].description={future:'rich'};assert.throws(()=>project(s),/alphaReadOnly/);
+});

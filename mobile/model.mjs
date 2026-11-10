@@ -36,7 +36,7 @@ export function validate(state) {
   for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean' || (task.duration!==undefined && (!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)) || (task.note!==undefined && (typeof task.note!=='string'||task.note.length>10000))) fail();
   if(state.schemaVersion>=2){
     if(!record(state.mainTasks))fail();
-    for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!tasksForDate(state,date).some(t=>t.id===id))fail();
+    for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!tasksForDate(state,date,{includeArchived:true}).some(t=>t.id===id))fail();
   }
   for (const event of state.events) validateEventRecord(event);
   if(state.schemaVersion>=4&&state.mobileEventUndo!==undefined){
