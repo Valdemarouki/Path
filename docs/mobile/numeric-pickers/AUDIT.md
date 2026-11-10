@@ -1,0 +1,39 @@
+# Numeric / time control audit
+
+Baseline: `/workspace/Path`, `Valdemarouki/Path`, `feature/path-mobile-alpha`, `6e7f9c7f21577ff757d5a84297791326147ff8b3`, clean. The existing verified review checkpoint matches this HEAD. Owner permission for this isolated branch/origin remains applicable; historical AGENTS.md instructions are unchanged.
+
+The supplied `PATH_NUMERIC_PICKERS_DEMO.html` is a visual/motion study, not a data specification. Its 23-hour duration cap, 0.5 kg quantization and temporary demo storage are not adopted. No script from the attachment is loaded by the app. The implemented selectors use existing local Manrope and the current modal/editor system.
+
+| Section | Exact source / component | Purpose | Unit | Existing range | Model increment | Previous control | Decision |
+|---|---|---|---|---|---|---|---|
+| Calendar / Quick Add Event | `mobile/event-editor.mjs`, `#event-time` | Start | civil HH:mm in event IANA zone/fold | 00:00–23:59 | New/retimed: 15 min. Existing off-grid retained | time input, native step 60 s | Time nested step; unchanged legacy minutes preserved |
+| Calendar | same, `#event-end-time` | End | civil HH:mm + separate end date/fold | 00:00–23:59 | Final interval follows existing 15 min rule | time input | Same Time; date stays calendar control; existing elapsed/DST calculation reused |
+| Calendar | same, `#event-duration` | Elapsed duration | minutes | 1–10080; deadline fixed 0 | New/retimed 15; legacy integer retained | number input step 1 + model validation | Duration hours/minutes; up to 168 h, no 24 h wrap; actual end-date preview |
+| Today / Quick Add Task | `mobile/index.html`, `#task-duration`; `mobile/app.mjs` | Optional planned duration | minutes | absent or 1–10080 | 1 | number input | Duration hours/minutes + explicit Not set |
+| Sport template | `mobile/alpha-ui.mjs`, `workoutEditor`, `#workout-duration` | Planned workout duration | minutes | 15–1440 | 15 | number input | Same Duration, up to 24 h |
+| Sport planning | same, `planEditor`, `#plan-time` | Start | HH:mm + selected civil date | 00:00–23:59 | 15 min | time input step 900 s | Same Time; Calendar save still validates |
+| Sport exercise | same, `exerciseRow`, `[data-ex-sets]` | Sets | count | 1–30 | 1 | number input | Integer + −/+ and direct entry |
+| Sport exercise | same, `[data-ex-rest]` | Rest after set | seconds | 0–1200 | 1 | number input | Duration minutes/seconds; zero explicitly allowed; presets |
+| Sport exercise | same, `[data-ex-target]` | Prescription | selected unit / free text | up to 100 characters | No numeric contract: ranges and prose are allowed | text input (e.g. `8`, `8–12`) | Retain text. Converting to a wheel would destroy valid prescriptions |
+| Sport exercise | same, `[data-ex-unit]` | Prescription unit | reps / seconds / kg | enum | categorical | select | Retain select. No kg/lb conversion feature exists |
+| Active Sport | same, `activeView`, `[data-set-result]`, unit reps | Actual result | repetitions | 0–100000 | 1 | number input | Integer, temporary draft; Log set remains final operation |
+| Active Sport | same, same field, unit seconds | Actual result | seconds | 0–100000 | Any finite decimal | number input step any | Decimal: fractional seconds remain valid, not truncated into integer minute/second wheels |
+| Active Sport | same, same field, unit kg | Actual result | kg | 0–100000 | Any finite decimal | number input step any | Decimal, one value, no wheel per digit |
+| Active Sport | same, `[data-set-load]` | Optional mobile load extension | kg | absent or 0–10000 | Any finite decimal | number input step any | Decimal + Not set. ±1 is a navigation convenience, not a new validation grid; exact fractions retained |
+| Sport timer | same, `[data-workout-elapsed/rest]` | Elapsed / remaining time | ms model → mm:ss display | computed from actual clock/session | not an editable field | output + pause/resume | Keep actual timer; no fake selectable countdown |
+| Calendar | `mobile/event-editor.mjs`, `#event-type`, `#event-importance`, `#event-icon` | Type / importance / icon | enums | 6 / 4 / 5 options | categorical | selects | Keep labelled selects; not numeric wheels |
+| Calendar | same, `#event-fold`, `#event-end-fold` | Ambiguous DST instant | earlier/later | 2 options | categorical | selects | Keep explicit labelled selects |
+| Calendar | same, reminder display / read-only preserved fields | Reminder / recurrence | minutes / series metadata | not editable in this runtime | unsupported editing | text / read-only details | No new reminder/recurrence control or fake working options |
+| Habits | `mobile/alpha-ui.mjs`, `habitEditor`, `#habit-frequency`, weekday checkboxes | daily/selected weekdays | enum / weekday | daily / days; 0–6 Sunday-based | categorical | select / checkboxes | Keep; numeric goal, frequency intervals, count/duration rules have no supported editor |
+| Projects | same, `projectEditor`, `projectTaskEditor` | Status / importance | enums | active/paused/completed; planned/progress/done; importance | categorical | selects | Keep; displayed percentage is derived, not an editable number |
+| Progress | same, `progressView`, `#progress-period` | Reporting interval | day/week/month | 3 options | categorical | select | Keep; statistics are outputs |
+| Settings | `mobile/app.mjs`, `settings`, `#language`, `#motion` | Language / motion | enums | EN/RU/ES; system/off | categorical | selects | Keep; no stored 12/24 preference exists. Calendar's `mobile/app.mjs:time` explicitly uses `hourCycle:'h23'`; current adapters therefore use 24 h in all locales, with no AM/PM. Component supports explicit `hour12` if a real preference is introduced later; no new preference added |
+| Dates / deadlines | `mobile/index.html`, `mobile/event-editor.mjs`, `mobile/alpha-ui.mjs` | Task/event/plan/end/project deadline | civil YYYY-MM-DD | existing limits 2000–2099 where specified | calendar days | date inputs, previous/today/next controls | Keep calendar selectors and current date logic |
+| Canvas | `mobile/alpha-ui.mjs`, `zoomBy`, board viewport | Pan/zoom | temporary viewing scale | 0.15–3 camera scale | ×1.2 / ÷1.2 | labelled icon buttons + gesture | Keep view controls; not a persisted numeric field |
+| Notes / Profile | `mobile/alpha-ui.mjs`, note/profile views | Text/local identity | none | no numeric editor | none | text fields / local status | No selector to add |
+
+All existing number/time inputs listed above remain the parent form's source controls and keyboard/direct-entry fallback, with a labelled 44 px adjustment button. Touch/click on their value opens the shared step. Their IDs, ranges, validation and final-save handlers are retained. Disabled/read-only sources cannot open the selector. Native categorical selects and calendar date controls remain unchanged.
+
+Implementation: `mobile/numeric-values.mjs` (pure arithmetic), `mobile/numeric-picker.mjs` (one reusable view/interaction), `mobile/numeric-fields.mjs` (adapters to the audited sources), `mobile/numeric-picker.css`. Open forms host the nested step, hide/inert the original form temporarily, and restore its exact DOM/scroll/focus. Inline workout fields use one standalone instance of the existing dialog surface. Done changes only a source field and emits its normal input/change events; no repository/storage call exists in the picker. Cancel never writes even a draft to storage.
+
+The isolated `mobile/typography-preview/preview.mjs` font study also reads a `?card-weight=200` / default 300 URL parameter. It is not a persisted planning quantity or a native select. It remains a font-study parameter. The preview build receives the same new shared assets so its imported app modules still load. No native range input or kg/lb, distance, reminder-interval, recurrence-interval, numeric habit-goal editor exists in the shipped mobile sources.

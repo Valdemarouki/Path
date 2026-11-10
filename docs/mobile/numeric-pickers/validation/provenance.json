@@ -1,0 +1,18 @@
+{
+  "baseline": "6e7f9c7f21577ff757d5a84297791326147ff8b3",
+  "referenceName": "PATH_NUMERIC_PICKERS_DEMO.html",
+  "referenceSha256": "118ac68f7db5d76430e543aba5ee4b638184bd1a1cf10c71fb9bd40ec2534fb8",
+  "font": {
+    "font": "mobile/typography-preview/fonts/Manrope-Variable.ttf",
+    "tnum": true,
+    "axes": [
+      {
+        "tag": "wght",
+        "min": 200.0,
+        "max": 800.0
+      }
+    ],
+    "license": "mobile/typography-preview/fonts/OFL.txt"
+  },
+  "data": "synthetic profiles only, requests loopback only"
+}

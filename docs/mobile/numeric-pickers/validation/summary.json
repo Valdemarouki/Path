@@ -1,0 +1,167 @@
+{
+  "suites": 20,
+  "passed": 20,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 354,
+      "cases": 86,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 28417,
+      "cases": 55,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34254,
+      "cases": 24,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43278,
+      "cases": 34,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34005,
+      "cases": 93,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 79490,
+      "cases": 32,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "numeric-pickers",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 41845,
+      "cases": 27,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 16411,
+      "cases": 72,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 4108,
+      "cases": 6,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5934,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5733,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 35639,
+      "cases": 14,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 123276,
+      "cases": 31,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 44046,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 49270,
+      "cases": 30,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 22971,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31017,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31883,
+      "cases": 26,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 56625,
+      "cases": 21,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6031,
+      "cases": 26,
+      "log": "test-results.txt"
+    }
+  ],
+  "note": "12 suites initially passed. Environment then reported starting; loopback servers returned ERR_EMPTY_RESPONSE. After native reconnect and restarting only the two local Python preview servers, all eight interrupted suites were rerun, plus numeric-pickers for the final subtle-noise CSS. Other passing suites were retained unchanged. All profiles synthetic/loopback only."
+}

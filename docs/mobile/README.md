@@ -1,3 +1,5 @@
+> Текущий этап: [единые числовые и временные селекторы — аудит, проверка и видео](numeric-pickers/REPORT.md). Предыдущие этапы и доказательства сохранены.
+
 > Актуальная комплексная проверка: [результаты, исправления и готовность разделов](review/REPORT.md), [контракт desktop/mobile](functional-alpha/COMPATIBILITY.md). Предыдущие отчёты ниже сохраняются как история этапов.
 
 > Current Habits navigation correction: [grid position, shared cycle/check icon, verification and recording](habits-navigation/README.md).

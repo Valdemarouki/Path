@@ -1,0 +1,118 @@
+{
+  "cases": 27,
+  "results": [
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "legacy exact open/Done, cancel, locale clock and focus/geometry",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "duration >24h, explicit next date, end-time adapter, final save/reload"
+    },
+    {
+      "name": "unchanged selectors preserve legacy instants/ID/unknown fields on actual metadata save"
+    },
+    {
+      "name": "slow/fast wheel, immediate reverse, outside wheel safety, keyboard bounds, cleanup"
+    },
+    {
+      "name": "actual touch drag, bounded inertia settles, pointer cancellation does not apply"
+    },
+    {
+      "name": "decimal comma/dot, free precision, no autosave, model write/reload, zero load",
+      "lang": "en",
+      "width": 320
+    },
+    {
+      "name": "decimal comma/dot, free precision, no autosave, model write/reload, zero load",
+      "lang": "ru",
+      "width": 320
+    },
+    {
+      "name": "decimal comma/dot, free precision, no autosave, model write/reload, zero load",
+      "lang": "es",
+      "width": 320
+    },
+    {
+      "name": "shared integer/rest adapters, 0/1200 bounds, text prescription and active snapshot preserved"
+    },
+    {
+      "name": "plan time and template duration reuse shared steps; planned/active snapshots stay immutable"
+    },
+    {
+      "name": "fractional actual result uses one decimal value without changing its unit",
+      "unit": "seconds"
+    },
+    {
+      "name": "fractional actual result uses one decimal value without changing its unit",
+      "unit": "kg"
+    },
+    {
+      "name": "optional task duration, 168h, cancel reversion and explicit clear retain semantics"
+    },
+    {
+      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "reduce": "reduce"
+    },
+    {
+      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "off": true
+    },
+    {
+      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "reduce": "no-preference"
+    },
+    {
+      "name": "component 12h capability: noon → midnight AM/PM retains exact minutes; current app adapters remain 24h"
+    },
+    {
+      "name": "tiny decimal is not visually rounded to zero; route change cancels all layers/data changes"
+    },
+    {
+      "name": "real browser recording: wheel/flip/reverse, touch, nested step and parent draft"
+    }
+  ],
+  "platform": "Linux Chromium; touch/keyboard/viewport emulated, not physical iOS/Android or IME",
+  "videoFrames": 131,
+  "requestPolicy": "fresh synthetic contexts, loopback only"
+}

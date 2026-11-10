@@ -1,0 +1,167 @@
+{
+  "suites": 20,
+  "passed": 12,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 354,
+      "cases": 86,
+      "log": "/tmp/path-numeric-release/models/run.log"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 28417,
+      "cases": 55,
+      "log": "/tmp/path-numeric-release/browser/run.log"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34254,
+      "cases": 24,
+      "log": "/tmp/path-numeric-release/tasks/run.log"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43278,
+      "cases": 34,
+      "log": "/tmp/path-numeric-release/functional-alpha/run.log"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34005,
+      "cases": 93,
+      "log": "/tmp/path-numeric-release/actions/run.log"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 79490,
+      "cases": 32,
+      "log": "/tmp/path-numeric-release/review/run.log"
+    },
+    {
+      "name": "numeric-pickers",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 42324,
+      "cases": 27,
+      "log": "/tmp/path-numeric-release/numeric-pickers/run.log"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 16411,
+      "cases": 72,
+      "log": "/tmp/path-numeric-release/calendar-editor/run.log"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 4108,
+      "cases": 6,
+      "log": "/tmp/path-numeric-release/calendar-compatibility/run.log"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5934,
+      "cases": 9,
+      "log": "/tmp/path-numeric-release/importance/run.log"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5733,
+      "cases": 9,
+      "log": "/tmp/path-numeric-release/calendar-cards/run.log"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 35639,
+      "cases": 14,
+      "log": "/tmp/path-numeric-release/calendar-polish/run.log"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 62000,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/calendar-completion/run.log"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 27524,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/calendar-impact/run.log"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 538,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/navigation-panel/run.log"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 1531,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/habits-navigation/run.log"
+    },
+    {
+      "name": "refinement",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 612,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/refinement/run.log"
+    },
+    {
+      "name": "surfaces",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 463,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/surfaces/run.log"
+    },
+    {
+      "name": "transformation",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 504,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/transformation/run.log"
+    },
+    {
+      "name": "typography",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 579,
+      "cases": null,
+      "log": "/tmp/path-numeric-release/typography/run.log"
+    }
+  ],
+  "note": "navigation.cjs delegates to panel.cjs; that suite is counted once. Each browser profile contains synthetic data only."
+}
