@@ -1,0 +1,1293 @@
+{
+  "baseline": "55f7ff8290fcc8be39e3d05f5dbaf293e441b42a",
+  "dateLocal": "2026-11-11",
+  "timezone": "Europe/Warsaw",
+  "readOnly": true,
+  "oracle": "mobile/tests/desktop-oracle.mjs; only pure source functions in a VM, no app/repository startup",
+  "files": [
+    {
+      "file": "storage.js",
+      "sha256": "78ccec5eeb781e7f608ef0c97be69c57ec85eff6d364df011f3163702b7a87c8",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function pathAssertSafeTree(value){"
+        },
+        {
+          "line": 11,
+          "text": "function pathParseBackup(text){"
+        },
+        {
+          "line": 17,
+          "text": "function pathCheckpointEncode(envelope){"
+        },
+        {
+          "line": 22,
+          "text": "function pathCheckpointDecode(envelope){"
+        },
+        {
+          "line": 34,
+          "text": "function pathClone(value){"
+        },
+        {
+          "line": 50,
+          "text": "function pathJsonEqual(a,b){"
+        },
+        {
+          "line": 54,
+          "text": "function pathUid(){"
+        },
+        {
+          "line": 59,
+          "text": "function pathEmpty(){return {homeTasks:[],habits:[],projects:[],canvases:[],workouts:[],events:[],settings:{motion:'subtle'},createdAt:Date.now()};}"
+        },
+        {
+          "line": 60,
+          "text": "function pathImport(value){"
+        },
+        {
+          "line": 72,
+          "text": "function pathValidDate(value){if(typeof value!=='string'||!/^\\d{4}-\\d{2}-\\d{2}$/.test(value))return false;const d=new Date(value+'T12:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slic"
+        },
+        {
+          "line": 73,
+          "text": "function pathValidate(state){"
+        },
+        {
+          "line": 149,
+          "text": "function pathRestore(target,source){"
+        }
+      ]
+    },
+    {
+      "file": "privacy-export.js",
+      "sha256": "ded973917a22fba610c26e47fd3e5685171fb43bdfa7e1e5a41a6fe08ba9651c",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function pathFlushForBackup(){"
+        },
+        {
+          "line": 10,
+          "text": "function pathBackupState(includeJournal=false){const state=pathClone(data);state.notes=(state.notes||[]).filter(n=>includeJournal||n.kind!=='journal');return {format:'path-checkpoint',version:2,state}"
+        }
+      ]
+    },
+    {
+      "file": "integration.js",
+      "sha256": "22dcefbfb8b2b336b27f2911c2d45d7e9fce394d9da8706f893f180fee3f188e",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function taskRecords(){return [...data.homeTasks.map(task=>({task,project:null})),...data.projects.flatMap(project=>project.tasks.map(task=>({task,project})))];}"
+        },
+        {
+          "line": 3,
+          "text": "function findTask(id){return taskRecords().find(r=>r.task.id===id);}"
+        },
+        {
+          "line": 4,
+          "text": "function taskComplete(t){return t.status?t.status==='done':!!t.done;}"
+        },
+        {
+          "line": 5,
+          "text": "function tasksForDay(date){const ids=new Set(data.events.filter(e=>e.taskId&&(typeof calendarSegment==='function'?!!calendarSegment(e,date):e.date===date)).map(e=>e.taskId));return taskRecords().filte"
+        },
+        {
+          "line": 8,
+          "text": "function setTaskComplete(id,done){const r=findTask(id);if(!r)return;const t=r.task;if(taskComplete(t)===done)return;if(r.project){t.status=done?'done':'planned';t.progress=done?100:0;}else t.done=done"
+        },
+        {
+          "line": 29,
+          "text": "function reconcileTaskCompletion(){"
+        }
+      ]
+    },
+    {
+      "file": "timezone.js",
+      "sha256": "604ca4503b629ebdf986628180bf49ee23b6a4a579a017eec6100373265ffef3",
+      "declarations": [
+        {
+          "line": 4,
+          "text": "function pathSystemTimeZone(){const now=Date.now();if(pathSystemZoneValue===null||now-pathSystemZoneCheckedAt>=1000||now<pathSystemZoneCheckedAt){pathSystemZoneValue=Intl.DateTimeFormat().resolvedOpti"
+        },
+        {
+          "line": 7,
+          "text": "function pathZoneParts(instant,tzid=pathSystemTimeZone()){"
+        },
+        {
+          "line": 11,
+          "text": "function pathWallCandidates(date,hour,tzid=pathSystemTimeZone()){"
+        },
+        {
+          "line": 18,
+          "text": "function pathEventTiming(event){"
+        },
+        {
+          "line": 24,
+          "text": "function pathStampEvent(event){const t=pathEventTiming(event);event.start_at=new Date(t.start).toISOString();event.end_at=new Date(t.end).toISOString();event.tzid=t.tzid;event.fold=event.fold||'earlie"
+        }
+      ]
+    },
+    {
+      "file": "calendar.js",
+      "sha256": "06d8d3ee577a72392acb6c3ceabbbc38f26808cae555658419fb50eee54310e9",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function calendarMonday(date){const d=new Date(date+'T12:00:00');return addDays(date,-((d.getDay()+6)%7))}"
+        },
+        {
+          "line": 4,
+          "text": "function calendarDates(date=homeDate,mode=calendarMode){"
+        },
+        {
+          "line": 9,
+          "text": "function calendarMove(date,mode,step){"
+        },
+        {
+          "line": 14,
+          "text": "function calendarMinute(date,hour=0){return Date.parse(date+'T00:00:00Z')/60000+hour*60;}"
+        },
+        {
+          "line": 15,
+          "text": "function calendarInterval(e){const start=calendarMinute(e.date,e.hour);return {start,end:start+(e.duration||60)};}"
+        },
+        {
+          "line": 16,
+          "text": "function calendarSegment(e,date){const {start,end}=calendarInterval(e),day=calendarMinute(date),from=Math.max(start,day),to=Math.min(end,day+1440);return to>from?{...e,hour:(from-day)/60,duration:to-f"
+        },
+        {
+          "line": 17,
+          "text": "function calendarEvents(date){return data.events.map(e=>calendarSegment(e,date)).filter(Boolean).sort((a,b)=>a.hour-b.hour);}"
+        },
+        {
+          "line": 18,
+          "text": "function calendarConflicts(event){const interval=calendarInterval(event);return data.events.filter(e=>{const other=calendarInterval(e);return e.id!==event.id&&other.start<interval.end&&other.end>inter"
+        },
+        {
+          "line": 19,
+          "text": "function calendarEndLabel(e){const total=Math.round(e.hour*60+(e.duration||60)),days=Math.floor(total/1440);return clockTime((total%1440)/60)+(days?' (+'+days+'d)':'');}"
+        },
+        {
+          "line": 20,
+          "text": "function calendarLanes(events){"
+        },
+        {
+          "line": 27,
+          "text": "function calendarEventButton(e,style=''){if(e.type==='deadline')return `<button class=\"cal-entry calendar-deadline ${e.done?'completed':''}\" data-event=\"${esc(e.id)}\" aria-label=\"Edit deadline ${esc(e"
+        },
+        {
+          "line": 28,
+          "text": "function calendarPage(){"
+        },
+        {
+          "line": 33,
+          "text": "function validCalendarEvent(values){"
+        },
+        {
+          "line": 91,
+          "text": "function calendarDragDelta(startY,currentY,startScroll,currentScroll){return Math.round((currentY-startY+currentScroll-startScroll)/12)*15;}"
+        },
+        {
+          "line": 92,
+          "text": "function updateCalendarPointer(op,x,y){"
+        }
+      ]
+    },
+    {
+      "file": "calendar-planning.js",
+      "sha256": "7f559a8f3878206744b21ef9a9cc9cc6eade483cbab4f66dc9822d9bec3e8b5c",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function pathBlocksTime(e){return e.type!=='deadline'&&(e.type!=='free_time'||e.protected===true);}"
+        },
+        {
+          "line": 3,
+          "text": "function pathOverlaps(a,b){return a.start<b.end&&b.start<a.end;}"
+        },
+        {
+          "line": 4,
+          "text": "function pathOpenSlots(events,date,duration=60,startHour=8,endHour=22){"
+        },
+        {
+          "line": 11,
+          "text": "function pathSlotEvent(base,instant){const p=pathZoneParts(instant,base.tzid),choices=pathWallCandidates(p.date,p.hour,base.tzid);return pathStampEvent({...base,date:p.date,hour:p.hour,fold:instant==="
+        },
+        {
+          "line": 12,
+          "text": "function pathFirstSlot(events,base,days=1){for(let i=0;i<days;i++){const slots=pathOpenSlots(events.filter(e=>e.id!==base.id),addDays(base.date,i),base.duration);if(slots.length)return pathSlotEvent(b"
+        },
+        {
+          "line": 16,
+          "text": "function openSlotsPanel(){let slots=[],error='';try{slots=pathOpenSlots(data.events,homeDate,openSlotDuration);}catch(e){error=e.message;}"
+        },
+        {
+          "line": 27,
+          "text": "function commitCalendarMove(op){const candidate={...op.event,...(op.resize?{duration:op.nextDuration}:{date:op.nextDate,hour:op.nextMinute/60})};let problem='';try{pathStampEvent(candidate);if(calenda"
+        }
+      ]
+    },
+    {
+      "file": "calendar-recurrence.js",
+      "sha256": "19ad596e02b04ec4a70407bf48476ebe8c7e533c6c2ff45f8999c47ba8271ea4",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function createCalendarSeries(base,frequency,count,idFactory=uid){"
+        },
+        {
+          "line": 10,
+          "text": "function cancelCalendarOccurrence(state,id){const event=state.events.find(e=>e.id===id);if(!event)return false;if(event.seriesId){const series=(state.eventSeries||[]).find(s=>s.id===event.seriesId);if"
+        },
+        {
+          "line": 44,
+          "text": "function markCalendarExceptions(state,previous){if(!previous)return;const before=new Map(previous.events.map(e=>[e.id,e]));for(const event of state.events){const old=before.get(event.id);if(!event.ser"
+        }
+      ]
+    },
+    {
+      "file": "calendar-time.js",
+      "sha256": "b53c6410032284ec03138a23862bf08a67f98e650f68619bd22bc5d209254c45",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function calendarDayBoundary(date){return pathWallCandidates(date,0)[0]/60000;}"
+        }
+      ]
+    },
+    {
+      "file": "calendar-types.js",
+      "sha256": "60930928eaaec60c0b0e4686cdc2d1c660315f9ba85ba15df9e04a858d866ddf",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function calendarApplyTypeFields(){"
+        }
+      ]
+    },
+    {
+      "file": "modules.js",
+      "sha256": "a30eab1c8d8559fca709b340f2c8fe5ad2331699fc2b54a353990e4f1c3bb5eb",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function notesPage(){"
+        },
+        {
+          "line": 7,
+          "text": "function editNote(id){"
+        },
+        {
+          "line": 13,
+          "text": "function habitRule(h,date){return (h.schedules||[{from:h.startDate||'0000-01-01',frequency:'daily',goal:1,kind:'completion',days:'1,2,3,4,5,6,0'}]).filter(s=>s.from<=date).sort((a,b)=>b.from.localeCom"
+        },
+        {
+          "line": 14,
+          "text": "function habitEligible(h,date){const r=habitRule(h,date);return !!r&&!h.archived&&(r.frequency!=='days'||r.days.split(',').map(Number).includes(new Date(date+'T12:00:00').getDay()));}"
+        },
+        {
+          "line": 15,
+          "text": "function habitValue(h,date){return Number(h.values?.[date]??(h.checkIns?.[date]?1:0));}"
+        },
+        {
+          "line": 18,
+          "text": "function habitWeek(h,date){const day=new Date(date+'T12:00:00').getDay();const start=addDays(date,-((day+6)%7));const dates=Array.from({length:7},(_,i)=>addDays(start,i));const rule=habitRule(h,date);"
+        },
+        {
+          "line": 19,
+          "text": "function habitsPage(){const active=data.habits.filter(h=>!h.archived),week=data.habits.map(h=>habitWeek(h,homeDate)),done=week.reduce((s,w)=>s+w.done,0),total=week.reduce((s,w)=>s+w.total,0);return `$"
+        },
+        {
+          "line": 20,
+          "text": "function editHabit(id){const h=data.habits.find(x=>x.id===id),r=h?habitRule(h,pathToday()):null;openEditor(h?'Edit habit':'New habit',[{key:'name',label:'Name',required:true,value:h?.name||''},{key:'k"
+        },
+        {
+          "line": 25,
+          "text": "function logHabitValue(h,date){"
+        }
+      ]
+    },
+    {
+      "file": "habit-history.js",
+      "sha256": "a77a65880e70e232c7acec5e5731c0007a2b86167faa8c8d5b28a956bb7096e8",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function habitAvailability(h,date){const versions=(h.availability||[]).filter(v=>v.from<=date).sort((a,b)=>b.from.localeCompare(a.from));return versions[0]?.state||(h.availability?'active':h.archived?"
+        },
+        {
+          "line": 4,
+          "text": "function setHabitAvailability(h,state,date){if(!['active','paused','archived'].includes(state)||!pathValidDate(date))return false;h.availability??=[];h.availability=h.availability.filter(v=>v.from!==d"
+        },
+        {
+          "line": 6,
+          "text": "function habitPeriodWeek(h,date,asOf=pathToday()){"
+        },
+        {
+          "line": 13,
+          "text": "function habitHistoryStart(h,fallback){return [h.startDate,...(h.schedules||[]).map(r=>r.from),...Object.keys(h.values||{}),...Object.keys(h.checkIns||{})].filter(d=>d&&d>'0001-01-01'&&pathValidDate(d"
+        },
+        {
+          "line": 14,
+          "text": "function habitCurrentStreak(h,asOf=pathToday()){"
+        }
+      ]
+    },
+    {
+      "file": "habit-sources.js",
+      "sha256": "66168852bd6c9e2501c701bd6ccff1fa599a1e3e4472a8cd0e3f2f82d21478a1",
+      "declarations": [
+        {
+          "line": 1,
+          "text": "function habitSourceRecords(h,date){const rule=habitRule(h,date);if(rule?.source!=='sport')return [];const unique=new Map();for(const record of data.workoutRecords||[])if(record.endedAt&&(record.compl"
+        },
+        {
+          "line": 12,
+          "text": "function editHabitDate(id){const h=data.habits.find(h=>h.id===id);if(!h)return;const date=homeDate>pathToday()?pathToday():homeDate;openEditor('Habit details · '+h.name,[{key:'date',label:'Date to rev"
+        }
+      ]
+    },
+    {
+      "file": "sport.js",
+      "sha256": "02811caa36479c6721b0f5e37fca88dd14237af4f53372d3f75111723a71251c",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function workoutElapsedMs(a,now=Date.now()){"
+        },
+        {
+          "line": 7,
+          "text": "function setWorkoutPaused(a,paused,now=Date.now()){"
+        },
+        {
+          "line": 13,
+          "text": "function completedWorkoutRecord(a,now=Date.now()){"
+        },
+        {
+          "line": 18,
+          "text": "function workoutTimeLabel(a){const seconds=Math.floor(workoutElapsedMs(a)/1000);return `${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;}"
+        },
+        {
+          "line": 20,
+          "text": "function sportPlans(){return data.events.filter(e=>e.type==='workout').sort((a,b)=>a.date.localeCompare(b.date)||a.hour-b.hour);}"
+        },
+        {
+          "line": 21,
+          "text": "function sportPortrait(){return `<div class=\"module-portrait\" aria-hidden=\"true\">${particleSvg('Path_2_0_Spartan_MorphReady_Particles')}</div>`;}"
+        },
+        {
+          "line": 23,
+          "text": "function programPage(p){return `<button class=\"back-link\" data-program-back>← All programs</button>${pageTitle(p.name,p.description||'Build a repeatable practice.',`<button class=\"btn\" data-program-ed"
+        },
+        {
+          "line": 24,
+          "text": "function editProgram(id){const p=(data.programs||[]).find(p=>p.id===id);openEditor(p?'Edit program':'New program',[{key:'name',label:'Program name',required:true,value:p?.name||''},{key:'description',"
+        },
+        {
+          "line": 26,
+          "text": "function scheduleWorkout(id){const w=data.workouts.find(w=>w.id===id);if(!w)return;const ids=new Set(data.events.map(e=>e.id));modalEvent(null,homeDate,600);editor.title='Schedule workout';for(const f"
+        },
+        {
+          "line": 27,
+          "text": "function startWorkout(templateId,sessionId){if(data.activeWorkout){view='sport';render();return;}const event=data.events.find(e=>e.id===sessionId);if(event?.done||data.workoutRecords?.some(r=>r.sessio"
+        },
+        {
+          "line": 28,
+          "text": "function activeWorkoutPage(a){return `${pageTitle(a.snapshot.name,'Record what you actually complete.',`<button class=\"btn primary\" data-workout-finish>Finish workout</button>`)}<div class=\"panel row\""
+        },
+        {
+          "line": 29,
+          "text": "function workoutHistory(){return `<section class=\"panel workout-history\"><h2>Workout history</h2>${(data.workoutRecords||[]).slice().reverse().map(r=>`<details><summary>${esc(r.snapshot.name)} · ${new"
+        }
+      ]
+    },
+    {
+      "file": "sport-smart.js",
+      "sha256": "72b470ddfc6d8761ddc6fa87250b22ad3012e521e5b5d29597cdd5331961cdb1",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "const SPORT_INPUT_DRAFT='path2-sport-input-v3';"
+        },
+        {
+          "line": 5,
+          "text": "function sportAllExercises(){const map=new Map();for(const w of data.workouts.filter(w=>!w.archived))for(const ex of w.exercises||[])if(!map.has(sportDefinitionId(ex)))map.set(sportDefinitionId(ex),sp"
+        },
+        {
+          "line": 6,
+          "text": "function sportFindExercise(id){return [...(workoutDraft?.exercises||[]),...(data.activeWorkout?.snapshot.exercises||[]),...sportAllExercises()].find(ex=>sportDefinitionId(ex)===id);}"
+        },
+        {
+          "line": 7,
+          "text": "function sportFail(message,key){if(editor){editor.contextProblem=message;pathContextError(message,key);}else toast(message);return false;}"
+        },
+        {
+          "line": 8,
+          "text": "function sportTry(fn){const before=pathClone(data);try{return mutate(fn);}catch(error){pathRestore(data,before);toast(error.message);return false;}}"
+        },
+        {
+          "line": 9,
+          "text": "function sportRememberInput(){const a=data.activeWorkout;if(!a)return;try{localStorage.setItem(SPORT_INPUT_DRAFT,JSON.stringify({id:a.id,sets:sportPendingInputs}));return true;}catch{toast('Could not "
+        },
+        {
+          "line": 10,
+          "text": "function sportClearInput(){sportPendingInputs={};try{localStorage.removeItem(SPORT_INPUT_DRAFT);}catch{}}"
+        },
+        {
+          "line": 11,
+          "text": "function sportSaveInput(){const a=data.activeWorkout;if(!a)return false;for(const [id,value] of Object.entries(sportPendingInputs)){const set=a.sets.find(s=>s.id===id&&!s.done);if(set)Object.assign(se"
+        },
+        {
+          "line": 12,
+          "text": "function sportRestoreInput(){try{const draft=JSON.parse(localStorage.getItem(SPORT_INPUT_DRAFT));if(!data.activeWorkout||draft?.id!==data.activeWorkout.id)return;sportPendingInputs=draft.sets||{};spor"
+        },
+        {
+          "line": 26,
+          "text": "function sportFinish(){"
+        },
+        {
+          "line": 32,
+          "text": "function sportPreferenceEditor(definitionId){"
+        },
+        {
+          "line": 40,
+          "text": "function sportProgramNotes(id){const p=data.programs?.find(p=>p.id===id);if(!p)return;openEditor('Program notes',[{key:'notes',label:'Program notes',type:'textarea',value:p.programNotes||''}],v=>{p.pr"
+        },
+        {
+          "line": 42,
+          "text": "function sportSwapEditor(stepId){"
+        },
+        {
+          "line": 52,
+          "text": "function sportAddLibraryExercise(){if(!workoutDraft)return;const available=sportAllExercises();if(!available.length){toast('Create your first exercise in this workout.');return;}openEditor('Add existi"
+        },
+        {
+          "line": 53,
+          "text": "function sportSkillEditor(skill){if(!SPORT_STAGES[skill])return;const latest=(data.skillTests||[]).filter(t=>t.skillType===skill).at(-1);openEditor(skill==='planche'?'Planche test':'Front Lever test',"
+        },
+        {
+          "line": 55,
+          "text": "function sportProgressionEditor(templateId,stepId){const template=data.workouts.find(w=>w.id===templateId),ex=template?.exercises.find(x=>x.id===stepId),proposal=ex&&sportProgression(template,ex);if(!"
+        },
+        {
+          "line": 57,
+          "text": "function sportSkillsMarkup(compact=false){return `<section class=\"panel sport-skills\"><div class=\"panel-head\"><h2>Skill journey</h2><span class=\"muted\">Measured, never assumed</span></div>${Object.ent"
+        },
+        {
+          "line": 58,
+          "text": "function sportSmarterCard(){const next=sportPlans().find(e=>!e.done&&e.date>=pathToday()&&e.plannedSnapshot),template=next?.plannedSnapshot||data.workouts.find(w=>!w.archived&&w.exercises?.length);ret"
+        },
+        {
+          "line": 59,
+          "text": "function sportTabs(){return `<nav class=\"sport-tabs\" aria-label=\"Sport sections\">${[['overview','Overview'],['programs','Programs'],['exercises','Exercises'],['history','History & Skills']].map(([key,"
+        },
+        {
+          "line": 87,
+          "text": "function sportOpenShort(templateId,calendarId){const event=data.events.find(e=>e.id===calendarId),template=event?.fullWorkoutSnapshot||event?.plannedSnapshot||data.workouts.find(w=>w.id===templateId);"
+        },
+        {
+          "line": 88,
+          "text": "function sportShortOptions(draft){const slots=sportAvailableWindows(draft.date,draft.calendarId);return slots.flatMap(slot=>{const full=sportEstimate(draft.template),budget=Math.min(slot.minutes,Math."
+        },
+        {
+          "line": 89,
+          "text": "function sportShortPage(){const draft=sportShortDraft,full=sportEstimate(draft.template),options=sportShortOptions(draft),chosen=options.find(o=>o.start===draft.start)||options[0];return `<div class=\""
+        },
+        {
+          "line": 90,
+          "text": "function sportCommitShort(start){const draft=sportShortDraft;if(!draft)return false;const option=sportShortOptions(draft).find(o=>o.start===start);if(!option){toast('This opening changed. Choose anoth"
+        },
+        {
+          "line": 96,
+          "text": "function sportFindFullSlot(){const draft=sportShortDraft;if(!draft)return;const existing=data.events.find(e=>e.id===draft.calendarId),base={...(existing||{}),id:existing?.id||uid(),title:draft.templat"
+        },
+        {
+          "line": 97,
+          "text": "function sportCommitFullSlot(){const draft=sportShortDraft,candidate=draft?.move;if(!candidate)return false;const existing=data.events.find(e=>e.id===draft.calendarId);if(existing?.done||calendarConfl"
+        }
+      ]
+    },
+    {
+      "file": "sport-smart-model.js",
+      "sha256": "6ac5c371eedd7cf2dcbcb2b79aed6c3d312818b4338353a087925f7d10e919f0",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "const SPORT_UNITS=['reps','seconds','kg'];"
+        },
+        {
+          "line": 3,
+          "text": "const SPORT_KINDS=['warmup','working','heavy'];"
+        },
+        {
+          "line": 4,
+          "text": "const SPORT_STAGES={frontLever:['Tuck','Advanced tuck','Straddle','Full'],planche:['Lean','Tuck','Advanced tuck','Full']};"
+        },
+        {
+          "line": 5,
+          "text": "function sportUnit(ex){if(SPORT_UNITS.includes(ex.unit))return ex.unit;const target=String(ex.target||'').trim();return /(?:seconds?|secs?|s)$/i.test(target)&&! /reps?$/i.test(target)?'seconds':/kg$/i"
+        },
+        {
+          "line": 6,
+          "text": "function sportTargetLabel(ex){const target=String(ex.target);return /(?:reps?|seconds?|secs?|s|kg)$/i.test(target)?target:target+' '+sportUnit(ex);}"
+        },
+        {
+          "line": 7,
+          "text": "function sportDefinitionId(ex){return ex.definitionId||'exercise:'+ex.id;}"
+        },
+        {
+          "line": 8,
+          "text": "function sportRestProfile(ex){const p=data.exercisePreferences?.[sportDefinitionId(ex)]?.restPresets||ex.restPresets||{};const working=Math.min(1200,Math.max(0,Number(ex.rest)||0));return {warmup:p.wa"
+        },
+        {
+          "line": 9,
+          "text": "function sportNormalizeExercise(ex){return {...pathClone(ex),definitionId:sportDefinitionId(ex),unit:sportUnit(ex),category:ex.category||'custom',equipment:ex.equipment||'',rest:sportRestProfile(ex).w"
+        },
+        {
+          "line": 10,
+          "text": "function sportActual(value){if(typeof value!=='string'&&typeof value!=='number')return null;if(String(value).trim()==='')return null;const n=Number(value);return Number.isFinite(n)&&n>=0?n:null;}"
+        },
+        {
+          "line": 11,
+          "text": "function sportTargetNumber(ex){const m=String(ex.target).trim().match(/^(\\d+(?:\\.\\d+)?)(?:\\s*[-–]\\s*\\d+(?:\\.\\d+)?)?(?:\\s*(?:reps?|seconds?|secs?|s|kg))?$/i);return m?Number(m[1]):null;}"
+        },
+        {
+          "line": 12,
+          "text": "function sportSets(ex,sessionId){return Array.from({length:ex.sets},(_,i)=>({id:uid(),sessionRef:sessionId,exerciseId:ex.id,definitionId:sportDefinitionId(ex),unit:sportUnit(ex),name:ex.name,index:i+1"
+        },
+        {
+          "line": 13,
+          "text": "function sportSession(template,calendarId=null,mode='full',now=Date.now()){"
+        },
+        {
+          "line": 17,
+          "text": "function sportExercise(active,id){return active?.snapshot.exercises.find(ex=>ex.id===id);}"
+        },
+        {
+          "line": 18,
+          "text": "function sportPrevious(active,ex,records=data.workoutRecords||[]){"
+        },
+        {
+          "line": 22,
+          "text": "function sportLogSet(active,id,value,kind,now=Date.now()){"
+        },
+        {
+          "line": 33,
+          "text": "function sportUndoSet(active,id){const s=active?.sets.find(x=>x.id===id);if(!s?.done)return false;s.done=false;delete s.loggedAt;delete s.actualValue;if(active.restSetId===id)changeWorkoutRest(active,"
+        },
+        {
+          "line": 34,
+          "text": "function sportAdjustRest(active,seconds,now=Date.now()){"
+        },
+        {
+          "line": 38,
+          "text": "function sportSwapExercise(active,stepId,replacement){"
+        },
+        {
+          "line": 47,
+          "text": "function sportEstimate(template){"
+        },
+        {
+          "line": 53,
+          "text": "function sportShortTemplate(template,availableMinutes){"
+        },
+        {
+          "line": 64,
+          "text": "function sportAvailableWindows(date,excludedId=null,now=Date.now()){"
+        },
+        {
+          "line": 67,
+          "text": "function sportProgression(template,ex,records=data.workoutRecords||[]){"
+        },
+        {
+          "line": 76,
+          "text": "function sportSkillTest(skill,stage,value,now=Date.now()){"
+        },
+        {
+          "line": 81,
+          "text": "function sportTypeIcon(category='custom'){const paths={pull:'M4 3h16 M7 3v6l5 4 5-4V3 M12 13v5 M8 22l4-4 4 4',push:'M3 17h18 M6 17l3-7h6l4 7 M9 10l-3-3 M15 10l3-3',base:'M5 5h14 M7 5v8l5 3 5-3V5 M12 1"
+        }
+      ]
+    },
+    {
+      "file": "sport-schedule.js",
+      "sha256": "6e732c60ab80b426a5a729695d007379fd35394480da25614934d5ae21c8c9e8",
+      "declarations": [
+        {
+          "line": 1,
+          "text": "function programWorkouts(programId){"
+        },
+        {
+          "line": 6,
+          "text": "function proposeProgramSchedule(programId,startDate,spacing=2,cycles=1){"
+        },
+        {
+          "line": 13,
+          "text": "function commitProgramSchedule(draft){if(!draft?.events?.length)return false;const ids=new Set(data.events.map(e=>e.id));for(const e of draft.events){if(ids.has(e.id))throw Error('This proposal was al"
+        },
+        {
+          "line": 14,
+          "text": "function sportMiniWeek(anchor=homeDate){const dates=calendarDates(anchor,'week');return `<section class=\"panel sport-mini\"><div class=\"panel-head\"><h2>This week</h2><button class=\"btn\" data-nav=\"calen"
+        },
+        {
+          "line": 15,
+          "text": "function proposeWeeklyProgramSchedule(programId,startDate,weekdays,weeks=1,assignments={}){"
+        },
+        {
+          "line": 30,
+          "text": "function openProgramSchedule(id){"
+        }
+      ]
+    },
+    {
+      "file": "projects.js",
+      "sha256": "bb71c828a94083468fb3e01ceecc14dd7349eff8ba055fad34b603eecaefcfe7",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function validProjectTask(v){"
+        },
+        {
+          "line": 38,
+          "text": "function scheduleProjectSession(id){"
+        }
+      ]
+    },
+    {
+      "file": "project-task-details.js",
+      "sha256": "e04abdb5faee813caf78de9c429af85f9b7f2d9b304c9cde5acffd51bfc008ad",
+      "declarations": [
+        {
+          "line": 1,
+          "text": "function taskSubtaskSummary(task){const items=task.subtasks||[];return {total:items.length,done:items.filter(s=>s.done).length};}"
+        },
+        {
+          "line": 2,
+          "text": "function validateTaskDetails(task){if(!['none','low','medium','high'].includes(task.importance??'none'))return 'Choose a valid importance.';const ids=new Set();for(const s of task.subtasks||[]){if(!s."
+        },
+        {
+          "line": 3,
+          "text": "function subtaskEditorMarkup(items){return `<div class=\"panel-head\"><strong>Subtasks</strong><button type=\"button\" class=\"btn small\" data-subtask-add>+ Subtask</button></div><p class=\"muted\">Separate "
+        },
+        {
+          "line": 4,
+          "text": "function dependencyEditorMarkup(project,draft){"
+        },
+        {
+          "line": 8,
+          "text": "function paintDependencyPicker(){const section=document.querySelector('#task-dependencies'),draft=editor?.dependencyDraft,project=data.projects.find(p=>p.id===draft?.projectId);if(section&&project)sec"
+        },
+        {
+          "line": 9,
+          "text": "function refreshDependencyChoices(project,draft){"
+        },
+        {
+          "line": 25,
+          "text": "function workflowDependencyLines(p){const rows=new Map(p.tasks.map((t,i)=>[t.id,{task:t,index:i}])),paths=[];const width=Math.max(930,155+timelineScale*28+16),height=Math.max(245,47+p.tasks.length*52+"
+        }
+      ]
+    },
+    {
+      "file": "project-planning.js",
+      "sha256": "4d10bf813cf2a21cc2eef7a5ba3d1d1edcfcdd2cc87da72aafe72dae1a758952",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function projectDependencyError(tasks,id,dependencies){if(!Array.isArray(dependencies)||new Set(dependencies).size!==dependencies.length)return 'Choose each predecessor once.';const byId=new Map(tasks"
+        },
+        {
+          "line": 3,
+          "text": "function projectDateWarnings(project,task){const warnings=[];if(task.deadline&&task.end&&task.end>task.deadline)warnings.push('Workflow ends after the deadline.');for(const id of task.dependencies||[]"
+        },
+        {
+          "line": 5,
+          "text": "function projectChangeWarnings(project,task){"
+        },
+        {
+          "line": 10,
+          "text": "function proposeWorkflowDates(project,task,start,end){"
+        },
+        {
+          "line": 39,
+          "text": "function editMilestone(projectId,id){const p=data.projects.find(p=>p.id===projectId),m=p?.milestones?.find(m=>m.id===id);if(!p)return;openEditor(m?'Edit milestone':'New milestone',[{key:'title',label:"
+        }
+      ]
+    },
+    {
+      "file": "notes-editor.js",
+      "sha256": "06e09339e52fea6b77a13556a15a8b793c5567d15e5f3a318801a15ca7b52612",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function flushNote(){clearTimeout(noteTimer);if(!noteDirty||!noteDraft)return true;if(!noteDraft.title.trim()&&!noteDraft.body.trim()&&!selectedNote){noteDirty=false;return true;}"
+        },
+        {
+          "line": 9,
+          "text": "function openNoteDocument(id){if(!flushNote())return;const n=(data.notes||[]).find(n=>n.id===id);if(n){noteKind=n.kind;noteTrash=!!n.deletedAt;noteArchive=!!n.archived;}else noteTrash=false;selectedNo"
+        }
+      ]
+    },
+    {
+      "file": "notes-rich.js",
+      "sha256": "443fb4fb47ebaa985829f3bf8025c5a800469e5f566e8a5663dcb07f8ef0e106",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function pathNoteRichElement(){return document.querySelector('#note-rich-body');}"
+        },
+        {
+          "line": 4,
+          "text": "function pathNoteRichSelection(){const el=pathNoteRichElement(),selection=window.getSelection?.();if(el&&selection?.rangeCount&&el.contains(selection.getRangeAt(0).commonAncestorContainer))return sele"
+        },
+        {
+          "line": 5,
+          "text": "function pathNoteRichMarkup(body){return noteBlocks(body).replace(/<p class=\"note-bullet\">• ([\\s\\S]*?)<\\/p>/g,'<ul><li>$1</li></ul>');}"
+        },
+        {
+          "line": 6,
+          "text": "function pathNoteRichMarkdown(root){"
+        },
+        {
+          "line": 30,
+          "text": "function pathNoteRichSync(){"
+        },
+        {
+          "line": 34,
+          "text": "function pathNoteRichRestore(){"
+        },
+        {
+          "line": 44,
+          "text": "function pathNoteRichHeadingSelected(){"
+        },
+        {
+          "line": 50,
+          "text": "function pathNoteRichFormat(kind){"
+        }
+      ]
+    },
+    {
+      "file": "notes-formatting.js",
+      "sha256": "3648dc058bc2d96e46703d4795661709b7e492b0774a2059b993ab535200df52",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function noteInline(text){"
+        },
+        {
+          "line": 16,
+          "text": "function noteBlocks(body){let code=false;return body.split('\\n').map(line=>{if(line.startsWith('```')){code=!code;return code?'<pre><code>':'</code></pre>';}if(code)return esc(line)+'\\n';const heading"
+        },
+        {
+          "line": 19,
+          "text": "function noteDirtySoon(){noteDirty=true;clearTimeout(noteTimer);noteTimer=setTimeout(flushNote,700);}"
+        }
+      ]
+    },
+    {
+      "file": "notes-details.js",
+      "sha256": "8b579a3d8ebd54fe134c89c459d455e3ecc8cf696b895372f05729bff34990cc",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function noteCanvasLinks(state,note){if(!noteVisibleOutsideLibrary(note))return [];return state.canvases.flatMap(board=>board.nodes.filter(node=>node.entityRef?.type==='note'&&node.entityRef.id===note"
+        },
+        {
+          "line": 3,
+          "text": "function addNoteToCanvas(state,noteId,boardId){const note=(state.notes||[]).find(n=>n.id===noteId),board=state.canvases.find(c=>c.id===boardId&&!c.archived);if(!noteVisibleOutsideLibrary(note)||!board"
+        },
+        {
+          "line": 4,
+          "text": "function duplicateNoteDocument(note){const copy=pathClone(note);copy.id=uid();copy.title=(copy.title||'Untitled')+' (copy)';copy.updatedAt=new Date().toISOString();delete copy.deletedAt;copy.archived="
+        },
+        {
+          "line": 5,
+          "text": "function noteDetailsMarkup(note){const links=noteCanvasLinks(data,note),words=note.body.trim()?note.body.trim().split(/\\s+/u).length:0;return `<h2>Entry details</h2><p>${note.kind==='journal'?'Journal"
+        }
+      ]
+    },
+    {
+      "file": "notes-projects.js",
+      "sha256": "e598eed5b7c162a5530d526bfad24e8a5bd5fe9ed74fc4c74482fe3d49ac87d0",
+      "declarations": [
+        {
+          "line": 1,
+          "text": "function createTaskFromNoteSelection(state,noteId,projectId,text,title,taskId){const note=(state.notes||[]).find(n=>n.id===noteId),project=state.projects.find(p=>p.id===projectId&&!p.archived);if(!not"
+        },
+        {
+          "line": 2,
+          "text": "function linkNoteToProject(state,noteId,projectId){const note=(state.notes||[]).find(n=>n.id===noteId),project=state.projects.find(p=>p.id===projectId&&!p.archived);if(!noteVisibleOutsideLibrary(note)"
+        },
+        {
+          "line": 3,
+          "text": "function noteProjectLinks(state,note){if(!noteVisibleOutsideLibrary(note))return [];return state.projects.filter(p=>(p.noteIds||[]).includes(note.id)||p.tasks.some(t=>t.sourceNoteId===note.id));}"
+        }
+      ]
+    },
+    {
+      "file": "notes-lifecycle.js",
+      "sha256": "e187c209af50700adad750186fd6f67e45e871991948b09ae367e07b63d1c40e",
+      "declarations": [
+        {
+          "line": 3,
+          "text": "function noteVisibleOutsideLibrary(n){return !!n&&n.kind==='note'&&!n.deletedAt;}"
+        },
+        {
+          "line": 4,
+          "text": "function noteLibraryItems(state,kind,archive=false,trash=false,search=''){"
+        },
+        {
+          "line": 8,
+          "text": "function changeNoteLifecycle(state,id,action,date,stamp=new Date().toISOString()){"
+        },
+        {
+          "line": 22,
+          "text": "function commitNoteLifecycle(id,action){"
+        }
+      ]
+    },
+    {
+      "file": "canvas-workspace.js",
+      "sha256": "9ca4f41ffcb3567b2cd6468aed4ee2701db847fede30f177f1a13367872febb9",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function canvasViewport(board){return {zoom:Math.max(.2,Math.min(3,board.viewport?.zoom||1)),left:Math.max(0,board.viewport?.left||0),top:Math.max(0,board.viewport?.top||0)};}"
+        },
+        {
+          "line": 3,
+          "text": "function canvasDimensions(board){return {width:Math.max(2000,...board.nodes.map(n=>n.x+(n.width||280)+400)),height:Math.max(1400,...board.nodes.map(n=>n.y+(n.height||180)+400))};}"
+        },
+        {
+          "line": 4,
+          "text": "function canvasSafeUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)?u.href:null;}catch{return null;}}"
+        },
+        {
+          "line": 5,
+          "text": "function canvasNodeView(n){if(n.entityRef?.type==='project'){const p=data.projects.find(p=>p.id===n.entityRef.id);return {...n,title:p?.name||'Linked item unavailable',body:p?`${p.status||'active'} · "
+        },
+        {
+          "line": 7,
+          "text": "function canvasCaptureViewport(space,boardId=space?.dataset?.cameraBoardId||canvasId){"
+        },
+        {
+          "line": 12,
+          "text": "function persistCanvasViewport(boardId=canvasId,source=document.querySelector('#canvas-space')){"
+        },
+        {
+          "line": 28,
+          "text": "function canvasSetZoom(zoom,clientX,clientY){const c=data.canvases.find(c=>c.id===canvasId),space=document.querySelector('#canvas-space');if(!c||!space)return;const vp=canvasViewport(c),rect=space.get"
+        },
+        {
+          "line": 29,
+          "text": "function canvasConvertToTask(board,node,project){if(node.entityRef)throw Error('This card already links to a source.');const task={id:uid(),title:node.title||'Untitled task',description:node.body||'',"
+        },
+        {
+          "line": 39,
+          "text": "function cancelCanvasGesture(e){if(!canvasGesture||(e?.pointerId!=null&&canvasGesture.pointerId!=null&&e.pointerId!==canvasGesture.pointerId))return;canvasGesture=null;render();}"
+        },
+        {
+          "line": 50,
+          "text": "function exportCanvasBoard(board){jsonDownload((board.name||'canvas')+'.json',{format:'path-canvas',version:1,board:pathClone(board)});}"
+        },
+        {
+          "line": 51,
+          "text": "function prepareCanvasImport(value){if(value?.format!=='path-canvas'||value.version!==1||!value.board)throw Error('Choose a Path Canvas v1 export.');const board=pathClone(value.board),state=pathClone("
+        },
+        {
+          "line": 55,
+          "text": "function canvasEdgesMarkup(board){const nodes=new Map(board.nodes.map(n=>[n.id,n]));return board.edges.map(edge=>{const a=nodes.get(edge.from),b=nodes.get(edge.to);if(!a||!b)return '';const ax=a.x+(a."
+        },
+        {
+          "line": 56,
+          "text": "function canvasGesturePresentation(op,dx,dy){"
+        },
+        {
+          "line": 60,
+          "text": "function previewCanvasEdges(op,dx,dy){const svg=document.querySelector('#canvas-world .canvas-connections');if(!svg)return;svg.querySelectorAll(':scope > path,:scope > text,:scope > .canvas-edge').for"
+        }
+      ]
+    },
+    {
+      "file": "canvas-groups.js",
+      "sha256": "2eff38e1cb1a682e03ce651b3e141b28b4485643aa81fff4cbe2ca0d7455d6d7",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function canvasSelection(board){if(canvasSelectionBoard!==board.id){canvasMultiSelection.clear();canvasSelectionBoard=board.id;}const ids=new Set(board.nodes.map(n=>n.id));for(const id of canvasMultiS"
+        },
+        {
+          "line": 3,
+          "text": "function canvasFrameContents(board,frame){if(frame.kind!=='group')return [];return board.nodes.filter(n=>n.id!==frame.id&&n.x>=frame.x&&n.y>=frame.y&&n.x+(n.width||280)<=frame.x+(frame.width||280)&&n."
+        },
+        {
+          "line": 4,
+          "text": "function canvasMoveMembers(board,node){const selected=canvasSelection(board),roots=selected.has(node.id)?board.nodes.filter(n=>selected.has(n.id)):[node],members=new Map();for(const root of roots){mem"
+        },
+        {
+          "line": 5,
+          "text": "function canvasMoveDelta(members,dx,dy){return {x:Math.max(-Math.min(...members.map(n=>n.x)),Math.round(dx)),y:Math.max(-Math.min(...members.map(n=>n.y)),Math.round(dy))};}"
+        },
+        {
+          "line": 6,
+          "text": "function applyCanvasMove(board,members,dx,dy){const delta=canvasMoveDelta(members,dx,dy);for(const origin of members){const node=board.nodes.find(n=>n.id===origin.id);if(node){node.x=origin.x+delta.x;"
+        },
+        {
+          "line": 7,
+          "text": "function previewCanvasMove(members,dx,dy){const delta=canvasMoveDelta(members,dx,dy),elements=[...document.querySelectorAll('#canvas-world [data-node]')];for(const origin of members){const el=elements"
+        },
+        {
+          "line": 8,
+          "text": "function groupCanvasSelection(board,ids){const nodes=board.nodes.filter(n=>ids.includes(n.id));if(nodes.length<2)return null;const x=Math.min(...nodes.map(n=>n.x))-24,y=Math.min(...nodes.map(n=>n.y))-"
+        },
+        {
+          "line": 9,
+          "text": "function removeCanvasRepresentations(board,ids){const remove=new Set(ids);board.nodes=board.nodes.filter(n=>!remove.has(n.id));board.edges=board.edges.filter(e=>!remove.has(e.from)&&!remove.has(e.to))"
+        },
+        {
+          "line": 10,
+          "text": "function focusCanvasCard(id){[...document.querySelectorAll('#canvas-world [data-node]')].find(el=>el.dataset.node===id)?.focus({preventScroll:true});}"
+        },
+        {
+          "line": 25,
+          "text": "function canvasCopySelection(board,ids){const selected=new Set();for(const id of ids){const n=board.nodes.find(n=>n.id===id);if(!n)continue;selected.add(id);for(const child of canvasFrameContents(boar"
+        },
+        {
+          "line": 26,
+          "text": "function canvasPasteSelection(board,clipboard){if(!clipboard?.nodes.length)return [];const mapping=new Map(clipboard.nodes.map(n=>[n.id,uid()])),nodes=clipboard.nodes.map(n=>({...pathClone(n),id:mappi"
+        },
+        {
+          "line": 27,
+          "text": "function canvasChangeLayer(board,id,direction){const index=board.nodes.findIndex(n=>n.id===id);if(index<0)return false;const node=board.nodes[index];let next=index+direction;while(next>=0&&next<board."
+        },
+        {
+          "line": 30,
+          "text": "function copyCurrentCanvas(){const board=data.canvases.find(c=>c.id===canvasId);if(!board)return;const ids=canvasSelection(board).size?[...canvasSelection(board)]:canvasSelected?[canvasSelected]:[];ca"
+        },
+        {
+          "line": 31,
+          "text": "function pasteCurrentCanvas(){const board=data.canvases.find(c=>c.id===canvasId);if(!board||!canvasClipboard?.nodes.length)return;const ids=canvasPasteSelection(board,canvasClipboard);if(!save()){rend"
+        },
+        {
+          "line": 35,
+          "text": "function canvasWorldPoint(clientX,clientY,rect,zoom){return {x:(clientX-rect.left)/zoom,y:(clientY-rect.top)/zoom};}"
+        },
+        {
+          "line": 36,
+          "text": "function canvasSelectionRect(start,end){return {x:Math.min(start.x,end.x),y:Math.min(start.y,end.y),width:Math.abs(end.x-start.x),height:Math.abs(end.y-start.y)};}"
+        },
+        {
+          "line": 37,
+          "text": "function canvasNodesInRect(board,rect){if(rect.width<=0||rect.height<=0)return [];return canvasPresentation(board).nodes.filter(n=>n.x<=rect.x+rect.width&&n.y<=rect.y+rect.height&&n.x+(n.width||280)>="
+        },
+        {
+          "line": 38,
+          "text": "function beginCanvasMarquee(board,space,event){const world=document.querySelector('#canvas-world'),rect=world.getBoundingClientRect(),zoom=canvasViewport(board).zoom,start=canvasWorldPoint(event.clien"
+        },
+        {
+          "line": 39,
+          "text": "function previewCanvasMarquee(op,clientX,clientY){const rect=canvasSelectionRect(op.start,canvasWorldPoint(clientX,clientY,op.rect,op.zoom));Object.assign(op.overlay.style,{left:rect.x+'px',top:rect.y"
+        },
+        {
+          "line": 40,
+          "text": "function finishCanvasMarquee(op,clientX,clientY){const ids=op.moved?canvasNodesInRect(op.board,canvasSelectionRect(op.start,canvasWorldPoint(clientX,clientY,op.rect,op.zoom))):[];canvasMultiSelection="
+        }
+      ]
+    },
+    {
+      "file": "canvas-collapse.js",
+      "sha256": "3bfe3ee642fb5db7f3c5490bb0bc30b20c3e28e8f43778cccf824c6f7d0853a5",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function canvasPresentation(board){"
+        },
+        {
+          "line": 9,
+          "text": "function toggleCanvasFrame(board,id){const frame=board.nodes.find(n=>n.id===id&&n.kind==='group');if(!frame)return false;frame.collapsed=!frame.collapsed;return true;}"
+        }
+      ]
+    },
+    {
+      "file": "progress.js",
+      "sha256": "78d091b5864fe9da670bd3e4156523033337555b9efdaf3990541f75685242d6",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function progressSnapshot(end=pathToday(),days=7){const uniqueWorkouts=[...new Map((data.workoutRecords||[]).map(r=>[r.id,r])).values()];const start=addDays(end,1-days),inRange=stamp=>stamp&&pathToday"
+        },
+        {
+          "line": 4,
+          "text": "function exportProgressCard(){const s=progressSnapshot(homeDate,progressRange),canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;const ctx=canvas.getContext('2d');ctx.fillSt"
+        },
+        {
+          "line": 7,
+          "text": "function linkedCanvasNode(n){if(!n.entityRef)return n;const ref=n.entityRef;let title,body;if(ref.type==='task'){const found=findTask(ref.id);if(found){title=found.task.title;body=(taskComplete(found."
+        }
+      ]
+    },
+    {
+      "file": "focus-progress.js",
+      "sha256": "87611571b9de172e7c76b1f7d829fa2c033fc2530d81707be492eb52413ba51a",
+      "declarations": [
+        {
+          "line": 2,
+          "text": "function focusElapsed(active,now=Date.now()){return Math.max(0,(active?.elapsedMs||0)+(active?.runningSince?Math.max(0,now-active.runningSince):0));}"
+        },
+        {
+          "line": 3,
+          "text": "function startFocus(taskId=null){if(data.activeFocus)return false;data.activeFocus={id:uid(),taskId,startedAt:new Date().toISOString(),runningSince:Date.now(),elapsedMs:0};return true;}"
+        },
+        {
+          "line": 4,
+          "text": "function pauseFocus(){const a=data.activeFocus;if(!a)return;a.elapsedMs=focusElapsed(a);a.runningSince=null;}"
+        },
+        {
+          "line": 5,
+          "text": "function confirmFocusRecord(minutes,date){const a=data.activeFocus;if(!a||!Number.isFinite(minutes)||minutes<=0||minutes>1440||!pathValidDate(date)||date>pathToday())throw Error('Confirm 1–1440 actual"
+        },
+        {
+          "line": 6,
+          "text": "function focusControls(){const a=data.activeFocus;return `<section class=\"panel focus-tracker\" aria-label=\"Focus session\"><div class=\"panel-head\"><span class=\"panel-title\">Focus session</span><button "
+        },
+        {
+          "line": 9,
+          "text": "function habitConsistencyPeriod(start,end){let done=0,total=0;const weeks=new Set();for(let d=start;d<=end;d=addDays(d,1)){for(const h of data.habits){const r=habitRule(h,d);if(!r)continue;if(r.freque"
+        },
+        {
+          "line": 13,
+          "text": "function progressSeries(end,days,metric){return Array.from({length:days},(_,i)=>{const date=addDays(end,i+1-days),s=progressSnapshot(date,1);return {date,value:metric==='focus'?s.focusMinutes:metric=="
+        },
+        {
+          "line": 14,
+          "text": "function progressComparison(current,previous){if(previous===0)return current===0?'No change':'New · from 0';const p=(current-previous)/previous*100;return (p>0?'+':'')+Math.round(p)+'%';}"
+        },
+        {
+          "line": 15,
+          "text": "function progressChart(){const series=progressSeries(homeDate,progressRange,progressMetric),max=Math.max(1,...series.map(p=>p.value||0)),unit=progressMetric==='focus'?'minutes':progressMetric==='habit"
+        },
+        {
+          "line": 17,
+          "text": "function progressCardMarkup(){const s=progressSnapshot(homeDate,progressRange);return `<section class=\"panel progress-card-preview\"><p>PATH</p><h2>A little progress.</h2><p>${s.start} — ${s.end}</p>${"
+        },
+        {
+          "line": 23,
+          "text": "function downloadProgressCard(){const s=progressSnapshot(homeDate,progressRange),canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1080;const ctx=canvas.getContext('2d');ctx.fill"
+        }
+      ]
+    },
+    {
+      "file": "original.html",
+      "sha256": "63f75dd2a14e703beee8441416ac60e07242dddae388e8bfa3f686cd47b8b2f7",
+      "declarations": [
+        {
+          "line": 14,
+          "text": "function icon(name,size=17){return `<svg class=\"icon\" width=\"${size}\" height=\"${size}\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\""
+        },
+        {
+          "line": 15,
+          "text": "function addDays(date,n){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+n);return d.toLocaleDateString('en-CA').replace(/\\//g,'-')}"
+        },
+        {
+          "line": 16,
+          "text": "function iso(d=new Date()){const o=new Date(d);return `${o.getFullYear()}-${String(o.getMonth()+1).padStart(2,'0')}-${String(o.getDate()).padStart(2,'0')}`}"
+        },
+        {
+          "line": 17,
+          "text": "function monOf(s=iso()){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()-(d.getDay()+6)%7);return iso(d)}"
+        },
+        {
+          "line": 18,
+          "text": "function pretty(s){if(!s)return 'No date';return new Date(s+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})}"
+        },
+        {
+          "line": 19,
+          "text": "function diffDays(a,b){return Math.round((new Date(b+'T12:00:00')-new Date(a+'T12:00:00'))/86400000)}"
+        },
+        {
+          "line": 20,
+          "text": "function demo(){const mon=monOf();return {homeTasks:[{id:uid(),title:'Morning routine',done:true},{id:uid(),title:'Work on the Path prototype',done:false},{id:uid(),title:'Workout',done:false}],habits"
+        },
+        {
+          "line": 24,
+          "text": "function mutate(fn){fn();save();render()}"
+        },
+        {
+          "line": 25,
+          "text": "function toast(msg){const e=$('#toast');e.textContent=msg;e.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('show'),2500)}"
+        },
+        {
+          "line": 26,
+          "text": "function navMarkup(){const tabs=[['today','home','Today'],['calendar','calendar','Calendar'],['projects','project','Projects'],['canvas','canvas','Canvas'],['sport','sport','Sport'],['progress','progr"
+        },
+        {
+          "line": 27,
+          "text": "function header(){return `<header class=\"topbar\"><div class=\"brand\"><div class=\"brand-mark\">Π</div><span>PATH</span><span style=\"color:#747779;font-size:10px;font-weight:500\">2.0</span></div><div clas"
+        },
+        {
+          "line": 28,
+          "text": "function pageTitle(title,desc,right=''){return `<div class=\"page-intro\"><div><div class=\"eyebrow\">Your Path / ${esc(title)}</div><h1 class=\"page-title\">${esc(title)}.</h1><p class=\"subtitle\">${desc}</"
+        },
+        {
+          "line": 30,
+          "text": "function quoteToday(){const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());let h=0;for(const c of parts)h=(h*31+c.cha"
+        },
+        {
+          "line": 31,
+          "text": "function bustHtml(){const q=quoteToday();const dots=[];let rand=19;const random=()=>{rand=(rand*1664525+1013904223)>>>0;return rand/4294967296};for(let j=0;j<43;j++){for(let i=0;i<37;i++){const x=(i-1"
+        },
+        {
+          "line": 32,
+          "text": "function taskRows(){const items=data.homeTasks.filter(t=>showCompleted||!t.done);return items.map(t=>`<div class=\"task-row\"><button data-home-toggle=\"${t.id}\" class=\"checkbox-task ${t.done?'done':''}\""
+        },
+        {
+          "line": 33,
+          "text": "function todayPage(){const n=data.homeTasks.filter(t=>t.done).length,total=data.homeTasks.length;return `${pageTitle('Today','A little progress, every day.',`<button class=\"btn ${focusMode?'primary':'"
+        },
+        {
+          "line": 34,
+          "text": "function projectPercent(p){return p.tasks.length?Math.round(p.tasks.filter(t=>t.status==='done').length/p.tasks.length*100):0}"
+        },
+        {
+          "line": 35,
+          "text": "function projectLibrary(){return `${pageTitle('Projects','Make space for what matters.',`<button class=\"btn primary\" data-new-project>${icon('plus')} New Project</button>`)}<div class=\"kpi-strip\"><div"
+        },
+        {
+          "line": 36,
+          "text": "function kanban(p){const groups=[['planned','Planned'],['progress','In Progress'],['done','Done']];return `<div class=\"board-grid\">${groups.map(([key,label])=>`<div class=\"board-col\" data-status-col=\""
+        },
+        {
+          "line": 37,
+          "text": "function workflow(p){const mon=monOf(),cols=timelineScale;const list=p.tasks;const xFrom=date=>diffDays(mon,date)*28;const now=diffDays(mon,iso());return `<div class=\"board-head\"><div><span class=\"pan"
+        },
+        {
+          "line": 38,
+          "text": "function projectDetail(p){return `<button class=\"back-link\" data-project-back>${icon('left',14)} All Projects</button>${pageTitle(p.name,p.description||'An idea becomes a plan.',`<button class=\"btn pr"
+        },
+        {
+          "line": 39,
+          "text": "function projectsPage(){const p=data.projects.find(x=>x.id===projectId);return p?projectDetail(p):projectLibrary()}"
+        },
+        {
+          "line": 40,
+          "text": "function canvasLibrary(){return `${pageTitle('Canvas','An infinite space to think.',`<button class=\"btn primary\" data-new-canvas>${icon('plus')} New Canvas</button>`)}<div class=\"canvas-library\">${dat"
+        },
+        {
+          "line": 41,
+          "text": "function canvasDetail(c){return `<button class=\"back-link\" data-canvas-back>${icon('left',14)} All Canvases</button>${pageTitle(c.name,'Double-click the grid to add a note. Drag cards to arrange ideas"
+        },
+        {
+          "line": 42,
+          "text": "function canvasPage(){const c=data.canvases.find(x=>x.id===canvasId);return c?canvasDetail(c):canvasLibrary()}"
+        },
+        {
+          "line": 43,
+          "text": "function getWeekDates(){let m=monOf();return Array.from({length:7},(_,i)=>addDays(m,i))}"
+        },
+        {
+          "line": 44,
+          "text": "function scheduleGrid(sport=false){const dates=getWeekDates(),hours=Array.from({length:12},(_,i)=>i+8);return `<div class=\"cal-table\"><div class=\"cal-grid\"><div class=\"cal-cell head\">TIME</div>${dates"
+        },
+        {
+          "line": 45,
+          "text": "function sportPage(){return `${pageTitle('Sport','Train with intention.',`<button class=\"btn primary\" data-new-workout>${icon('plus')} New workout</button>`)}<div class=\"sports-layout\"><div class=\"wor"
+        },
+        {
+          "line": 46,
+          "text": "function calendarPage(){return `${pageTitle('Calendar','Everything in one place.',`<button class=\"btn primary\" data-new-event>${icon('plus')} New event</button>`)}<section class=\"panel\"><div class=\"pa"
+        },
+        {
+          "line": 47,
+          "text": "function progressPage(){const all=data.projects.flatMap(p=>p.tasks),done=all.filter(t=>t.status==='done').length;return `${pageTitle('Progress','Your actions leave a trace.')}<div class=\"kpi-strip\"><d"
+        },
+        {
+          "line": 48,
+          "text": "function settingsPage(){return `${pageTitle('Settings','Make the path yours.')}<div class=\"settings-grid\"><div class=\"setting-item\"><div><strong>Ambient Motion</strong><div class=\"details\">Subtle move"
+        },
+        {
+          "line": 49,
+          "text": "function render(){const oldSpace=$('#canvas-space');if(oldSpace&&view==='canvas')canvasScroll={left:oldSpace.scrollLeft,top:oldSpace.scrollTop};const app=$('#app');const fn={today:todayPage,projects:p"
+        },
+        {
+          "line": 50,
+          "text": "function openEditor(title,fields,saveFn,deleteFn){editor={title,fields,saveFn,deleteFn};renderEditor()}"
+        },
+        {
+          "line": 51,
+          "text": "function closeEditor(){editor=null;$('#editor-overlay')?.remove()}"
+        },
+        {
+          "line": 52,
+          "text": "function renderEditor(){let overlay=$('#editor-overlay');if(overlay)overlay.remove();overlay=document.createElement('div');overlay.id='editor-overlay';overlay.className='editor-overlay';overlay.innerH"
+        },
+        {
+          "line": 53,
+          "text": "function modalProject(){openEditor('Create project',[{key:'name',label:'Project name',required:true},{key:'description',label:'Description'},{key:'type',label:'Icon',type:'select',value:'project',opti"
+        },
+        {
+          "line": 54,
+          "text": "function modalTask(status='planned',id=null){const p=data.projects.find(x=>x.id===projectId);if(!p)return;const task=p.tasks.find(x=>x.id===id);openEditor(task?'Edit task':'New task',[{key:'title',lab"
+        },
+        {
+          "line": 55,
+          "text": "function modalWorkout(id=null){const w=data.workouts.find(x=>x.id===id);openEditor(w?'Edit workout':'New workout',[{key:'name',label:'Workout name',required:true,value:w?.name},{key:'detail',label:'Mu"
+        },
+        {
+          "line": 56,
+          "text": "function modalEvent(id=null){const e=data.events.find(x=>x.id===id);openEditor(e?'Edit event':'New event',[{key:'title',label:'Title',required:true,value:e?.title},{key:'date',label:'Date',type:'date'"
+        },
+        {
+          "line": 57,
+          "text": "function modalNode(){const c=data.canvases.find(x=>x.id===canvasId),n=c?.nodes.find(x=>x.id===canvasSelected);if(!n)return;openEditor('Canvas card',[{key:'title',label:'Card title',required:true,value"
+        },
+        {
+          "line": 58,
+          "text": "function fileDownload(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}"
+        },
+        {
+          "line": 59,
+          "text": "function jsonDownload(name,o){fileDownload(name,new Blob([JSON.stringify(o,null,2)],{type:'application/json'}))}"
+        },
+        {
+          "line": 60,
+          "text": "function newCanvasNode(type,x=180,y=200){const c=data.canvases.find(x=>x.id===canvasId);if(!c)return;const n={id:uid(),x,y,title:type==='image'?'Image':'New note',body:type==='image'?'Choose Edit to w"
+        },
+        {
+          "line": 61,
+          "text": "function selectImageFile(n){const input=document.createElement('input');input.type='file';input.accept='image/png,image/jpeg,image/webp';input.onchange=()=>{const file=input.files?.[0];if(!file)return"
+        },
+        {
+          "line": 62,
+          "text": "function isBusy(date,hour,duration){return data.events.some(e=>e.date===date&&e.hour*60<(hour*60+duration)&&e.hour*60+(e.duration||60)>hour*60)}"
+        },
+        {
+          "line": 63,
+          "text": "function placeWorkout(id,date,hour){const w=data.workouts.find(x=>x.id===id);if(!w)return;if(isBusy(date,hour,w.duration)){toast('Time conflict. Choose a free time.');return}data.events.push({id:uid()"
+        },
+        {
+          "line": 64,
+          "text": "function importJson(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async()=>{try{const v=JSON.parse(await input.files[0].text());i"
+        },
+        {
+          "line": 65,
+          "text": "function action(e){const target=e.target.closest('[data-nav],[data-add-home],[data-home-toggle],[data-home-delete],[data-habit],[data-filter-done],[data-focus],[data-new-project],[data-project-open],["
+        }
+      ]
+    },
+    {
+      "file": "build.py",
+      "sha256": "2de293394b8720644081e65cc29d3ba5cddbea51ab31c3a77bc614c2a9fde57c",
+      "declarations": [
+        {
+          "line": 16,
+          "text": "function mutate(fn){fn();const ok=save();render();return ok;}"
+        },
+        {
+          "line": 17,
+          "text": "function commitEditor(values){"
+        }
+      ]
+    }
+  ]
+}

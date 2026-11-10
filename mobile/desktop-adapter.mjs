@@ -1,5 +1,5 @@
 // Staging and isolated projection only. Never installed into mobile storage.
-// Confirmed envelope: privacy-export.js:pathBackupState, storage.js:pathCheckpointState.
+// Confirmed envelope: privacy-export.js:pathBackupState, storage.js:pathCheckpointEncode/Decode.
 import {inspectDesktopDocument,DESKTOP_FILE_MAX_BYTES,desktopCivil} from './desktop-inspector.mjs';
 import {saveEvent,wallCandidates,EVENT_TYPES,IMPORTANCE} from './calendar-model.mjs';
 import {toggleTask} from './model.mjs';

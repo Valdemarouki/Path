@@ -1,3 +1,5 @@
+> Current desktop data compatibility: [confirmed field map](../data-compatibility/CONTRACT.md), [working preview and verification](../data-compatibility/REPORT.md). Earlier stage reports remain historical.
+
 > Current schema 5 verification: [Comprehensive review](../review/REPORT.md) and [updated desktop/mobile contract](../functional-alpha/COMPATIBILITY.md). Earlier milestone descriptions below are historical.
 
 # Calendar compatibility stage

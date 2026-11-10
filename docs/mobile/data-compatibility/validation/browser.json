@@ -1,0 +1,117 @@
+{
+  "cases": 27,
+  "results": [
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "locale/width matrix; pooled full export, no storage access",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "UI event title/time/importance patch full records, export validates on desktop"
+    },
+    {
+      "name": "failed multi-field transaction retains entire canonical copy and typed draft"
+    },
+    {
+      "name": "UI completion/undo and view-only main reference; no desktop main field invented"
+    },
+    {
+      "name": "Markdown source edits, pooled attachment/Canvas read-only preservation, script text never executes"
+    },
+    {
+      "name": "untrusted names/opaque fields use text nodes, no HTML execution or resource loading"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "corrupted"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "unknown-version"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "missing-required"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "wrong-type"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "duplicate-task-id"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "broken-link"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "invalid-utf8"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "oversize"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "ambiguous-json"
+    },
+    {
+      "name": "invalid input blocked, no working storage touched",
+      "input": "precision-loss"
+    },
+    {
+      "name": "unknown enum explicitly opaque; unchanged reverse export remains exact"
+    },
+    {
+      "name": "preview reuses shared numeric picker; temporary Cancel does not alter source copy"
+    },
+    {
+      "name": "date-only stability in another zone, reset and reload remain memory-only"
+    }
+  ],
+  "platform": "Linux Chromium; synthetic files/profiles; no real iOS/Android/Windows tested",
+  "storage": "localStorage/sessionStorage get/set/remove/clear/key trapped; zero calls and sentinels unchanged",
+  "network": "loopback static resources/fixtures only"
+}

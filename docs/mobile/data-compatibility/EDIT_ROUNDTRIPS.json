@@ -1,0 +1,590 @@
+{
+  "fixture": "desktop-pooled-v2.json",
+  "beforeSha256": "00258519df94ef898ee05212615f004576c8e2bc98dd171a6f53523ab477cdee",
+  "actions": [
+    {
+      "command": {
+        "action": "eventTitle",
+        "ref": {
+          "id": "compat-event"
+        },
+        "value": "A reviewed synthetic title"
+      },
+      "changedPaths": [
+        "/state/events/0/title"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "command": {
+        "action": "eventTime",
+        "ref": {
+          "id": "compat-event"
+        },
+        "time": "13:15",
+        "duration": 60
+      },
+      "changedPaths": [
+        "/state/events/0/hour",
+        "/state/events/0/duration",
+        "/state/events/0/start_at",
+        "/state/events/0/end_at"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "command": {
+        "action": "eventImportance",
+        "ref": {
+          "id": "compat-event"
+        },
+        "value": "medium"
+      },
+      "changedPaths": [
+        "/state/events/0/importance"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "command": {
+        "action": "taskCompletion",
+        "ref": {
+          "id": "compat-home"
+        },
+        "value": true
+      },
+      "changedPaths": [
+        "/state/homeTasks/0/done",
+        "/state/homeTasks/0/completedAt"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "command": {
+        "action": "taskCompletion",
+        "ref": {
+          "id": "compat-home"
+        },
+        "value": false
+      },
+      "changedPaths": [
+        "/state/homeTasks/0/done",
+        "/state/homeTasks/0/completedAt"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "command": {
+        "action": "noteBody",
+        "ref": {
+          "id": "compat-note"
+        },
+        "value": "# Reviewed source\n\n**Résumé** · mañana · внимание\n\n[Reference](https://example.invalid/synthetic)"
+      },
+      "changedPaths": [
+        "/state/notes/0/body",
+        "/state/notes/0/updatedAt"
+      ],
+      "desktopValidatorPassed": true,
+      "idsRegenerated": false,
+      "assetPoolIdentical": true,
+      "historyIdentical": true,
+      "sourceObjectStillIdentical": true
+    },
+    {
+      "operation": "select-main-in-mobile-view",
+      "changedDesktopPaths": [],
+      "noDesktopMainFieldInvented": true
+    }
+  ],
+  "finalInspection": {
+    "ok": true,
+    "format": "path-checkpoint",
+    "version": 2,
+    "counts": {
+      "homeTasks": 3,
+      "events": 12,
+      "habits": 4,
+      "projects": 3,
+      "notes": 3,
+      "workouts": 1,
+      "workoutRecords": 1,
+      "canvases": 1,
+      "eventSeries": 1,
+      "programs": 1,
+      "focusRecords": 1,
+      "skillTests": 0,
+      "projectTasks": 3,
+      "assetReferences": 4
+    },
+    "issues": [
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/futureEnvelope",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/futureRoot",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/homeTasks/0/future",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/projects/0/tasks/0/futureTask",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/eventSeries/0/futureSeries",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/events/0/future",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/events/1/plannedSnapshot/futureTemplate",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/events/7/plannedSnapshot/futureTemplate",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/notes/0/customEditor",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/notes/1/blocks",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/workouts/0/futureTemplate",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/workoutRecords/0/futureRecord",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/workoutRecords/0/snapshot/futureTemplate",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/canvases/0/futureBoard",
+        "details": "Preserved verbatim; not interpreted."
+      },
+      {
+        "severity": "info",
+        "code": "opaqueField",
+        "path": "/state/canvases/0/edges/0/futureEdge",
+        "details": "Preserved verbatim; not interpreted."
+      }
+    ],
+    "totals": {
+      "error": 0,
+      "warning": 0,
+      "info": 15
+    },
+    "truncated": false,
+    "opaqueFields": [
+      "/futureEnvelope",
+      "/state/futureRoot",
+      "/state/homeTasks/0/future",
+      "/state/projects/0/tasks/0/futureTask",
+      "/state/eventSeries/0/futureSeries",
+      "/state/events/0/future",
+      "/state/events/1/plannedSnapshot/futureTemplate",
+      "/state/events/7/plannedSnapshot/futureTemplate",
+      "/state/notes/0/customEditor",
+      "/state/notes/1/blocks",
+      "/state/workouts/0/futureTemplate",
+      "/state/workoutRecords/0/futureRecord",
+      "/state/workoutRecords/0/snapshot/futureTemplate",
+      "/state/canvases/0/futureBoard",
+      "/state/canvases/0/edges/0/futureEdge"
+    ],
+    "entries": [
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-home"
+        },
+        "path": "/state/homeTasks/0",
+        "mode": "editable",
+        "commands": [
+          "taskCompletion"
+        ]
+      },
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-absent"
+        },
+        "path": "/state/homeTasks/1",
+        "mode": "editable",
+        "commands": [
+          "taskCompletion"
+        ]
+      },
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-home-done"
+        },
+        "path": "/state/homeTasks/2",
+        "mode": "editable",
+        "commands": [
+          "taskCompletion"
+        ]
+      },
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-project-base",
+          "projectId": "compat-project"
+        },
+        "path": "/state/projects/0/tasks/0",
+        "mode": "editable",
+        "commands": [
+          "taskCompletion"
+        ]
+      },
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-project-task",
+          "projectId": "compat-project"
+        },
+        "path": "/state/projects/0/tasks/1",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "task",
+        "ref": {
+          "id": "compat-project-done",
+          "projectId": "compat-completed"
+        },
+        "path": "/state/projects/2/tasks/0",
+        "mode": "editable",
+        "commands": [
+          "taskCompletion"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-event"
+        },
+        "path": "/state/events/0",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-workout"
+        },
+        "path": "/state/events/1",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-routine"
+        },
+        "path": "/state/events/2",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-deadline"
+        },
+        "path": "/state/events/3",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-midnight"
+        },
+        "path": "/state/events/4",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-rest"
+        },
+        "path": "/state/events/5",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-linked"
+        },
+        "path": "/state/events/6",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-workout-done"
+        },
+        "path": "/state/events/7",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-repeat-1"
+        },
+        "path": "/state/events/8",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-repeat-3"
+        },
+        "path": "/state/events/9",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-fold-earlier"
+        },
+        "path": "/state/events/10",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "event",
+        "ref": {
+          "id": "compat-fold-later"
+        },
+        "path": "/state/events/11",
+        "mode": "editable",
+        "commands": [
+          "eventTitle",
+          "eventImportance",
+          "eventTime"
+        ]
+      },
+      {
+        "kind": "habit",
+        "ref": {
+          "id": "compat-habit-daily"
+        },
+        "path": "/state/habits/0",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "habit",
+        "ref": {
+          "id": "compat-habit-days"
+        },
+        "path": "/state/habits/1",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "habit",
+        "ref": {
+          "id": "compat-habit-weekly"
+        },
+        "path": "/state/habits/2",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "habit",
+        "ref": {
+          "id": "compat-habit-sport"
+        },
+        "path": "/state/habits/3",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "project",
+        "ref": {
+          "id": "compat-project"
+        },
+        "path": "/state/projects/0",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "project",
+        "ref": {
+          "id": "compat-paused"
+        },
+        "path": "/state/projects/1",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "project",
+        "ref": {
+          "id": "compat-completed"
+        },
+        "path": "/state/projects/2",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "template",
+        "ref": {
+          "id": "compat-template"
+        },
+        "path": "/state/workouts/0",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "workout",
+        "ref": {
+          "id": "compat-record"
+        },
+        "path": "/state/workoutRecords/0",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "note",
+        "ref": {
+          "id": "compat-note"
+        },
+        "path": "/state/notes/0",
+        "mode": "editable",
+        "commands": [
+          "noteBody"
+        ]
+      },
+      {
+        "kind": "note",
+        "ref": {
+          "id": "compat-note-attached"
+        },
+        "path": "/state/notes/1",
+        "mode": "view",
+        "commands": []
+      },
+      {
+        "kind": "note",
+        "ref": {
+          "id": "compat-journal"
+        },
+        "path": "/state/notes/2",
+        "mode": "editable",
+        "commands": [
+          "noteBody"
+        ]
+      },
+      {
+        "kind": "canvas",
+        "ref": {
+          "id": "compat-board"
+        },
+        "path": "/state/canvases/0",
+        "mode": "view",
+        "commands": []
+      }
+    ],
+    "validationScope": "Mapped entity shapes, references, intervals, recurrence, IDs and assets. Not a replacement for every desktop validator rule.",
+    "opaqueScopes": [
+      "activeFocus",
+      "exercisePreferences",
+      "skillTests",
+      "program scheduleConfig",
+      "envelope history"
+    ],
+    "lossPolicy": "Full canonical source retained; unknown fields are opaque, never dropped. This is not live import or sync."
+  },
+  "note": "All examples synthetic. Diff paths compare actual full JSON records; no activation/storage writes."
+}
