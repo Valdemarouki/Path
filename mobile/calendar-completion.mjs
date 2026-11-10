@@ -8,7 +8,7 @@ export function createCalendarCompletion({getState,commit,tr,label,getContext,is
  const content=document.getElementById('content'),nav=document.getElementById('navigation');
  const media=matchMedia('(prefers-reduced-motion: reduce)'),reduced=()=>media.matches||document.documentElement.dataset.motion==='off';
  const node=document.createElement('aside');node.className='calendar-completion-feedback';node.hidden=true;
- node.innerHTML='<p id="completion-feedback-text" aria-live="polite"></p><div class="feedback-actions"><button type="button" data-completion-action="undo"></button><button type="button" data-completion-action="retry"></button><button type="button" data-completion-action="refresh"></button><button type="button" data-completion-action="dismiss"></button></div>';document.body.append(node);
+ node.innerHTML='<p id="completion-feedback-text" aria-live="polite"></p><div class="feedback-actions"><button type="button" class="action-button action-button--secondary" data-completion-action="undo"></button><button type="button" class="action-button action-button--secondary" data-completion-action="retry"></button><button type="button" class="action-button action-button--secondary" data-completion-action="refresh"></button><button type="button" class="action-button action-button--secondary" data-completion-action="dismiss"></button></div>';document.body.append(node);
  const message=node.querySelector('p'),buttons=Object.fromEntries([...node.querySelectorAll('button')].map(b=>[b.dataset.completionAction,b]));
  let hold=null,busy=false,pending=null,version=0,suppress=null,notice=null,previousContext=key();
  const effects=new Set(),animations=new Set(),charges=new Set();

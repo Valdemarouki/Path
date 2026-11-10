@@ -8,6 +8,7 @@ import {mobileBackup} from './desktop-adapter.mjs';
 import {HABITS_ICON_PATH} from './habit-icon.mjs';
 import {canSetEventCompletion} from './calendar-model.mjs';
 import {createCalendarCompletion} from './calendar-completion.mjs';
+import {actionButton,setActionIcon} from './actions.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -77,11 +78,11 @@ function intro(title) {return `<div class="intro ${title==='today'?'today-intro'
 function todayView() {
   const tasks=tasksForDate(state,today),main=mainTaskOnDay(state,today),otherTasks=tasks.filter(t=>t.id!==main?.id),overdue=overdueTasks(state,today),habits=state.habits.filter(h=>eligible(h,today)),next=nextEvent(state);
   return `${intro('today','subtitle')}<p class="date-line">${escape(dateText(today))}</p>
-    ${main?taskRow(main,true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noMain')}</p><button class="text-link" data-add>${tr('add')}</button></section>`}
+    ${main?taskRow(main,true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noMain')}</p>${actionButton(tr('add'),{kind:'create',attrs:'data-add'})}</section>`}
     ${otherTasks.length?`<section class="extra-tasks"><div class="section-head"><span class="eyebrow">${tr('otherTasks')}</span><span class="counter">${otherTasks.filter(t=>t.done).length} / ${otherTasks.length}</span></div>${otherTasks.map(task=>taskRow(task)).join('')}</section>`:''}
     ${tasks.length&&tasks.every(t=>t.done)?`<p class="muted">${tr('allDone')}</p>`:''}
     ${overdue.length?`<section class="overdue"><h2>${tr('overdue')}</h2>${overdue.map(task=>taskRow(task)).join('')}</section>`:''}
-    <section class="next-event"><span class="event-symbol">${icon('calendar')}</span><div class="event-copy"><span class="eyebrow">${tr(next&&Date.parse(next.start_at)<=Date.now()?'ongoing':'next')}</span><h3>${next?escape(label(next,lang)):tr('noEvents')}</h3>${next?`<p>${escape(eventTime(next))} · ${escape(dateText(dayKey(new Date(next.start_at))))}</p>`:''}<button class="text-link" data-open-calendar>${tr('schedule')}</button></div></section>
+    <section class="next-event"><span class="event-symbol">${icon('calendar')}</span><div class="event-copy"><span class="eyebrow">${tr(next&&Date.parse(next.start_at)<=Date.now()?'ongoing':'next')}</span><h3>${next?escape(label(next,lang)):tr('noEvents')}</h3>${next?`<p>${escape(eventTime(next))} · ${escape(dateText(dayKey(new Date(next.start_at))))}</p>`:''}<button class="action-button action-button--secondary" data-open-calendar>${tr('schedule')}</button></div></section>
     <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>
     <aside class="reflection"><img src="assets/marcus.svg" alt="" aria-hidden="true"><div><p>${tr('reflection')}</p><small>${tr('reflectionNote')}</small></div></aside>`;
 }
@@ -100,12 +101,12 @@ function calendarEventCard(event) {
 }
 function calendarView() {
   const events=[...projectDeadlines(state,selected),...eventsOnDay(state,selected)],tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `${intro('calendar')}<div class="calendar-actions"><button class="text-link" data-new-event>${tr('newEvent')}</button><button class="text-link" data-calendar-today>${tr('calendarToday')}</button></div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
+  return `${intro('calendar')}<div class="calendar-actions">${actionButton(tr('newEvent'),{kind:'create',attrs:'data-new-event'})}${actionButton(tr('calendarToday'),{attrs:'data-calendar-today'})}</div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
   <p id="calendar-completion-hint" class="calendar-completion-hint">${tr('completionHint')} <span class="sr-only">${tr('completionKeyboard')}</span></p><section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
-  <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="text-link" data-add>${tr('add')}</button>`;
+  <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="action-button action-button--secondary" data-add>${tr('add')}</button>`;
 }
 function settingsView() {
-  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="text-link" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>`;
+  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="action-button action-button--secondary" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>`;
 }
 function habitsView() {
   const habits=state.habits.filter(h=>eligible(h,today));
@@ -125,6 +126,7 @@ function render() {
   for(const [id,key] of Object.entries({'add-eyebrow':'quick','add-title':'add','task-label':'title','date-label':'date','add-note':'addNote','save-task':'save'}))$(id).textContent=tr(key);
   $('close-add').setAttribute('aria-label',tr('close'));
   for(const [id,key] of Object.entries({'date-today':'today','date-tomorrow':'tomorrow','date-other':'otherDate','details-label':'details','duration-label':'duration','note-label':'note','make-main':'makeMain','move-tomorrow':'moveTomorrow','delete-task':'deleteTask','discard-question':'discardQuestion','continue-edit':'continueEdit','discard-edit':'discardEdit','deleted-label':'deleted','undo-delete':'undoDelete','refresh-data':'refreshData','reload-in-editor':'refreshData'}))$(id).textContent=tr(key);
+  setActionIcon($('delete-task'),'trash',tr('deleteTask'));
   if($('quick-add').open)$('add-title').textContent=tr(editing?'editTask':'add');
   for(const kind of ['task','event','note'])$('quick-'+kind).textContent=tr('quick'+kind[0].toUpperCase()+kind.slice(1));
   $('quick-kinds').hidden=!!editing;

@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="calendar-cards.css">
   <link rel="stylesheet" href="calendar-completion.css">
   <link rel="stylesheet" href="alpha.css">
+  <link rel="stylesheet" href="actions.css">
   <script type="module" src="app.mjs"></script>
 </head>
 <body>
@@ -20,8 +21,8 @@
   <div class="shell">
     <header class="topbar"><a class="brand" href="#today" aria-label="Path">P<span>ATH</span><small> / MOBILE</small></a><span class="alpha">ALPHA 01</span></header>
     <p id="storage-error" class="error" role="alert" hidden></p>
-    <div id="conflict-actions" hidden><button id="refresh-data" class="text-link"></button></div>
-    <div id="undo-bar" role="status" hidden><span id="deleted-label"></span> <button id="undo-delete" class="text-link"></button></div>
+    <div id="conflict-actions" hidden><button id="refresh-data" class="action-button action-button--secondary"></button></div>
+    <div id="undo-bar" role="status" hidden><span id="deleted-label"></span> <button id="undo-delete" class="action-button action-button--secondary"></button></div>
     <main id="content" tabindex="-1"></main>
     <nav id="navigation" aria-label="Main navigation"></nav>
   </div>
@@ -39,10 +40,10 @@
         <label id="duration-label" for="task-duration"></label><input id="task-duration" type="number" min="1" max="10080" step="1" inputmode="numeric">
         <label id="note-label" for="task-note"></label><textarea id="task-note" maxlength="10000" rows="3"></textarea>
       </details>
-      <div id="edit-actions" hidden><button type="button" id="make-main" class="text-link"></button><button type="button" id="move-tomorrow" class="text-link"></button><button type="button" id="delete-task" class="text-link"></button></div>
-      <div id="discard-prompt" hidden role="group"><p id="discard-question"></p><button type="button" id="continue-edit" class="text-link"></button><button type="button" id="discard-edit" class="text-link"></button></div>
+      <div id="edit-actions" hidden><button type="button" id="make-main" class="action-button action-button--secondary"></button><button type="button" id="move-tomorrow" class="action-button action-button--secondary"></button><button type="button" id="delete-task" class="action-button action-button--secondary"></button></div>
+      <div id="discard-prompt" hidden role="group"><p id="discard-question"></p><button type="button" id="continue-edit" class="action-button action-button--secondary"></button><button type="button" id="discard-edit" class="action-button action-button--secondary"></button></div>
       <p class="muted" id="add-note"></p><p class="error" id="form-error" role="alert" hidden></p>
-      <button type="button" id="reload-in-editor" class="text-link" hidden></button>
+      <button type="button" id="reload-in-editor" class="action-button action-button--secondary" hidden></button>
       <button type="submit" class="primary" id="save-task"></button>
     </form>
   </dialog>

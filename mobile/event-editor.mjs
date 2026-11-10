@@ -1,11 +1,12 @@
 import {templateEditable} from './alpha-model.mjs';
+import {actionButton} from './actions.mjs';
 import {EVENT_TYPES,IMPORTANCE,EVENT_ICONS,eventReadOnly,saveEvent,deleteEvent,restoreEvent,durationFromEnd,zoneParts,wallCandidates,systemZone} from './calendar-model.mjs';
 
 export function createEventEditor({getState,commit,tr,label,date,getError,navigation,refresh,isStale=()=>false,openWorkout=null,onCompletion=()=>{}}){
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const dialog=document.createElement('dialog');dialog.id='event-editor';dialog.setAttribute('aria-labelledby','event-heading');document.body.append(dialog);
  const undoBar=document.createElement('aside');undoBar.id='event-undo-bar';undoBar.hidden=true;
- undoBar.innerHTML='<div role="status"><span id="event-deleted-label"></span><strong id="event-undo-title"></strong><small id="event-undo-when"></small><small id="event-undo-retention"></small></div><button type="button" id="event-undo" class="text-link"></button><p id="event-undo-error" class="error" role="alert" hidden></p><button type="button" id="event-undo-refresh" class="text-link" hidden></button>';
+ undoBar.innerHTML='<div role="status"><span id="event-deleted-label"></span><strong id="event-undo-title"></strong><small id="event-undo-when"></small><small id="event-undo-retention"></small></div><button type="button" id="event-undo" class="action-button action-button--secondary"></button><p id="event-undo-error" class="error" role="alert" hidden></p><button type="button" id="event-undo-refresh" class="action-button action-button--secondary" hidden></button>';
  document.querySelector('.shell').insertBefore(undoBar,document.getElementById('content'));
  const $=id=>dialog.querySelector('#'+id),u=id=>undoBar.querySelector('#'+id);
  const typeKey={busy:'eventTypeBusy',workout:'eventTypeWorkout',routine:'eventTypeRoutine',deadline:'eventTypeDeadline',focus:'eventTypeFocus',free_time:'eventTypeFree'};
@@ -103,12 +104,12 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
   <label class="event-check"><input id="event-overlap" type="checkbox">${tr('eventAllowOverlap')}</label>
   </details></fieldset>
   <p class="muted">${tr('eventReminder')}: ${esc(event?.reminderMinutes??0)} ${tr('minutes')}</p>
-  ${event?.type==='workout'&&openWorkout&&(templateEditable(event.plannedSnapshot)||state.activeWorkout?.sessionId===event.id||(Array.isArray(state.workoutRecords)?state.workoutRecords:[]).some(r=>r.sessionId===event.id))?`<button type="button" id="event-open-workout" class="text-link">${tr('openInSport')}</button>`:''}
+  ${event?.type==='workout'&&openWorkout&&(templateEditable(event.plannedSnapshot)||state.activeWorkout?.sessionId===event.id||(Array.isArray(state.workoutRecords)?state.workoutRecords:[]).some(r=>r.sessionId===event.id))?`<button type="button" id="event-open-workout" class="action-button action-button--secondary">${tr('openInSport')}</button>`:''}
   ${event?`<details><summary>${tr('eventLinks')}</summary><pre class="event-preserved">${esc(JSON.stringify(preserved,null,2))}</pre></details>`:''}
-  <p class="muted">${tr('eventPreview')}</p><p id="event-error" class="error" role="alert" hidden></p><button type="button" id="event-refresh" class="text-link" hidden>${tr('refreshData')}</button>
+  <p class="muted">${tr('eventPreview')}</p><p id="event-error" class="error" role="alert" hidden></p><button type="button" id="event-refresh" class="action-button action-button--secondary" hidden>${tr('refreshData')}</button>
   <section id="event-latest" hidden><h3>${tr('eventLatest')}</h3><p class="muted">${tr('eventReviewDraft')}</p><pre id="event-latest-values" class="event-preserved"></pre></section>
-  <div id="event-discard" hidden><p>${tr('discardQuestion')}</p><button type="button" id="event-continue" class="text-link">${tr('continueEdit')}</button><button type="button" id="event-discard-confirm" class="text-link">${tr('discardEdit')}</button></div>
-  ${!readOnly?`<button type="submit" class="primary" id="event-save">${tr('eventSave')}</button>${id?`<button type="button" id="event-delete" class="text-link">${tr('eventDelete')}</button><div id="event-delete-prompt" hidden><p>${tr('eventDeleteQuestion')}</p><button type="button" id="event-delete-confirm" class="text-link">${tr('eventDeleteConfirm')}</button><button type="button" id="event-delete-cancel" class="text-link">${tr('eventDeleteCancel')}</button></div>`:''}`:''}</form>`;
+  <div id="event-discard" hidden><p>${tr('discardQuestion')}</p><button type="button" id="event-continue" class="action-button action-button--secondary">${tr('continueEdit')}</button><button type="button" id="event-discard-confirm" class="action-button action-button--secondary">${tr('discardEdit')}</button></div>
+  ${!readOnly?`<button type="submit" class="primary" id="event-save">${tr('eventSave')}</button>${id?`${actionButton(tr('eventDelete'),{kind:'icon',glyph:'trash',attrs:'id="event-delete"'})}<div id="event-delete-prompt" hidden><p>${tr('eventDeleteQuestion')}</p><button type="button" id="event-delete-confirm" class="action-button action-button--secondary">${tr('eventDeleteConfirm')}</button><button type="button" id="event-delete-cancel" class="action-button action-button--secondary">${tr('eventDeleteCancel')}</button></div>`:''}`:''}</form>`;
   timing();initial=snapshot();navigation.suspend(true);dialog.showModal();updateUndo();(readOnly?$('event-close'):$('event-name')).focus();
   if($('event-open-workout'))$('event-open-workout').onclick=()=>{afterClose=()=>openWorkout(event.id);dialog.close();};
   $('event-close').onclick=close;$('event-continue').onclick=()=>{$('event-discard').hidden=true;$('event-name').focus();};$('event-discard-confirm').onclick=()=>{if(!busy)dialog.close();};

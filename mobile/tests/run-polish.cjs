@@ -9,6 +9,7 @@ const jobs=[
  ['browser',['mobile/tests/browser.cjs'],'MOBILE_EVIDENCE_DIR'],
  ['tasks',['mobile/tests/tasks.cjs'],'MOBILE_TASK_EVIDENCE'],
  ['functional-alpha',['mobile/tests/functional-alpha.cjs'],'MOBILE_ALPHA_EVIDENCE'],
+ ['actions',['mobile/tests/actions.cjs'],'MOBILE_ACTION_EVIDENCE'],
  ['calendar-editor',['mobile/tests/calendar-editor.cjs'],'MOBILE_EDITOR_EVIDENCE'],
  ['calendar-compatibility',['mobile/tests/calendar-compatibility.cjs'],'MOBILE_COMPAT_EVIDENCE'],
  ['importance',['mobile/tests/event-importance.cjs'],'MOBILE_IMPORTANCE_EVIDENCE'],
