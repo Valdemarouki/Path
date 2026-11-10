@@ -1,0 +1,245 @@
+{
+  "cases": 31,
+  "results": [
+    {
+      "name": "native tap; 360 ms cancellation; 800 ms completion; check/pulse cleanup; stable cards/navigation; Undo; reload; accessible status/time/priority",
+      "progressDashOffset": 56.2515
+    },
+    {
+      "name": "native vertical pan; pointercancel; blur; visibility/background; scroll; multi-touch cancel"
+    },
+    {
+      "name": "quota failure; unchanged bytes/memory/layout; Retry; undo failure and retry"
+    },
+    {
+      "name": "queued storage lock cancelled before write: date"
+    },
+    {
+      "name": "queued storage lock cancelled before write: route"
+    },
+    {
+      "name": "queued storage lock cancelled before write: background"
+    },
+    {
+      "name": "queued storage lock cancelled before write: scroll"
+    },
+    {
+      "name": "rapid repeated touches: exactly one durable write and pulse"
+    },
+    {
+      "name": "stale write rejected; explicit refresh + review + retry preserves new data"
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "en",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 29.36,
+        "y": 415.19375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "en",
+      "reduced": true,
+      "chargeDashOffset": 58.3375,
+      "origin": {
+        "x": 29.36,
+        "y": 415.19375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "ru",
+      "reduced": false,
+      "chargeDashOffset": 56.2625,
+      "origin": {
+        "x": 29.36,
+        "y": 395.5
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "ru",
+      "reduced": true,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 29.36,
+        "y": 395.5
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "es",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 29.36,
+        "y": 395.5
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 320,
+      "lang": "es",
+      "reduced": true,
+      "chargeDashOffset": 58.3375,
+      "origin": {
+        "x": 29.36,
+        "y": 395.5
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "en",
+      "reduced": false,
+      "chargeDashOffset": 56.2375,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "en",
+      "reduced": true,
+      "chargeDashOffset": 58.325,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "ru",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "ru",
+      "reduced": true,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "es",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 390,
+      "lang": "es",
+      "reduced": true,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 37.68,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "en",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "en",
+      "reduced": true,
+      "chargeDashOffset": 58.3375,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "ru",
+      "reduced": false,
+      "chargeDashOffset": 56.25,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "ru",
+      "reduced": true,
+      "chargeDashOffset": 56.2625,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "es",
+      "reduced": false,
+      "chargeDashOffset": 58.3375,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "viewport/localization/reduced + keyboard/editor",
+      "width": 430,
+      "lang": "es",
+      "reduced": true,
+      "chargeDashOffset": 56.2583,
+      "origin": {
+        "x": 39.28,
+        "y": 415.0984375
+      }
+    },
+    {
+      "name": "Path Motion Off respects meaningful hold, no spring/wave"
+    },
+    {
+      "name": "accessible editor completes after successful save, returns focus and uses the same feedback"
+    },
+    {
+      "name": "viewport left/top/bottom edges; wave clipped before nav; date/tab removes visual effects"
+    },
+    {
+      "name": "Free Time, linked, recurring and active workout protections"
+    }
+  ],
+  "videoFrames": 345,
+  "note": "Chromium real touch dispatch and compositor capture. Synthetic fixtures only. Background/blur cancellation is lifecycle-event simulation; physical iOS/Android not tested."
+}
