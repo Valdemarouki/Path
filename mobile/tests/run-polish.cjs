@@ -5,7 +5,7 @@ const {execFile}=require('node:child_process');
 const root=path.resolve(__dirname,'../..'),arg=process.argv.indexOf('--evidence');
 const output=path.resolve(arg>=0?process.argv[arg+1]:path.join(os.tmpdir(),'path-calendar-polish-validation'));
 const jobs=[
- ['models',['--test','--test-reporter=tap','mobile/tests/model.test.mjs','mobile/tests/tasks-model.test.mjs','mobile/tests/calendar-model.test.mjs','mobile/tests/calendar-polish.test.mjs','mobile/tests/alpha-model.test.mjs','mobile/tests/desktop-adapter.test.mjs']],
+ ['models',['--test','--test-reporter=tap','mobile/tests/model.test.mjs','mobile/tests/tasks-model.test.mjs','mobile/tests/calendar-model.test.mjs','mobile/tests/calendar-polish.test.mjs','mobile/tests/calendar-completion.test.mjs','mobile/tests/alpha-model.test.mjs','mobile/tests/desktop-adapter.test.mjs']],
  ['browser',['mobile/tests/browser.cjs'],'MOBILE_EVIDENCE_DIR'],
  ['tasks',['mobile/tests/tasks.cjs'],'MOBILE_TASK_EVIDENCE'],
  ['functional-alpha',['mobile/tests/functional-alpha.cjs'],'MOBILE_ALPHA_EVIDENCE'],
@@ -14,6 +14,7 @@ const jobs=[
  ['importance',['mobile/tests/event-importance.cjs'],'MOBILE_IMPORTANCE_EVIDENCE'],
  ['calendar-cards',['mobile/tests/calendar-cards.cjs'],'MOBILE_CALENDAR_EVIDENCE'],
  ['calendar-polish',['mobile/tests/calendar-polish.cjs'],'MOBILE_POLISH_EVIDENCE'],
+ ['calendar-completion',['mobile/tests/calendar-completion.cjs'],'MOBILE_COMPLETION_EVIDENCE'],
  ['navigation-panel',['mobile/tests/navigation.cjs'],'MOBILE_PANEL_EVIDENCE'],
  ['habits-navigation',['mobile/tests/habits-navigation.cjs'],'MOBILE_HABITS_NAV_EVIDENCE'],
  ['refinement',['mobile/tests/refinement.cjs'],'MOBILE_REFINE_EVIDENCE'],

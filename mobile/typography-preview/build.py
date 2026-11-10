@@ -9,6 +9,8 @@ target.mkdir(exist_ok=True)
 for name in ('styles.css', 'navigation.css', 'navigation.mjs', 'habit-icon.mjs', 'app.mjs', 'i18n.mjs', 'typography.css', 'tasks.css', 'calendar-cards.css', 'calendar-model.mjs', 'event-editor.mjs', 'date-utils.mjs', 'task-selectors.mjs', 'alpha-model.mjs', 'alpha-ui.mjs', 'alpha-i18n.mjs', 'alpha.css', 'desktop-adapter.mjs'):
     shutil.copy2(mobile / name, target / name)
 model = (mobile / 'model.mjs').read_text()
+for name in ('calendar-completion.mjs','calendar-completion.css'):
+    shutil.copy2(mobile / name, target / name)
 assert "'path-mobile-alpha-v1'" in model
 (target / 'model.mjs').write_text(model.replace("'path-mobile-alpha-v1'", "'path-mobile-manrope-preview-v1'", 1))
 html = (mobile / 'index.html').read_text()

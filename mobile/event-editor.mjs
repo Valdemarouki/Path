@@ -1,7 +1,7 @@
 import {templateEditable} from './alpha-model.mjs';
 import {EVENT_TYPES,IMPORTANCE,EVENT_ICONS,eventReadOnly,saveEvent,deleteEvent,restoreEvent,durationFromEnd,zoneParts,wallCandidates,systemZone} from './calendar-model.mjs';
 
-export function createEventEditor({getState,commit,tr,label,date,getError,navigation,refresh,isStale=()=>false,openWorkout=null}){
+export function createEventEditor({getState,commit,tr,label,date,getError,navigation,refresh,isStale=()=>false,openWorkout=null,onCompletion=()=>{}}){
  const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const dialog=document.createElement('dialog');dialog.id='event-editor';dialog.setAttribute('aria-labelledby','event-heading');document.body.append(dialog);
  const undoBar=document.createElement('aside');undoBar.id='event-undo-bar';undoBar.hidden=true;
@@ -18,9 +18,9 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  const formatted=instant=>new Intl.DateTimeFormat(locale(),{timeZone:$('event-tz').value,dateStyle:'medium',timeStyle:'short'}).format(new Date(instant));
  function snapshot(){return JSON.stringify([...dialog.querySelectorAll('input,select,textarea')].map(e=>[e.id,e.type==='checkbox'?e.checked:e.value]));}
  function error(key){$('event-error').textContent=tr(key);$('event-error').hidden=false;}
- function focusEvent(id){
+ function focusEvent(id,preserveScroll=false){
   const card=[...document.querySelectorAll('[data-calendar-event]')].find(c=>c.dataset.calendarEvent===id);
-  const target=card||document.getElementById('selected-date')||document.getElementById('content');target?.scrollIntoView({block:'center'});target?.focus({preventScroll:true});
+  const target=card||document.getElementById('selected-date')||document.getElementById('content');if(!preserveScroll)target?.scrollIntoView({block:'center'});target?.focus({preventScroll:true});
  }
  function updateUndo(){
   const undo=getState()?.mobileEventUndo,nav=document.getElementById('navigation');
@@ -133,9 +133,9 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
    e.preventDefault();if(busy||readOnly)return;
    if(editing&&!getState().events.some(e=>e.id===editing)){error('eventMissing');return;}
    let values;try{values=fields();}catch(e){error(e.message);return;}
-   const idToSave=editing||crypto.randomUUID(),allowOverlap=$('event-overlap').checked;
+   const idToSave=editing||crypto.randomUUID(),allowOverlap=$('event-overlap').checked,wasDone=!!getState().events.find(e=>e.id===editing)?.done;
    setBusy(true);let problem;
-   try{if(await commit(s=>{try{saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}})){afterClose=()=>focusEvent(idToSave);dialog.close();}else failure(problem);}finally{setBusy(false);}
+   try{if(await commit(s=>{try{saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
   };
  }
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});

@@ -1,6 +1,12 @@
 // UI strings and synthetic fixture labels only; user titles are never translated.
 import {alphaRows} from './alpha-i18n.mjs';
 const rows = {
+  completionHint:['Tap for details. Hold 0.8 s to complete a standalone event.','Нажмите для просмотра. Удерживайте 0,8 с, чтобы завершить отдельное событие.','Toca para ver detalles. Mantén 0,8 s para completar un evento independiente.'],
+  completionKeyboard:['Keyboard: Shift+Enter completes; Enter opens the editor, where completion can also be undone.','Клавиатура: Shift+Enter — завершить; Enter — редактор, в котором можно также отменить выполнение.','Teclado: Mayús+Intro completa; Intro abre el editor, donde también puedes deshacer la finalización.'],
+  completionDone:['Event completed','Событие завершено','Evento completado'],completionUndone:['Completion undone','Выполнение отменено','Finalización deshecha'],
+  completionUndo:['Undo completion','Отменить выполнение','Deshacer finalización'],completionRetry:['Retry','Повторить','Reintentar'],completionDismiss:['Dismiss','Скрыть','Cerrar'],
+  completionChanged:['This event has changed. Refresh the local copy before trying again.','Событие изменилось. Обновите локальную копию перед повтором.','Este evento ha cambiado. Actualiza la copia local antes de reintentar.'],
+  completionReviewed:['Local copy refreshed. Review the event before retrying.','Локальная копия обновлена. Проверьте событие перед повтором.','Copia local actualizada. Revisa el evento antes de reintentar.'],
   calendarToday:['Go to today','Перейти на сегодня','Ir a hoy'],
   eventSetEnd:['Set end date and time','Задать дату и время окончания','Elegir fecha y hora de fin'],
   eventEndDate:['End date','Дата окончания','Fecha de fin'],eventEndTime:['End time','Время окончания','Hora de fin'],eventEndFold:['Repeated end time','Повторное время окончания','Hora de fin repetida'],
