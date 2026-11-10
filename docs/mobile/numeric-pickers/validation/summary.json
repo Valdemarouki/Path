@@ -163,5 +163,12 @@
       "log": "test-results.txt"
     }
   ],
-  "note": "12 suites initially passed. Environment then reported starting; loopback servers returned ERR_EMPTY_RESPONSE. After native reconnect and restarting only the two local Python preview servers, all eight interrupted suites were rerun, plus numeric-pickers for the final subtle-noise CSS. Other passing suites were retained unchanged. All profiles synthetic/loopback only."
+  "note": "12 suites initially passed. Environment then reported starting; loopback servers returned ERR_EMPTY_RESPONSE. After native reconnect and restarting only the two local Python preview servers, all eight interrupted suites were rerun, plus numeric-pickers for the final subtle-noise CSS. Other passing suites were retained unchanged. All profiles synthetic/loopback only. Final manual-footer overlap correction and explicit aria-live=off verified in an additional 27/27 focused pass; all changed behavior is covered by that final pass.",
+  "additionalVerification": {
+    "name": "numeric-pickers final manual-footer and aria-live fix",
+    "status": "PASS",
+    "cases": 27,
+    "details": "numeric-focused.json",
+    "log": "numeric-focused.txt"
+  }
 }

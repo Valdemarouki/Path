@@ -44,6 +44,8 @@ dialog[data-numeric-open]{overscroll-behavior:contain;}
 .np-manual>div{display:flex;flex-wrap:wrap;gap:8px;}.np-manual input{flex:1 1 100px;width:100%;min-width:0;margin:0;}.np-manual button{flex:1 1 90px;min-height:44px;}
 .np-error{font-size:13px;line-height:1.5;}
 .np-typing .np-wheels,.np-typing .np-presets,.np-typing .np-period,.np-typing .np-hint{display:none;}
+.np-typing .np-summary{display:none;}
+.np-typing .np-actions{position:static;}
 .np-card:focus-visible,.np-step button:focus-visible,.np-step input:focus-visible,.np-open:focus-visible{outline:2px solid #ecebea;outline-offset:3px;}
 .np-step button:active:not(:disabled),.np-open:active:not(:disabled){background-color:#ffffff14;}
 .np-step .primary:active:not(:disabled){background-color:#d2d1cf;}

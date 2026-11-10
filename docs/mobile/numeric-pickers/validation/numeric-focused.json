@@ -91,15 +91,15 @@
       "name": "optional task duration, 168h, cancel reversion and explicit clear retain semantics"
     },
     {
-      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "name": "motion settings, focus containment, reduced viewport/manual/Done without overlap, Escape rollback",
       "reduce": "reduce"
     },
     {
-      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "name": "motion settings, focus containment, reduced viewport/manual/Done without overlap, Escape rollback",
       "off": true
     },
     {
-      "name": "motion settings, focus containment, reduced viewport/manual/Done, Escape rollback",
+      "name": "motion settings, focus containment, reduced viewport/manual/Done without overlap, Escape rollback",
       "reduce": "no-preference"
     },
     {
@@ -113,6 +113,6 @@
     }
   ],
   "platform": "Linux Chromium; touch/keyboard/viewport emulated, not physical iOS/Android or IME",
-  "videoFrames": 131,
+  "videoFrames": 133,
   "requestPolicy": "fresh synthetic contexts, loopback only"
 }

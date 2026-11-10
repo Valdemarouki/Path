@@ -21,8 +21,10 @@ docs/mobile/numeric-pickers/screens/time-ru-320.png
 docs/mobile/numeric-pickers/screens/time-ru-390.png
 docs/mobile/numeric-pickers/screens/time-ru-430.png
 docs/mobile/numeric-pickers/validation/impact.json
+docs/mobile/numeric-pickers/validation/interrupted-http-errors.txt
 docs/mobile/numeric-pickers/validation/interrupted-summary.json
 docs/mobile/numeric-pickers/validation/numeric-focused.json
+docs/mobile/numeric-pickers/validation/numeric-focused.txt
 docs/mobile/numeric-pickers/validation/provenance.json
 docs/mobile/numeric-pickers/validation/summary.json
 docs/mobile/numeric-pickers/validation/test-results.txt

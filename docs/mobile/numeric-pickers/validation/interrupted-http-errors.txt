@@ -1,0 +1,98 @@
+calendar-completion
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/#calendar
+Call log:
+  - navigating to "http://127.0.0.1:8010/#calendar", waiting until "load"
+
+    at context (/workspace/Path/mobile/tests/calendar-completion.cjs:21:157)
+    at async main (/workspace/Path/mobile/tests/calendar-completion.cjs:85:27) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/#calendar", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+calendar-impact
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/#calendar
+Call log:
+  - navigating to "http://127.0.0.1:8010/#calendar", waiting until "load"
+
+    at context (/workspace/Path/mobile/tests/calendar-impact.cjs:21:157)
+    at async main (/workspace/Path/mobile/tests/calendar-impact.cjs:80:27) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/#calendar", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+navigation-panel
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/
+Call log:
+  - navigating to "http://127.0.0.1:8010/", waiting until "load"
+
+    at main (/workspace/Path/mobile/tests/panel.cjs:50:87) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+habits-navigation
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/
+Call log:
+  - navigating to "http://127.0.0.1:8010/", waiting until "load"
+
+    at scene (/workspace/Path/mobile/tests/habits-navigation.cjs:27:14)
+    at async main (/workspace/Path/mobile/tests/habits-navigation.cjs:34:30) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+refinement
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/
+Call log:
+  - navigating to "http://127.0.0.1:8010/", waiting until "load"
+
+    at main (/workspace/Path/mobile/tests/refinement.cjs:30:169) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+surfaces
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/
+Call log:
+  - navigating to "http://127.0.0.1:8010/", waiting until "load"
+
+    at main (/workspace/Path/mobile/tests/surfaces.cjs:21:16) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+transformation
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8010/
+Call log:
+  - navigating to "http://127.0.0.1:8010/", waiting until "load"
+
+    at main (/workspace/Path/mobile/tests/transformation.cjs:28:87) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8010/", waiting until "load"'
+  ],
+  name: 'Error'
+}
+
+typography
+page.goto: net::ERR_EMPTY_RESPONSE at http://127.0.0.1:8020/
+Call log:
+  - navigating to "http://127.0.0.1:8020/", waiting until "load"
+
+    at main (/workspace/Path/mobile/typography-preview/test.cjs:34:89) {
+  log: [
+    '  - navigating to "http://127.0.0.1:8020/", waiting until "load"'
+  ],
+  name: 'Error'
+}

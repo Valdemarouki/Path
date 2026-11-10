@@ -1,0 +1,1 @@
+PASS 27 numeric picker integration groups. /tmp/path-numeric-verified
