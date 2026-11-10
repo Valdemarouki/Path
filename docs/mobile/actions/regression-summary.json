@@ -1,0 +1,151 @@
+{
+  "suites": 18,
+  "passed": 18,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 279,
+      "cases": 72,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 27961,
+      "cases": 55,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32997,
+      "cases": 24,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 41831,
+      "cases": 34,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34433,
+      "cases": 93,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 17168,
+      "cases": 72,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8339,
+      "cases": 6,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6042,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 7782,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 36623,
+      "cases": 14,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 122933,
+      "cases": 31,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 44230,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 48217,
+      "cases": 30,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 22415,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31142,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31621,
+      "cases": 26,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 56608,
+      "cases": 21,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5711,
+      "cases": 26,
+      "log": "test-results.txt"
+    }
+  ],
+  "note": "navigation.cjs delegates to panel.cjs; that suite is counted once. Each browser profile contains synthetic data only."
+}

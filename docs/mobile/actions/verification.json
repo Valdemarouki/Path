@@ -1,0 +1,627 @@
+{
+  "cases": 93,
+  "results": [
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "en",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "en",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "en",
+      "width": 320,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "en",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "en",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "en",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "en",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "en",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "en",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "en",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "en",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "en",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "en",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "ru",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "ru",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "ru",
+      "width": 320,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "ru",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "ru",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "ru",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "ru",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "ru",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "ru",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "ru",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "ru",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "ru",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "ru",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "es",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "es",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "es",
+      "width": 320,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "es",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "es",
+      "width": 320,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "es",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "es",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "es",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "es",
+      "width": 320,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "es",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "es",
+      "width": 320,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "es",
+      "width": 320,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "es",
+      "width": 320,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "en",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "en",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "en",
+      "width": 390,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "en",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "en",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "en",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "en",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "en",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "en",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "en",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "en",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "en",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "en",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "ru",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "ru",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "ru",
+      "width": 390,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "ru",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "ru",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "ru",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "ru",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "ru",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "ru",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "ru",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "ru",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "ru",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "ru",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "today",
+      "lang": "es",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "calendar",
+      "lang": "es",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "habits",
+      "lang": "es",
+      "width": 390,
+      "controls": 7
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sport",
+      "lang": "es",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "notes",
+      "lang": "es",
+      "width": 390,
+      "controls": 2
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "projects",
+      "lang": "es",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas",
+      "lang": "es",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "progress",
+      "lang": "es",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "profile",
+      "lang": "es",
+      "width": 390,
+      "controls": 0
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "settings",
+      "lang": "es",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "sync",
+      "lang": "es",
+      "width": 390,
+      "controls": 1
+    },
+    {
+      "name": "Trash destination is read-only navigation; actual delete and restore preserve original ID/body",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "project detail",
+      "lang": "es",
+      "width": 390,
+      "controls": 3
+    },
+    {
+      "name": "localized controls / target size / hierarchy / no overflow",
+      "route": "canvas viewer",
+      "lang": "es",
+      "width": 390,
+      "controls": 4
+    },
+    {
+      "name": "creation/discard, nested creation, Canvas controls, content links and preserved Markdown",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "keyboard focus, unchanged neighbor geometry, disabled click, multiline label, reduced motion",
+      "reduced": "no-preference",
+      "width": 320
+    },
+    {
+      "name": "keyboard focus, unchanged neighbor geometry, disabled click, multiline label, reduced motion",
+      "reduced": "reduce",
+      "width": 320
+    },
+    {
+      "name": "keyboard focus, unchanged neighbor geometry, disabled click, multiline label, reduced motion",
+      "reduced": "path-off",
+      "width": 320
+    }
+  ],
+  "note": "Chromium browser checks; synthetic data and localhost only. Actual EN/RU/ES at 320/390 px; additional synthetic long-label stress. Physical iOS/Android/AT not tested."
+}
