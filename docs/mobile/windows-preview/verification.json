@@ -1,0 +1,25 @@
+{
+  "sourceAppCommit": "d8763ec28690c956c4b2abcc8189c051f26688b6",
+  "textFile": "docs/mobile/windows-preview/Restore-PathMobile-Windows.txt",
+  "textBytes": 204840,
+  "archiveBytes": 149555,
+  "archiveSha256": "6863bf415ab2a53db263e6bf47844641e1134f3d006457e78eb333dad51819ea",
+  "embeddedPayloadRoundTrip": "PASS: exact archive bytes",
+  "zipCrc": "PASS",
+  "allUnpackedFilesMatch": "PASS",
+  "networkRequestsInRestoreCode": false,
+  "installsSoftware": false,
+  "changesExecutionPolicy": false,
+  "deletesExistingFiles": false,
+  "powerShellRuntimeAvailableHere": false,
+  "windowsExecutionTested": false,
+  "optionalSmallParts": [
+    "01-PathMobile-part.txt",
+    "02-PathMobile-part.txt",
+    "03-PathMobile-part.txt",
+    "04-PathMobile-part.txt",
+    "05-PathMobile-part.txt"
+  ],
+  "smallPartsRoundTrip": "PASS: exact same ZIP bytes",
+  "maximumPartBytes": 43075
+}
