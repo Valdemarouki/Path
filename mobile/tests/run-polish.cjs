@@ -15,6 +15,7 @@ const jobs=[
  ['calendar-cards',['mobile/tests/calendar-cards.cjs'],'MOBILE_CALENDAR_EVIDENCE'],
  ['calendar-polish',['mobile/tests/calendar-polish.cjs'],'MOBILE_POLISH_EVIDENCE'],
  ['navigation-panel',['mobile/tests/navigation.cjs'],'MOBILE_PANEL_EVIDENCE'],
+ ['habits-navigation',['mobile/tests/habits-navigation.cjs'],'MOBILE_HABITS_NAV_EVIDENCE'],
  ['refinement',['mobile/tests/refinement.cjs'],'MOBILE_REFINE_EVIDENCE'],
  ['surfaces',['mobile/tests/surfaces.cjs'],'MOBILE_EVIDENCE_DIR'],
  ['transformation',['mobile/tests/transformation.cjs'],'MOBILE_EVIDENCE_DIR']

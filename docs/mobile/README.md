@@ -1,3 +1,5 @@
+> Current Habits navigation correction: [grid position, shared cycle/check icon, verification and recording](habits-navigation/README.md).
+
 > Current Functional Alpha, schema 5: [section status, validation, screenshots and recovery](functional-alpha/README.md); [desktop/mobile contract](functional-alpha/COMPATIBILITY.md). All earlier milestone descriptions below are historical.
 
 > Current Calendar functionality and schema 4: [Functional Polish](calendar-polish/README.md). Earlier milestone descriptions below are historical.

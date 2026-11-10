@@ -29,7 +29,7 @@ async function main(){
     await page.evaluate(()=>{window.sameButtons=['today','calendar','sport','habits'].map(k=>document.getElementById('nav-'+k));});
     await page.screenshot({path:path.join(output,'normal-390.png'),animations:'disabled'});const before=await page.locator('.focus-card').boundingBox();
     await page.locator('#panel-toggle').click();await wait(550);
-    assert.deepEqual(await page.locator('.nav-destinations button').evaluateAll(bs=>bs.map(b=>b.dataset.route)),['today','calendar','sport','habits','projects','canvas','notes','progress','profile','settings','sync']);
+    assert.deepEqual(await page.locator('.nav-destinations button').evaluateAll(bs=>bs.map(b=>b.dataset.route)),['today','calendar','sport','projects','canvas','habits','notes','progress','profile','settings','sync']);
     assert.equal(await page.locator('.nav-destinations [data-add]').count(),0);assert(await page.locator('.nav-primary').isHidden());assert(await page.locator('[data-add]').evaluate(b=>b.inert));
     assert(await page.evaluate(()=>sameButtons.every(b=>b.closest('.nav-cell'))));assert.equal(await page.getByRole('button',{name:'Quick Add',exact:true}).count(),0);cases++;
     const cells=await page.locator('.nav-cell').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return [r.width,r.height];}));

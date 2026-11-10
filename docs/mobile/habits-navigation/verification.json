@@ -1,0 +1,77 @@
+{
+  "baseline": "6da74ed6496994357afa2157198bfda76a5196af",
+  "viewportMatrix": [
+    320,
+    390,
+    430
+  ],
+  "languages": [
+    "en",
+    "ru",
+    "es"
+  ],
+  "checks": {
+    "habitsNavigation": 13,
+    "transformation": 21,
+    "panel": 30,
+    "existingBrowser": 55
+  },
+  "totalCases": 119,
+  "motion": {
+    "normalX": 331.09375,
+    "expandedX": 302.15625,
+    "minimumX": 301.828125,
+    "maximumX": 331.40625,
+    "landings": [
+      {
+        "elapsedMs": 14,
+        "dx": 0.046875,
+        "dy": 0.390625
+      },
+      {
+        "elapsedMs": 17,
+        "dx": -0.03125,
+        "dy": -0.375
+      },
+      {
+        "elapsedMs": 16,
+        "dx": 0.03125,
+        "dy": 0.265625
+      },
+      {
+        "elapsedMs": 16,
+        "dx": -0.03125,
+        "dy": -0.375
+      }
+    ],
+    "instantReversal": {
+      "before": {
+        "x": 309.34375,
+        "y": 538.28125
+      },
+      "after": {
+        "x": 309.34375,
+        "y": 538.28125
+      }
+    }
+  },
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "nb_frames": "103"
+      }
+    ],
+    "format": {
+      "duration": "3.433333",
+      "size": "204096"
+    }
+  },
+  "data": "Disposable synthetic profiles only; no navigation writes to localStorage",
+  "engine": "Chromium on Linux; physical devices and Safari not tested",
+  "preserved": "All CSS, storage/domain models, other route behavior, desktop and root files"
+}

@@ -1,7 +1,10 @@
 import {t} from './i18n.mjs';
+import {HABITS_ICON} from './habit-icon.mjs';
 
 export const PRIMARY=['today','calendar','quick','sport','habits'];
 export const EXTRA=['projects','canvas','notes','progress','profile','settings','sync'];
+// A single DOM/focus order: Habits finishes row two in the three-column grid.
+export const EXPANDED=['today','calendar','sport','projects','canvas','habits','notes','progress','profile','settings','sync'];
 export function activeTab(destination){
   const root=String(destination).replace(/^#?\/?/,'').split(/[/?#]/)[0];
   return PRIMARY.includes(root)&&root!=='quick'?root:null;
@@ -11,7 +14,7 @@ const drawings={
   calendar:'<rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M7.5 2.5v5m9-5v5M3.5 10h17"/>',
   quick:'<path d="M12 5v14M5 12h14"/>',
   sport:'<path d="M4 13C2 5 10 1 16 3c3 .9 5 3 6 5l-3 1C15 3 6 6 6 13M6 13c0-5 4-7 8-6 3 .6 4 3 4 5v8l-4-2-3 4v-9l-5 3v-3ZM11 13l7-1M14 18v-4M4 15l-1 5 4-2"/>',
-  habits:'<path d="M7 3C0 9 3 18 10 21M17 3c7 6 4 15-3 18M4 8l4 1M3 13l5 1m-2 4 3-1m11-9-4 1m5 4-5 1m2 4-3-1"/>',
+  habits:HABITS_ICON,
   projects:'<path d="m3 7 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 17l9 5 9-5"/>',
   canvas:'<path d="M6 4h12v13H6ZM12 1v3M8 17l-3 5m11-5 3 5M12 17v5"/>',
   notes:'<path d="M5 20 17 3l4 2L9 22H5v-2ZM14 7l4 3"/>',
@@ -22,7 +25,7 @@ const drawings={
 };
 const icon=key=>'<svg aria-hidden="true" viewBox="0 0 24 24">'+drawings[key]+'</svg>';
 export function createNavigation(nav){
-  const mainKeys=PRIMARY.filter(k=>k!=='quick'),allKeys=[...mainKeys,...EXTRA];
+  const mainKeys=PRIMARY.filter(k=>k!=='quick'),allKeys=EXPANDED;
   const button=(key,id)=>'<button type="button" data-route="'+key+'" id="'+id+'">'+icon(key)+'<span class="nav-label"></span><small></small></button>';
   nav.innerHTML='<button class="panel-handle" id="panel-toggle" type="button" aria-controls="panel-extra" aria-expanded="false"><span aria-hidden="true"></span></button>'
     +'<div class="nav-extra" id="panel-extra" inert aria-hidden="true"><div class="nav-extra-scroll"><h2 id="panel-title"></h2><div class="nav-destinations">'

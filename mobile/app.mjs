@@ -5,6 +5,7 @@ import {createEventEditor} from './event-editor.mjs';
 import {createAlphaUI} from './alpha-ui.mjs';
 import {tasksForDate,projectDeadlines,taskEntry} from './task-selectors.mjs';
 import {mobileBackup} from './desktop-adapter.mjs';
+import {HABITS_ICON_PATH} from './habit-icon.mjs';
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -18,7 +19,7 @@ const paths = {
   target:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10ZM12 11v2',sun:'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1',flag:'M5 21V3h14l-3 5 3 5H5',repeat:'M20 8A8 8 0 0 0 5 6L3 9m0-5v5h5m-4 7a8 8 0 0 0 15 2l2-3m0 5v-5h-5',
   check:'m5 12 4 4L19 6', projects:'m3 7 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 17l9 5 9-5',
   notes:'M5 20 17 3l4 2L9 22H5v-2ZM14 7l4 3',canvas:'M6 4h12v13H6ZM12 1v3M8 17l-3 5m11-5 3 5M12 17v5',
-  habits:'M7 3C0 9 3 18 10 21M17 3c7 6 4 15-3 18M4 8l4 1M3 13l5 1m-2 4 3-1m11-9-4 1m5 4-5 1m2 4-3-1',
+  habits:HABITS_ICON_PATH,
   progress:'M3 21h18V3h-5v5h-5v5H7v4H3v4',left:'m15 5-7 7 7 7',right:'m9 5 7 7-7 7'
 };
 const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[key]||paths.spark}"/></svg>`;
