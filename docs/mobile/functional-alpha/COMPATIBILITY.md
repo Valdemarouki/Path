@@ -10,7 +10,7 @@ This is a lossless inspection boundary, **not a completed desktop → live mobil
 
 Checkpoint `imageCodec` 1/2, `imageAssets` and `{pathImageAsset:index}` values are kept intact. The staging adapter does **not** decode, fetch, display, upload, or deduplicate payloads. Asset resolution is a separate future adapter. No promise is made that staging a checkpoint makes its attachments usable in mobile. JSON trees reject unsafe keys, cycles, non-JSON objects, depth >64, and >250,000 visited values. Duplicate IDs within a collection or one project's tasks are rejected; collisions between different scopes are not renamed. No untrusted file picker/import UI is exposed.
 
-All supported mobile edits patch the original record in a cloned candidate. Unknown properties are retained. Atomic persistence validates the candidate and writes under Web Locks; memory/revision advance only after `localStorage.setItem` succeeds. A stale tab must explicitly refresh and review its retained draft. A schema/Undo version the app cannot understand fails closed without replacing stored bytes.
+All supported mobile edits patch the original record in a cloned candidate. Unknown properties are retained. Atomic persistence validates the candidate and writes under Web Locks; memory/revision advance only after `localStorage.setItem` succeeds. A stale tab must explicitly refresh and review its retained draft. A retained editor checks that its original entity still exists inside the locked mutation; saving after another tab deleted it cannot resurrect that record. A schema/Undo version the app cannot understand fails closed without replacing stored bytes.
 
 ## Field map
 
