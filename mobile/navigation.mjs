@@ -87,7 +87,7 @@ export function createNavigation(nav){
     if(on===modalActive)return;modalActive=on;shade.hidden=!on;
     if(on){
       if(historyRestoration===null)historyRestoration=history.scrollRestoration;history.scrollRestoration='manual';
-      savedY=window.scrollY;bodyBefore=document.body.style.cssText;inertBefore=[...document.querySelectorAll('.topbar,#content,.skip,#storage-error')].map(el=>[el,el.inert]);for(const [el]of inertBefore)el.inert=true;
+      savedY=window.scrollY;bodyBefore=document.body.style.cssText;inertBefore=[...document.querySelectorAll('.shell > :not(nav),.skip')].map(el=>[el,el.inert]);for(const [el]of inertBefore)el.inert=true;
       document.body.style.position='fixed';document.body.style.top=-savedY+'px';document.body.style.width='100%';document.body.style.overflow='hidden';
       nav.setAttribute('role','dialog');nav.setAttribute('aria-modal','true');nav.setAttribute('aria-labelledby','panel-title');
       try{history.pushState({...history.state,pathMobilePanel:true},'',location.href);ownsHistory=true;}catch{ownsHistory=false;}handle.focus({preventScroll:true});

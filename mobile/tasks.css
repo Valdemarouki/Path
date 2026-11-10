@@ -13,3 +13,7 @@ textarea:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offs
 #undo-bar{padding:8px 0;font-size:14px;}#undo-bar button{margin-left:10px;}
 .overdue{margin-bottom:20px;}.overdue h2{font-size:17px;font-weight:300;}
 #task-form{padding-bottom:4px;}
+#task-fields{border:0;margin:0;padding:0;min-width:0;}
+#undo-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:12px 0 20px;padding:14px 16px;border:1px solid #ffffff22;border-radius:20px;background:#202022;max-height:240px;overflow:auto;}
+#undo-bar>div{min-width:0;flex:1 1 180px;}#undo-bar strong,#undo-bar small{display:block;overflow-wrap:anywhere;font-size:13px;font-weight:400;}#undo-bar small{font-size:11px;color:var(--muted);line-height:1.5;}
+#undo-bar.task-undo-obscured{visibility:hidden;pointer-events:none;}

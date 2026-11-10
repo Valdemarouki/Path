@@ -1,9 +1,9 @@
-import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay, editTask, setMainTask, deleteTask, restoreTask, mainTaskOnDay, overdueTasks} from './model.mjs';
+import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay, editTask, setMainTask, deleteTaskWithUndo, restoreDeletedTask, mainTaskOnDay, overdueTasks} from './model.mjs';
 import {t, label, LOCALES} from './i18n.mjs';
 import {createNavigation} from './navigation.mjs';
 import {createEventEditor} from './event-editor.mjs';
 import {createAlphaUI} from './alpha-ui.mjs';
-import {tasksForDate,projectDeadlines,taskEntry} from './task-selectors.mjs';
+import {tasksForDate,projectDeadlines,taskEntry,projectTaskEditable} from './task-selectors.mjs';
 import {mobileBackup} from './desktop-adapter.mjs';
 import {HABITS_ICON_PATH} from './habit-icon.mjs';
 import {canSetEventCompletion} from './calendar-model.mjs';
@@ -26,10 +26,10 @@ const paths = {
   progress:'M3 21h18V3h-5v5h-5v5H7v4H3v4',left:'m15 5-7 7 7 7',right:'m9 5 7 7-7 7'
 };
 const icon = key => `<svg aria-hidden="true" viewBox="0 0 24 24"><path d="${paths[key]||paths.spark}"/></svg>`;
-let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, removed=null, announcementSerial=0,lastSaveError='';
+let repo, state, lang='en', fatal=false, blocked=false, route='today', selected=dayKey(), today=dayKey(), lastFocus, editing=null, baseline='', submitting=false, writing=false, announcementSerial=0,lastSaveError='';
 const tr = key => t(key,lang);
 const navigation = createNavigation($('navigation'));
-const getSaveError=()=>lastSaveError||($('storage-error').hidden?'':$('storage-error').textContent);
+const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
 const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:()=>navigate('sport'),getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
 const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing,isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
 const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd});
@@ -49,7 +49,8 @@ function calendarEventTime(event){
 }
 function clearAnnouncement(){announcementSerial++;$('announcement').textContent='';}
 function announce(message) { const serial=++announcementSerial;$('announcement').textContent='';requestAnimationFrame(()=>{if(serial===announcementSerial)$('announcement').textContent=message;}); }
-function showError(key) { const el=$('storage-error');el.textContent=tr(key);el.hidden=false;if($('quick-add').open){$('form-error').textContent=tr(key);$('form-error').hidden=false;} }
+function clearStorageError(preserveLayout=false){const el=$('storage-error');if(preserveLayout&&!el.hidden){el.dataset.resolved='true';el.style.visibility='hidden';el.setAttribute('aria-hidden','true');}else{el.hidden=true;delete el.dataset.resolved;el.style.visibility='';el.removeAttribute('aria-hidden');}}
+function showError(key) { const el=$('storage-error');delete el.dataset.resolved;el.style.visibility='';el.removeAttribute('aria-hidden');el.textContent=tr(key);el.hidden=false;if($('quick-add').open){$('form-error').textContent=tr(key);$('form-error').hidden=false;} }
 async function commit(change,focusId,options={}) {
   clearAnnouncement();
   if(fatal||blocked||writing)return false;
@@ -60,7 +61,7 @@ async function commit(change,focusId,options={}) {
     const result=await navigator.locks.request(STORAGE_KEY,()=>options.guard&&!options.guard()?null:repo.commit(change));
     if(!result)return false;state=result;lang=state.language;lastSaveError='';
     // The gesture updates its reserved status slot in place: no reflow or lost scroll.
-    if(!options.calendarCompletion){$('storage-error').hidden=true;render();if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});announce(tr('saved'));}return true;
+    clearStorageError(!!options.calendarCompletion);if(!options.calendarCompletion){render();if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});announce(tr('saved'));}return true;
   }catch(error){
     if(error.message==='conflict'){blocked=true;if(!options.calendarCompletion){$('conflict-actions').hidden=false;$('reload-in-editor').hidden=false;}}
     const key=error.message==='conflict'?'conflict':'saveError';lastSaveError=tr(key);if(!options.calendarCompletion)showError(key);
@@ -117,6 +118,7 @@ function unavailableView(key) {
 }
 function render() {
   completion.beforeRender();
+  if($('storage-error').dataset.resolved)clearStorageError();
   document.documentElement.lang=lang;document.querySelector('.skip').textContent=tr('skip');$('navigation').setAttribute('aria-label',tr('navigation'));
   navigation.update(route, lang);
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
@@ -131,7 +133,11 @@ function render() {
   for(const kind of ['task','event','note'])$('quick-'+kind).textContent=tr('quick'+kind[0].toUpperCase()+kind.slice(1));
   $('quick-kinds').hidden=!!editing;
   eventEditor.updateUndo();
+  updateTaskProtection();updateTaskUndo();
 }
+function updateTaskProtection(){const entry=editing?taskEntry(state,editing):null,readOnly=!!entry&&!projectTaskEditable(state,entry),copy=readOnly&&$('quick-add').open&&formValue()!==baseline;$('task-fields').disabled=readOnly;$('task-readonly').hidden=!readOnly;$('task-readonly').textContent=tr('taskReadOnly');$('save-task').hidden=readOnly;$('edit-actions').hidden=!editing||readOnly;$('task-protected-copy').hidden=!copy;if(copy){$('task-copy-note').textContent=tr('taskDraftProtected');$('task-protected-draft').setAttribute('aria-label',tr('taskDraftProtected'));$('task-protected-draft').value=JSON.stringify({title:$('task-title').value,date:$('task-date').value,duration:$('task-duration').value,note:$('task-note').value},null,2);}return readOnly;}
+function updateTaskUndo(){const undo=state?.mobileTaskUndo,el=$('undo-bar'),obscured=$('navigation').hidden||$('navigation').dataset.state==='expanded'||!!document.querySelector('dialog[open]');el.hidden=!undo;el.inert=obscured;el.classList.toggle('task-undo-obscured',obscured);el.setAttribute('aria-hidden',String(obscured));$('deleted-task-title').textContent=undo?label(undo.task,lang):'';$('deleted-task-date').textContent=undo?dateText(undo.task.date):'';$('task-undo-retention').textContent=tr('taskUndoRetention');$('undo-delete').setAttribute('aria-label',tr('undoDelete')+(undo?': '+label(undo.task,lang):''));}
+new MutationObserver(updateTaskUndo).observe($('navigation'),{attributes:true,attributeFilter:['data-state','hidden']});
 function navigate(destination) {
   const root=String(destination).replace(/^\//,'').split(/[/?#]/)[0];
   if(!['today','calendar','sport','more','projects','habits','notes','canvas','progress','profile','settings','sync'].includes(root))return;
@@ -155,12 +161,12 @@ function openAdd(id=null) {
   $('task-title').value=task?label(task,lang):'';$('task-duration').value=task?.duration??'';$('task-note').value=task?.note??'';
   $('edit-actions').hidden=!task;$('task-details').open=!!(task?.duration||task?.note);
   $('quick-kinds').hidden=!!task;
-  $('add-title').textContent=tr(task?'editTask':'add');baseline=formValue();$('quick-add').showModal();$('task-title').focus();
+  $('add-title').textContent=tr(task?'editTask':'add');baseline=formValue();const readOnly=updateTaskProtection();$('quick-add').showModal();$(readOnly?'close-add':'task-title').focus();
 }
 $('quick-add').addEventListener('cancel',e=>{e.preventDefault();requestClose();});
 $('quick-add').addEventListener('close',()=>{navigation.suspend(false);editing=null;const kind=pendingQuick;pendingQuick=null;if(kind==='event')return eventEditor.open();if(kind==='note')return alpha.open('note');if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});else document.querySelector('nav [data-add]')?.focus({preventScroll:true});});
 $('close-add').addEventListener('click',()=>requestClose());
-$('continue-edit').addEventListener('click',()=>{pendingQuick=null;$('discard-prompt').hidden=true;$('task-title').focus();});
+$('continue-edit').addEventListener('click',()=>{pendingQuick=null;$('discard-prompt').hidden=true;$($('task-fields').disabled?'task-protected-draft':'task-title').focus();});
 $('discard-edit').addEventListener('click',()=>{if(!writing&&!submitting)$('quick-add').close();});
 $('date-other').addEventListener('click',()=>{$('task-date').focus();try{$('task-date').showPicker();}catch{}});
 $('make-main').addEventListener('click',async()=>{
@@ -170,11 +176,11 @@ $('make-main').addEventListener('click',async()=>{
 $('move-tomorrow').addEventListener('click',()=>{$('task-date').value=shiftDay(dayKey(),1);$('task-date').focus();});
 $('delete-task').addEventListener('click',async()=>{
   if(formValue()!==baseline){$('form-error').textContent=tr('discardQuestion');$('form-error').hidden=false;return;}
-  let candidate;if(await commit(s=>{candidate=deleteTask(s,editing);})){removed=candidate;$('undo-bar').hidden=false;$('quick-add').close();}
+  if(await commit(s=>deleteTaskWithUndo(s,editing)))$('quick-add').close();
 });
-$('undo-delete').addEventListener('click',async()=>{if(!removed)return;const item=removed;if(await commit(s=>restoreTask(s,item))){removed=null;$('undo-bar').hidden=true;}});
+$('undo-delete').addEventListener('click',async()=>{const id=state.mobileTaskUndo?.task.id;if(!id)return;let problem;const ok=await commit(s=>{try{restoreDeletedTask(s);}catch(e){problem=e.message;throw e;}});if(ok)document.getElementById('task-'+id)?.focus({preventScroll:true});else if(problem){lastSaveError=tr(problem);showError(problem);}});
 function refreshData(){
-  try{state=repo.refresh();lang=state.language;blocked=false;lastSaveError='';$('storage-error').hidden=true;$('conflict-actions').hidden=true;$('reload-in-editor').hidden=true;$('form-error').hidden=true;render();
+  try{state=repo.refresh();lang=state.language;blocked=false;lastSaveError='';clearStorageError();$('conflict-actions').hidden=true;$('reload-in-editor').hidden=true;$('form-error').hidden=true;render();
     if(editing&&!state.homeTasks.some(t=>t.id===editing)){$('form-error').textContent=tr('removedElsewhere');$('form-error').hidden=false;}
   }catch{showError('loadError');}
 }

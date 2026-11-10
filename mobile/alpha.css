@@ -44,3 +44,7 @@ html[data-motion=off] *,html[data-motion=off] *:before,html[data-motion=off] *:a
    Navigation already tracks actual pointer/keyboard input across the document. */
 #content:focus{outline:none;}
 .shell:has(#navigation[data-focus-origin=keyboard]) #content:focus-visible>.intro h1{outline:2px solid #ffffff90;outline-offset:6px;border-radius:4px;}
+.recovered-workout textarea{width:100%;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;font-weight:400;}
+.recovered-workout summary{min-height:44px;padding:12px 0;cursor:pointer;font-size:14px;}
+.recovered-workout p{font-size:14px;line-height:1.55;}
+.recovered-workout .recovered-values{color:var(--ink);font-weight:400;}
