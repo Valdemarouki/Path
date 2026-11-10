@@ -1,0 +1,388 @@
+TAP version 13
+# Subtest: canonical project task: edit, Today, deadline, main, complete, progress, reload, delete and Undo
+ok 1 - canonical project task: edit, Today, deadline, main, complete, progress, reload, delete and Undo
+  ---
+  duration_ms: 14.366808
+  type: 'test'
+  ...
+# Subtest: complex project task stays intact and readonly; unknown fields survive supported edits
+ok 2 - complex project task stays intact and readonly; unknown fields survive supported edits
+  ---
+  duration_ms: 1.32352
+  type: 'test'
+  ...
+# Subtest: dated habit schedule, repeated toggle, streak, archive retains history and schedule versions
+ok 3 - dated habit schedule, repeated toggle, streak, archive retains history and schedule versions
+  ---
+  duration_ms: 1.393926
+  type: 'test'
+  ...
+# Subtest: Markdown notes retain source and opaque fields; trash/restore/search survives reload
+ok 4 - Markdown notes retain source and opaque fields; trash/restore/search survives reload
+  ---
+  duration_ms: 1.053536
+  type: 'test'
+  ...
+# Subtest: template → snapshot plan → persisted session → reps/load/rest → immutable history and Calendar completion
+ok 5 - template → snapshot plan → persisted session → reps/load/rest → immutable history and Calendar completion
+  ---
+  duration_ms: 3.487037
+  type: 'test'
+  ...
+# Subtest: workout invalid inputs/empty finish/quota leave active session and disk untouched
+ok 6 - workout invalid inputs/empty finish/quota leave active session and disk untouched
+  ---
+  duration_ms: 1.204382
+  type: 'test'
+  ...
+# Subtest: progress uses completion moments, eligible dated habits and deduplicated workout IDs; week begins Monday
+ok 7 - progress uses completion moments, eligible dated habits and deduplicated workout IDs; week begins Monday
+  ---
+  duration_ms: 0.350354
+  type: 'test'
+  ...
+# Subtest: migration is repeatable and unknown extension collections are retained without coercion
+ok 8 - migration is repeatable and unknown extension collections are retained without coercion
+  ---
+  duration_ms: 0.893497
+  type: 'test'
+  ...
+# Subtest: saved workout inputs preserve logged flags, rest timestamps and extension fields without logging twice
+ok 9 - saved workout inputs preserve logged flags, rest timestamps and extension fields without logging twice
+  ---
+  duration_ms: 0.777884
+  type: 'test'
+  ...
+# Subtest: unsupported/colliding identities are not exposed as duplicate Today task controls
+ok 10 - unsupported/colliding identities are not exposed as duplicate Today task controls
+  ---
+  duration_ms: 0.542732
+  type: 'test'
+  ...
+# Subtest: corrupt owned active session and future project Undo schemas fail closed without touching disk
+ok 11 - corrupt owned active session and future project Undo schemas fail closed without touching disk
+  ---
+  duration_ms: 0.76157
+  type: 'test'
+  ...
+# Subtest: Canvas source projections reflect canonical edits without changing nodes, edges or viewport
+ok 12 - Canvas source projections reflect canonical edits without changing nodes, edges or viewport
+  ---
+  duration_ms: 0.433779
+  type: 'test'
+  ...
+# Subtest: new notes and workout control fields use the audited desktop timestamp types and one-based set indices
+ok 13 - new notes and workout control fields use the audited desktop timestamp types and one-based set indices
+  ---
+  duration_ms: 0.449723
+  type: 'test'
+  ...
+# Subtest: undoing a set clears its actual value and only cancels its own rest timer
+ok 14 - undoing a set clears its actual value and only cancels its own rest timer
+  ---
+  duration_ms: 0.296364
+  type: 'test'
+  ...
+# Subtest: old archived main-task references remain valid on migration without exposing hidden tasks
+ok 15 - old archived main-task references remain valid on migration without exposing hidden tasks
+  ---
+  duration_ms: 0.565466
+  type: 'test'
+  ...
+# Subtest: metadata-only project task edits preserve fractional progress; unknown field shapes cannot be flattened
+ok 16 - metadata-only project task edits preserve fractional progress; unknown field shapes cannot be flattened
+  ---
+  duration_ms: 0.509643
+  type: 'test'
+  ...
+# Subtest: create/edit/reload keep ID and all unknown event/root fields
+ok 17 - create/edit/reload keep ID and all unknown event/root fields
+  ---
+  duration_ms: 20.673516
+  type: 'test'
+  ...
+# Subtest: DST gap is rejected and both fold instants are explicit (Warsaw, New York, half-hour zone)
+ok 18 - DST gap is rejected and both fold instants are explicit (Warsaw, New York, half-hour zone)
+  ---
+  duration_ms: 5.200442
+  type: 'test'
+  ...
+# Subtest: cross-midnight, deadline zero duration and Upcoming exclusion
+ok 19 - cross-midnight, deadline zero duration and Upcoming exclusion
+  ---
+  duration_ms: 10.508314
+  type: 'test'
+  ...
+# Subtest: Free Time neutral priority/incomplete; protected overlap requires explicit acknowledgement
+ok 20 - Free Time neutral priority/incomplete; protected overlap requires explicit acknowledgement
+  ---
+  duration_ms: 1.711151
+  type: 'test'
+  ...
+# Subtest: series, links and unknown enums are read-only and preserve raw bytes
+ok 21 - series, links and unknown enums are read-only and preserve raw bytes
+  ---
+  duration_ms: 5.193261
+  type: 'test'
+  ...
+# Subtest: failed persistence leaves original v1 bytes and event draft untouched
+ok 22 - failed persistence leaves original v1 bytes and event draft untouched
+  ---
+  duration_ms: 1.111874
+  type: 'test'
+  ...
+# Subtest: legacy non-quarter instants are not rounded on title-only edit
+ok 23 - legacy non-quarter instants are not rounded on title-only edit
+  ---
+  duration_ms: 0.683713
+  type: 'test'
+  ...
+# Subtest: v2 to v5 is lazy and nondestructive, failed write does not migrate disk
+ok 24 - v2 to v5 is lazy and nondestructive, failed write does not migrate disk
+  ---
+  duration_ms: 1.084693
+  type: 'test'
+  ...
+# Subtest: delete, reload and Undo restore exact ID, all extensions and relative insertion point
+ok 25 - delete, reload and Undo restore exact ID, all extensions and relative insertion point
+  ---
+  duration_ms: 13.436446
+  type: 'test'
+  ...
+# Subtest: failed delete and failed restore do not partially modify memory, data or undo snapshot
+ok 26 - failed delete and failed restore do not partially modify memory, data or undo snapshot
+  ---
+  duration_ms: 2.503766
+  type: 'test'
+  ...
+# Subtest: series and linked objects cannot be deleted under the guise of one event
+ok 27 - series and linked objects cannot be deleted under the guise of one event
+  ---
+  duration_ms: 1.071623
+  type: 'test'
+  ...
+# Subtest: restore refuses ID collision, retains undo, and never overwrites newer records
+ok 28 - restore refuses ID collision, retains undo, and never overwrites newer records
+  ---
+  duration_ms: 0.905475
+  type: 'test'
+  ...
+# Subtest: last deletion replaces only the one-level buffer, not other entities
+ok 29 - last deletion replaces only the one-level buffer, not other entities
+  ---
+  duration_ms: 0.421831
+  type: 'test'
+  ...
+# Subtest: migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields
+ok 30 - migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields
+  ---
+  duration_ms: 1.452984
+  type: 'test'
+  ...
+# Subtest: future/invalid undo schemas fail closed without overwriting original stored bytes
+ok 31 - future/invalid undo schemas fail closed without overwriting original stored bytes
+  ---
+  duration_ms: 0.34739
+  type: 'test'
+  ...
+# Subtest: chronological order is deterministic for equal instants and bare date-only deadlines
+ok 32 - chronological order is deterministic for equal instants and bare date-only deadlines
+  ---
+  duration_ms: 0.8955
+  type: 'test'
+  ...
+# Subtest: explicit end supports midnight and DST elapsed duration without guessing the next day
+ok 33 - explicit end supports midnight and DST elapsed duration without guessing the next day
+  ---
+  duration_ms: 5.029356
+  type: 'test'
+  ...
+# Subtest: invalid dates/time strings and non-quarter retiming cannot save
+ok 34 - invalid dates/time strings and non-quarter retiming cannot save
+  ---
+  duration_ms: 0.742461
+  type: 'test'
+  ...
+# Subtest: changing to a date-only deadline clears the interval rather than leaving stale instants
+ok 35 - changing to a date-only deadline clears the interval rather than leaving stale instants
+  ---
+  duration_ms: 0.660218
+  type: 'test'
+  ...
+# Subtest: metadata-only edits keep pre-existing overlaps without requiring a new reservation override
+ok 36 - metadata-only edits keep pre-existing overlaps without requiring a new reservation override
+  ---
+  duration_ms: 1.07601
+  type: 'test'
+  ...
+# Subtest: incoming active/history workout links also protect otherwise standalone-looking events
+ok 37 - incoming active/history workout links also protect otherwise standalone-looking events
+  ---
+  duration_ms: 3.811213
+  type: 'test'
+  ...
+# Subtest: full active list blocks restoration without discarding the retained record
+ok 38 - full active list blocks restoration without discarding the retained record
+  ---
+  duration_ms: 16.986819
+  type: 'test'
+  ...
+# Subtest: all desktop entities, identities, links, date types, rich content and envelope fields round-trip exactly
+ok 39 - all desktop entities, identities, links, date types, rich content and envelope fields round-trip exactly
+  ---
+  duration_ms: 3.25453
+  type: 'test'
+  ...
+# Subtest: staging/re-export is repeatable and never appends or duplicates records
+ok 40 - staging/re-export is repeatable and never appends or duplicates records
+  ---
+  duration_ms: 2.342946
+  type: 'test'
+  ...
+# Subtest: input/result are independent snapshots; scoped IDs are not globally remapped
+ok 41 - input/result are independent snapshots; scoped IDs are not globally remapped
+  ---
+  duration_ms: 0.565426
+  type: 'test'
+  ...
+# Subtest: unknown envelope/schema and ambiguous scoped IDs are rejected without mutating source
+ok 42 - unknown envelope/schema and ambiguous scoped IDs are rejected without mutating source
+  ---
+  duration_ms: 0.837123
+  type: 'test'
+  ...
+# Subtest: mobile backup has a separate explicit envelope; it cannot be misread as desktop checkpoint
+ok 43 - mobile backup has a separate explicit envelope; it cannot be misread as desktop checkpoint
+  ---
+  duration_ms: 14.392137
+  type: 'test'
+  ...
+# Subtest: asset codecs and pools remain byte-for-byte JSON-equivalent staging data, without resolving external resources
+ok 44 - asset codecs and pools remain byte-for-byte JSON-equivalent staging data, without resolving external resources
+  ---
+  duration_ms: 0.600739
+  type: 'test'
+  ...
+# Subtest: unsafe keys, cycles, non-JSON objects and oversized depth are rejected
+ok 45 - unsafe keys, cycles, non-JSON objects and oversized depth are rejected
+  ---
+  duration_ms: 0.716442
+  type: 'test'
+  ...
+# Subtest: separate namespace, stable IDs, create/complete/uncomplete and reload
+ok 46 - separate namespace, stable IDs, create/complete/uncomplete and reload
+  ---
+  duration_ms: 36.890912
+  type: 'test'
+  ...
+# Subtest: habit history persists per date without changing yesterday
+ok 47 - habit history persists per date without changing yesterday
+  ---
+  duration_ms: 1.071873
+  type: 'test'
+  ...
+# Subtest: weekday eligibility and effective schedule date
+ok 48 - weekday eligibility and effective schedule date
+  ---
+  duration_ms: 1.120667
+  type: 'test'
+  ...
+# Subtest: write failures preserve memory, disk and revision
+ok 49 - write failures preserve memory, disk and revision
+  ---
+  duration_ms: 1.424091
+  type: 'test'
+  ...
+# Subtest: corrupt and newer schemas are not overwritten
+ok 50 - corrupt and newer schemas are not overwritten
+  ---
+  duration_ms: 0.292137
+  type: 'test'
+  ...
+# Subtest: stale tab commit rejected without overwriting newer data
+ok 51 - stale tab commit rejected without overwriting newer data
+  ---
+  duration_ms: 0.790583
+  type: 'test'
+  ...
+# Subtest: invalid task titles and dates leave state unchanged
+ok 52 - invalid task titles and dates leave state unchanged
+  ---
+  duration_ms: 0.48094
+  type: 'test'
+  ...
+# Subtest: validation rejects duplicate IDs and unsupported habit kinds
+ok 53 - validation rejects duplicate IDs and unsupported habit kinds
+  ---
+  duration_ms: 0.307079
+  type: 'test'
+  ...
+# Subtest: locale selection persists independently of title text
+ok 54 - locale selection persists independently of title text
+  ---
+  duration_ms: 0.56769
+  type: 'test'
+  ...
+# Subtest: next event excludes ended/completed events and includes ongoing
+ok 55 - next event excludes ended/completed events and includes ongoing
+  ---
+  duration_ms: 0.290214
+  type: 'test'
+  ...
+# Subtest: cross-midnight events overlap both days and sort by instant
+ok 56 - cross-midnight events overlap both days and sort by instant
+  ---
+  duration_ms: 0.216774
+  type: 'test'
+  ...
+# Subtest: local date shifting across leap days and DST retains calendar semantics
+ok 57 - local date shifting across leap days and DST retains calendar semantics
+  ---
+  duration_ms: 0.176494
+  type: 'test'
+  ...
+# Subtest: v1 migration preserves every entity and leaves bytes untouched until successful write
+ok 58 - v1 migration preserves every entity and leaves bytes untouched until successful write
+  ---
+  duration_ms: 33.291236
+  type: 'test'
+  ...
+# Subtest: full task lifecycle retains ID and main references are never copied or broken
+ok 59 - full task lifecycle retains ID and main references are never copied or broken
+  ---
+  duration_ms: 2.707171
+  type: 'test'
+  ...
+# Subtest: switching main preserves previous task; Undo respects a subsequent main choice
+ok 60 - switching main preserves previous task; Undo respects a subsequent main choice
+  ---
+  duration_ms: 0.496773
+  type: 'test'
+  ...
+# Subtest: overdue excludes completed and future tasks, never changes dates
+ok 61 - overdue excludes completed and future tasks, never changes dates
+  ---
+  duration_ms: 0.345247
+  type: 'test'
+  ...
+# Subtest: invalid edits, durations, references and failed migration writes cannot mutate disk
+ok 62 - invalid edits, durations, references and failed migration writes cannot mutate disk
+  ---
+  duration_ms: 1.916087
+  type: 'test'
+  ...
+# Subtest: explicit refresh preserves another writer and lets a retained draft retry deliberately
+ok 63 - explicit refresh preserves another writer and lets a retained draft retry deliberately
+  ---
+  duration_ms: 0.924463
+  type: 'test'
+  ...
+1..63
+# tests 63
+# suites 0
+# pass 63
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 216.335028

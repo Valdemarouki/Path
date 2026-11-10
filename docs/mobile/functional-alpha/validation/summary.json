@@ -1,0 +1,121 @@
+{
+  "suites": 14,
+  "passed": 14,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "cases": 63,
+      "log": "models.txt",
+      "verification": "Final focused rerun after preservation guards"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 27934,
+      "cases": 55,
+      "log": "browser.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "cases": 24,
+      "log": "tasks.txt",
+      "verification": "Final focused rerun after preservation guards"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "cases": 34,
+      "log": "functional-alpha.txt",
+      "verification": "Final focused rerun including stale editor deletion guard"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 15461,
+      "cases": 72,
+      "log": "calendar-editor.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 7361,
+      "cases": 6,
+      "log": "calendar-compatibility.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6330,
+      "cases": 9,
+      "log": "importance.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 7222,
+      "cases": 9,
+      "log": "calendar-cards.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34273,
+      "cases": 14,
+      "log": "calendar-polish.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 50574,
+      "cases": 30,
+      "log": "navigation-panel.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 30694,
+      "cases": 13,
+      "log": "refinement.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31685,
+      "cases": 26,
+      "log": "surfaces.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 56522,
+      "cases": 21,
+      "log": "transformation.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 5494,
+      "cases": 26,
+      "log": "typography.txt"
+    }
+  ],
+  "note": "Latest results per suite: full combined run 14/14, then focused models/tasks/functional-alpha after archived-reference/progress guards and a final 34-case functional rerun after the stale-editor deletion guard. Other tested UI modules unchanged. Synthetic data only; panel suite counted once.",
+  "sourceCodeCommit": "160e1cbfc6919f5c21f11e1caf0f4b84cb2d1a18",
+  "uniqueCases": 402
+}

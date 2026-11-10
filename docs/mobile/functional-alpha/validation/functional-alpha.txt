@@ -1,0 +1,35 @@
+CHECK 1 Create project + canonical nested task; no homeTask copy
+CHECK 2 Main reference and completion update the same project task
+CHECK 3 Calendar derived deadline opens the shared project task editor
+CHECK 4 Project progress and durable task deletion Undo
+CHECK 5 Cross-section task changes restore after reload
+CHECK 6 Deleted source cannot be resurrected by a retained stale editor after explicit refresh
+CHECK 7 Quick Add type switch protects a dirty task draft
+CHECK 8 Quick Add note and Unicode title/body search
+CHECK 9 Note edit/reload/trash/immediate Undo with stable ID
+CHECK 10 Rich desktop document is protected from plain-text rewriting
+CHECK 11 Failed note write retains draft and exact stored data, retry saves
+CHECK 12 Stale writer blocked; explicit refresh shows latest record while retaining draft
+CHECK 13 Weekday habit create/check/uncheck/history/archive preserves dated history
+CHECK 14 Template → scheduled snapshot → Calendar event → working Sport action
+CHECK 15 Invalid workout input and failed set write preserve results and exact active-session data
+CHECK 16 Active workout restores reps/load and original plan snapshot after reload
+CHECK 17 Rest timer uses timestamps and catches up after a clock/background gap
+CHECK 18 Finish creates one immutable result and completes linked Calendar plan
+CHECK 19 Read-only Canvas pan/zoom leaves graph bytes unchanged; linked note uses shared editor
+CHECK 20 Progress derives real completed tasks/workouts and project percentage
+CHECK 21 Saved reduced-motion preference suppresses WAAPI icon flights
+CHECK 22 All sections and note/workout/habit/project forms: 320px / en
+CHECK 23 All sections and note/workout/habit/project forms: 320px / ru
+CHECK 24 All sections and note/workout/habit/project forms: 320px / es
+CHECK 25 All sections and note/workout/habit/project forms: 390px / en
+CHECK 26 All sections and note/workout/habit/project forms: 390px / ru
+CHECK 27 All sections and note/workout/habit/project forms: 390px / es
+CHECK 28 All sections and note/workout/habit/project forms: 430px / en
+CHECK 29 All sections and note/workout/habit/project forms: 430px / ru
+CHECK 30 All sections and note/workout/habit/project forms: 430px / es
+CHECK 31 Landscape editor scrolls Save into the available viewport
+CHECK 32 Route focus is visible at the heading for keyboard, without a whole-page ring after pointer input
+CHECK 33 No external app requests, no uncaught page errors or fake sync actions
+CHECK 34 Opaque enums and quoted stable IDs remain text and preserve label/control associations
+PASS 34 functional Alpha workflows/matrix checks

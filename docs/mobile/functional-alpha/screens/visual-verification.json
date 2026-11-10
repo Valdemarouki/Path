@@ -1,0 +1,24 @@
+{
+  "viewport": "390 × 844, additional RU 320 × 844",
+  "engine": "Chromium, Linux",
+  "data": "Synthetic fixed 2026-11-10; created via pure domain operations",
+  "video": "Actual browser interaction: completion, glass scroll/compact, drag transform, routes, Quick Add note, set logging",
+  "errors": [],
+  "externalRequests": [],
+  "recordingMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "nb_frames": "295"
+      }
+    ],
+    "format": {
+      "duration": "12.291667",
+      "size": "502818"
+    }
+  }
+}

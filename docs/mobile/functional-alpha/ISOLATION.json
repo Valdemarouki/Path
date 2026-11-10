@@ -1,0 +1,20 @@
+{
+  "repository": "Valdemarouki/Path",
+  "workingCopy": "/workspace/Path",
+  "branch": "feature/path-mobile-alpha",
+  "baseline": "3d80a0776b4519e0ebabdbd0088e15e0c26c1d64",
+  "sourceHead": "160e1cbfc6919f5c21f11e1caf0f4b84cb2d1a18",
+  "allTrackedChangesWithinMobileAndDocs": true,
+  "unchangedMaterialFiles": [
+    "mobile/navigation.css",
+    "mobile/styles.css",
+    "mobile/typography.css",
+    "mobile/calendar-cards.css"
+  ],
+  "desktopRootAgentsUnchanged": true,
+  "sharedDirectoryCreated": false,
+  "data": "Synthetic only",
+  "githubWrites": false,
+  "applicationDeployment": false,
+  "environmentPublication": false
+}

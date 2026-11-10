@@ -1,0 +1,1 @@
+PASS 30 panel cases; RAF timing {"maxScrollY":225,"frames":90,"p95Ms":19,"over50Ms":0}
