@@ -41,7 +41,7 @@ export function saveEvent(state,id,fields,{allowOverlap=false}={}){
  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)||!['earlier','later'].includes(fields.fold))throw Error('eventInvalid');
  const [h,m]=time.split(':').map(Number),hour=h+m/60,duration=fields.type==='deadline'?0:Number(fields.duration);
  if(!Number.isInteger(duration)||duration<0||duration>10080||(fields.type!=='deadline'&&duration<1))throw Error('eventInvalid');
- const timingChanged=!existing||existing.date!==fields.date||existing.hour!==hour||existing.duration!==duration||existing.type!==fields.type||(existing.fold||'earlier')!==fields.fold;
+ const timingChanged=!existing||existing.date!==fields.date||existing.hour!==hour||existing.duration!==duration||(existing.type==='deadline')!==(fields.type==='deadline')||(existing.fold||'earlier')!==fields.fold;
  // Keep legacy mobile minute values unchanged, but new/retimed intervals follow desktop's 15-minute editor grid.
  if(timingChanged&&fields.type!=='deadline'&&(m%15||duration%15))throw Error('eventQuarter');
  const choices=fields.type==='deadline'?[]:wallCandidates(fields.date,hour,tzid);if(fields.type!=='deadline'&&!choices.length)throw Error('eventGap');

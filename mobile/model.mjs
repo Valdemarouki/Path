@@ -33,7 +33,8 @@ export function validate(state) {
       if (typeof title!=='string' || !title.trim() || title.length>500) fail();
     }
   }
-  for (const task of state.homeTasks) if (!validDay(task.date) || typeof task.done!=='boolean' || (task.duration!==undefined && (!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)) || (task.note!==undefined && (typeof task.note!=='string'||task.note.length>10000))) fail();
+  for (const task of state.homeTasks) validateHomeTaskRecord(task);
+  if(state.mobileTaskUndo!==undefined){const u=state.mobileTaskUndo;if(!record(u)||u.version!==1||!Number.isInteger(u.index)||u.index<0||u.index>5000||typeof u.main!=='boolean')fail();validateHomeTaskRecord(u.task);}
   if(state.schemaVersion>=2){
     if(!record(state.mainTasks))fail();
     for(const [date,id] of Object.entries(state.mainTasks))if(!validDay(date)||!tasksForDate(state,date,{includeArchived:true}).some(t=>t.id===id))fail();
@@ -51,6 +52,9 @@ export function validate(state) {
   }
   validateAlphaExtensions(state);
   return state;
+}
+function validateHomeTaskRecord(task){
+ if(!record(task)||typeof task.id!=='string'||!task.id||typeof task.title!=='string'||!task.title.trim()||task.title.length>500||!validDay(task.date)||typeof task.done!=='boolean'||task.duration!==undefined&&(!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)||task.note!==undefined&&(typeof task.note!=='string'||task.note.length>10000))throw Error('invalid');
 }
 // Undo snapshots obey the same event contract, without rewriting extension fields.
 export function validateEventRecord(event){
@@ -70,7 +74,7 @@ export const habitDone = (habit,date) => (habit.values[date] ?? Number(habit.che
 export function addTask(state,title,date,id) {
   title = title.trim();
   if (!title || title.length>500 || !validDay(date)) throw Error('task');
-  if (!id || state.homeTasks.some(t=>t.id===id)) throw Error('id');
+  if (!id || taskEntriesForId(state,id)) throw Error('id');
   state.homeTasks.push({id,title,date,done:false});
 }
 export function toggleTask(state,id,now=new Date()) {
@@ -127,6 +131,7 @@ export function migrate(input){
 }
 export function editTask(state,id,fields){
   const task=state.homeTasks.find(t=>t.id===id);if(!task)throw Error('task');
+  if(!projectTaskEditable(state,{task,project:null}))throw Error('alphaReadOnly');
   const title=fields.title.trim(),date=fields.date;
   if(!title||title.length>500||!validDay(date))throw Error('task');
   if(task.date!==date)for(const [day,main]of Object.entries(state.mainTasks))if(main===id)delete state.mainTasks[day];
@@ -140,13 +145,18 @@ export function setMainTask(state,id){
 }
 export function deleteTask(state,id){
   const index=state.homeTasks.findIndex(t=>t.id===id);if(index<0)throw Error('task');
+  if(!projectTaskEditable(state,{task:state.homeTasks[index],project:null}))throw Error('alphaReadOnly');
   const task=structuredClone(state.homeTasks[index]),main=state.mainTasks[task.date]===id;
   state.homeTasks.splice(index,1);if(main)delete state.mainTasks[task.date];return {task,index,main};
 }
 export function restoreTask(state,removed){
-  if(state.homeTasks.some(t=>t.id===removed.task.id))throw Error('id');
+  if(taskEntriesForId(state,removed.task.id))throw Error('taskUndoConflict');
+  if(state.homeTasks.length>=5000)throw Error('taskUndoFull');
   state.homeTasks.splice(removed.index,0,structuredClone(removed.task));
   if(removed.main&&!state.mainTasks[removed.task.date])state.mainTasks[removed.task.date]=removed.task.id;
 }
+function taskEntriesForId(state,id){return state.homeTasks.some(t=>t.id===id)||(Array.isArray(state.projects)?state.projects:[]).some(p=>Array.isArray(p?.tasks)&&p.tasks.some(t=>t?.id===id))||['events','habits','projects','notes','workouts','workoutRecords','canvases'].some(k=>Array.isArray(state[k])&&state[k].some(v=>v?.id===id));}
+export function deleteTaskWithUndo(state,id){state.mobileTaskUndo={version:1,...deleteTask(state,id)};}
+export function restoreDeletedTask(state){const undo=state.mobileTaskUndo;if(!undo)throw Error('taskUndoMissing');restoreTask(state,undo);delete state.mobileTaskUndo;}
 export const mainTaskOnDay=(state,date)=>tasksForDate(state,date).find(t=>t.id===state.mainTasks?.[date]);
 export const overdueTasks=(state,date)=>[...state.homeTasks,...(Array.isArray(state.projects)?state.projects:[]).filter(p=>!p.archived).flatMap(p=>Array.isArray(p.tasks)?p.tasks.map(t=>taskProjection(state,{task:t,project:p},t.deadline)):[])].filter(t=>t&&!t.archived&&validDay(t.date)&&!t.done&&t.date<date).sort((a,b)=>a.date.localeCompare(b.date));

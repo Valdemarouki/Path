@@ -170,7 +170,8 @@ export function periodRange(period,today=dayKey()){
 }
 export function progressData(state,period,today=dayKey()){
  const [from,to]=periodRange(period,today),inside=iso=>instant(iso)&&dayKey(new Date(iso))>=from&&dayKey(new Date(iso))<=to;
- const tasks=taskEntries(state).filter(({task,project})=>(project?task.status==='done':task.done)&&inside(task.completedAt)).length;
+ const entries=taskEntries(state),counts=new Map();for(const {task}of entries)counts.set(task.id,(counts.get(task.id)||0)+1);
+ const tasks=entries.filter(({task,project})=>(!project||counts.get(task.id)===1)&&(project?task.status==='done':task.done)&&inside(task.completedAt)).length;
  let eligible=0,checked=0;for(let date=from;date<=to;date=shiftDay(date,1))for(const h of state.habits)if(habitEligible(h,date)){eligible++;if(habitChecked(h,date))checked++;}
  const records=new Map(list(state,'workoutRecords').filter(r=>r&&typeof r.id==='string').map(r=>[r.id,r]));
  return {from,to,tasks,habitEligible:eligible,habitChecked:checked,workouts:[...records.values()].filter(r=>inside(r.endedAt)).length,projects:list(state,'projects').filter(p=>!p.archived&&Array.isArray(p.tasks)).map(p=>({id:p.id,name:p.name,percent:projectPercent(p)}))};

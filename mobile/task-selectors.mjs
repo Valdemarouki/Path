@@ -4,8 +4,8 @@ export function taskEntries(state){return [...state.homeTasks.map(task=>({task,p
 export function taskEntry(state,id,projectId){const entries=taskEntries(state).filter(r=>r.task.id===id&&(projectId===undefined||r.project?.id===projectId));return projectId===undefined?entries.find(r=>!r.project)||(entries.length===1?entries[0]:null):entries.length===1?entries[0]:null;}
 export function projectTaskEditable(state,entry){
  if(!entry)return false;const {task,project}=entry;
- if(task.archived||project?.archived||state.events.some(e=>e.taskId===task.id))return false;
- if(!project)return true;
+ if(task.archived||task.readOnly||project?.archived||state.events.some(e=>e.taskId===task.id))return false;
+ if(!project)return !list(state,'projects').some(p=>Array.isArray(p.tasks)&&p.tasks.some(t=>t?.id===task.id));
  return ['active','paused','completed'].includes(project.status)&&['planned','progress','done'].includes(task.status)&&(task.description===undefined||typeof task.description==='string')&&(!task.deadline||validDay(task.deadline))&&['none','low','medium','high'].includes(task.importance??'none')&&(task.progress===undefined||Number.isFinite(task.progress)&&task.progress>=0&&task.progress<=100)&&!(task.dependencies?.length||task.subtasks?.length||task.sourceNoteId||task.seriesId||task.start||task.end)&&taskEntries(state).filter(r=>r.task.id===task.id).length===1;
 }
 export function taskProjection(state,entry,date){const {task,project}=entry;if(project&&(!['planned','progress','done'].includes(task.status)||taskEntries(state).filter(r=>r.task.id===task.id).length!==1))return null;return {...task,date:date??task.date,done:project?task.status==='done':task.done,projectName:project?.name,projectId:project?.id,readOnly:!projectTaskEditable(state,entry)};}
