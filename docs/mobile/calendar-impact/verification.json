@@ -1,0 +1,171 @@
+{
+  "cases": 13,
+  "parameters": {
+    "radius": 560,
+    "force": 1.25,
+    "base": 14,
+    "max": 14,
+    "horizontalBias": 1.43,
+    "stagger": 410,
+    "return": 820,
+    "attack": 0.14,
+    "returnEnd": 0.62,
+    "overshoot": 0.12,
+    "central": 520,
+    "sourcePeak": 1.018,
+    "highlight": 1010,
+    "wave": 660,
+    "margin": 4
+  },
+  "results": [
+    {
+      "name": "middle event: sequential up/down impulse, attenuation, reverse overshoot, exact settle; stable layout/data/viewport",
+      "width": 390,
+      "stats": [
+        {
+          "id": "impact-0",
+          "up": -10.002944946289062,
+          "down": 1.1989212036132812,
+          "onsetMs": 208
+        },
+        {
+          "id": "impact-1",
+          "up": -13.722625732421875,
+          "down": 1.6448974609375,
+          "onsetMs": 110
+        },
+        {
+          "id": "impact-2",
+          "up": -1.01226806640625,
+          "down": 0.469207763671875,
+          "onsetMs": 46
+        },
+        {
+          "id": "impact-3",
+          "up": -1.6448974609375,
+          "down": 13.722625732421875,
+          "onsetMs": 110
+        },
+        {
+          "id": "impact-4",
+          "up": -1.19891357421875,
+          "down": 10.0029296875,
+          "onsetMs": 208
+        }
+      ]
+    },
+    {
+      "name": "middle event: sequential up/down impulse, attenuation, reverse overshoot, exact settle; stable layout/data/viewport",
+      "width": 320,
+      "stats": [
+        {
+          "id": "impact-0",
+          "up": -10.303068161010742,
+          "down": 1.2372722625732422,
+          "onsetMs": 224
+        },
+        {
+          "id": "impact-1",
+          "up": -13.904541015625,
+          "down": 1.669158935546875,
+          "onsetMs": 128
+        },
+        {
+          "id": "impact-2",
+          "up": -0.965057373046875,
+          "down": 0.44757080078125,
+          "onsetMs": 48
+        },
+        {
+          "id": "impact-3",
+          "up": -1.669158935546875,
+          "down": 13.904541015625,
+          "onsetMs": 128
+        },
+        {
+          "id": "impact-4",
+          "up": -1.2373046875,
+          "down": 10.3031005859375,
+          "onsetMs": 224
+        }
+      ]
+    },
+    {
+      "name": "middle event: sequential up/down impulse, attenuation, reverse overshoot, exact settle; stable layout/data/viewport",
+      "width": 430,
+      "stats": [
+        {
+          "id": "impact-0",
+          "up": -10.00208854675293,
+          "down": 1.1988716125488281,
+          "onsetMs": 208
+        },
+        {
+          "id": "impact-1",
+          "up": -13.72222900390625,
+          "down": 1.644805908203125,
+          "onsetMs": 111
+        },
+        {
+          "id": "impact-2",
+          "up": -1.0120849609375,
+          "down": 0.469696044921875,
+          "onsetMs": 47
+        },
+        {
+          "id": "impact-3",
+          "up": -1.644805908203125,
+          "down": 13.72222900390625,
+          "onsetMs": 111
+        },
+        {
+          "id": "impact-4",
+          "up": -1.1988525390625,
+          "down": 10.0020751953125,
+          "onsetMs": 208
+        }
+      ]
+    },
+    {
+      "name": "additive composition preserves author transform/translate, another translate effect, and an unrelated running animation"
+    },
+    {
+      "name": "two-column geometry: radial direction in both axes, safe bounds, exact return"
+    },
+    {
+      "name": "reduced motion: meaningful fill/state, no displacement",
+      "prefs": {
+        "reduced": "reduce",
+        "lang": "ru",
+        "width": 320
+      }
+    },
+    {
+      "name": "reduced motion: meaningful fill/state, no displacement",
+      "prefs": {
+        "motion": "off",
+        "width": 390
+      }
+    },
+    {
+      "name": "save failure: no impact/data change; successful retry produces one source impulse"
+    },
+    {
+      "name": "undo/re-complete and rapid neighboring completions: bounded single pulse, no accumulated transforms"
+    },
+    {
+      "name": "interface remains active: another event opens during impact and cancels its visual layer"
+    },
+    {
+      "name": "changing date removes all motion and restores author layout/styles"
+    },
+    {
+      "name": "changing route removes all motion and restores author layout/styles"
+    },
+    {
+      "name": "source at viewport edge: bounded expansion, no horizontal overflow, exact settle"
+    }
+  ],
+  "videoFrames": 117,
+  "note": "Normal-speed browser compositor recording and rAF measurements. Synthetic data only, localhost only. Two columns are test-only geometry stress. Physical iOS/Android not tested."
+}
