@@ -13,7 +13,7 @@ export function createCalendarCompletion({getState,commit,tr,label,getContext,is
  let hold=null,busy=false,pending=null,version=0,suppress=null,notice=null,previousContext=key();
  const effects=new Set(),animations=new Set(),charges=new Set();
  function key(){const c=getContext();return c.route+'|'+c.date;}
- function card(id){return [...content.querySelectorAll('[data-calendar-event]')].find(e=>e.dataset.calendarEvent===id);}
+ function card(id){return [...content.querySelectorAll('[data-calendar-event]')].find(e=>e.dataset.calendarEvent===id&&!e.hasAttribute('data-projected-task'));}
  const event=id=>getState()?.events.find(e=>e.id===id);
  const available=()=>getContext().route==='calendar'&&!document.hidden&&!nav.hidden&&nav.dataset.state!=='expanded'&&!document.querySelector('dialog[open]');
  function animate(el,frames,options,clean){const a=el.animate(frames,options);animations.add(a);a.finished.then(()=>{animations.delete(a);clean?.();},()=>{animations.delete(a);clean?.();});return a;}
@@ -78,7 +78,7 @@ export function createCalendarCompletion({getState,commit,tr,label,getContext,is
  function begin(e){
   if(hold&&e.pointerId!==hold.pointer){cancelAll();return;}
   if(e.isPrimary===false||e.button!==0||busy||isBlocked()||!available())return;suppress=null;
-  const el=e.target.closest?.('.event-card'),id=el?.dataset.calendarEvent,record=id&&event(id);if(!el||record?.done||!canSetEventCompletion(record,getState()))return;
+  const el=e.target.closest?.('.event-card'),id=el?.dataset.calendarEvent,record=id&&event(id);if(!el||el.hasAttribute('data-projected-task')||record?.done||!canSetEventCompletion(record,getState()))return;
   stopEffects();const r=el.getBoundingClientRect(),radius=parseFloat(getComputedStyle(el).borderRadius)||24,ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.classList.add('calendar-hold-outline');svg.setAttribute('viewBox',`0 0 ${r.width} ${r.height}`);svg.setAttribute('aria-hidden','true');
   const rectangle=(kind)=>{const rect=document.createElementNS(ns,'rect');for(const [k,v]of Object.entries({x:1,y:1,width:r.width-2,height:r.height-2,rx:radius-1,pathLength:100}))rect.setAttribute(k,String(v));if(kind)rect.classList.add(kind);svg.append(rect);return rect;};rectangle('hold-press');const stroke=rectangle();el.append(svg);charges.add(svg);el.setAttribute('data-calendar-holding','');
   const animation=stroke.animate([{strokeDashoffset:'100'},{strokeDashoffset:'0'}],{duration:C.hold,easing:'linear',fill:'forwards'});
@@ -92,8 +92,8 @@ export function createCalendarCompletion({getState,commit,tr,label,getContext,is
  document.addEventListener('lostpointercapture',()=>{if(hold)cancelHold();},true);
  document.addEventListener('contextmenu',e=>{if(e.target.closest?.('.event-card')&&(hold||busy||suppress)){e.preventDefault();}},true);
  document.addEventListener('selectstart',e=>{if(hold?.card.contains(e.target))e.preventDefault();},true);
- document.addEventListener('click',e=>{const el=e.target.closest?.('[data-calendar-event]');if(el&&(busy||suppress?.id===el.dataset.calendarEvent&&e.detail!==0)){suppress=null;e.preventDefault();e.stopImmediatePropagation();}},true);
- document.addEventListener('keydown',e=>{if(e.key==='Escape'){cancelAll();return;}if(e.key==='Enter'&&e.shiftKey){const el=e.target.closest?.('.event-card'),id=el?.dataset.calendarEvent;if(id&&canSetEventCompletion(event(id),getState())&&!event(id).done){e.preventDefault();e.stopImmediatePropagation();cancelAll();change(id,true);}}},true);
+ document.addEventListener('click',e=>{const el=e.target.closest?.('[data-calendar-event]');if(el&&!el.hasAttribute('data-projected-task')&&(busy||suppress?.id===el.dataset.calendarEvent&&e.detail!==0)){suppress=null;e.preventDefault();e.stopImmediatePropagation();}},true);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){cancelAll();return;}if(e.key==='Enter'&&e.shiftKey){const el=e.target.closest?.('.event-card'),id=el?.dataset.calendarEvent;if(id&&!el.hasAttribute('data-projected-task')&&canSetEventCompletion(event(id),getState())&&!event(id).done){e.preventDefault();e.stopImmediatePropagation();cancelAll();change(id,true);}}},true);
  for(const type of ['scroll','resize','blur','pagehide'])window.addEventListener(type,e=>{
   // Capture sees ordinary element focus changes too; only an actual window blur
   // means the app lost foreground. Internal notice scrolling is not a pan gesture.

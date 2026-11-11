@@ -23,7 +23,7 @@ export function eventReadOnly(event,state){
  return !!event&&(Object.entries(event).some(([k,v])=>/(Id|Ref|Snapshot)$/.test(k)&&v!==undefined&&v!==null&&v!=='')||!!['seriesId','taskId','projectId','workoutId','plannedSnapshot','fullWorkoutSnapshot','sessionId','sourceNoteId','seriesException','occurrenceDate'].find(k=>event[k]!==undefined)||!EVENT_TYPES.includes(event.type)||!IMPORTANCE.includes(event.importance??'none')||!EVENT_ICONS.includes(event.eventIcon??'calendar'));
 }
 export const blocksTime=e=>e.type!=='deadline'&&(e.type!=='free_time'||e.protected===true);
-export const canSetEventCompletion=(event,state)=>!!event&&!['deadline','free_time'].includes(event.type)&&!eventReadOnly(event,state);
+export const canSetEventCompletion=(event,state)=>!!event&&!['deadline','free_time'].includes(event.type)&&(state?.desktopTest?.active?!!state.desktopTest.entries?.some(entry=>entry.kind==='event'&&entry.ref.id===event.id&&entry.commands.includes('eventCompletion')):!eventReadOnly(event,state));
 // Patch only the canonical event flag. A stale retry cannot reverse newer work.
 export function setEventCompletion(state,id,done,expectedDone){
  const event=state.events.find(e=>e.id===id);if(!event)throw Error('eventMissing');

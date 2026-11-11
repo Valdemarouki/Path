@@ -1,5 +1,5 @@
 import {STORAGE_KEY, LANGUAGES, dayKey, shiftDay, createRepository, addTask, toggleTask, toggleHabit, eligible, habitDone, nextEvent, eventsOnDay, editTask, setMainTask, deleteTaskWithUndo, restoreDeletedTask, mainTaskOnDay, overdueTasks} from './model.mjs';
-import {t, label, LOCALES} from './i18n.mjs';
+import {t, label as nativeLabel, LOCALES} from './i18n.mjs';
 import {createNavigation} from './navigation.mjs';
 import {createEventEditor} from './event-editor.mjs';
 import {createAlphaUI} from './alpha-ui.mjs';
@@ -10,11 +10,12 @@ import {canSetEventCompletion,zoneParts} from './calendar-model.mjs';
 import {createCalendarCompletion} from './calendar-completion.mjs';
 import {actionButton,setActionIcon} from './actions.mjs';
 import {installNumericFields} from './numeric-fields.mjs';
-import {createDesktopTestRepository,TEST_STORAGE_KEY,testCommands} from './desktop-test-repository.mjs';
+import {createDesktopTestRepository,TEST_STORAGE_KEY,testCommands,testHabitState} from './desktop-test-repository.mjs';
 import {createDesktopTestControls,testModeText,downloadTestJSON} from './desktop-test-controls.mjs';
 const desktopMode=new URLSearchParams(location.search).get('desktop-test')==='1';
+const label=(entity,language)=>desktopMode?(typeof entity?.title==='string'?entity.title:typeof entity?.name==='string'?entity.name:''):nativeLabel(entity,language);
 const storageKey=desktopMode?TEST_STORAGE_KEY:STORAGE_KEY;
-let testControls;
+let testControls,desktopHabitDate=null;
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -38,12 +39,12 @@ const navigation = createNavigation($('navigation'));
 const numericPicker=installNumericFields({navigation,tr});
 const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
 const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:()=>navigate('sport'),getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
-const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>desktopMode||fatal||blocked||writing,isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
-const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd});
-try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):createRepository(localStorage);repo=navigator.locks?await navigator.locks.request(storageKey,make):make(); state=repo.state; lang=state?.language||'en';if(desktopMode&&state){today=state.desktopTest.date;selected=today;} }
+const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing||!!testControls?.isBusy(),isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
+const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd,getHabitDate:()=>desktopMode?(desktopHabitDate||today):dayKey(),setHabitDate:date=>{desktopHabitDate=date;render();}});
+try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):createRepository(localStorage);repo=navigator.locks?await navigator.locks.request(storageKey,make):make(); state=repo.state; lang=state?.language||'en';if(desktopMode&&state){today=state.desktopTest.date;selected=today;desktopHabitDate=today;} }
 catch { fatal=true; }
 const testText=key=>testModeText(key,lang);
-if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId)selected=today;}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
+if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId){selected=today;desktopHabitDate=today;}}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
 const dateText = date => !/^\d{4}-\d{2}-\d{2}$/.test(date)?'—':new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
 const time = instant => new Intl.DateTimeFormat(LOCALES[lang],{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(instant));
 function eventTime(event) {
@@ -98,10 +99,12 @@ function todayView() {
     ${tasks.length&&tasks.every(t=>t.done)?`<p class="muted">${tr('allDone')}</p>`:''}
     ${overdue.length?`<section class="overdue"><h2>${tr('overdue')}</h2>${overdue.map(task=>taskRow(task)).join('')}</section>`:''}
     <section class="next-event"><span class="event-symbol">${icon('calendar')}</span><div class="event-copy"><span class="eyebrow">${tr(next&&Date.parse(next.start_at)<=Date.now()?'ongoing':'next')}</span><h3>${next?escape(label(next,lang)):tr('noEvents')}</h3>${next?`<p>${escape(eventTime(next))} · ${escape(dateText(dayKey(new Date(next.start_at))))}</p>`:''}<button class="action-button action-button--secondary" data-open-calendar>${tr('schedule')}</button></div></section>
-    <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${desktopMode?'—':habits.filter(h=>habitDone(h,today)).length+' / '+habits.length}</span></div><div class="habit-grid">${desktopMode?state.habits.map(h=>`<button type="button" class="habit" data-route="habits"><span class="habit-icon">${icon('habits')}</span><span>${escape(label(h,lang))}</span></button>`).join(''):habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${desktopMode?testText('readonly'):tr('noHabits')}</p>`}</div></section>
+    ${desktopMode?alpha.habitSection(today,{compact:true,selectDate:false}):`<section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${desktopMode?'—':habits.filter(h=>habitDone(h,today)).length+' / '+habits.length}</span></div><div class="habit-grid">${desktopMode?state.habits.map(h=>`<button type="button" class="habit" data-route="habits"><span class="habit-icon">${icon('habits')}</span><span>${escape(label(h,lang))}</span></button>`).join(''):habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${desktopMode?testText('readonly'):tr('noHabits')}</p>`}</div></section>`}
+
     <aside class="reflection"><img src="assets/marcus.svg" alt="" aria-hidden="true"><div><p>${tr('reflection')}</p><small>${tr('reflectionNote')}</small></div></aside>`;
 }
-function calendarEventCard(event) {
+function calendarEventCard(event,projected=false) {
+  const viewId=(projected?'task:':'event:')+event.id,canComplete=!projected&&canSetEventCompletion(event,state);
   const types={busy:['calendar','eventTypeBusy'],workout:['sport','eventTypeWorkout'],routine:['calendar','eventTypeRoutine'],deadline:['spark','eventTypeDeadline'],focus:['spark','eventTypeFocus'],free_time:['spark','eventTypeFree']};
   let [glyph,typeKey]=types[event.type]||types.busy;
   glyph=({busy:'calendar',routine:'repeat',deadline:'flag',focus:'target',free_time:'sun',workout:'sport'})[event.type]||glyph;
@@ -111,15 +114,15 @@ function calendarEventCard(event) {
   const importance=event.type!=='free_time'&&['low','medium','high'].includes(sourceImportance)?sourceImportance:'none';
   const unknownImportance=desktopMode&&sourceImportance!==undefined&&!['none','low','medium','high'].includes(sourceImportance);
   const importanceLabel=unknownImportance?String(sourceImportance)+' · '+testText('readonly'):event.taskId&&!linked&&event.type!=='free_time'?tr('eventLinkedPriority'):tr('importance'+importance);
-  return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}" aria-describedby="event-time-${escape(event.id)} event-meta-${escape(event.id)}${!desktopMode&&canSetEventCompletion(event,state)&&!event.done?' calendar-completion-hint':''}"${!desktopMode&&canSetEventCompletion(event,state)&&!event.done?' aria-keyshortcuts="Shift+Enter"':''}>
-    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time" id="event-time-${escape(event.id)}">${escape(calendarEventTime(event))}</p></div><div class="event-card-meta" id="event-meta-${escape(event.id)}"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${escape(importanceLabel)}</span><span class="event-status" aria-hidden="${!event.done}">${icon('check')} ${tr('eventCompleted')}</span></div></div>
+  return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" ${projected?`data-projected-task="${escape(event.taskId)}"`:''} role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(viewId)}" aria-describedby="event-time-${escape(viewId)} event-meta-${escape(viewId)}${canComplete&&!event.done?' calendar-completion-hint':''}"${canComplete&&!event.done?' aria-keyshortcuts="Shift+Enter"':''}>
+    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(viewId)}">${escape(label(event,lang))}</h3><p class="event-card-time" id="event-time-${escape(viewId)}">${escape(calendarEventTime(event))}</p></div><div class="event-card-meta" id="event-meta-${escape(viewId)}"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${escape(importanceLabel)}</span><span class="event-status" aria-hidden="${!event.done}">${icon('check')} ${tr('eventCompleted')}</span></div></div>
   </article>`;
 }
 function desktopEventsOnDay(date){return state.events.filter(e=>{if(e.type==='deadline'||!e.tzid)return e.date===date;const end=zoneParts(Date.parse(e.end_at),e.tzid);return e.date<=date&&(end.date>date||end.date===date&&end.time!=='00:00');}).sort((a,b)=>a.hour-b.hour||a.id.localeCompare(b.id));}
 function calendarView() {
-  const events=[...projectDeadlines(state,selected),...(desktopMode?desktopEventsOnDay(selected):eventsOnDay(state,selected))],tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const deadlines=projectDeadlines(state,selected),events=[...deadlines,...(desktopMode?desktopEventsOnDay(selected):eventsOnDay(state,selected))],tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
   return `${intro('calendar')}<div class="calendar-actions">${desktopMode?'':actionButton(tr('newEvent'),{kind:'create',attrs:'data-new-event'})}${actionButton(tr('calendarToday'),{attrs:'data-calendar-today'})}</div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${desktopMode?testText('zone'):tr('timezone')+' '+escape(zone)}</p>
-  <p id="calendar-completion-hint" class="calendar-completion-hint" ${desktopMode?'hidden':''}>${tr('completionHint')} <span class="sr-only">${tr('completionKeyboard')}</span></p><section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
+  <p id="calendar-completion-hint" class="calendar-completion-hint" ${desktopMode&&!events.some((e,index)=>index>=deadlines.length&&canSetEventCompletion(e,state))?'hidden':''}>${tr('completionHint')} <span class="sr-only">${tr('completionKeyboard')}</span></p><section aria-label="${tr('schedule')}">${events.map((e,index)=>calendarEventCard(e,index<deadlines.length)).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}${desktopMode?'':`<button class="action-button action-button--secondary" data-add>${tr('add')}</button>`}`;
 }
 function settingsView() {
@@ -219,7 +222,7 @@ document.addEventListener('click',async event=>{
   if(button.dataset.task||button.dataset.habit){
     const id=button.id,isTask=!!button.dataset.task;
     const wasDone=button.getAttribute('aria-pressed')==='true';
-    if(await commit(s=>isTask?toggleTask(s,button.dataset.task):toggleHabit(s,button.dataset.habit,today),id)&&!wasDone){document.getElementById(id)?.classList.add('celebrate');}return;
+    if(await commit(s=>{if(isTask)return toggleTask(s,button.dataset.task);if(!desktopMode)return toggleHabit(s,button.dataset.habit,today);const day=button.dataset.habitDay||today,h=s.habits.find(h=>h.id===button.dataset.habit),status=testHabitState(s,h,day);if(!status.supported||!status.eligible||status.kind!=='completion')throw Error('alphaReadOnly');const done=!status.done;(h.values??={})[day]=done?1:0;(h.checkIns??={})[day]=done;},id)&&!wasDone){document.getElementById(id)?.classList.add('celebrate');}return;
   }
   if(button.id==='export'){
     if(desktopMode){downloadTestJSON(repo.exportDesktop(),'path-desktop-synthetic-copy.json');return;}

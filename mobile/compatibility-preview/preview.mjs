@@ -34,7 +34,8 @@ function renderRecord(){
  const entry=selected();$('copy-fields').replaceChildren();$('edit-error').hidden=true;$('operation-status').textContent='';if(!entry)return;
  selectedId=entry.ref.id;$('entity-title').textContent=entry.data.title??entry.data.name??entry.ref.id;$('entity-mode').textContent=tr('mode')+': '+entry.mode+(entry.commands.length?' · '+entry.commands.join(', '):' · '+tr('readonly'));
  $('source-record').textContent=JSON.stringify(sourceRecord(entry),null,2);$('main-preview').textContent=view.context.mainTask?tr('selectedMain')+': '+view.context.mainTask.id+' · '+tr('mainNote'):'';
- $('apply-copy').hidden=!entry.commands.length;
+ $('apply-copy').hidden=!entry.commands.some(action=>['eventTitle','eventImportance','eventTime','taskCompletion','noteBody'].includes(action));
+ if(entry.commands.some(action=>['eventCompletion','habitValue'].includes(action))){const texts={en:'Event completion and habit marks are available in the mobile desktop test mode.',ru:'Выполнение событий и отметки привычек доступны в мобильном тестовом режиме desktop.',es:'Completar eventos y registrar hábitos está disponible en el modo de prueba desktop móvil.'};$('copy-fields').append(node('p',texts[lang]||texts.en,{class:'muted'}));}
  if(entry.kind==='event'){
   if(entry.commands.includes('eventTitle'))addField('copy-title','title','text',entry.data.title);
   if(entry.commands.includes('eventImportance')){const select=node('select',undefined,{id:'copy-importance'});if(!Object.hasOwn(entry.data,'importance'))select.append(node('option',tr('absent'),{value:''}));for(const v of ['none','low','medium','high'])select.append(node('option',t('importance'+v,lang),{value:v}));select.value=entry.data.importance??'';$('copy-fields').append(node('label',tr('priority'),{for:'copy-importance'}),select);}

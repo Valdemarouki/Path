@@ -25,7 +25,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  function snapshot(){return JSON.stringify([...dialog.querySelectorAll('input,select,textarea')].filter(e=>!e.closest('[data-numeric-step]')).map(e=>[e.id,e.type==='checkbox'?e.checked:e.value]));}
  function error(key){$('event-error').textContent=tr(key);$('event-error').hidden=false;}
  function focusEvent(id,preserveScroll=false){
-  const card=[...document.querySelectorAll('[data-calendar-event]')].find(c=>c.dataset.calendarEvent===id);
+  const card=[...document.querySelectorAll('[data-calendar-event]:not([data-projected-task])')].find(c=>c.dataset.calendarEvent===id);
   const target=card||document.getElementById('selected-date')||document.getElementById('content');if(!preserveScroll)target?.scrollIntoView({block:'center'});target?.focus({preventScroll:true});
  }
  function updateUndo(){
@@ -45,7 +45,8 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
    for(const id of ['event-name'])$(id).disabled=readOnly||!title;
    for(const id of ['event-date','event-time','event-duration','event-end-date','event-end-time','event-end-fold','event-fold','event-overlap'])$(id).disabled=readOnly||!timed;
    $('event-importance').disabled=readOnly||!importance;
-   for(const id of ['event-type','event-done','event-protected','event-notes','event-location','event-tz','event-icon'])$(id).disabled=true;
+   $('event-done').disabled=readOnly||!capabilities.includes('eventCompletion');
+   for(const id of ['event-type','event-protected','event-notes','event-location','event-tz','event-icon'])$(id).disabled=true;
    return;
   }
   const free=$('event-type').value==='free_time',deadline=$('event-type').value==='deadline';
@@ -88,8 +89,8 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  function open(id=null){
   if(busy||dialog.open)return;const state=getState(),event=id?state.events.find(e=>e.id===id):null;if(!state||id&&!event||testing()&&!id)return;
   editing=id;lastFocus=document.activeElement;afterClose=null;capabilities=testing()?testCommands(state,'event',id):[];readOnly=testing()?!capabilities.length:eventReadOnly(event,state);endEdited=false;
-  document.querySelectorAll('[data-calendar-event]').forEach(c=>c.setAttribute('aria-expanded',String(c.dataset.calendarEvent===id)));
-  const tz=event?.tzid||(testing()?'':systemZone()),type=event?.type??'busy';
+  document.querySelectorAll('[data-calendar-event]:not([data-projected-task])').forEach(c=>c.setAttribute('aria-expanded',String(c.dataset.calendarEvent===id)));
+  const tz=event?.tzid||(testing()?'':systemZone()),type=event?.type??'busy',originalTitle=event?label(event):'';
   const preserved={};for(const [k,v]of Object.entries(event||{}))if(!['title','titleKey','notes','location','date','hour','duration','type','importance','done','protected','eventIcon'].includes(k))preserved[k]=v;
   if(readOnly)Object.assign(preserved,event);
   if(event){const incoming=[state.activeWorkout,...(Array.isArray(state.workoutRecords)?state.workoutRecords:[])].filter(r=>r?.sessionId===event.id);if(incoming.length)preserved.incomingWorkoutRefs=incoming.map(r=>({id:r.id,sessionId:r.sessionId}));}
@@ -151,21 +152,22 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
    setBusy(true);let problem;
    try{if(await commit(s=>{try{if(testing()){
       const target=s.events.find(e=>e.id===idToSave);if(!target)throw Error('eventMissing');
-      if(capabilities.includes('eventTitle'))target.title=values.title.trim();
+      if(capabilities.includes('eventTitle')&&values.title!==originalTitle)target.title=values.title.trim();
       if(capabilities.includes('eventImportance'))target.importance=values.importance;
+      if(capabilities.includes('eventCompletion'))target.done=values.done;
       if(capabilities.includes('eventTime')){const [h,m]=values.time.split(':').map(Number);Object.assign(target,{date:values.date,hour:h+m/60,duration:Number(values.duration),fold:values.fold});}
      }else saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}},undefined,{desktopAllowOverlap:allowOverlap})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
   };
  }
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});
- dialog.addEventListener('close',()=>{navigation.suspend(false);document.querySelectorAll('[data-calendar-event]').forEach(c=>c.setAttribute('aria-expanded','false'));editing=null;updateUndo();if(afterClose){const next=afterClose;afterClose=null;next();}else if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});else document.getElementById('selected-date')?.focus({preventScroll:true});});
+ dialog.addEventListener('close',()=>{navigation.suspend(false);document.querySelectorAll('[data-calendar-event]:not([data-projected-task])').forEach(c=>c.setAttribute('aria-expanded','false'));editing=null;updateUndo();if(afterClose){const next=afterClose;afterClose=null;next();}else if(lastFocus?.isConnected)lastFocus.focus({preventScroll:true});else document.getElementById('selected-date')?.focus({preventScroll:true});});
  u('event-undo').onclick=async()=>{
   if(busy)return;const id=getState()?.mobileEventUndo?.event.id;if(!id)return;busy=true;updateUndo();let problem;
   try{if(await commit(s=>{try{restoreEvent(s);}catch(e){problem=e.message;throw e;}})){u('event-undo-error').hidden=true;focusEvent(id);}else{u('event-undo-error').textContent=problem?tr(problem):getError()||tr('saveError');u('event-undo-error').hidden=false;u('event-undo-refresh').hidden=!isStale();}}finally{busy=false;updateUndo();}
  };
  u('event-undo-refresh').onclick=()=>{refresh();u('event-undo-refresh').hidden=!isStale();if(!isStale())u('event-undo-error').hidden=true;updateUndo();};
- document.addEventListener('click',e=>{const card=e.target.closest('[data-calendar-event]');if(card)open(card.dataset.calendarEvent);if(e.target.closest('[data-new-event]'))open();});
- document.addEventListener('keydown',e=>{const card=e.target.closest('[data-calendar-event]');if(card&&['Enter',' '].includes(e.key)){e.preventDefault();open(card.dataset.calendarEvent);}});
+ document.addEventListener('click',e=>{const card=e.target.closest('[data-calendar-event]');if(card&&!card.hasAttribute('data-projected-task'))open(card.dataset.calendarEvent);if(e.target.closest('[data-new-event]'))open();});
+ document.addEventListener('keydown',e=>{const card=e.target.closest('[data-calendar-event]');if(card&&!card.hasAttribute('data-projected-task')&&['Enter',' '].includes(e.key)){e.preventDefault();open(card.dataset.calendarEvent);}});
  new MutationObserver(updateUndo).observe(document.getElementById('navigation'),{attributes:true,attributeFilter:['data-state','hidden']});
  window.addEventListener('beforeunload',e=>{if(dialog.open&&snapshot()!==initial){e.preventDefault();e.returnValue='';}});
  return {open,isOpen:()=>dialog.open,updateUndo};

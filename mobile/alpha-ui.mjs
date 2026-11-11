@@ -1,14 +1,15 @@
 import * as model from './alpha-model.mjs';
 import {toggleTask} from './model.mjs';
 import {list,taskEntry,projectTaskEditable,projectPercent} from './task-selectors.mjs';
-import {dayKey,shiftDay} from './date-utils.mjs';
+import {dayKey,shiftDay,validDay} from './date-utils.mjs';
 import {saveEvent} from './calendar-model.mjs';
 import {actionButton} from './actions.mjs';
-import {testCommands} from './desktop-test-repository.mjs';
+import {testCommands,testHabitState} from './desktop-test-repository.mjs';
 import {desktopTestText} from './desktop-test-i18n.mjs';
+import {parseDesktopInput} from './desktop-adapter.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uuid=()=>crypto.randomUUID();
-export function createAlphaUI({getState,commit,tr,label,language,icon,navigation,navigate,refresh,isStale,getError,openTask}){
+export function createAlphaUI({getState,commit,tr,label,language,icon,navigation,navigate,refresh,isStale,getError,openTask,getHabitDate=()=>dayKey(),setHabitDate=()=>{}}){
  const dialog=document.createElement('dialog');dialog.id='alpha-editor';dialog.setAttribute('aria-labelledby','alpha-heading');document.body.append(dialog);
  const $=id=>document.getElementById(id);
  const testing=()=>!!getState()?.desktopTest?.active;
@@ -108,6 +109,27 @@ export function createAlphaUI({getState,commit,tr,label,language,icon,navigation
   const dates=[...new Set([...Object.keys(h.values||{}),...Object.keys(h.checkIns||{}),...Object.keys(h.exceptions||{})])].sort();
   return `<h3>${esc(testText('schedule'))}</h3>${(h.schedules||[]).map(r=>`<p class="muted">${esc(r.from)} · ${esc(r.frequency)} · ${esc(r.kind)} · ${esc(r.goal)}${r.weekTarget!==undefined?' × '+esc(r.weekTarget):''} · ${esc(testText('source'))}: ${esc(r.source)}${r.frequency==='days'?' · '+esc(r.days):''}</p>`).join('')}<h3>${esc(testText('history'))}</h3>${dates.length?dates.map(d=>`<div class="result-row"><span>${esc(d)}</span><span>${h.values?.[d]!==undefined?esc(h.values[d]):h.checkIns?.[d]!==undefined?String(h.checkIns[d]):'—'}${h.exceptions?.[d]?' · '+esc(h.exceptions[d]):''}</span></div>`).join(''):`<p class="muted">${esc(testText('unavailableHistory'))}</p>`}${sourceDetails(h)}`;
  }
+ function habitReason(status){return testText(status.reason||'habitUnsupported');}
+ function habitValueLabel(h,date,status){if(status.reason==='habitSportSource')return testText('habitDerived');const present=Object.hasOwn(h.values||{},date)||Object.hasOwn(h.checkIns||{},date),raw=h.values?.[date]??Number(h.checkIns?.[date]||false),unit=status.supported||status.reason==='habitWeekly'?status.unit:'';return present?String(raw)+(unit?' '+testText(unit):''):testText('noRecord');}
+ function habitSection(date,{compact=false,selectDate=true}={}){
+  const state=getState(),cards=state.habits.map(h=>{
+   const status=testHabitState(state,h,date),editable=status.supported&&status.eligible,binary=status.kind==='completion',name=esc(label(h)),value=esc(habitValueLabel(h,date,status)),reason=editable?'':habitReason(status),press=!!status.done;
+   const attrs=`id="habit-${esc(h.id)}" data-habit="${esc(h.id)}" data-habit-day="${esc(date)}" aria-pressed="${press}" aria-label="${esc(tr(press?'unmark':'mark'))}: ${name}" ${editable&&binary?'':'disabled'}`;
+   if(compact){
+    if(binary&&status.supported)return `<button class="habit" ${attrs}><span class="habit-icon">${icon(press?'check':'habits')}</span><span>${name}</span><small>${value}</small>${reason?`<small>${esc(reason)}</small>`:''}</button>`;
+    return `<article class="habit"><h3>${name}</h3><p>${value}</p>${editable?`<button type="button" class="action-button action-button--secondary" data-test-habit-value="${esc(h.id)}" data-day="${esc(date)}">${esc(testText('setValue'))}</button>`:`<small>${esc(reason)}</small>`}</article>`;
+   }
+   const controls=editable?(binary?`<div class="row-actions"><button class="check" ${attrs}><span class="tick">${icon('check')}</span></button><span>${esc(tr(press?'unmark':'mark'))}</span></div>`:`<button type="button" class="action-button action-button--secondary" data-test-habit-value="${esc(h.id)}" data-day="${esc(date)}">${esc(testText('setValue'))}</button>`):`<p class="muted" data-habit-restriction>${esc(reason)}</p>`;
+   return `<article class="alpha-card habit-record" data-habit-record="${esc(h.id)}"><h2>${name}</h2><p data-habit-value="${esc(h.id)}">${value}${(status.supported||status.reason==='habitWeekly')&&Number.isFinite(status.goal)&&status.goal>0?' / '+esc(status.goal)+(status.unit?' '+esc(testText(status.unit)):''):''}</p>${controls}<details><summary>${esc(testText('history'))}</summary>${testHabitDetails(h)}</details></article>`;
+  }).join('');
+  return `<section class="habits"><div class="section-head"><h2>${tr('habits')}</h2></div>${selectDate?`<label for="desktop-habit-date">${esc(testText('habitDateLabel'))}</label><input id="desktop-habit-date" type="date" value="${esc(date)}" min="2000-01-01" max="${dayKey()}">`:`<p class="muted">${esc(shortDate(date))}</p>`}<p class="muted">${esc(testText('habitScope'))}</p><div class="${compact?'habit-grid':'habit-records'}">${cards}</div></section>`;
+ }
+ function habitValueEditor(id,date){
+  const h=getState().habits.find(h=>h.id===id);if(!h)return;const status=testHabitState(getState(),h,date);
+  if(!status.supported||!status.eligible||status.kind==='completion')return buildEditor(label(h),`<p>${esc(habitReason(status))}</p>`+testHabitDetails(h),{kind:'habit',id,readOnly:true});
+  const present=Object.hasOwn(h.values||{},date)||Object.hasOwn(h.checkIns||{},date);
+  buildEditor(label(h),`<p>${esc(shortDate(date))} · ${esc(testText(status.unit))}</p><label for="test-habit-value">${esc(testText('actualValue'))}</label><input id="test-habit-value" type="number" min="0" step="any" required inputmode="decimal" value="${present?esc(status.value):''}"><p class="muted">${esc(testText('habitExactInput'))}</p>`,{kind:'habit',id,scope:date,save:()=>{let value;try{value=parseDesktopInput($('test-habit-value').value.trim().replace(',','.'));}catch{throw Error('invalid');}if(typeof value!=='number'||!Number.isFinite(value)||value<0)throw Error('invalid');return s=>{const habit=s.habits.find(h=>h.id===id),current=testHabitState(s,habit,date);if(!current.supported||!current.eligible||current.kind==='completion')throw Error('alphaReadOnly');(habit.values??={})[date]=value;};},actions:action('unmark','test-habit-clear',id,`data-day="${esc(date)}"`)});
+ }
  function testSportView(){
   const s=getState();return intro('sport')+`<p class="muted" data-desktop-restriction>${esc(testText('sportProtected'))}</p><h2>${tr('library')}</h2>`+list(s,'workouts').map(w=>`<article class="alpha-card"><h2>${esc(w.name)}</h2><p class="muted">${esc(w.detail||'')}</p>${(w.exercises||[]).map(e=>`<p>${esc(e.name)} · ${esc(e.sets)} × ${esc(e.target)} ${esc(e.unit)}</p>`).join('')}${sourceDetails(w)}</article>`).join('')+`<h2>${tr('plannedWorkouts')}</h2>`+s.events.filter(e=>e.type==='workout'&&e.plannedSnapshot&&!e.done).map(e=>`<article class="alpha-card"><h3>${esc(e.title)}</h3><p class="muted">${esc(e.date)}</p>${sourceDetails(e.plannedSnapshot)}</article>`).join('')+`<h2>${tr('history')}</h2>`+list(s,'workoutRecords').map(r=>`<article class="alpha-card"><h3>${esc(r.snapshot?.name||r.title||r.id)}</h3><p class="muted">${esc(r.completedDate||r.endedAt||'')}</p>${(r.sets||[]).map(set=>`<div class="result-row"><span>${esc(set.name)} · ${esc(set.index)}</span><span>${set.actualValue!==undefined?esc(set.actualValue):set.result!==undefined?esc(set.result):'—'} ${esc(set.unit)}</span></div>`).join('')}${sourceDetails(r)}</article>`).join('');
  }
@@ -116,7 +138,7 @@ export function createAlphaUI({getState,commit,tr,label,language,icon,navigation
   return intro('progress')+`<p class="muted">${esc(testText('confirmed'))}. ${esc(testText('readOnly'))}</p><h2>${tr('completedTasks')}</h2>${tasks.length?tasks.map(t=>`<div class="list-item"><span>${esc(t.title)}</span><small>${esc(t.completedAt)}</small></div>`).join(''):`<p class="muted">${esc(testText('unavailableHistory'))}</p>`}<h2>${esc(testText('focus'))}</h2>${focus.length?focus.map(r=>`<div class="list-item"><span>${esc(r.date)}</span><span>${esc(r.minutes)} ${esc(testText('minutes'))}</span></div>`).join(''):`<p class="muted">${esc(testText('unavailableHistory'))}</p>`}<h2>${tr('completedWorkouts')}</h2>${records.length?records.map(r=>`<div class="list-item"><span>${esc(r.snapshot?.name||r.id)}</span><small>${esc(r.completedDate||r.endedAt)}</small></div>`).join(''):`<p class="muted">${esc(testText('unavailableHistory'))}</p>`}<h2>${tr('habits')}</h2>${s.habits.map(h=>`<article class="alpha-card"><h3>${esc(label(h))}</h3><p>${Object.entries(h.values||{}).map(([d,v])=>esc(d)+': '+esc(v)).join(' · ')||esc(testText('unavailableHistory'))}</p></article>`).join('')}<h2>${tr('projects')}</h2>${list(s,'projects').map(p=>`<div class="list-item"><span>${esc(p.name)}</span><span>${projectPercent(p)}%</span></div>`).join('')}`;
  }
  function habitsView(){
-  if(testing())return intro('navHabits')+`<p class="muted" data-desktop-restriction>${esc(testText('habitProtected'))}</p>`+getState().habits.map(h=>`<article class="alpha-card habit-record"><h2>${esc(label(h))}</h2>${testHabitDetails(h)}</article>`).join('');
+  if(testing())return intro('navHabits')+habitSection(getHabitDate());
   const s=getState();return intro('navHabits')+action('createHabit','new-habit')+`<p class="muted">${tr('habitScope')}</p>`+s.habits.map(h=>`<article class="alpha-card habit-record"><div class="section-head"><h2>${esc(label(h))}</h2>${h.archived?badge('archived'):''}</div><p class="muted">${tr('streak')}: ${model.habitStreak(h,dayKey())}</p><div class="row-actions">${model.habitEligible(h,dayKey())?`<button class="check" id="habit-${esc(h.id)}" data-habit="${esc(h.id)}" aria-pressed="${model.habitChecked(h,dayKey())}" aria-label="${tr(model.habitChecked(h,dayKey())?'unmark':'mark')}: ${esc(label(h))}"><span class="tick">${icon('check')}</span></button>`:''}${action('editHabit','edit-habit',h.id)}${action('history','habit-history',h.id)}</div></article>`).join('');
  }
  function notesView(){return intro(showTrash?'trash':'notes')+collectionGuard('notes')+`<div class="toolbar">${action('createNote','new-note')}${action(showTrash?'notes':'trash','toggle-trash')}</div>${field('note-search','search',input('note-search',query,'type="search" autocomplete="off"'))}<div id="note-results">${noteRows()}</div>`;}
@@ -170,11 +192,14 @@ export function createAlphaUI({getState,commit,tr,label,language,icon,navigation
  });
  document.addEventListener('change',e=>{if(e.target.id==='progress-period'){period=e.target.value;navigate('progress');$('progress-period')?.focus();}});
  // Capture derived Calendar projections before the standalone event editor sees them.
- function projectedEvent(e){const card=e.target.closest('[data-calendar-event]');if(!card?.dataset.calendarEvent.startsWith('task-deadline:'))return;if(e.type==='keydown'&&!['Enter',' '].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();const id=card.dataset.calendarEvent.slice(14),entry=taskEntry(getState(),id);if(entry?.project)open('projectTask',id,entry.project.id);}
+ function projectedEvent(e){const card=e.target.closest('[data-calendar-event]');if(!card?.hasAttribute('data-projected-task'))return;if(e.type==='keydown'&&!['Enter',' '].includes(e.key))return;e.preventDefault();e.stopImmediatePropagation();const id=card.dataset.projectedTask,entry=taskEntry(getState(),id);if(entry?.project)open('projectTask',id,entry.project.id);}
  document.addEventListener('click',projectedEvent,true);document.addEventListener('keydown',projectedEvent,true);
+ document.addEventListener('change',e=>{if(testing()&&e.target.id==='desktop-habit-date'&&e.target.validity.valid&&validDay(e.target.value))setHabitDate(e.target.value);});
  document.addEventListener('click',async e=>{
+  const valueButton=e.target.closest('[data-test-habit-value]');if(valueButton){if(!busy&&!dialog.open&&!isStale())habitValueEditor(valueButton.dataset.testHabitValue,valueButton.dataset.day);return;}
   const b=e.target.closest('[data-alpha]');if(!b||busy)return;const code=b.dataset.alpha,id=b.dataset.id,project=b.dataset.project;
   if(testing()&&['new-habit','new-note','new-project','new-project-task','new-workout','archive-habit','check-history','trash-note','restore-note','delete-project-task','undo-project-task','plan-workout','start-workout','start-plan','log-set','save-workout-inputs','pause-workout','finish-workout','add-exercise','remove-exercise'].includes(code))return;
+  if(code==='test-habit-clear'&&testing())return beforeAction(()=>write(s=>{const habit=s.habits.find(h=>h.id===id),date=b.dataset.day,status=testHabitState(s,habit,date);if(!status.supported||!status.eligible||status.kind==='completion')throw Error('alphaReadOnly');(habit.values??={})[date]=0;},()=>dialog.close()));
   if(code==='test-task-completion'&&testing())return beforeAction(()=>write(s=>{if(!allowed('task',id,project,'taskCompletion'))throw Error('alphaReadOnly');const task=s.projects.find(p=>p.id===project)?.tasks.find(t=>t.id===id);if(!task)throw Error('entityMissing');toggleTask(s,id);},()=>dialog.close()));
   if(code==='discard-workout-recovery'){recoveredWorkouts=recoveredWorkouts.filter(r=>r.id!==id);return navigate('sport');}
   const newKinds={'new-habit':'habit','new-note':'note','new-project':'project','new-workout':'workout'};if(newKinds[code])return open(newKinds[code]);
@@ -211,5 +236,5 @@ export function createAlphaUI({getState,commit,tr,label,language,icon,navigation
    else if(ref?.type==='task'&&taskEntry(getState(),ref.id)){afterClose=()=>openTask(ref.id);dialog.close();}else error('alphaReadOnly');
   }
  });
- return {view,mount,open,isOpen:()=>dialog.open,hasDrafts:()=>drafts.size>0||recoveredWorkouts.length>0,dirty};
+ return {view,mount,open,habitSection,isOpen:()=>dialog.open,hasDrafts:()=>drafts.size>0||recoveredWorkouts.length>0,dirty};
 }
