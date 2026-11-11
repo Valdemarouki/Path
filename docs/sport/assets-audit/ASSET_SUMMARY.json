@@ -1,0 +1,125 @@
+{
+  "audit_scope": "Static archive and catalogue verification; not application integration or device QA",
+  "archive_name": "Path_Exercise_Library_144_SVG.zip",
+  "archive_sha256": "1f57dc1aa4aace03ddbfe6166d755477d54f7c7195e97c5b7a81ccf163177c90",
+  "concept_name": "Path_Sport_Concept.html",
+  "concept_sha256": "e955d34cfda98f7dd5608238b86a03076f35322e937b6377b8983194d2a92c68",
+  "archive_files": 192,
+  "file_types": {
+    ".md": 2,
+    ".txt": 3,
+    ".json": 14,
+    ".html": 1,
+    ".png": 28,
+    ".svg": 144
+  },
+  "categories": 12,
+  "catalogue_exercises": 144,
+  "unique_catalogue_ids": 144,
+  "svg_files": 144,
+  "svg_total_bytes": 2791504,
+  "svg_size_min_bytes": 11778,
+  "svg_size_max_bytes": 31881,
+  "structural_pass": 144,
+  "missing_assets": [],
+  "unreferenced_svg": [],
+  "duplicate_catalogue_ids": [],
+  "cross_file_duplicate_internal_ids": {},
+  "element_counts": {
+    "svg": 144,
+    "title": 144,
+    "desc": 144,
+    "g": 144,
+    "path": 144
+  },
+  "map_muscles": [
+    "abs",
+    "biceps",
+    "calves",
+    "chest",
+    "forearms",
+    "glutes",
+    "hamstrings",
+    "lats",
+    "lowerback",
+    "obliques",
+    "quads",
+    "shoulders",
+    "traps",
+    "triceps",
+    "upperback"
+  ],
+  "catalogue_muscles_missing_from_map": [
+    "adductors",
+    "hipflexors",
+    "hiprotators",
+    "neck"
+  ],
+  "rows_with_muscles_missing_from_map": 19,
+  "missing_measurement_type": 144,
+  "missing_name_es": 144,
+  "missing_secondary_muscles": 144,
+  "required_coverage": {
+    "Pull-ups": {
+      "found": [
+        "pull-up"
+      ],
+      "missing": false
+    },
+    "Chin-ups": {
+      "found": [
+        "chin-up"
+      ],
+      "missing": false
+    },
+    "Push-ups": {
+      "found": [
+        "push-up"
+      ],
+      "missing": false
+    },
+    "Dips": {
+      "found": [
+        "parallel-bar-dip"
+      ],
+      "missing": false
+    },
+    "Squats": {
+      "found": [
+        "bodyweight-squat"
+      ],
+      "missing": false
+    },
+    "Lunges": {
+      "found": [
+        "reverse-lunge",
+        "walking-lunge",
+        "lateral-lunge"
+      ],
+      "missing": false
+    },
+    "Inverted rows": {
+      "found": [
+        "inverted-row"
+      ],
+      "missing": false
+    },
+    "Scapular pull-ups": {
+      "found": [],
+      "missing": true
+    },
+    "Hollow hold": {
+      "found": [
+        "hollow-body-hold"
+      ],
+      "missing": false
+    },
+    "Plank": {
+      "found": [
+        "forearm-plank",
+        "high-plank"
+      ],
+      "missing": false
+    }
+  }
+}

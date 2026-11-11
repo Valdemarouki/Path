@@ -1,0 +1,22 @@
+{
+  "cases": 16,
+  "checks": [
+    "144 supplied definitions, 145 selectable including one honest missing illustration",
+    "Runtime JSON and module share the same normalized metadata",
+    "Every runtime SVG is the byte-identical audited path; no filename guesses",
+    "All three locales, equipment tokens, categories and 19 muscle IDs are explicit",
+    "Measurement choices preserve paired weight/reps and distinct duration/distance units",
+    "Legacy names never become implicit definition or asset identity",
+    "Scapular pull-up stays selectable, with no fake asset or invented muscles",
+    "Overlapping presets preserve coverage when one preset is removed",
+    "Manual exclusion survives enabling an overlapping preset without mutation",
+    "Manual additions/removals remain independent from preset changes",
+    "Full body includes all supported textual groups and all 144 classified source definitions",
+    "Search supports Cyrillic/Spanish accents; muscle OR combines with other filters by AND",
+    "Embedded desktop paths are accepted only after whitelist identity lookup",
+    "Approved body geometry is exact, immutable and does not invent missing regions",
+    "Map markup escapes labels and limits interactive selectors to approved regions",
+    "Classic browser scripts work without CommonJS, fonts, widget or network hooks"
+  ],
+  "scope": "Static files and pure catalogue/body-map functions; not application, device or medical validation"
+}

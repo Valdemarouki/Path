@@ -1,0 +1,86 @@
+{
+  "checked": 20,
+  "allPassed": true,
+  "results": [
+    {
+      "path": "00_START_HERE_RU.txt",
+      "ok": true
+    },
+    {
+      "path": "01_PROMPT/PATH_SPORT_IMPLEMENTATION_PROMPT_RU.txt",
+      "ok": true
+    },
+    {
+      "path": "02_SPEC/Path_Sport_Development_Handoff_RU.txt",
+      "ok": true
+    },
+    {
+      "path": "03_REFERENCES/PATH Sport mobile planner concept.png",
+      "ok": true
+    },
+    {
+      "path": "03_REFERENCES/PATH Sport strength planner desktop concept.png",
+      "ok": true
+    },
+    {
+      "path": "03_REFERENCES/Path_Sport_Concept.html",
+      "ok": true
+    },
+    {
+      "path": "04_ASSETS/Path_Exercise_Library_144_SVG.zip",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/ARCHIVE_FILES.txt",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/ASSET_MANIFEST.csv",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/ASSET_MANIFEST.json",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/ASSET_SUMMARY.json",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/FOCUS_CONCEPT_CHECKS.json",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/PATH_SPORT_REVIEW_RU.md",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/audit_assets.py",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/check_focus_concept.cjs",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/render_samples.py",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/vector-sample/PIXEL_CHECKS.json",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/vector-sample/RENDER_CHECKS.json",
+      "ok": true
+    },
+    {
+      "path": "05_AUDIT/vector-sample/contact-sheet.png",
+      "ok": true
+    },
+    {
+      "path": "06_TESTING/SPORT_ACCEPTANCE_RU.md",
+      "ok": true
+    }
+  ]
+}

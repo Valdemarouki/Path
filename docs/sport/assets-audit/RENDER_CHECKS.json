@@ -1,0 +1,47 @@
+[
+  {
+    "id": "pull-up",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/back/pull-up.svg"
+  },
+  {
+    "id": "chin-up",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/back/chin-up.svg"
+  },
+  {
+    "id": "push-up",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/chest/push-up.svg"
+  },
+  {
+    "id": "parallel-bar-dip",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/arms/parallel-bar-dip.svg"
+  },
+  {
+    "id": "bodyweight-squat",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/quads/bodyweight-squat.svg"
+  },
+  {
+    "id": "reverse-lunge",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/quads/reverse-lunge.svg"
+  },
+  {
+    "id": "inverted-row",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/back/inverted-row.svg"
+  },
+  {
+    "id": "hollow-body-hold",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/core-stability/hollow-body-hold.svg"
+  },
+  {
+    "id": "forearm-plank",
+    "success": true,
+    "source_path": "Path_Exercise_Library/svg/core-stability/forearm-plank.svg"
+  }
+]

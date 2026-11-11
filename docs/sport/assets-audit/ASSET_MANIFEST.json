@@ -1,0 +1,6894 @@
+[
+  {
+    "catalogue_id": "push-up",
+    "category_id": "chest",
+    "name_en": "Push-up",
+    "name_ru": "Отжимания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/push-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15475,
+    "sha256": "3aa90972dcdcbd43bb71ceb82e324700a0da9e74697a7f9f6819eca6ed53fe7b",
+    "viewBox": "0 0 512 512",
+    "title": "Push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "knee-push-up",
+    "category_id": "chest",
+    "name_en": "Knee push-up",
+    "name_ru": "Отжимания с колен",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/knee-push-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14347,
+    "sha256": "4fb6ed36057e1ef68bd1ca3dc3e85951536a07bd333c8ce8e3933adf218e2534",
+    "viewBox": "0 0 512 512",
+    "title": "Knee push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-knee-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "incline-push-up",
+    "category_id": "chest",
+    "name_en": "Incline push-up",
+    "name_ru": "Отжимания от возвышения",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/incline-push-up.svg",
+    "equipment": [
+      "bench"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14573,
+    "sha256": "6203504c16e48522a1ea2744aa44ab83f8f733437e7b3f1e9199d8eceb5234b7",
+    "viewBox": "0 0 512 512",
+    "title": "Incline push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-incline-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "decline-push-up",
+    "category_id": "chest",
+    "name_en": "Decline push-up",
+    "name_ru": "Отжимания с ногами на возвышении",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/decline-push-up.svg",
+    "equipment": [
+      "bench"
+    ],
+    "primary_muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15688,
+    "sha256": "72329c5f6edafa02f88afb6301561b615a2f261db9affc163323c97840f16569",
+    "viewBox": "0 0 512 512",
+    "title": "Decline push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-decline-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "wide-push-up",
+    "category_id": "chest",
+    "name_en": "Wide push-up",
+    "name_ru": "Отжимания с широкой постановкой рук",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/wide-push-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18740,
+    "sha256": "779c87ce7cf6dd4ce9665b7146fccb7c78367d96f4f8c8684119292eed41c245",
+    "viewBox": "0 0 512 512",
+    "title": "Wide push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-wide-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "diamond-push-up",
+    "category_id": "chest",
+    "name_en": "Diamond push-up",
+    "name_ru": "Алмазные отжимания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/diamond-push-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "triceps",
+      "chest"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17886,
+    "sha256": "c0500e40c3e9def356ca6799e2220b820fe29d07672209dbab37b6b4de8d6395",
+    "viewBox": "0 0 512 512",
+    "title": "Diamond push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-diamond-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-bench-press",
+    "category_id": "chest",
+    "name_en": "Barbell bench press",
+    "name_ru": "Жим штанги лёжа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/barbell-bench-press.svg",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 27102,
+    "sha256": "18dc2fb9ac4b9d1057c591a498cf17bdcfbe849bf8db0dc688e4940350717f82",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell bench press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-bench-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "incline-dumbbell-press",
+    "category_id": "chest",
+    "name_en": "Incline dumbbell press",
+    "name_ru": "Жим гантелей на наклонной скамье",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/incline-dumbbell-press.svg",
+    "equipment": [
+      "dumbbell",
+      "incline-bench"
+    ],
+    "primary_muscles": [
+      "chest",
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 29348,
+    "sha256": "32f2b2223d8e6b2e343d1b74c1425598515170662c8867cf40a3141956092fee",
+    "viewBox": "0 0 512 512",
+    "title": "Incline dumbbell press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-incline-dumbbell-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-floor-press",
+    "category_id": "chest",
+    "name_en": "Dumbbell floor press",
+    "name_ru": "Жим гантелей лёжа на полу",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/dumbbell-floor-press.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "chest",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20961,
+    "sha256": "8ac48861bfae6d7340e6c3a66a48fc8308491f87e10c6663a3b7404f45db8ef1",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell floor press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-floor-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-chest-fly",
+    "category_id": "chest",
+    "name_en": "Dumbbell chest fly",
+    "name_ru": "Разведение гантелей лёжа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/dumbbell-chest-fly.svg",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "chest"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25400,
+    "sha256": "6637a2f8989d3f4966846c72d40d7512d1d3f06245514139fca6bad218bb9d06",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell chest fly",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-chest-fly"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "standing-cable-chest-fly",
+    "category_id": "chest",
+    "name_en": "Standing cable chest fly",
+    "name_ru": "Сведение рук в кроссовере",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/standing-cable-chest-fly.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "chest",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25287,
+    "sha256": "43090fc906d6f7bc19438a24aee374e1c65310309a3e9c846921fc0f984855f4",
+    "viewBox": "0 0 512 512",
+    "title": "Standing cable chest fly",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-standing-cable-chest-fly"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "pec-deck-fly",
+    "category_id": "chest",
+    "name_en": "Pec deck fly",
+    "name_ru": "Сведение рук в тренажёре «бабочка»",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/chest/pec-deck-fly.svg",
+    "equipment": [
+      "pec-deck-machine"
+    ],
+    "primary_muscles": [
+      "chest"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25336,
+    "sha256": "ee201954832dd01ca21e3a0c2dd0a071796b4834c6b55c53ed1d7eba3d16327d",
+    "viewBox": "0 0 512 512",
+    "title": "Pec deck fly",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-pec-deck-fly"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "pull-up",
+    "category_id": "back",
+    "name_en": "Pull-up",
+    "name_ru": "Подтягивания прямым хватом",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/pull-up.svg",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "primary_muscles": [
+      "lats",
+      "upperback",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18257,
+    "sha256": "a4b0f8cc9a8372059bcc5e2e5b0656b910b4f1a13f0788e4b1ec15d37c592c69",
+    "viewBox": "0 0 512 512",
+    "title": "Pull-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-pull-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "chin-up",
+    "category_id": "back",
+    "name_en": "Chin-up",
+    "name_ru": "Подтягивания обратным хватом",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/chin-up.svg",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "primary_muscles": [
+      "lats",
+      "biceps",
+      "upperback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16490,
+    "sha256": "87760479910dfc56c83b0b2746bc4fda8ff984f26af2e2c7df41d89f6ef6fb6a",
+    "viewBox": "0 0 512 512",
+    "title": "Chin-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-chin-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "inverted-row",
+    "category_id": "back",
+    "name_en": "Inverted row",
+    "name_ru": "Австралийские подтягивания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/inverted-row.svg",
+    "equipment": [
+      "low-bar"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "lats",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15520,
+    "sha256": "9c4971c96816c94f9f06bfb23a68c67e2f113fdb71b21fc8ff04bc88d99be892",
+    "viewBox": "0 0 512 512",
+    "title": "Inverted row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-inverted-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bent-over-barbell-row",
+    "category_id": "back",
+    "name_en": "Bent-over barbell row",
+    "name_ru": "Тяга штанги в наклоне",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/bent-over-barbell-row.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "lats",
+      "upperback",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21347,
+    "sha256": "c6f3e1e880f801226c91aa35ff45cf501cb93677f946965a67098622ae59a136",
+    "viewBox": "0 0 512 512",
+    "title": "Bent-over barbell row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bent-over-barbell-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "one-arm-dumbbell-row",
+    "category_id": "back",
+    "name_en": "One-arm dumbbell row",
+    "name_ru": "Тяга гантели одной рукой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/one-arm-dumbbell-row.svg",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "lats",
+      "upperback",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20376,
+    "sha256": "36747473d0545567f11027792b571cf2ead1e876ad648642754ed7cb35d09c13",
+    "viewBox": "0 0 512 512",
+    "title": "One-arm dumbbell row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-one-arm-dumbbell-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "seated-cable-row",
+    "category_id": "back",
+    "name_en": "Seated cable row",
+    "name_ru": "Тяга горизонтального блока сидя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/seated-cable-row.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "lats",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 24613,
+    "sha256": "2a8fba49e7bdbe94429bb22dd6784644fe51913d22fd2b7f1f9b361406f812bd",
+    "viewBox": "0 0 512 512",
+    "title": "Seated cable row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-seated-cable-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lat-pulldown",
+    "category_id": "back",
+    "name_en": "Lat pulldown",
+    "name_ru": "Тяга верхнего блока",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/lat-pulldown.svg",
+    "equipment": [
+      "lat-pulldown-machine"
+    ],
+    "primary_muscles": [
+      "lats",
+      "biceps",
+      "upperback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 29318,
+    "sha256": "74fa6d2065a44a6346672a06d1da65dc048bc3bb88d2806ae3e5e57a1b7d6fca",
+    "viewBox": "0 0 512 512",
+    "title": "Lat pulldown",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lat-pulldown"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "straight-arm-cable-pulldown",
+    "category_id": "back",
+    "name_en": "Straight-arm cable pulldown",
+    "name_ru": "Тяга верхнего блока прямыми руками",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/straight-arm-cable-pulldown.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "lats",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21151,
+    "sha256": "7b7462743c847af36a9ecf77aa5d9b9e48fd4dbd7b43f3f1cdee1ec5b7b5cd06",
+    "viewBox": "0 0 512 512",
+    "title": "Straight-arm cable pulldown",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-straight-arm-cable-pulldown"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "t-bar-row",
+    "category_id": "back",
+    "name_en": "T-bar row",
+    "name_ru": "Тяга Т-грифа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/t-bar-row.svg",
+    "equipment": [
+      "landmine",
+      "barbell",
+      "v-handle"
+    ],
+    "primary_muscles": [
+      "lats",
+      "upperback",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20089,
+    "sha256": "34d95f843ab4744b6cdf37cfbf01a9b358a58cf0617e5d14acd45fe06b0efd59",
+    "viewBox": "0 0 512 512",
+    "title": "T-bar row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-t-bar-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "chest-supported-dumbbell-row",
+    "category_id": "back",
+    "name_en": "Chest-supported dumbbell row",
+    "name_ru": "Тяга гантелей с упором грудью",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/chest-supported-dumbbell-row.svg",
+    "equipment": [
+      "dumbbell",
+      "incline-bench"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "lats",
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18604,
+    "sha256": "342c3121e1861d3c6734066e70a98d7561459fbc21b188addfd71bb03653bbc4",
+    "viewBox": "0 0 512 512",
+    "title": "Chest-supported dumbbell row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-chest-supported-dumbbell-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "back-extension",
+    "category_id": "back",
+    "name_en": "Back extension",
+    "name_ru": "Гиперэкстензия",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/back-extension.svg",
+    "equipment": [
+      "back-extension-bench"
+    ],
+    "primary_muscles": [
+      "lowerback",
+      "glutes",
+      "hamstrings"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15757,
+    "sha256": "4a749464dec0eedf932ddcfc69f48a155183c309b015e055161779ebc69f8fd9",
+    "viewBox": "0 0 512 512",
+    "title": "Back extension",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-back-extension"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "superman",
+    "category_id": "back",
+    "name_en": "Superman",
+    "name_ru": "Супермен",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/back/superman.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "lowerback",
+      "glutes",
+      "upperback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 12207,
+    "sha256": "1c61d66d94037f23931fb061db4fd69106d7845b2f6777d6c01bab9c887c8a84",
+    "viewBox": "0 0 512 512",
+    "title": "Superman",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-superman"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "standing-dumbbell-shoulder-press",
+    "category_id": "shoulders",
+    "name_en": "Standing dumbbell shoulder press",
+    "name_ru": "Жим гантелей стоя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/standing-dumbbell-shoulder-press.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18967,
+    "sha256": "69c5684fe7092ac22deefc00edc4a8f7294748a010e930b6bc2fd77fbc146a3e",
+    "viewBox": "0 0 512 512",
+    "title": "Standing dumbbell shoulder press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-standing-dumbbell-shoulder-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "seated-barbell-shoulder-press",
+    "category_id": "shoulders",
+    "name_en": "Seated barbell shoulder press",
+    "name_ru": "Жим штанги сидя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/seated-barbell-shoulder-press.svg",
+    "equipment": [
+      "barbell",
+      "upright-bench"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 26695,
+    "sha256": "09c1ad840b08a4da7d076bfe4ae49012a9b16833b0dd2a0b7f875abc01a672dc",
+    "viewBox": "0 0 512 512",
+    "title": "Seated barbell shoulder press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-seated-barbell-shoulder-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "arnold-press",
+    "category_id": "shoulders",
+    "name_en": "Arnold press",
+    "name_ru": "Жим Арнольда",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/arnold-press.svg",
+    "equipment": [
+      "dumbbell",
+      "upright-bench"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 23179,
+    "sha256": "627a884ae3fee6fd423ebe295089e09cbc92eea1f066053739cf9dab02f96c56",
+    "viewBox": "0 0 512 512",
+    "title": "Arnold press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-arnold-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-lateral-raise",
+    "category_id": "shoulders",
+    "name_en": "Dumbbell lateral raise",
+    "name_ru": "Махи гантелями в стороны",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/dumbbell-lateral-raise.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18296,
+    "sha256": "214ac1aa9e50c2db3f0a408dd13396803df5009a171bd6a40371b9a1236aff7f",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell lateral raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-lateral-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "plate-front-raise",
+    "category_id": "shoulders",
+    "name_en": "Plate front raise",
+    "name_ru": "Подъём диска перед собой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/plate-front-raise.svg",
+    "equipment": [
+      "weight-plate"
+    ],
+    "primary_muscles": [
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19525,
+    "sha256": "1fe20d1821b9c81626691b254c1e35c6cdff23ca67abcd610ac403552df5fc6b",
+    "viewBox": "0 0 512 512",
+    "title": "Plate front raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-plate-front-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bent-over-reverse-fly",
+    "category_id": "shoulders",
+    "name_en": "Bent-over reverse fly",
+    "name_ru": "Разведение гантелей в наклоне",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/bent-over-reverse-fly.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "upperback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20938,
+    "sha256": "c556d30cd63df0c9822faa98c65237be2c716873df05de4cb6f68d1e3cbc7bd9",
+    "viewBox": "0 0 512 512",
+    "title": "Bent-over reverse fly",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bent-over-reverse-fly"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cable-face-pull",
+    "category_id": "shoulders",
+    "name_en": "Cable face pull",
+    "name_ru": "Тяга каната к лицу",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/cable-face-pull.svg",
+    "equipment": [
+      "cable-machine",
+      "rope-handle"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "upperback",
+      "traps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21225,
+    "sha256": "633c0abe4b54e281e3739da70eb845b03d4e58a46bf7b449fd38bf8f26f26ad0",
+    "viewBox": "0 0 512 512",
+    "title": "Cable face pull",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cable-face-pull"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "single-arm-cable-lateral-raise",
+    "category_id": "shoulders",
+    "name_en": "Single-arm cable lateral raise",
+    "name_ru": "Подъём руки в сторону на блоке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/single-arm-cable-lateral-raise.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19993,
+    "sha256": "d86f24987421d82f7ab88024d9296869a046c2bc370ed9126ebde25b26aba662",
+    "viewBox": "0 0 512 512",
+    "title": "Single-arm cable lateral raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-single-arm-cable-lateral-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-upright-row",
+    "category_id": "shoulders",
+    "name_en": "Barbell upright row",
+    "name_ru": "Тяга штанги к подбородку",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/barbell-upright-row.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "traps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20205,
+    "sha256": "21bcb67ac7b66dff73ac5121058e7bc585d35672f7843cd6c9ed0ec650b08148",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell upright row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-upright-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-shrug",
+    "category_id": "shoulders",
+    "name_en": "Dumbbell shrug",
+    "name_ru": "Шраги с гантелями",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/dumbbell-shrug.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "traps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17415,
+    "sha256": "f26416228ca351e8696e80f78ab15d4c0d02805c587cea4387bfede20a380da2",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell shrug",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-shrug"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "half-kneeling-landmine-press",
+    "category_id": "shoulders",
+    "name_en": "Half-kneeling landmine press",
+    "name_ru": "Жим лэндмайн с колена",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/half-kneeling-landmine-press.svg",
+    "equipment": [
+      "landmine",
+      "barbell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20830,
+    "sha256": "230e6eddc27148d25f24eb3dd6b8e4cf5b704b1025aac1109fc5e688af881152",
+    "viewBox": "0 0 512 512",
+    "title": "Half-kneeling landmine press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-half-kneeling-landmine-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "pike-push-up",
+    "category_id": "shoulders",
+    "name_en": "Pike push-up",
+    "name_ru": "Отжимания уголком",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/shoulders/pike-push-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16505,
+    "sha256": "435e3604d77f4ac45235c9fa00e0b300688b12aad0244eba39e442d44fbbc87a",
+    "viewBox": "0 0 512 512",
+    "title": "Pike push-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-pike-push-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-biceps-curl",
+    "category_id": "arms",
+    "name_en": "Barbell biceps curl",
+    "name_ru": "Подъём штанги на бицепс",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/barbell-biceps-curl.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22635,
+    "sha256": "8c6e566fb4ee56021998926e3fcda92e843cebbed187e5079a22d39fdad2c1c8",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell biceps curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-biceps-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "alternating-dumbbell-curl",
+    "category_id": "arms",
+    "name_en": "Alternating dumbbell curl",
+    "name_ru": "Попеременный подъём гантелей",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/alternating-dumbbell-curl.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20946,
+    "sha256": "674ca10906de1c8f47b01b52caa9ca03c43cb8b550dc3d411a8cb12dcd49d396",
+    "viewBox": "0 0 512 512",
+    "title": "Alternating dumbbell curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-alternating-dumbbell-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "hammer-curl",
+    "category_id": "arms",
+    "name_en": "Hammer curl",
+    "name_ru": "Молотковые сгибания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/hammer-curl.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19419,
+    "sha256": "15cd5282853aca790f668d76ffeb7c191061044446b66178b6c60d0235fc86ef",
+    "viewBox": "0 0 512 512",
+    "title": "Hammer curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-hammer-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "preacher-curl",
+    "category_id": "arms",
+    "name_en": "Preacher curl",
+    "name_ru": "Сгибания на скамье Скотта",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/preacher-curl.svg",
+    "equipment": [
+      "ez-bar",
+      "preacher-bench"
+    ],
+    "primary_muscles": [
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 29809,
+    "sha256": "d385514e609353817b3011c1b528d4904c37c8e7c4fead4d830a3aed350004af",
+    "viewBox": "0 0 512 512",
+    "title": "Preacher curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-preacher-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "concentration-curl",
+    "category_id": "arms",
+    "name_en": "Concentration curl",
+    "name_ru": "Концентрированный подъём гантели",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/concentration-curl.svg",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 23574,
+    "sha256": "af6f31e84429f3adea7d2897636114c85f566528be50aa8ee15e2a1c5167a81f",
+    "viewBox": "0 0 512 512",
+    "title": "Concentration curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-concentration-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "incline-dumbbell-curl",
+    "category_id": "arms",
+    "name_en": "Incline dumbbell curl",
+    "name_ru": "Подъём гантелей на наклонной скамье",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/incline-dumbbell-curl.svg",
+    "equipment": [
+      "dumbbell",
+      "incline-bench"
+    ],
+    "primary_muscles": [
+      "biceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 27998,
+    "sha256": "9d24cce21305cafbc752bcec1d16308041fe418231dd719587df3c417c7f46f5",
+    "viewBox": "0 0 512 512",
+    "title": "Incline dumbbell curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-incline-dumbbell-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cable-biceps-curl",
+    "category_id": "arms",
+    "name_en": "Cable biceps curl",
+    "name_ru": "Сгибания рук на нижнем блоке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/cable-biceps-curl.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "biceps",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 24329,
+    "sha256": "ac1a835b1b2f22fa62a4ca1abe68ec3c936d1adeb9ddeca9d0cbf6da38239912",
+    "viewBox": "0 0 512 512",
+    "title": "Cable biceps curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cable-biceps-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "rope-triceps-pushdown",
+    "category_id": "arms",
+    "name_en": "Rope triceps pushdown",
+    "name_ru": "Разгибание рук с канатом на блоке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/rope-triceps-pushdown.svg",
+    "equipment": [
+      "cable-machine",
+      "rope-handle"
+    ],
+    "primary_muscles": [
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 27513,
+    "sha256": "d53ca9da23c61210499fba283c1a3b3c9f2969685ea3431c261a7563fa623dcf",
+    "viewBox": "0 0 512 512",
+    "title": "Rope triceps pushdown",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-rope-triceps-pushdown"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "overhead-dumbbell-triceps-extension",
+    "category_id": "arms",
+    "name_en": "Overhead dumbbell triceps extension",
+    "name_ru": "Разгибание рук с гантелью из-за головы",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/overhead-dumbbell-triceps-extension.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16390,
+    "sha256": "8f7fe329c5a997a93b589b0bcb96402c4120374f1ac8a922f96d1beaf7047816",
+    "viewBox": "0 0 512 512",
+    "title": "Overhead dumbbell triceps extension",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-overhead-dumbbell-triceps-extension"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lying-ez-bar-triceps-extension",
+    "category_id": "arms",
+    "name_en": "Lying EZ-bar triceps extension",
+    "name_ru": "Французский жим лёжа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/lying-ez-bar-triceps-extension.svg",
+    "equipment": [
+      "ez-bar",
+      "bench"
+    ],
+    "primary_muscles": [
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20023,
+    "sha256": "5063c39abe24c903ffc3e6292012c026494c843364fd47dfaf40c53ed6bb1d16",
+    "viewBox": "0 0 512 512",
+    "title": "Lying EZ-bar triceps extension",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lying-ez-bar-triceps-extension"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-triceps-kickback",
+    "category_id": "arms",
+    "name_en": "Dumbbell triceps kickback",
+    "name_ru": "Разгибание руки с гантелью в наклоне",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/dumbbell-triceps-kickback.svg",
+    "equipment": [
+      "dumbbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21439,
+    "sha256": "9d207bd19db3148fb8b5684d169e862856d18dba1aa3683ddbb12a0526880f26",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell triceps kickback",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-triceps-kickback"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "parallel-bar-dip",
+    "category_id": "arms",
+    "name_en": "Parallel-bar dip",
+    "name_ru": "Отжимания на брусьях",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/arms/parallel-bar-dip.svg",
+    "equipment": [
+      "parallel-bars"
+    ],
+    "primary_muscles": [
+      "triceps",
+      "chest",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21494,
+    "sha256": "f2319a68d2cc4a9cb73054069c8715cf102aac89454602118477288b10bc646e",
+    "viewBox": "0 0 512 512",
+    "title": "Parallel-bar dip",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-parallel-bar-dip"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bodyweight-squat",
+    "category_id": "quads",
+    "name_en": "Bodyweight squat",
+    "name_ru": "Приседания с весом тела",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/bodyweight-squat.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22275,
+    "sha256": "632a1871562b191d72f17b900e6618f5f6c3f15f2d9de223864696e73cac737b",
+    "viewBox": "0 0 512 512",
+    "title": "Bodyweight squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bodyweight-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "goblet-squat",
+    "category_id": "quads",
+    "name_en": "Goblet squat",
+    "name_ru": "Гоблет-присед",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/goblet-squat.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25029,
+    "sha256": "5b6ef4a26df342b9b1021acd1af424db38c413264ac626a41d9eae91cf23b17d",
+    "viewBox": "0 0 512 512",
+    "title": "Goblet squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-goblet-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-back-squat",
+    "category_id": "quads",
+    "name_en": "Barbell back squat",
+    "name_ru": "Приседания со штангой на спине",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/barbell-back-squat.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "lowerback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 29699,
+    "sha256": "7040ce4e13ad61365a26e30970743a54dfe24d8deb9363c01a3ce7e36e8a6af3",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell back squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-back-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-front-squat",
+    "category_id": "quads",
+    "name_en": "Barbell front squat",
+    "name_ru": "Фронтальные приседания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/barbell-front-squat.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 26099,
+    "sha256": "acd649886e296dbfbc808c9d94acecaf4dc61c4dce0693bfcc6f5ecc734ed2ec",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell front squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-front-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "leg-press",
+    "category_id": "quads",
+    "name_en": "Leg press",
+    "name_ru": "Жим ногами",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/leg-press.svg",
+    "equipment": [
+      "leg-press-machine"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22728,
+    "sha256": "32d5e844f747426f2a77706f487bea455ebb0a13b37e6374f2debf8b3be53d6b",
+    "viewBox": "0 0 512 512",
+    "title": "Leg press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-leg-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "split-squat",
+    "category_id": "quads",
+    "name_en": "Split squat",
+    "name_ru": "Сплит-присед",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/split-squat.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17884,
+    "sha256": "bd2a84e3b5308f2a447acf3f56c965ecbf898a7bb7fecd2326c0ebbe80296755",
+    "viewBox": "0 0 512 512",
+    "title": "Split squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-split-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bulgarian-split-squat",
+    "category_id": "quads",
+    "name_en": "Bulgarian split squat",
+    "name_ru": "Болгарские сплит-приседания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/bulgarian-split-squat.svg",
+    "equipment": [
+      "bench",
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21192,
+    "sha256": "f8dd709fd631f831c0bdcac01152edb1c1c478ece9d0e4e66aa927e3d31d9e18",
+    "viewBox": "0 0 512 512",
+    "title": "Bulgarian split squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bulgarian-split-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "reverse-lunge",
+    "category_id": "quads",
+    "name_en": "Reverse lunge",
+    "name_ru": "Выпады назад",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/reverse-lunge.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20037,
+    "sha256": "b7ec6d334b5f3abae9022ed356a8f49a8ed47fbb8b23e9ed1a1b874b3244a3b8",
+    "viewBox": "0 0 512 512",
+    "title": "Reverse lunge",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-reverse-lunge"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "walking-lunge",
+    "category_id": "quads",
+    "name_en": "Walking lunge",
+    "name_ru": "Выпады в ходьбе",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/walking-lunge.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21117,
+    "sha256": "c556e2a666be4678f859b6b9e90478b8d09f82256d9be865660a3fb447ae5395",
+    "viewBox": "0 0 512 512",
+    "title": "Walking lunge",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-walking-lunge"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lateral-lunge",
+    "category_id": "quads",
+    "name_en": "Lateral lunge",
+    "name_ru": "Боковые выпады",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/lateral-lunge.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "adductors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 21888,
+    "sha256": "39ee61e1aedea79db0b110b658545874413ac6565b29895716af721d44d2edd0",
+    "viewBox": "0 0 512 512",
+    "title": "Lateral lunge",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lateral-lunge"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "step-up",
+    "category_id": "quads",
+    "name_en": "Step-up",
+    "name_ru": "Зашагивания на платформу",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/step-up.svg",
+    "equipment": [
+      "box",
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15674,
+    "sha256": "c7d14b87d4511919ca2e176c1e281f58c2ed0de16c89ccb18f4e9ff65890fcea",
+    "viewBox": "0 0 512 512",
+    "title": "Step-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-step-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "machine-leg-extension",
+    "category_id": "quads",
+    "name_en": "Machine leg extension",
+    "name_ru": "Разгибание ног в тренажёре",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/quads/machine-leg-extension.svg",
+    "equipment": [
+      "leg-extension-machine"
+    ],
+    "primary_muscles": [
+      "quads"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 27092,
+    "sha256": "1df1c63c6f9d6b3e3042e1acbbb785804bb4df5de79ff234c981ea55dbe55f3b",
+    "viewBox": "0 0 512 512",
+    "title": "Machine leg extension",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-machine-leg-extension"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "conventional-deadlift",
+    "category_id": "posterior-chain",
+    "name_en": "Conventional deadlift",
+    "name_ru": "Классическая становая тяга",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/conventional-deadlift.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings",
+      "lowerback",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25459,
+    "sha256": "0c85c8e68a4534f3c52bec692973703046e321e26bc765e212b73083d4a5d966",
+    "viewBox": "0 0 512 512",
+    "title": "Conventional deadlift",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-conventional-deadlift"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "sumo-deadlift",
+    "category_id": "posterior-chain",
+    "name_en": "Sumo deadlift",
+    "name_ru": "Становая тяга сумо",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/sumo-deadlift.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "quads",
+      "adductors",
+      "lowerback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 27223,
+    "sha256": "41f49a3d14fa939edeb81e5131710ef0aeee13d6076fbb0d487cd130b9b42bd1",
+    "viewBox": "0 0 512 512",
+    "title": "Sumo deadlift",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-sumo-deadlift"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "romanian-deadlift",
+    "category_id": "posterior-chain",
+    "name_en": "Romanian deadlift",
+    "name_ru": "Румынская тяга",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/romanian-deadlift.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "glutes",
+      "lowerback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20285,
+    "sha256": "d1fb9a501db28ce0f234fdda4a815f1bd158ecb1df06473aeb2a36a44f2bf7d9",
+    "viewBox": "0 0 512 512",
+    "title": "Romanian deadlift",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-romanian-deadlift"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "single-leg-romanian-deadlift",
+    "category_id": "posterior-chain",
+    "name_en": "Single-leg Romanian deadlift",
+    "name_ru": "Румынская тяга на одной ноге",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/single-leg-romanian-deadlift.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "glutes",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16707,
+    "sha256": "aa9900325eb3c63e6de97ae941d592873827dd7fe82c49e2919897907cae47aa",
+    "viewBox": "0 0 512 512",
+    "title": "Single-leg Romanian deadlift",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-single-leg-romanian-deadlift"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-hip-thrust",
+    "category_id": "posterior-chain",
+    "name_en": "Barbell hip thrust",
+    "name_ru": "Ягодичный мост со штангой на скамье",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/barbell-hip-thrust.svg",
+    "equipment": [
+      "barbell",
+      "bench"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17077,
+    "sha256": "1295ebc8fd48e439ee858fddb35ebe76a9eacdd4ee51caa07d180439fe79ed1c",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell hip thrust",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-hip-thrust"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "glute-bridge",
+    "category_id": "posterior-chain",
+    "name_en": "Glute bridge",
+    "name_ru": "Ягодичный мост на полу",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/glute-bridge.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 13058,
+    "sha256": "b5e7e08d0717f5128a291976647951dd0cb9eab7f120ccc6214772cbb302d8bb",
+    "viewBox": "0 0 512 512",
+    "title": "Glute bridge",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-glute-bridge"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "kettlebell-swing",
+    "category_id": "posterior-chain",
+    "name_en": "Kettlebell swing",
+    "name_ru": "Махи гирей",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/kettlebell-swing.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17100,
+    "sha256": "49ec5e3febbfed9787139487b2d73a7cb162f2351d2b374983041e27ace90ecf",
+    "viewBox": "0 0 512 512",
+    "title": "Kettlebell swing",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-kettlebell-swing"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lying-leg-curl",
+    "category_id": "posterior-chain",
+    "name_en": "Lying leg curl",
+    "name_ru": "Сгибание ног лёжа в тренажёре",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/lying-leg-curl.svg",
+    "equipment": [
+      "leg-curl-machine"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21792,
+    "sha256": "56e390d010d406074ac54a9f0cb6e5b66112ec06ee4312a3875c9afe60850462",
+    "viewBox": "0 0 512 512",
+    "title": "Lying leg curl",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lying-leg-curl"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-good-morning",
+    "category_id": "posterior-chain",
+    "name_en": "Barbell good morning",
+    "name_ru": "Наклоны со штангой «гудморнинг»",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/barbell-good-morning.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "glutes",
+      "lowerback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20856,
+    "sha256": "f09d7b9a3d5e4c6da074dc872a6e7e4d73fb6c5944eee73c694e7092f6ef18da",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell good morning",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-good-morning"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cable-glute-kickback",
+    "category_id": "posterior-chain",
+    "name_en": "Cable glute kickback",
+    "name_ru": "Отведение ноги назад на блоке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/cable-glute-kickback.svg",
+    "equipment": [
+      "cable-machine",
+      "ankle-cuff"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22023,
+    "sha256": "66b47ab0350f16d156b593a5142b3f6aa3b9e70789441fea8a1e1eb935c336f1",
+    "viewBox": "0 0 512 512",
+    "title": "Cable glute kickback",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cable-glute-kickback"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "standing-calf-raise",
+    "category_id": "posterior-chain",
+    "name_en": "Standing calf raise",
+    "name_ru": "Подъём на носки стоя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/standing-calf-raise.svg",
+    "equipment": [
+      "dumbbell",
+      "step"
+    ],
+    "primary_muscles": [
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17011,
+    "sha256": "07baff6898bda1adcc4cc8042173fe2f9f3c0d6dca16487fa8bcc2d8fbf6c81e",
+    "viewBox": "0 0 512 512",
+    "title": "Standing calf raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-standing-calf-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "seated-calf-raise",
+    "category_id": "posterior-chain",
+    "name_en": "Seated calf raise",
+    "name_ru": "Подъём на носки сидя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/posterior-chain/seated-calf-raise.svg",
+    "equipment": [
+      "seated-calf-machine"
+    ],
+    "primary_muscles": [
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19175,
+    "sha256": "1e9bb1bd96c0d308bd5b9a194b55ca41ecad346d313bc01197b95ade379f5622",
+    "viewBox": "0 0 512 512",
+    "title": "Seated calf raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-seated-calf-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "crunch",
+    "category_id": "core-flexion",
+    "name_en": "Crunch",
+    "name_ru": "Скручивания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/crunch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17122,
+    "sha256": "1ffd9a5150900e195d8418db5977127b0c535fc5ed6a51cdea55c5f26022e269",
+    "viewBox": "0 0 512 512",
+    "title": "Crunch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-crunch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "reverse-crunch",
+    "category_id": "core-flexion",
+    "name_en": "Reverse crunch",
+    "name_ru": "Обратные скручивания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/reverse-crunch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16146,
+    "sha256": "b3ef004fda308afd00823eacc2351741ad704f41fb3e22aabbbdcc54af212ea5",
+    "viewBox": "0 0 512 512",
+    "title": "Reverse crunch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-reverse-crunch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bicycle-crunch",
+    "category_id": "core-flexion",
+    "name_en": "Bicycle crunch",
+    "name_ru": "Велосипед на пресс",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/bicycle-crunch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "obliques"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18136,
+    "sha256": "36e834211af8f9cd1c9c7adc3cc0167318a359612bc08c225c94d3583b36120b",
+    "viewBox": "0 0 512 512",
+    "title": "Bicycle crunch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bicycle-crunch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "sit-up",
+    "category_id": "core-flexion",
+    "name_en": "Sit-up",
+    "name_ru": "Подъём корпуса",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/sit-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 14867,
+    "sha256": "d762b060ec2b98d1180f2a5734b69165e185ec8025e71af3a101d3918e6d15f0",
+    "viewBox": "0 0 512 512",
+    "title": "Sit-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-sit-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "hanging-knee-raise",
+    "category_id": "core-flexion",
+    "name_en": "Hanging knee raise",
+    "name_ru": "Подъём коленей в висе",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/hanging-knee-raise.svg",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 19064,
+    "sha256": "f90c150abda511260585572ef4625cc48b7d840d69012589b2ce955dd52f7e5e",
+    "viewBox": "0 0 512 512",
+    "title": "Hanging knee raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-hanging-knee-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "hanging-leg-raise",
+    "category_id": "core-flexion",
+    "name_en": "Hanging leg raise",
+    "name_ru": "Подъём прямых ног в висе",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/hanging-leg-raise.svg",
+    "equipment": [
+      "pull-up-bar"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 16116,
+    "sha256": "d295ca6a587975897f98a1e35aff88c7ff5ec40fb0a00d99624c68a510af96b2",
+    "viewBox": "0 0 512 512",
+    "title": "Hanging leg raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-hanging-leg-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lying-leg-raise",
+    "category_id": "core-flexion",
+    "name_en": "Lying leg raise",
+    "name_ru": "Подъём прямых ног лёжа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/lying-leg-raise.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 14081,
+    "sha256": "ef1f6c6114fd317b1c9d2138b0e18a9cf6529a374ff8cf17f6e5a623b5df840a",
+    "viewBox": "0 0 512 512",
+    "title": "Lying leg raise",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lying-leg-raise"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "v-up",
+    "category_id": "core-flexion",
+    "name_en": "V-up",
+    "name_ru": "Складка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/v-up.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 16202,
+    "sha256": "17a0fb5d56c85bb0eb95284188eb03c3c7ec57a124ae7d7ad1872bcca5e39415",
+    "viewBox": "0 0 512 512",
+    "title": "V-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-v-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "russian-twist",
+    "category_id": "core-flexion",
+    "name_en": "Russian twist",
+    "name_ru": "Русские скручивания",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/russian-twist.svg",
+    "equipment": [
+      "medicine-ball"
+    ],
+    "primary_muscles": [
+      "obliques",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20518,
+    "sha256": "75644bcbf4ee8d2c2c8b9308d8f0c1615dd61a795c1b21d81300e4ea93c5de99",
+    "viewBox": "0 0 512 512",
+    "title": "Russian twist",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-russian-twist"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "kneeling-cable-crunch",
+    "category_id": "core-flexion",
+    "name_en": "Kneeling cable crunch",
+    "name_ru": "Скручивания на верхнем блоке с колен",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/kneeling-cable-crunch.svg",
+    "equipment": [
+      "cable-machine",
+      "rope-handle"
+    ],
+    "primary_muscles": [
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22843,
+    "sha256": "adb64d28b16683ff046f0496ad5bcb78c0984dc33e1b65d4b3392bef44669a0d",
+    "viewBox": "0 0 512 512",
+    "title": "Kneeling cable crunch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-kneeling-cable-crunch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "standing-cable-woodchop",
+    "category_id": "core-flexion",
+    "name_en": "Standing cable woodchop",
+    "name_ru": "Диагональные скручивания на блоке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/standing-cable-woodchop.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "obliques",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25784,
+    "sha256": "6fb48088c651ab6d9089b8a8c8cfa75ae1568411ae693ffe8321b1ee3b0bbef2",
+    "viewBox": "0 0 512 512",
+    "title": "Standing cable woodchop",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-standing-cable-woodchop"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-side-bend",
+    "category_id": "core-flexion",
+    "name_en": "Dumbbell side bend",
+    "name_ru": "Боковые наклоны с гантелью",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-flexion/dumbbell-side-bend.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "obliques"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20414,
+    "sha256": "005b01251be3aee62427965bdfb2293797199d96ddb0b05b2b171e804c916ea1",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell side bend",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-side-bend"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "forearm-plank",
+    "category_id": "core-stability",
+    "name_en": "Forearm plank",
+    "name_ru": "Планка на предплечьях",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/forearm-plank.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "obliques",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14924,
+    "sha256": "a0216de823cd6cb56548e818f6c4ff5b86b06bf1619755442ea986419dafecdf",
+    "viewBox": "0 0 512 512",
+    "title": "Forearm plank",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-forearm-plank"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "high-plank",
+    "category_id": "core-stability",
+    "name_en": "High plank",
+    "name_ru": "Планка на прямых руках",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/high-plank.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19485,
+    "sha256": "06b0894b30feba415f49bb0cf253e01f7dd76747b7fed9d0f39da831a01b01fb",
+    "viewBox": "0 0 512 512",
+    "title": "High plank",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-high-plank"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "side-plank",
+    "category_id": "core-stability",
+    "name_en": "Side plank",
+    "name_ru": "Боковая планка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/side-plank.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "obliques",
+      "abs",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19930,
+    "sha256": "b74f8cf2a311d6ec0bef82144a410df23f7d26d7b3bd981a783187a693431ccb",
+    "viewBox": "0 0 512 512",
+    "title": "Side plank",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-side-plank"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "reverse-plank",
+    "category_id": "core-stability",
+    "name_en": "Reverse plank",
+    "name_ru": "Обратная планка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/reverse-plank.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings",
+      "abs",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15330,
+    "sha256": "92afe19c7b465c6f190564d698f7622fa1071c9655c5ab2fd5b79e3f049817ef",
+    "viewBox": "0 0 512 512",
+    "title": "Reverse plank",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-reverse-plank"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dead-bug",
+    "category_id": "core-stability",
+    "name_en": "Dead bug",
+    "name_ru": "Мёртвый жук",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/dead-bug.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "obliques"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16186,
+    "sha256": "ea8760ffa39550a1d7fc77c6ed4ee9c9ecdaf62ecfea5d984ba7414b6072bf45",
+    "viewBox": "0 0 512 512",
+    "title": "Dead bug",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dead-bug"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bird-dog",
+    "category_id": "core-stability",
+    "name_en": "Bird dog",
+    "name_ru": "Птица-собака",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/bird-dog.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "lowerback",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17143,
+    "sha256": "109f09e137e9b68d96260cfd630e507ffbaf77a7fb146dfd4945cc8366479ec3",
+    "viewBox": "0 0 512 512",
+    "title": "Bird dog",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bird-dog"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "hollow-body-hold",
+    "category_id": "core-stability",
+    "name_en": "Hollow body hold",
+    "name_ru": "Удержание полого тела",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/hollow-body-hold.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14245,
+    "sha256": "1384aeae3373bc2677843195538593f793e3407bfbd6e39d81b3bc4d9ad88eef",
+    "viewBox": "0 0 512 512",
+    "title": "Hollow body hold",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-hollow-body-hold"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "ab-wheel-rollout",
+    "category_id": "core-stability",
+    "name_en": "Ab wheel rollout",
+    "name_ru": "Выкат с роликом для пресса",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/ab-wheel-rollout.svg",
+    "equipment": [
+      "ab-wheel"
+    ],
+    "primary_muscles": [
+      "abs",
+      "lats",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15866,
+    "sha256": "90652ccdab8da3022a20d097d467fe0829d35f1877bfab0200ace6f12f7a0e97",
+    "viewBox": "0 0 512 512",
+    "title": "Ab wheel rollout",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-ab-wheel-rollout"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "pallof-press",
+    "category_id": "core-stability",
+    "name_en": "Pallof press",
+    "name_ru": "Жим Палоффа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/pallof-press.svg",
+    "equipment": [
+      "cable-machine"
+    ],
+    "primary_muscles": [
+      "obliques",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 23375,
+    "sha256": "93b04eb0e88136e17199980508b5d0dcf2339fec00576511b42c42259ec21d60",
+    "viewBox": "0 0 512 512",
+    "title": "Pallof press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-pallof-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "bear-plank",
+    "category_id": "core-stability",
+    "name_en": "Bear plank",
+    "name_ru": "Медвежья планка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/bear-plank.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "shoulders",
+      "quads"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19895,
+    "sha256": "5d038795a41ac822f3b705d4983b623b74125d8f96bb456040cab8e4be64b094",
+    "viewBox": "0 0 512 512",
+    "title": "Bear plank",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-bear-plank"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "suitcase-carry",
+    "category_id": "core-stability",
+    "name_en": "Suitcase carry",
+    "name_ru": "Перенос гири в одной руке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/suitcase-carry.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "obliques",
+      "forearms",
+      "traps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20061,
+    "sha256": "cdfc153d0ce38f1238d9625a1b80e6936407eddde2368ab175686718a687ad20",
+    "viewBox": "0 0 512 512",
+    "title": "Suitcase carry",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-suitcase-carry"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "farmers-walk",
+    "category_id": "core-stability",
+    "name_en": "Farmer's walk",
+    "name_ru": "Прогулка фермера",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/core-stability/farmers-walk.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "forearms",
+      "traps",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 22899,
+    "sha256": "927b7c6d9b72971f5d54304d3a3fde399e70d989017d800f6e94e212b1efbffe",
+    "viewBox": "0 0 512 512",
+    "title": "Farmer's walk",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-farmers-walk"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "kettlebell-clean",
+    "category_id": "functional-strength",
+    "name_en": "Kettlebell clean",
+    "name_ru": "Взятие гири на грудь",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/kettlebell-clean.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings",
+      "shoulders",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16671,
+    "sha256": "01935a7732772f5a67b9e5bc33bab62085f801b518acff13b4656cef66aec093",
+    "viewBox": "0 0 512 512",
+    "title": "Kettlebell clean",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-kettlebell-clean"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "kettlebell-snatch",
+    "category_id": "functional-strength",
+    "name_en": "Kettlebell snatch",
+    "name_ru": "Рывок гири",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/kettlebell-snatch.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hamstrings",
+      "shoulders",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16561,
+    "sha256": "882b2bf561f764b4f34dbb4f1e0ad25b4c61a265f3c4df79d249c02025e7a906",
+    "viewBox": "0 0 512 512",
+    "title": "Kettlebell snatch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-kettlebell-snatch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "turkish-get-up",
+    "category_id": "functional-strength",
+    "name_en": "Turkish get-up",
+    "name_ru": "Турецкий подъём",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/turkish-get-up.svg",
+    "equipment": [
+      "kettlebell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "abs",
+      "obliques",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16289,
+    "sha256": "8a12f35773bb9413beea852a496707a5644a55b82c37c57a4820c6d55dc7c4f9",
+    "viewBox": "0 0 512 512",
+    "title": "Turkish get-up",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-turkish-get-up"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-thruster",
+    "category_id": "functional-strength",
+    "name_en": "Dumbbell thruster",
+    "name_ru": "Трастер с гантелями",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/dumbbell-thruster.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20371,
+    "sha256": "ed85e7cd9b84eb6d8467efb1cfb0fdf67287b00ae8e1bfe202b03ddb21c6707a",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell thruster",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-thruster"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "barbell-push-press",
+    "category_id": "functional-strength",
+    "name_en": "Barbell push press",
+    "name_ru": "Жимовой швунг со штангой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/barbell-push-press.svg",
+    "equipment": [
+      "barbell"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "triceps",
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 25253,
+    "sha256": "2205074e2d9d171df2152e88634972dfe65f834df924cb7f3be8cf68c7f54fc9",
+    "viewBox": "0 0 512 512",
+    "title": "Barbell push press",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-barbell-push-press"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dumbbell-renegade-row",
+    "category_id": "functional-strength",
+    "name_en": "Dumbbell renegade row",
+    "name_ru": "Тяга гантели в планке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/dumbbell-renegade-row.svg",
+    "equipment": [
+      "dumbbell"
+    ],
+    "primary_muscles": [
+      "lats",
+      "upperback",
+      "abs",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 20836,
+    "sha256": "373c9eba577fbedfc0cb9ecb0a28da6255c6a2f9fada7b3b5ed01c1c99fa8287",
+    "viewBox": "0 0 512 512",
+    "title": "Dumbbell renegade row",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dumbbell-renegade-row"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "medicine-ball-slam",
+    "category_id": "functional-strength",
+    "name_en": "Medicine ball slam",
+    "name_ru": "Бросок медбола в пол",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/medicine-ball-slam.svg",
+    "equipment": [
+      "medicine-ball"
+    ],
+    "primary_muscles": [
+      "abs",
+      "shoulders",
+      "lats",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15332,
+    "sha256": "61f091bea788eb1503be91635905a2a97976f68666ac3d6c74bbb978e215dcb3",
+    "viewBox": "0 0 512 512",
+    "title": "Medicine ball slam",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-medicine-ball-slam"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "wall-ball-throw",
+    "category_id": "functional-strength",
+    "name_en": "Wall ball throw",
+    "name_ru": "Бросок медбола в стену",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/wall-ball-throw.svg",
+    "equipment": [
+      "medicine-ball",
+      "wall"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "shoulders",
+      "triceps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 13531,
+    "sha256": "aa41b8f5a359eee72dc23af6a9d004b778a3c5fc0e96a445e296a8745412e25e",
+    "viewBox": "0 0 512 512",
+    "title": "Wall ball throw",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-wall-ball-throw"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "battle-rope-waves",
+    "category_id": "functional-strength",
+    "name_en": "Battle rope waves",
+    "name_ru": "Волны с канатами",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/battle-rope-waves.svg",
+    "equipment": [
+      "battle-ropes"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "forearms",
+      "abs",
+      "quads"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 31881,
+    "sha256": "58edffd9b36fa541806b664040041fe9ea03dda897ae7f3110eca252ee17f3db",
+    "viewBox": "0 0 512 512",
+    "title": "Battle rope waves",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-battle-rope-waves"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "sled-push",
+    "category_id": "functional-strength",
+    "name_en": "Sled push",
+    "name_ru": "Толкание саней",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/sled-push.svg",
+    "equipment": [
+      "sled"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17761,
+    "sha256": "c7b051104aeb440c3f7a6edad9d614a6f99f96b000471ea3478e9036650173d1",
+    "viewBox": "0 0 512 512",
+    "title": "Sled push",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-sled-push"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "backward-sled-drag",
+    "category_id": "functional-strength",
+    "name_en": "Backward sled drag",
+    "name_ru": "Тяга саней спиной вперёд",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/backward-sled-drag.svg",
+    "equipment": [
+      "sled",
+      "straps"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 19099,
+    "sha256": "20413c195347dde29983613cf629b7e244be27f46037fee8e8614cd1dde6e82a",
+    "viewBox": "0 0 512 512",
+    "title": "Backward sled drag",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-backward-sled-drag"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "sandbag-bear-hug-carry",
+    "category_id": "functional-strength",
+    "name_en": "Sandbag bear-hug carry",
+    "name_ru": "Перенос мешка перед собой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/functional-strength/sandbag-bear-hug-carry.svg",
+    "equipment": [
+      "sandbag"
+    ],
+    "primary_muscles": [
+      "abs",
+      "upperback",
+      "biceps",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16638,
+    "sha256": "146871c6288160ba47a3222bd5145d75440ea7477ae9845ada18993bac507105",
+    "viewBox": "0 0 512 512",
+    "title": "Sandbag bear-hug carry",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-sandbag-bear-hug-carry"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "jumping-jack",
+    "category_id": "conditioning",
+    "name_en": "Jumping jack",
+    "name_ru": "Прыжки «джампинг-джек»",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/jumping-jack.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16596,
+    "sha256": "3c341b9fc8d696604aefd6a81b9da0fe92d702d814adc42b457875b3fba2eba8",
+    "viewBox": "0 0 512 512",
+    "title": "Jumping jack",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-jumping-jack"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "high-knees",
+    "category_id": "conditioning",
+    "name_en": "High knees",
+    "name_ru": "Бег с высоким подниманием колен",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/high-knees.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "hipflexors",
+      "quads",
+      "calves",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 13201,
+    "sha256": "e4be4ec95181f4d3e179ad077f20036e96dce1f1de9ec63f4144ae2e57d95b8b",
+    "viewBox": "0 0 512 512",
+    "title": "High knees",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-high-knees"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "butt-kicks",
+    "category_id": "conditioning",
+    "name_en": "Butt kicks",
+    "name_ru": "Бег с захлёстом голени",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/butt-kicks.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 11778,
+    "sha256": "af716edc0f2382eb69e6446c2715e478a98f3f4eb84b76d3c7a6fa54b8132091",
+    "viewBox": "0 0 512 512",
+    "title": "Butt kicks",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-butt-kicks"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "skater-jump",
+    "category_id": "conditioning",
+    "name_en": "Skater jump",
+    "name_ru": "Прыжки конькобежца",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/skater-jump.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "quads",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16547,
+    "sha256": "f8da9066cb2fee4af22af0b69f650f137c3c702a493d0598a276180e38130675",
+    "viewBox": "0 0 512 512",
+    "title": "Skater jump",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-skater-jump"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "jump-rope",
+    "category_id": "conditioning",
+    "name_en": "Jump rope",
+    "name_ru": "Прыжки через скакалку",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/jump-rope.svg",
+    "equipment": [
+      "jump-rope"
+    ],
+    "primary_muscles": [
+      "calves",
+      "quads",
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17996,
+    "sha256": "b01374cc5ab4465d5aeec6c349dbcc251470e1d3ae25c12cffb811cff78ac73d",
+    "viewBox": "0 0 512 512",
+    "title": "Jump rope",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-jump-rope"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "burpee",
+    "category_id": "conditioning",
+    "name_en": "Burpee",
+    "name_ru": "Берпи",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/burpee.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "chest",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16048,
+    "sha256": "56ce2274a3a846cb34fdc955a77b5783b3eb7c9014d977b87eae2bf59aff772f",
+    "viewBox": "0 0 512 512",
+    "title": "Burpee",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-burpee"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "mountain-climber",
+    "category_id": "conditioning",
+    "name_en": "Mountain climber",
+    "name_ru": "Альпинист",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/mountain-climber.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "hipflexors",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 14555,
+    "sha256": "b6c3e94b748ef354a790ace7dfee05fd0a118a0a324d6ce8233c5007a0d9668d",
+    "viewBox": "0 0 512 512",
+    "title": "Mountain climber",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-mountain-climber"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "squat-jump",
+    "category_id": "conditioning",
+    "name_en": "Squat jump",
+    "name_ru": "Приседания с выпрыгиванием",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/squat-jump.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 12751,
+    "sha256": "f0f44ec1473e3d010361f37b58d2d066054f465ba11768c066b855328c5aaca1",
+    "viewBox": "0 0 512 512",
+    "title": "Squat jump",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-squat-jump"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "box-jump",
+    "category_id": "conditioning",
+    "name_en": "Box jump",
+    "name_ru": "Прыжки на тумбу",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/box-jump.svg",
+    "equipment": [
+      "box"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 13502,
+    "sha256": "a2832b16682569f8f5a21e3115de13b44e85cea021eba74f28a08cd2a80e1ff2",
+    "viewBox": "0 0 512 512",
+    "title": "Box jump",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-box-jump"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "rowing-machine",
+    "category_id": "conditioning",
+    "name_en": "Rowing machine",
+    "name_ru": "Гребля на тренажёре",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/rowing-machine.svg",
+    "equipment": [
+      "rowing-machine"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "upperback",
+      "lats"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 18602,
+    "sha256": "4d3a52b360223d2d0082802b55ecad23d7d7d1508413c2f7e6063c4c0ddadc6e",
+    "viewBox": "0 0 512 512",
+    "title": "Rowing machine",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-rowing-machine"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "stationary-bike",
+    "category_id": "conditioning",
+    "name_en": "Stationary bike",
+    "name_ru": "Велотренажёр",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/stationary-bike.svg",
+    "equipment": [
+      "stationary-bike"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 21519,
+    "sha256": "b813de250393d38935a817f3847895afd964e0a4f022db04eb9e39583eea7a60",
+    "viewBox": "0 0 512 512",
+    "title": "Stationary bike",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-stationary-bike"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "treadmill-running",
+    "category_id": "conditioning",
+    "name_en": "Treadmill running",
+    "name_ru": "Бег на дорожке",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/conditioning/treadmill-running.svg",
+    "equipment": [
+      "treadmill"
+    ],
+    "primary_muscles": [
+      "quads",
+      "glutes",
+      "hamstrings",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15569,
+    "sha256": "f26c626d72e354f85b5b54c7bf68235c1274b80405535dbf01cccc105009376d",
+    "viewBox": "0 0 512 512",
+    "title": "Treadmill running",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-treadmill-running"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "dowel-shoulder-pass-through",
+    "category_id": "mobility-upper",
+    "name_en": "Dowel shoulder pass-through",
+    "name_ru": "Проведение палки над головой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/dowel-shoulder-pass-through.svg",
+    "equipment": [
+      "dowel"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "chest"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15318,
+    "sha256": "7f785650f62573ffc35fc70b4e585d57ae05ff100c643b5fe5ed2c0d6bdb66a2",
+    "viewBox": "0 0 512 512",
+    "title": "Dowel shoulder pass-through",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-dowel-shoulder-pass-through"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "wall-angel",
+    "category_id": "mobility-upper",
+    "name_en": "Wall angel",
+    "name_ru": "Ангел у стены",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/wall-angel.svg",
+    "equipment": [
+      "wall"
+    ],
+    "primary_muscles": [
+      "shoulders",
+      "upperback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 24894,
+    "sha256": "63f5554efb6cec7937163b7d1be38cdb899e02c2e6931d30846dfd09e25370f2",
+    "viewBox": "0 0 512 512",
+    "title": "Wall angel",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-wall-angel"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cross-body-shoulder-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Cross-body shoulder stretch",
+    "name_ru": "Растяжка плеча поперёк груди",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/cross-body-shoulder-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14265,
+    "sha256": "2aebe9390dc6e131447801a50b34cb3b3c0f75586916aea71b07df7e0a44ac9d",
+    "viewBox": "0 0 512 512",
+    "title": "Cross-body shoulder stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cross-body-shoulder-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "overhead-triceps-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Overhead triceps stretch",
+    "name_ru": "Растяжка трицепса над головой",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/overhead-triceps-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "triceps",
+      "lats"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 13320,
+    "sha256": "855e8580ac974f976b2f4c699786b147bd08eacfc6ebb6f886fd51f28f5dba46",
+    "viewBox": "0 0 512 512",
+    "title": "Overhead triceps stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-overhead-triceps-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "doorway-chest-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Doorway chest stretch",
+    "name_ru": "Растяжка груди в дверном проёме",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/doorway-chest-stretch.svg",
+    "equipment": [
+      "doorframe"
+    ],
+    "primary_muscles": [
+      "chest",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15392,
+    "sha256": "887cf8327860f5f82636d1da1b201f0e4679dc52849c77270016b526289cd45e",
+    "viewBox": "0 0 512 512",
+    "title": "Doorway chest stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-doorway-chest-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "kneeling-bench-lat-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Kneeling bench lat stretch",
+    "name_ru": "Растяжка широчайших на скамье",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/kneeling-bench-lat-stretch.svg",
+    "equipment": [
+      "bench"
+    ],
+    "primary_muscles": [
+      "lats",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 14980,
+    "sha256": "7d20b1b5df43ec60411257a44faeb4f7c6a51a1093b0b4c3ce9e7d99dd8f4336",
+    "viewBox": "0 0 512 512",
+    "title": "Kneeling bench lat stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-kneeling-bench-lat-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "thread-the-needle",
+    "category_id": "mobility-upper",
+    "name_en": "Thread-the-needle stretch",
+    "name_ru": "Продевание иглы",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/thread-the-needle.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "shoulders"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15103,
+    "sha256": "db8777da9c89bca16f7774f36c485c35ab9d31e91f26aefef3e7a97a317151ec",
+    "viewBox": "0 0 512 512",
+    "title": "Thread-the-needle stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-thread-the-needle"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "open-book-rotation",
+    "category_id": "mobility-upper",
+    "name_en": "Open-book thoracic rotation",
+    "name_ru": "Открытая книга",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/open-book-rotation.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "chest",
+      "obliques"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 15501,
+    "sha256": "d31aacb7538244b886da3ac76ea5964a4004d68ccd63a49838be138c352853c8",
+    "viewBox": "0 0 512 512",
+    "title": "Open-book thoracic rotation",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-open-book-rotation"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cat-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Cat stretch",
+    "name_ru": "Кошка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/cat-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "upperback",
+      "lowerback",
+      "abs"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 13551,
+    "sha256": "14af9f0f27d110ed68b5dbfca912a0cbef06e2cfa2b14c8a3bf686fe704b20f7",
+    "viewBox": "0 0 512 512",
+    "title": "Cat stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cat-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "sphinx-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Sphinx stretch",
+    "name_ru": "Сфинкс",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/sphinx-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "abs",
+      "lowerback"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 12638,
+    "sha256": "b5abcbacf13f6a2c7244d8bf505188173a296bf6084a546b3737fe97ec19550f",
+    "viewBox": "0 0 512 512",
+    "title": "Sphinx stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-sphinx-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "quadruped-wrist-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Quadruped wrist extension stretch",
+    "name_ru": "Растяжка запястий на четвереньках",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/quadruped-wrist-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "forearms"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 29026,
+    "sha256": "243c1c7235b530b13b247d1e138e44f1f29805e7927345945014f6ba59148137",
+    "viewBox": "0 0 512 512",
+    "title": "Quadruped wrist extension stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-quadruped-wrist-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "lateral-neck-stretch",
+    "category_id": "mobility-upper",
+    "name_en": "Lateral neck stretch",
+    "name_ru": "Боковая растяжка шеи",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-upper/lateral-neck-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "neck",
+      "traps"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "neck"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 13858,
+    "sha256": "2c60838af1d9e9b819f86c3fd4203ee9793186d4bf5fffab91313483e8122e79",
+    "viewBox": "0 0 512 512",
+    "title": "Lateral neck stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-lateral-neck-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "deep-squat-hold",
+    "category_id": "mobility-lower",
+    "name_en": "Deep squat hold",
+    "name_ru": "Удержание глубокого приседа",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/deep-squat-hold.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "adductors",
+      "glutes",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 20480,
+    "sha256": "4491ea032edb744237e073e9fdff9803b94a85a531cec43ab49cf05fb6e5d34a",
+    "viewBox": "0 0 512 512",
+    "title": "Deep squat hold",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-deep-squat-hold"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "cossack-squat",
+    "category_id": "mobility-lower",
+    "name_en": "Cossack squat",
+    "name_ru": "Казачий присед",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/cossack-squat.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "adductors",
+      "quads",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 20516,
+    "sha256": "26b800d80137de7e3661f088d6d4debf821d26b97c9175a843550013a7f7626e",
+    "viewBox": "0 0 512 512",
+    "title": "Cossack squat",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-cossack-squat"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "half-kneeling-hip-flexor-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Half-kneeling hip flexor stretch",
+    "name_ru": "Растяжка сгибателей бедра с колена",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/half-kneeling-hip-flexor-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "hipflexors",
+      "quads"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 17492,
+    "sha256": "e66516bc0099c831d3e51dbf95616a29398206930fc16db9bf16e51880bc7d99",
+    "viewBox": "0 0 512 512",
+    "title": "Half-kneeling hip flexor stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-half-kneeling-hip-flexor-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "seated-90-90-hip-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Seated 90/90 hip stretch",
+    "name_ru": "Положение 90/90",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/seated-90-90-hip-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hiprotators"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hiprotators"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 20621,
+    "sha256": "20b50e79447e7fb253c1a32b551163ffd8cdf9ea993be9b9f90bbbcb352da5af",
+    "viewBox": "0 0 512 512",
+    "title": "Seated 90/90 hip stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-seated-90-90-hip-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "pigeon-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Pigeon stretch",
+    "name_ru": "Поза голубя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/pigeon-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hipflexors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 17548,
+    "sha256": "8a7edf27161b23bb8db6a706f79fd7ef118a22670613c837a04e886356a58064",
+    "viewBox": "0 0 512 512",
+    "title": "Pigeon stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-pigeon-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "supine-figure-four-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Supine figure-four stretch",
+    "name_ru": "Растяжка ягодиц «четвёрка»",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/supine-figure-four-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "glutes",
+      "hiprotators"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hiprotators"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 17853,
+    "sha256": "13d0c9c007edd1238514fc580f611684715c00246b053f7bb70cf0e973967ec8",
+    "viewBox": "0 0 512 512",
+    "title": "Supine figure-four stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-supine-figure-four-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "standing-quadriceps-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Standing quadriceps stretch",
+    "name_ru": "Растяжка квадрицепса стоя",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/standing-quadriceps-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "quads",
+      "hipflexors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "hipflexors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 15349,
+    "sha256": "d32e4da140e4675a9e9a313d4a1b39fef18ec1cc197cb5d243ed3397ef2dfa60",
+    "viewBox": "0 0 512 512",
+    "title": "Standing quadriceps stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-standing-quadriceps-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "supine-strap-hamstring-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Supine strap hamstring stretch",
+    "name_ru": "Растяжка задней поверхности бедра с ремнём",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/supine-strap-hamstring-stretch.svg",
+    "equipment": [
+      "stretching-strap"
+    ],
+    "primary_muscles": [
+      "hamstrings",
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 17969,
+    "sha256": "556abb537d7ae331140934aacdc661e0c26691e29ce80fca447ec2420f661447",
+    "viewBox": "0 0 512 512",
+    "title": "Supine strap hamstring stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-supine-strap-hamstring-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "butterfly-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Butterfly stretch",
+    "name_ru": "Бабочка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/butterfly-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "adductors"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 22621,
+    "sha256": "f87981c263e63e0ab50e45e044be25f10092bc452dc016b1833bfb6ddafe67db",
+    "viewBox": "0 0 512 512",
+    "title": "Butterfly stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-butterfly-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "frog-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Frog stretch",
+    "name_ru": "Лягушка",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/frog-stretch.svg",
+    "equipment": [
+      "bodyweight"
+    ],
+    "primary_muscles": [
+      "adductors",
+      "glutes"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [
+      "adductors"
+    ],
+    "present": true,
+    "findings": [],
+    "bytes": 18759,
+    "sha256": "e91c658f233daabb8ae6959b787bb5f367b18bd090b1e9454658632b65060633",
+    "viewBox": "0 0 512 512",
+    "title": "Frog stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-frog-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "wall-calf-stretch",
+    "category_id": "mobility-lower",
+    "name_en": "Wall calf stretch",
+    "name_ru": "Растяжка икроножной мышцы у стены",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/wall-calf-stretch.svg",
+    "equipment": [
+      "wall"
+    ],
+    "primary_muscles": [
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16351,
+    "sha256": "fef19f0283c23b8e369d9096dc430c331be214d3c6c9174be2c8009378ae4281",
+    "viewBox": "0 0 512 512",
+    "title": "Wall calf stretch",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-wall-calf-stretch"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  },
+  {
+    "catalogue_id": "knee-to-wall-ankle-mobilization",
+    "category_id": "mobility-lower",
+    "name_en": "Knee-to-wall ankle mobilization",
+    "name_ru": "Подвижность голеностопа у стены",
+    "name_es": null,
+    "source_path": "Path_Exercise_Library/svg/mobility-lower/knee-to-wall-ankle-mobilization.svg",
+    "equipment": [
+      "wall"
+    ],
+    "primary_muscles": [
+      "calves"
+    ],
+    "secondary_muscles": null,
+    "measurement_type": null,
+    "missing_map_muscles": [],
+    "present": true,
+    "findings": [],
+    "bytes": 16886,
+    "sha256": "876638f7e6b650b459cbec264e6fc17fdf3e1c30043aa61b1ea0fc076f8c2610",
+    "viewBox": "0 0 512 512",
+    "title": "Knee-to-wall ankle mobilization",
+    "path_count": 1,
+    "image_count": 0,
+    "element_counts": {
+      "svg": 1,
+      "title": 1,
+      "desc": 1,
+      "g": 1,
+      "path": 1
+    },
+    "event_attributes": [],
+    "non_fragment_references": [],
+    "internal_ids": [
+      "title-knee-to-wall-ankle-mobilization"
+    ],
+    "fills": [
+      "#EFEFEB"
+    ],
+    "fill_rules": [
+      "evenodd"
+    ],
+    "status": "STRUCTURAL_PASS",
+    "visual_review": "not certified by this automated audit",
+    "existing_app_definition_id": null
+  }
+]

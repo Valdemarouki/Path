@@ -1,0 +1,39 @@
+{
+  "outerChecks": 20,
+  "nestedFiles": 192,
+  "nestedArchiveEntriesIncludingDirectory": 193,
+  "structuralPass": 144,
+  "svgBytes": 2791504,
+  "svgPathsMatchCatalogue": true,
+  "scope": "User-provided materials audit only; not app/device verification",
+  "originalsUnchanged": true,
+  "repoEdited": false,
+  "sourceAssetArchiveSHA256": "1f57dc1aa4aace03ddbfe6166d755477d54f7c7195e97c5b7a81ccf163177c90",
+  "conceptSHA256": "e955d34cfda98f7dd5608238b86a03076f35322e937b6377b8983194d2a92c68",
+  "missingAsset": "scapular-pull-up",
+  "unmappedMuscleGroups": [
+    "adductors",
+    "hipflexors",
+    "hiprotators",
+    "neck"
+  ],
+  "rowsAffectedByUnmappedMuscles": 19,
+  "missingMetadata": {
+    "missing_measurement_type": 144,
+    "missing_name_es": 144,
+    "missing_secondary_muscles": 144
+  },
+  "conceptTests": {
+    "total": 6,
+    "passed": 5,
+    "documentedMismatch": 1
+  },
+  "renderer": "Existing Inkscape; 9 SVGs rendered at256px; no install",
+  "runtimePlan": {
+    "use": "validated svg/ + catalogue + explicit translation/measurement mappings + approved map JSON",
+    "omit": "sources/,previews/,quality/,PNGs,HTMLdemo,GoogleFonts/openaiwidget calls",
+    "safeRendering": "local external img loading=lazy decoding=async; no raw SVGinnerHTML",
+    "oldIDs": "preserve old definitionId and slotID; no runtime name matching"
+  },
+  "visualCaveat": "The supplied detailed silhouettes contain face/hair and internal cut-out detail despite abstract no-face wording in original spec. Retain supplied verified SVGs rather than destructively simplifying single compound paths; precise accessible names remain essential for small/grip variants."
+}

@@ -1,0 +1,1154 @@
+[
+  {
+    "definitionId": "catalog:push-up",
+    "assetKey": "push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:knee-push-up",
+    "assetKey": "knee-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/knee-push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/knee-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:incline-push-up",
+    "assetKey": "incline-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/incline-push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/incline-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:decline-push-up",
+    "assetKey": "decline-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/decline-push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/decline-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:wide-push-up",
+    "assetKey": "wide-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/wide-push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/wide-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:diamond-push-up",
+    "assetKey": "diamond-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/chest/diamond-push-up.svg",
+    "runtimePath": "assets/sport/svg/chest/diamond-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-bench-press",
+    "assetKey": "barbell-bench-press",
+    "sourcePath": "Path_Exercise_Library/svg/chest/barbell-bench-press.svg",
+    "runtimePath": "assets/sport/svg/chest/barbell-bench-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:incline-dumbbell-press",
+    "assetKey": "incline-dumbbell-press",
+    "sourcePath": "Path_Exercise_Library/svg/chest/incline-dumbbell-press.svg",
+    "runtimePath": "assets/sport/svg/chest/incline-dumbbell-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-floor-press",
+    "assetKey": "dumbbell-floor-press",
+    "sourcePath": "Path_Exercise_Library/svg/chest/dumbbell-floor-press.svg",
+    "runtimePath": "assets/sport/svg/chest/dumbbell-floor-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-chest-fly",
+    "assetKey": "dumbbell-chest-fly",
+    "sourcePath": "Path_Exercise_Library/svg/chest/dumbbell-chest-fly.svg",
+    "runtimePath": "assets/sport/svg/chest/dumbbell-chest-fly.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:standing-cable-chest-fly",
+    "assetKey": "standing-cable-chest-fly",
+    "sourcePath": "Path_Exercise_Library/svg/chest/standing-cable-chest-fly.svg",
+    "runtimePath": "assets/sport/svg/chest/standing-cable-chest-fly.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:pec-deck-fly",
+    "assetKey": "pec-deck-fly",
+    "sourcePath": "Path_Exercise_Library/svg/chest/pec-deck-fly.svg",
+    "runtimePath": "assets/sport/svg/chest/pec-deck-fly.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:pull-up",
+    "assetKey": "pull-up",
+    "sourcePath": "Path_Exercise_Library/svg/back/pull-up.svg",
+    "runtimePath": "assets/sport/svg/back/pull-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:chin-up",
+    "assetKey": "chin-up",
+    "sourcePath": "Path_Exercise_Library/svg/back/chin-up.svg",
+    "runtimePath": "assets/sport/svg/back/chin-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:inverted-row",
+    "assetKey": "inverted-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/inverted-row.svg",
+    "runtimePath": "assets/sport/svg/back/inverted-row.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bent-over-barbell-row",
+    "assetKey": "bent-over-barbell-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/bent-over-barbell-row.svg",
+    "runtimePath": "assets/sport/svg/back/bent-over-barbell-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:one-arm-dumbbell-row",
+    "assetKey": "one-arm-dumbbell-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/one-arm-dumbbell-row.svg",
+    "runtimePath": "assets/sport/svg/back/one-arm-dumbbell-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:seated-cable-row",
+    "assetKey": "seated-cable-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/seated-cable-row.svg",
+    "runtimePath": "assets/sport/svg/back/seated-cable-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:lat-pulldown",
+    "assetKey": "lat-pulldown",
+    "sourcePath": "Path_Exercise_Library/svg/back/lat-pulldown.svg",
+    "runtimePath": "assets/sport/svg/back/lat-pulldown.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:straight-arm-cable-pulldown",
+    "assetKey": "straight-arm-cable-pulldown",
+    "sourcePath": "Path_Exercise_Library/svg/back/straight-arm-cable-pulldown.svg",
+    "runtimePath": "assets/sport/svg/back/straight-arm-cable-pulldown.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:t-bar-row",
+    "assetKey": "t-bar-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/t-bar-row.svg",
+    "runtimePath": "assets/sport/svg/back/t-bar-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:chest-supported-dumbbell-row",
+    "assetKey": "chest-supported-dumbbell-row",
+    "sourcePath": "Path_Exercise_Library/svg/back/chest-supported-dumbbell-row.svg",
+    "runtimePath": "assets/sport/svg/back/chest-supported-dumbbell-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:back-extension",
+    "assetKey": "back-extension",
+    "sourcePath": "Path_Exercise_Library/svg/back/back-extension.svg",
+    "runtimePath": "assets/sport/svg/back/back-extension.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:superman",
+    "assetKey": "superman",
+    "sourcePath": "Path_Exercise_Library/svg/back/superman.svg",
+    "runtimePath": "assets/sport/svg/back/superman.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:standing-dumbbell-shoulder-press",
+    "assetKey": "standing-dumbbell-shoulder-press",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/standing-dumbbell-shoulder-press.svg",
+    "runtimePath": "assets/sport/svg/shoulders/standing-dumbbell-shoulder-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:seated-barbell-shoulder-press",
+    "assetKey": "seated-barbell-shoulder-press",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/seated-barbell-shoulder-press.svg",
+    "runtimePath": "assets/sport/svg/shoulders/seated-barbell-shoulder-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:arnold-press",
+    "assetKey": "arnold-press",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/arnold-press.svg",
+    "runtimePath": "assets/sport/svg/shoulders/arnold-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-lateral-raise",
+    "assetKey": "dumbbell-lateral-raise",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/dumbbell-lateral-raise.svg",
+    "runtimePath": "assets/sport/svg/shoulders/dumbbell-lateral-raise.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:plate-front-raise",
+    "assetKey": "plate-front-raise",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/plate-front-raise.svg",
+    "runtimePath": "assets/sport/svg/shoulders/plate-front-raise.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bent-over-reverse-fly",
+    "assetKey": "bent-over-reverse-fly",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/bent-over-reverse-fly.svg",
+    "runtimePath": "assets/sport/svg/shoulders/bent-over-reverse-fly.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:cable-face-pull",
+    "assetKey": "cable-face-pull",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/cable-face-pull.svg",
+    "runtimePath": "assets/sport/svg/shoulders/cable-face-pull.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:single-arm-cable-lateral-raise",
+    "assetKey": "single-arm-cable-lateral-raise",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/single-arm-cable-lateral-raise.svg",
+    "runtimePath": "assets/sport/svg/shoulders/single-arm-cable-lateral-raise.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-upright-row",
+    "assetKey": "barbell-upright-row",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/barbell-upright-row.svg",
+    "runtimePath": "assets/sport/svg/shoulders/barbell-upright-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-shrug",
+    "assetKey": "dumbbell-shrug",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/dumbbell-shrug.svg",
+    "runtimePath": "assets/sport/svg/shoulders/dumbbell-shrug.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:half-kneeling-landmine-press",
+    "assetKey": "half-kneeling-landmine-press",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/half-kneeling-landmine-press.svg",
+    "runtimePath": "assets/sport/svg/shoulders/half-kneeling-landmine-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:pike-push-up",
+    "assetKey": "pike-push-up",
+    "sourcePath": "Path_Exercise_Library/svg/shoulders/pike-push-up.svg",
+    "runtimePath": "assets/sport/svg/shoulders/pike-push-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-biceps-curl",
+    "assetKey": "barbell-biceps-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/barbell-biceps-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/barbell-biceps-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:alternating-dumbbell-curl",
+    "assetKey": "alternating-dumbbell-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/alternating-dumbbell-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/alternating-dumbbell-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:hammer-curl",
+    "assetKey": "hammer-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/hammer-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/hammer-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:preacher-curl",
+    "assetKey": "preacher-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/preacher-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/preacher-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:concentration-curl",
+    "assetKey": "concentration-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/concentration-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/concentration-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:incline-dumbbell-curl",
+    "assetKey": "incline-dumbbell-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/incline-dumbbell-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/incline-dumbbell-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:cable-biceps-curl",
+    "assetKey": "cable-biceps-curl",
+    "sourcePath": "Path_Exercise_Library/svg/arms/cable-biceps-curl.svg",
+    "runtimePath": "assets/sport/svg/arms/cable-biceps-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:rope-triceps-pushdown",
+    "assetKey": "rope-triceps-pushdown",
+    "sourcePath": "Path_Exercise_Library/svg/arms/rope-triceps-pushdown.svg",
+    "runtimePath": "assets/sport/svg/arms/rope-triceps-pushdown.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:overhead-dumbbell-triceps-extension",
+    "assetKey": "overhead-dumbbell-triceps-extension",
+    "sourcePath": "Path_Exercise_Library/svg/arms/overhead-dumbbell-triceps-extension.svg",
+    "runtimePath": "assets/sport/svg/arms/overhead-dumbbell-triceps-extension.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:lying-ez-bar-triceps-extension",
+    "assetKey": "lying-ez-bar-triceps-extension",
+    "sourcePath": "Path_Exercise_Library/svg/arms/lying-ez-bar-triceps-extension.svg",
+    "runtimePath": "assets/sport/svg/arms/lying-ez-bar-triceps-extension.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-triceps-kickback",
+    "assetKey": "dumbbell-triceps-kickback",
+    "sourcePath": "Path_Exercise_Library/svg/arms/dumbbell-triceps-kickback.svg",
+    "runtimePath": "assets/sport/svg/arms/dumbbell-triceps-kickback.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:parallel-bar-dip",
+    "assetKey": "parallel-bar-dip",
+    "sourcePath": "Path_Exercise_Library/svg/arms/parallel-bar-dip.svg",
+    "runtimePath": "assets/sport/svg/arms/parallel-bar-dip.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bodyweight-squat",
+    "assetKey": "bodyweight-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/bodyweight-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/bodyweight-squat.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:goblet-squat",
+    "assetKey": "goblet-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/goblet-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/goblet-squat.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-back-squat",
+    "assetKey": "barbell-back-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/barbell-back-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/barbell-back-squat.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-front-squat",
+    "assetKey": "barbell-front-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/barbell-front-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/barbell-front-squat.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:leg-press",
+    "assetKey": "leg-press",
+    "sourcePath": "Path_Exercise_Library/svg/quads/leg-press.svg",
+    "runtimePath": "assets/sport/svg/quads/leg-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:split-squat",
+    "assetKey": "split-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/split-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/split-squat.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bulgarian-split-squat",
+    "assetKey": "bulgarian-split-squat",
+    "sourcePath": "Path_Exercise_Library/svg/quads/bulgarian-split-squat.svg",
+    "runtimePath": "assets/sport/svg/quads/bulgarian-split-squat.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:reverse-lunge",
+    "assetKey": "reverse-lunge",
+    "sourcePath": "Path_Exercise_Library/svg/quads/reverse-lunge.svg",
+    "runtimePath": "assets/sport/svg/quads/reverse-lunge.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:walking-lunge",
+    "assetKey": "walking-lunge",
+    "sourcePath": "Path_Exercise_Library/svg/quads/walking-lunge.svg",
+    "runtimePath": "assets/sport/svg/quads/walking-lunge.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:lateral-lunge",
+    "assetKey": "lateral-lunge",
+    "sourcePath": "Path_Exercise_Library/svg/quads/lateral-lunge.svg",
+    "runtimePath": "assets/sport/svg/quads/lateral-lunge.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:step-up",
+    "assetKey": "step-up",
+    "sourcePath": "Path_Exercise_Library/svg/quads/step-up.svg",
+    "runtimePath": "assets/sport/svg/quads/step-up.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:machine-leg-extension",
+    "assetKey": "machine-leg-extension",
+    "sourcePath": "Path_Exercise_Library/svg/quads/machine-leg-extension.svg",
+    "runtimePath": "assets/sport/svg/quads/machine-leg-extension.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:conventional-deadlift",
+    "assetKey": "conventional-deadlift",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/conventional-deadlift.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/conventional-deadlift.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:sumo-deadlift",
+    "assetKey": "sumo-deadlift",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/sumo-deadlift.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/sumo-deadlift.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:romanian-deadlift",
+    "assetKey": "romanian-deadlift",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/romanian-deadlift.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/romanian-deadlift.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:single-leg-romanian-deadlift",
+    "assetKey": "single-leg-romanian-deadlift",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/single-leg-romanian-deadlift.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/single-leg-romanian-deadlift.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-hip-thrust",
+    "assetKey": "barbell-hip-thrust",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/barbell-hip-thrust.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/barbell-hip-thrust.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:glute-bridge",
+    "assetKey": "glute-bridge",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/glute-bridge.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/glute-bridge.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:kettlebell-swing",
+    "assetKey": "kettlebell-swing",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/kettlebell-swing.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/kettlebell-swing.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:lying-leg-curl",
+    "assetKey": "lying-leg-curl",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/lying-leg-curl.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/lying-leg-curl.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-good-morning",
+    "assetKey": "barbell-good-morning",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/barbell-good-morning.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/barbell-good-morning.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:cable-glute-kickback",
+    "assetKey": "cable-glute-kickback",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/cable-glute-kickback.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/cable-glute-kickback.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:standing-calf-raise",
+    "assetKey": "standing-calf-raise",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/standing-calf-raise.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/standing-calf-raise.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:seated-calf-raise",
+    "assetKey": "seated-calf-raise",
+    "sourcePath": "Path_Exercise_Library/svg/posterior-chain/seated-calf-raise.svg",
+    "runtimePath": "assets/sport/svg/posterior-chain/seated-calf-raise.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:crunch",
+    "assetKey": "crunch",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/crunch.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/crunch.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:reverse-crunch",
+    "assetKey": "reverse-crunch",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/reverse-crunch.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/reverse-crunch.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bicycle-crunch",
+    "assetKey": "bicycle-crunch",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/bicycle-crunch.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/bicycle-crunch.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:sit-up",
+    "assetKey": "sit-up",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/sit-up.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/sit-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:hanging-knee-raise",
+    "assetKey": "hanging-knee-raise",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/hanging-knee-raise.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/hanging-knee-raise.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:hanging-leg-raise",
+    "assetKey": "hanging-leg-raise",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/hanging-leg-raise.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/hanging-leg-raise.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:lying-leg-raise",
+    "assetKey": "lying-leg-raise",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/lying-leg-raise.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/lying-leg-raise.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:v-up",
+    "assetKey": "v-up",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/v-up.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/v-up.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:russian-twist",
+    "assetKey": "russian-twist",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/russian-twist.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/russian-twist.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:kneeling-cable-crunch",
+    "assetKey": "kneeling-cable-crunch",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/kneeling-cable-crunch.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/kneeling-cable-crunch.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:standing-cable-woodchop",
+    "assetKey": "standing-cable-woodchop",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/standing-cable-woodchop.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/standing-cable-woodchop.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-side-bend",
+    "assetKey": "dumbbell-side-bend",
+    "sourcePath": "Path_Exercise_Library/svg/core-flexion/dumbbell-side-bend.svg",
+    "runtimePath": "assets/sport/svg/core-flexion/dumbbell-side-bend.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:forearm-plank",
+    "assetKey": "forearm-plank",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/forearm-plank.svg",
+    "runtimePath": "assets/sport/svg/core-stability/forearm-plank.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:high-plank",
+    "assetKey": "high-plank",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/high-plank.svg",
+    "runtimePath": "assets/sport/svg/core-stability/high-plank.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:side-plank",
+    "assetKey": "side-plank",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/side-plank.svg",
+    "runtimePath": "assets/sport/svg/core-stability/side-plank.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:reverse-plank",
+    "assetKey": "reverse-plank",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/reverse-plank.svg",
+    "runtimePath": "assets/sport/svg/core-stability/reverse-plank.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:dead-bug",
+    "assetKey": "dead-bug",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/dead-bug.svg",
+    "runtimePath": "assets/sport/svg/core-stability/dead-bug.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bird-dog",
+    "assetKey": "bird-dog",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/bird-dog.svg",
+    "runtimePath": "assets/sport/svg/core-stability/bird-dog.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:hollow-body-hold",
+    "assetKey": "hollow-body-hold",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/hollow-body-hold.svg",
+    "runtimePath": "assets/sport/svg/core-stability/hollow-body-hold.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:ab-wheel-rollout",
+    "assetKey": "ab-wheel-rollout",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/ab-wheel-rollout.svg",
+    "runtimePath": "assets/sport/svg/core-stability/ab-wheel-rollout.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:pallof-press",
+    "assetKey": "pallof-press",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/pallof-press.svg",
+    "runtimePath": "assets/sport/svg/core-stability/pallof-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:bear-plank",
+    "assetKey": "bear-plank",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/bear-plank.svg",
+    "runtimePath": "assets/sport/svg/core-stability/bear-plank.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:suitcase-carry",
+    "assetKey": "suitcase-carry",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/suitcase-carry.svg",
+    "runtimePath": "assets/sport/svg/core-stability/suitcase-carry.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:farmers-walk",
+    "assetKey": "farmers-walk",
+    "sourcePath": "Path_Exercise_Library/svg/core-stability/farmers-walk.svg",
+    "runtimePath": "assets/sport/svg/core-stability/farmers-walk.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:kettlebell-clean",
+    "assetKey": "kettlebell-clean",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/kettlebell-clean.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/kettlebell-clean.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:kettlebell-snatch",
+    "assetKey": "kettlebell-snatch",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/kettlebell-snatch.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/kettlebell-snatch.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:turkish-get-up",
+    "assetKey": "turkish-get-up",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/turkish-get-up.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/turkish-get-up.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-thruster",
+    "assetKey": "dumbbell-thruster",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/dumbbell-thruster.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/dumbbell-thruster.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:barbell-push-press",
+    "assetKey": "barbell-push-press",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/barbell-push-press.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/barbell-push-press.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:dumbbell-renegade-row",
+    "assetKey": "dumbbell-renegade-row",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/dumbbell-renegade-row.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/dumbbell-renegade-row.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:medicine-ball-slam",
+    "assetKey": "medicine-ball-slam",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/medicine-ball-slam.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/medicine-ball-slam.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:wall-ball-throw",
+    "assetKey": "wall-ball-throw",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/wall-ball-throw.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/wall-ball-throw.svg",
+    "measurementType": "weightReps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:battle-rope-waves",
+    "assetKey": "battle-rope-waves",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/battle-rope-waves.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/battle-rope-waves.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:sled-push",
+    "assetKey": "sled-push",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/sled-push.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/sled-push.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:backward-sled-drag",
+    "assetKey": "backward-sled-drag",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/backward-sled-drag.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/backward-sled-drag.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:sandbag-bear-hug-carry",
+    "assetKey": "sandbag-bear-hug-carry",
+    "sourcePath": "Path_Exercise_Library/svg/functional-strength/sandbag-bear-hug-carry.svg",
+    "runtimePath": "assets/sport/svg/functional-strength/sandbag-bear-hug-carry.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:jumping-jack",
+    "assetKey": "jumping-jack",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/jumping-jack.svg",
+    "runtimePath": "assets/sport/svg/conditioning/jumping-jack.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:high-knees",
+    "assetKey": "high-knees",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/high-knees.svg",
+    "runtimePath": "assets/sport/svg/conditioning/high-knees.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:butt-kicks",
+    "assetKey": "butt-kicks",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/butt-kicks.svg",
+    "runtimePath": "assets/sport/svg/conditioning/butt-kicks.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:skater-jump",
+    "assetKey": "skater-jump",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/skater-jump.svg",
+    "runtimePath": "assets/sport/svg/conditioning/skater-jump.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:jump-rope",
+    "assetKey": "jump-rope",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/jump-rope.svg",
+    "runtimePath": "assets/sport/svg/conditioning/jump-rope.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:burpee",
+    "assetKey": "burpee",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/burpee.svg",
+    "runtimePath": "assets/sport/svg/conditioning/burpee.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:mountain-climber",
+    "assetKey": "mountain-climber",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/mountain-climber.svg",
+    "runtimePath": "assets/sport/svg/conditioning/mountain-climber.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:squat-jump",
+    "assetKey": "squat-jump",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/squat-jump.svg",
+    "runtimePath": "assets/sport/svg/conditioning/squat-jump.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:box-jump",
+    "assetKey": "box-jump",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/box-jump.svg",
+    "runtimePath": "assets/sport/svg/conditioning/box-jump.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:rowing-machine",
+    "assetKey": "rowing-machine",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/rowing-machine.svg",
+    "runtimePath": "assets/sport/svg/conditioning/rowing-machine.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:stationary-bike",
+    "assetKey": "stationary-bike",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/stationary-bike.svg",
+    "runtimePath": "assets/sport/svg/conditioning/stationary-bike.svg",
+    "measurementType": "duration",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:treadmill-running",
+    "assetKey": "treadmill-running",
+    "sourcePath": "Path_Exercise_Library/svg/conditioning/treadmill-running.svg",
+    "runtimePath": "assets/sport/svg/conditioning/treadmill-running.svg",
+    "measurementType": "distance",
+    "unit": "meters"
+  },
+  {
+    "definitionId": "catalog:dowel-shoulder-pass-through",
+    "assetKey": "dowel-shoulder-pass-through",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/dowel-shoulder-pass-through.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/dowel-shoulder-pass-through.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:wall-angel",
+    "assetKey": "wall-angel",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/wall-angel.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/wall-angel.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:cross-body-shoulder-stretch",
+    "assetKey": "cross-body-shoulder-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/cross-body-shoulder-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/cross-body-shoulder-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:overhead-triceps-stretch",
+    "assetKey": "overhead-triceps-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/overhead-triceps-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/overhead-triceps-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:doorway-chest-stretch",
+    "assetKey": "doorway-chest-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/doorway-chest-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/doorway-chest-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:kneeling-bench-lat-stretch",
+    "assetKey": "kneeling-bench-lat-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/kneeling-bench-lat-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/kneeling-bench-lat-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:thread-the-needle",
+    "assetKey": "thread-the-needle",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/thread-the-needle.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/thread-the-needle.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:open-book-rotation",
+    "assetKey": "open-book-rotation",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/open-book-rotation.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/open-book-rotation.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:cat-stretch",
+    "assetKey": "cat-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/cat-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/cat-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:sphinx-stretch",
+    "assetKey": "sphinx-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/sphinx-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/sphinx-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:quadruped-wrist-stretch",
+    "assetKey": "quadruped-wrist-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/quadruped-wrist-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/quadruped-wrist-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:lateral-neck-stretch",
+    "assetKey": "lateral-neck-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-upper/lateral-neck-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-upper/lateral-neck-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:deep-squat-hold",
+    "assetKey": "deep-squat-hold",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/deep-squat-hold.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/deep-squat-hold.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:cossack-squat",
+    "assetKey": "cossack-squat",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/cossack-squat.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/cossack-squat.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  },
+  {
+    "definitionId": "catalog:half-kneeling-hip-flexor-stretch",
+    "assetKey": "half-kneeling-hip-flexor-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/half-kneeling-hip-flexor-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/half-kneeling-hip-flexor-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:seated-90-90-hip-stretch",
+    "assetKey": "seated-90-90-hip-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/seated-90-90-hip-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/seated-90-90-hip-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:pigeon-stretch",
+    "assetKey": "pigeon-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/pigeon-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/pigeon-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:supine-figure-four-stretch",
+    "assetKey": "supine-figure-four-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/supine-figure-four-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/supine-figure-four-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:standing-quadriceps-stretch",
+    "assetKey": "standing-quadriceps-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/standing-quadriceps-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/standing-quadriceps-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:supine-strap-hamstring-stretch",
+    "assetKey": "supine-strap-hamstring-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/supine-strap-hamstring-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/supine-strap-hamstring-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:butterfly-stretch",
+    "assetKey": "butterfly-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/butterfly-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/butterfly-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:frog-stretch",
+    "assetKey": "frog-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/frog-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/frog-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:wall-calf-stretch",
+    "assetKey": "wall-calf-stretch",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/wall-calf-stretch.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/wall-calf-stretch.svg",
+    "measurementType": "seconds",
+    "unit": "seconds"
+  },
+  {
+    "definitionId": "catalog:knee-to-wall-ankle-mobilization",
+    "assetKey": "knee-to-wall-ankle-mobilization",
+    "sourcePath": "Path_Exercise_Library/svg/mobility-lower/knee-to-wall-ankle-mobilization.svg",
+    "runtimePath": "assets/sport/svg/mobility-lower/knee-to-wall-ankle-mobilization.svg",
+    "measurementType": "reps",
+    "unit": "reps"
+  }
+]

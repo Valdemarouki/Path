@@ -1,0 +1,137 @@
+[
+  {
+    "id": "bodyweight-squat",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      27,
+      17,
+      228,
+      239
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "chin-up",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      38,
+      17,
+      218,
+      239
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "forearm-plank",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      16,
+      86,
+      239,
+      170
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "hollow-body-hold",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      17,
+      92,
+      240,
+      165
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "inverted-row",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      16,
+      61,
+      240,
+      195
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "parallel-bar-dip",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      35,
+      17,
+      221,
+      239
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "pull-up",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      39,
+      17,
+      217,
+      239
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "push-up",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      16,
+      86,
+      240,
+      171
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  },
+  {
+    "id": "reverse-lunge",
+    "size": [
+      256,
+      256
+    ],
+    "alpha_bbox": [
+      38,
+      16,
+      218,
+      239
+    ],
+    "transparent_corners": true,
+    "touches_canvas_edge": false
+  }
+]

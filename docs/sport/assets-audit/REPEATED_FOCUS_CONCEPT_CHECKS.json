@@ -1,0 +1,34 @@
+{
+  "scope": "Pure functions extracted from supplied HTML only; not Path integration, browser QA, or iPhone QA",
+  "total": 6,
+  "passed": 5,
+  "mismatches": 1,
+  "cases": [
+    {
+      "name": "Overlapping Upper + Push retain Push when Upper is removed",
+      "status": "PASS"
+    },
+    {
+      "name": "Manual exclusion removes a muscle covered by two presets",
+      "status": "PASS"
+    },
+    {
+      "name": "Removing a preset retains a manual selection",
+      "status": "PASS"
+    },
+    {
+      "name": "Draft edits do not mutate the original selection",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown keys are ignored by the current concept",
+      "status": "PASS"
+    },
+    {
+      "name": "TZ: activating an overlapping preset preserves explicit manual exclusions",
+      "status": "MISMATCH",
+      "detail": "Expected excluded biceps to remain excluded; the supplied concept reselects it\n\ntrue !== false\n"
+    }
+  ],
+  "decision": "The concept clears manual exclusions when activating a preset. The written specification says exclusions persist. Resolve explicitly in implementation; do not copy this behavior blindly."
+}

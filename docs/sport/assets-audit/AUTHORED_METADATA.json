@@ -1,0 +1,1013 @@
+{
+  "scope": "Explicit catalogue metadata added for Path; not inferred at runtime or medically validated",
+  "definitions": [
+    {
+      "id": "catalog:push-up",
+      "assetKey": "push-up",
+      "name_es": "Flexión de brazos",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:knee-push-up",
+      "assetKey": "knee-push-up",
+      "name_es": "Flexión con rodillas apoyadas",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:incline-push-up",
+      "assetKey": "incline-push-up",
+      "name_es": "Flexión inclinada",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:decline-push-up",
+      "assetKey": "decline-push-up",
+      "name_es": "Flexión declinada",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:wide-push-up",
+      "assetKey": "wide-push-up",
+      "name_es": "Flexión con agarre amplio",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:diamond-push-up",
+      "assetKey": "diamond-push-up",
+      "name_es": "Flexión diamante",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-bench-press",
+      "assetKey": "barbell-bench-press",
+      "name_es": "Press de banca con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:incline-dumbbell-press",
+      "assetKey": "incline-dumbbell-press",
+      "name_es": "Press inclinado con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-floor-press",
+      "assetKey": "dumbbell-floor-press",
+      "name_es": "Press de suelo con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-chest-fly",
+      "assetKey": "dumbbell-chest-fly",
+      "name_es": "Aperturas con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:standing-cable-chest-fly",
+      "assetKey": "standing-cable-chest-fly",
+      "name_es": "Aperturas de pie en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:pec-deck-fly",
+      "assetKey": "pec-deck-fly",
+      "name_es": "Aperturas en máquina pec deck",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:pull-up",
+      "assetKey": "pull-up",
+      "name_es": "Dominada prona",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:chin-up",
+      "assetKey": "chin-up",
+      "name_es": "Dominada supina",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:inverted-row",
+      "assetKey": "inverted-row",
+      "name_es": "Remo invertido",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bent-over-barbell-row",
+      "assetKey": "bent-over-barbell-row",
+      "name_es": "Remo inclinado con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:one-arm-dumbbell-row",
+      "assetKey": "one-arm-dumbbell-row",
+      "name_es": "Remo con mancuerna a una mano",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:seated-cable-row",
+      "assetKey": "seated-cable-row",
+      "name_es": "Remo sentado en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:lat-pulldown",
+      "assetKey": "lat-pulldown",
+      "name_es": "Jalón al pecho",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:straight-arm-cable-pulldown",
+      "assetKey": "straight-arm-cable-pulldown",
+      "name_es": "Jalón en polea con brazos rectos",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:t-bar-row",
+      "assetKey": "t-bar-row",
+      "name_es": "Remo en barra T",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:chest-supported-dumbbell-row",
+      "assetKey": "chest-supported-dumbbell-row",
+      "name_es": "Remo con mancuernas y pecho apoyado",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:back-extension",
+      "assetKey": "back-extension",
+      "name_es": "Extensión de espalda",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:superman",
+      "assetKey": "superman",
+      "name_es": "Superman",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:standing-dumbbell-shoulder-press",
+      "assetKey": "standing-dumbbell-shoulder-press",
+      "name_es": "Press de hombros de pie con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:seated-barbell-shoulder-press",
+      "assetKey": "seated-barbell-shoulder-press",
+      "name_es": "Press de hombros sentado con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:arnold-press",
+      "assetKey": "arnold-press",
+      "name_es": "Press Arnold",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-lateral-raise",
+      "assetKey": "dumbbell-lateral-raise",
+      "name_es": "Elevación lateral con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:plate-front-raise",
+      "assetKey": "plate-front-raise",
+      "name_es": "Elevación frontal con disco",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bent-over-reverse-fly",
+      "assetKey": "bent-over-reverse-fly",
+      "name_es": "Aperturas inversas con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:cable-face-pull",
+      "assetKey": "cable-face-pull",
+      "name_es": "Face pull en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:single-arm-cable-lateral-raise",
+      "assetKey": "single-arm-cable-lateral-raise",
+      "name_es": "Elevación lateral a una mano en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-upright-row",
+      "assetKey": "barbell-upright-row",
+      "name_es": "Remo al mentón con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-shrug",
+      "assetKey": "dumbbell-shrug",
+      "name_es": "Encogimiento de hombros con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:half-kneeling-landmine-press",
+      "assetKey": "half-kneeling-landmine-press",
+      "name_es": "Press landmine en media rodilla",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:pike-push-up",
+      "assetKey": "pike-push-up",
+      "name_es": "Flexión en pica",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-biceps-curl",
+      "assetKey": "barbell-biceps-curl",
+      "name_es": "Curl de bíceps con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:alternating-dumbbell-curl",
+      "assetKey": "alternating-dumbbell-curl",
+      "name_es": "Curl alterno con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:hammer-curl",
+      "assetKey": "hammer-curl",
+      "name_es": "Curl martillo",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:preacher-curl",
+      "assetKey": "preacher-curl",
+      "name_es": "Curl en banco predicador",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:concentration-curl",
+      "assetKey": "concentration-curl",
+      "name_es": "Curl concentrado",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:incline-dumbbell-curl",
+      "assetKey": "incline-dumbbell-curl",
+      "name_es": "Curl inclinado con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:cable-biceps-curl",
+      "assetKey": "cable-biceps-curl",
+      "name_es": "Curl de bíceps en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:rope-triceps-pushdown",
+      "assetKey": "rope-triceps-pushdown",
+      "name_es": "Extensión de tríceps en polea con cuerda",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:overhead-dumbbell-triceps-extension",
+      "assetKey": "overhead-dumbbell-triceps-extension",
+      "name_es": "Extensión de tríceps sobre la cabeza con mancuerna",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:lying-ez-bar-triceps-extension",
+      "assetKey": "lying-ez-bar-triceps-extension",
+      "name_es": "Extensión de tríceps tumbado con barra EZ",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-triceps-kickback",
+      "assetKey": "dumbbell-triceps-kickback",
+      "name_es": "Patada de tríceps con mancuerna",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:parallel-bar-dip",
+      "assetKey": "parallel-bar-dip",
+      "name_es": "Fondo en paralelas",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bodyweight-squat",
+      "assetKey": "bodyweight-squat",
+      "name_es": "Sentadilla con peso corporal",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:goblet-squat",
+      "assetKey": "goblet-squat",
+      "name_es": "Sentadilla goblet",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-back-squat",
+      "assetKey": "barbell-back-squat",
+      "name_es": "Sentadilla trasera con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-front-squat",
+      "assetKey": "barbell-front-squat",
+      "name_es": "Sentadilla frontal con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:leg-press",
+      "assetKey": "leg-press",
+      "name_es": "Prensa de piernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:split-squat",
+      "assetKey": "split-squat",
+      "name_es": "Sentadilla dividida",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bulgarian-split-squat",
+      "assetKey": "bulgarian-split-squat",
+      "name_es": "Sentadilla búlgara",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:reverse-lunge",
+      "assetKey": "reverse-lunge",
+      "name_es": "Zancada hacia atrás",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:walking-lunge",
+      "assetKey": "walking-lunge",
+      "name_es": "Zancada caminando con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:lateral-lunge",
+      "assetKey": "lateral-lunge",
+      "name_es": "Zancada lateral",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:step-up",
+      "assetKey": "step-up",
+      "name_es": "Subida al cajón con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:machine-leg-extension",
+      "assetKey": "machine-leg-extension",
+      "name_es": "Extensión de piernas en máquina",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:conventional-deadlift",
+      "assetKey": "conventional-deadlift",
+      "name_es": "Peso muerto convencional",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:sumo-deadlift",
+      "assetKey": "sumo-deadlift",
+      "name_es": "Peso muerto sumo",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:romanian-deadlift",
+      "assetKey": "romanian-deadlift",
+      "name_es": "Peso muerto rumano",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:single-leg-romanian-deadlift",
+      "assetKey": "single-leg-romanian-deadlift",
+      "name_es": "Peso muerto rumano a una pierna",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-hip-thrust",
+      "assetKey": "barbell-hip-thrust",
+      "name_es": "Empuje de cadera con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:glute-bridge",
+      "assetKey": "glute-bridge",
+      "name_es": "Puente de glúteos",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:kettlebell-swing",
+      "assetKey": "kettlebell-swing",
+      "name_es": "Balanceo con pesa rusa",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:lying-leg-curl",
+      "assetKey": "lying-leg-curl",
+      "name_es": "Curl de piernas tumbado",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-good-morning",
+      "assetKey": "barbell-good-morning",
+      "name_es": "Buenos días con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:cable-glute-kickback",
+      "assetKey": "cable-glute-kickback",
+      "name_es": "Patada de glúteo en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:standing-calf-raise",
+      "assetKey": "standing-calf-raise",
+      "name_es": "Elevación de talones de pie con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:seated-calf-raise",
+      "assetKey": "seated-calf-raise",
+      "name_es": "Elevación de talones sentado en máquina",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:crunch",
+      "assetKey": "crunch",
+      "name_es": "Encogimiento abdominal",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:reverse-crunch",
+      "assetKey": "reverse-crunch",
+      "name_es": "Encogimiento abdominal inverso",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bicycle-crunch",
+      "assetKey": "bicycle-crunch",
+      "name_es": "Abdominal bicicleta",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:sit-up",
+      "assetKey": "sit-up",
+      "name_es": "Abdominal completo",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:hanging-knee-raise",
+      "assetKey": "hanging-knee-raise",
+      "name_es": "Elevación de rodillas colgado",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:hanging-leg-raise",
+      "assetKey": "hanging-leg-raise",
+      "name_es": "Elevación de piernas colgado",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:lying-leg-raise",
+      "assetKey": "lying-leg-raise",
+      "name_es": "Elevación de piernas tumbado",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:v-up",
+      "assetKey": "v-up",
+      "name_es": "Abdominal en V",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:russian-twist",
+      "assetKey": "russian-twist",
+      "name_es": "Giro ruso con balón medicinal",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:kneeling-cable-crunch",
+      "assetKey": "kneeling-cable-crunch",
+      "name_es": "Encogimiento abdominal de rodillas en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:standing-cable-woodchop",
+      "assetKey": "standing-cable-woodchop",
+      "name_es": "Leñador de pie en polea",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-side-bend",
+      "assetKey": "dumbbell-side-bend",
+      "name_es": "Inclinación lateral con mancuerna",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:forearm-plank",
+      "assetKey": "forearm-plank",
+      "name_es": "Plancha sobre antebrazos",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:high-plank",
+      "assetKey": "high-plank",
+      "name_es": "Plancha alta",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:side-plank",
+      "assetKey": "side-plank",
+      "name_es": "Plancha lateral",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:reverse-plank",
+      "assetKey": "reverse-plank",
+      "name_es": "Plancha inversa",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:dead-bug",
+      "assetKey": "dead-bug",
+      "name_es": "Bicho muerto",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bird-dog",
+      "assetKey": "bird-dog",
+      "name_es": "Perro de caza",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:hollow-body-hold",
+      "assetKey": "hollow-body-hold",
+      "name_es": "Isométrico abdominal hollow",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:ab-wheel-rollout",
+      "assetKey": "ab-wheel-rollout",
+      "name_es": "Extensión con rueda abdominal",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:pallof-press",
+      "assetKey": "pallof-press",
+      "name_es": "Press Pallof",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:bear-plank",
+      "assetKey": "bear-plank",
+      "name_es": "Plancha de oso",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:suitcase-carry",
+      "assetKey": "suitcase-carry",
+      "name_es": "Paseo de maleta con pesa rusa",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:farmers-walk",
+      "assetKey": "farmers-walk",
+      "name_es": "Paseo del granjero",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:kettlebell-clean",
+      "assetKey": "kettlebell-clean",
+      "name_es": "Cargada con pesa rusa",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:kettlebell-snatch",
+      "assetKey": "kettlebell-snatch",
+      "name_es": "Arrancada con pesa rusa",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:turkish-get-up",
+      "assetKey": "turkish-get-up",
+      "name_es": "Levantamiento turco",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-thruster",
+      "assetKey": "dumbbell-thruster",
+      "name_es": "Thruster con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:barbell-push-press",
+      "assetKey": "barbell-push-press",
+      "name_es": "Press de empuje con barra",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:dumbbell-renegade-row",
+      "assetKey": "dumbbell-renegade-row",
+      "name_es": "Remo renegado con mancuernas",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:medicine-ball-slam",
+      "assetKey": "medicine-ball-slam",
+      "name_es": "Lanzamiento de balón medicinal al suelo",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:wall-ball-throw",
+      "assetKey": "wall-ball-throw",
+      "name_es": "Lanzamiento de balón medicinal a la pared",
+      "measurementType": "weightReps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:battle-rope-waves",
+      "assetKey": "battle-rope-waves",
+      "name_es": "Ondas con cuerdas de batalla",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:sled-push",
+      "assetKey": "sled-push",
+      "name_es": "Empuje de trineo",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:backward-sled-drag",
+      "assetKey": "backward-sled-drag",
+      "name_es": "Arrastre de trineo hacia atrás",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:sandbag-bear-hug-carry",
+      "assetKey": "sandbag-bear-hug-carry",
+      "name_es": "Transporte de saco abrazado",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:jumping-jack",
+      "assetKey": "jumping-jack",
+      "name_es": "Salto de tijera",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:high-knees",
+      "assetKey": "high-knees",
+      "name_es": "Carrera elevando rodillas",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:butt-kicks",
+      "assetKey": "butt-kicks",
+      "name_es": "Carrera con talones al glúteo",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:skater-jump",
+      "assetKey": "skater-jump",
+      "name_es": "Salto de patinador",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:jump-rope",
+      "assetKey": "jump-rope",
+      "name_es": "Salto a la cuerda",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:burpee",
+      "assetKey": "burpee",
+      "name_es": "Burpee",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:mountain-climber",
+      "assetKey": "mountain-climber",
+      "name_es": "Escalador",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:squat-jump",
+      "assetKey": "squat-jump",
+      "name_es": "Sentadilla con salto",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:box-jump",
+      "assetKey": "box-jump",
+      "name_es": "Salto al cajón",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:rowing-machine",
+      "assetKey": "rowing-machine",
+      "name_es": "Remo en ergómetro",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:stationary-bike",
+      "assetKey": "stationary-bike",
+      "name_es": "Bicicleta estática",
+      "measurementType": "duration",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:treadmill-running",
+      "assetKey": "treadmill-running",
+      "name_es": "Carrera en cinta",
+      "measurementType": "distance",
+      "unit": "meters"
+    },
+    {
+      "id": "catalog:dowel-shoulder-pass-through",
+      "assetKey": "dowel-shoulder-pass-through",
+      "name_es": "Pasada de hombros con pica",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:wall-angel",
+      "assetKey": "wall-angel",
+      "name_es": "Ángel en la pared",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:cross-body-shoulder-stretch",
+      "assetKey": "cross-body-shoulder-stretch",
+      "name_es": "Estiramiento de hombro cruzado",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:overhead-triceps-stretch",
+      "assetKey": "overhead-triceps-stretch",
+      "name_es": "Estiramiento de tríceps sobre la cabeza",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:doorway-chest-stretch",
+      "assetKey": "doorway-chest-stretch",
+      "name_es": "Estiramiento de pecho en el marco de una puerta",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:kneeling-bench-lat-stretch",
+      "assetKey": "kneeling-bench-lat-stretch",
+      "name_es": "Estiramiento de dorsales de rodillas en banco",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:thread-the-needle",
+      "assetKey": "thread-the-needle",
+      "name_es": "Estiramiento enhebrar la aguja",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:open-book-rotation",
+      "assetKey": "open-book-rotation",
+      "name_es": "Rotación torácica de libro abierto",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:cat-stretch",
+      "assetKey": "cat-stretch",
+      "name_es": "Estiramiento del gato",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:sphinx-stretch",
+      "assetKey": "sphinx-stretch",
+      "name_es": "Estiramiento de la esfinge",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:quadruped-wrist-stretch",
+      "assetKey": "quadruped-wrist-stretch",
+      "name_es": "Estiramiento de muñeca en cuadrupedia",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:lateral-neck-stretch",
+      "assetKey": "lateral-neck-stretch",
+      "name_es": "Estiramiento lateral del cuello",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:deep-squat-hold",
+      "assetKey": "deep-squat-hold",
+      "name_es": "Sentadilla profunda sostenida",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:cossack-squat",
+      "assetKey": "cossack-squat",
+      "name_es": "Sentadilla cosaca",
+      "measurementType": "reps",
+      "unit": "reps"
+    },
+    {
+      "id": "catalog:half-kneeling-hip-flexor-stretch",
+      "assetKey": "half-kneeling-hip-flexor-stretch",
+      "name_es": "Estiramiento de flexores de cadera en media rodilla",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:seated-90-90-hip-stretch",
+      "assetKey": "seated-90-90-hip-stretch",
+      "name_es": "Estiramiento de cadera sentado 90/90",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:pigeon-stretch",
+      "assetKey": "pigeon-stretch",
+      "name_es": "Estiramiento de la paloma",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:supine-figure-four-stretch",
+      "assetKey": "supine-figure-four-stretch",
+      "name_es": "Estiramiento de glúteos en cuatro",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:standing-quadriceps-stretch",
+      "assetKey": "standing-quadriceps-stretch",
+      "name_es": "Estiramiento de cuádriceps de pie",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:supine-strap-hamstring-stretch",
+      "assetKey": "supine-strap-hamstring-stretch",
+      "name_es": "Estiramiento de isquiotibiales tumbado con correa",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:butterfly-stretch",
+      "assetKey": "butterfly-stretch",
+      "name_es": "Estiramiento de mariposa",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:frog-stretch",
+      "assetKey": "frog-stretch",
+      "name_es": "Estiramiento de rana",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:wall-calf-stretch",
+      "assetKey": "wall-calf-stretch",
+      "name_es": "Estiramiento de pantorrilla en pared",
+      "measurementType": "seconds",
+      "unit": "seconds"
+    },
+    {
+      "id": "catalog:knee-to-wall-ankle-mobilization",
+      "assetKey": "knee-to-wall-ankle-mobilization",
+      "name_es": "Movilización de tobillo rodilla a pared",
+      "measurementType": "reps",
+      "unit": "reps"
+    }
+  ]
+}
