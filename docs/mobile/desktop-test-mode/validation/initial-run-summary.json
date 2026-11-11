@@ -1,0 +1,183 @@
+{
+  "suites": 22,
+  "passed": 21,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 3358,
+      "cases": 133,
+      "log": "/tmp/path-desktop-test-release/models/run.log"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31545,
+      "cases": 55,
+      "log": "/tmp/path-desktop-test-release/browser/run.log"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 37135,
+      "cases": 24,
+      "log": "/tmp/path-desktop-test-release/tasks/run.log"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43451,
+      "cases": 34,
+      "log": "/tmp/path-desktop-test-release/functional-alpha/run.log"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34390,
+      "cases": 93,
+      "log": "/tmp/path-desktop-test-release/actions/run.log"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 76233,
+      "cases": 32,
+      "log": "/tmp/path-desktop-test-release/review/run.log"
+    },
+    {
+      "name": "numeric-pickers",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 48327,
+      "cases": 27,
+      "log": "/tmp/path-desktop-test-release/numeric-pickers/run.log"
+    },
+    {
+      "name": "desktop-preview",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 15653,
+      "cases": 27,
+      "log": "/tmp/path-desktop-test-release/desktop-preview/run.log"
+    },
+    {
+      "name": "desktop-test-app",
+      "status": "FAIL",
+      "exitCode": 1,
+      "elapsedMs": 14018,
+      "cases": null,
+      "log": "/tmp/path-desktop-test-release/desktop-test-app/run.log"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 22514,
+      "cases": 72,
+      "log": "/tmp/path-desktop-test-release/calendar-editor/run.log"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8594,
+      "cases": 6,
+      "log": "/tmp/path-desktop-test-release/calendar-compatibility/run.log"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8201,
+      "cases": 9,
+      "log": "/tmp/path-desktop-test-release/importance/run.log"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8690,
+      "cases": 9,
+      "log": "/tmp/path-desktop-test-release/calendar-cards/run.log"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 37478,
+      "cases": 14,
+      "log": "/tmp/path-desktop-test-release/calendar-polish/run.log"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 128820,
+      "cases": 31,
+      "log": "/tmp/path-desktop-test-release/calendar-completion/run.log"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 46711,
+      "cases": 13,
+      "log": "/tmp/path-desktop-test-release/calendar-impact/run.log"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 51843,
+      "cases": 30,
+      "log": "/tmp/path-desktop-test-release/navigation-panel/run.log"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 25064,
+      "cases": 13,
+      "log": "/tmp/path-desktop-test-release/habits-navigation/run.log"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32204,
+      "cases": 13,
+      "log": "/tmp/path-desktop-test-release/refinement/run.log"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32139,
+      "cases": 26,
+      "log": "/tmp/path-desktop-test-release/surfaces/run.log"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 57495,
+      "cases": 21,
+      "log": "/tmp/path-desktop-test-release/transformation/run.log"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6459,
+      "cases": 26,
+      "log": "/tmp/path-desktop-test-release/typography/run.log"
+    }
+  ],
+  "note": "navigation.cjs delegates to panel.cjs; that suite is counted once. Each browser profile contains synthetic data only."
+}

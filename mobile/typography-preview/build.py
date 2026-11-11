@@ -21,4 +21,5 @@ shutil.copytree(mobile / 'assets', target / 'assets', dirs_exist_ok=True)
 shutil.copytree(root / 'fonts', target / 'fonts', dirs_exist_ok=True)
 for name in ('manrope-preview.css', 'preview.mjs'):
     shutil.copy2(root / name, target / name)
+shutil.copytree(mobile / 'compatibility-preview', target / 'compatibility-preview', dirs_exist_ok=True)
 print('Built mobile/typography-preview/dist; production files and storage key unchanged.')

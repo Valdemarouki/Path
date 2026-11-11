@@ -1,0 +1,184 @@
+{
+  "suites": 22,
+  "passed": 22,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 3358,
+      "cases": 133,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 31545,
+      "cases": 55,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 37135,
+      "cases": 24,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43451,
+      "cases": 34,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34390,
+      "cases": 93,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 76233,
+      "cases": 32,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "numeric-pickers",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 48327,
+      "cases": 27,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "desktop-preview",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 15653,
+      "cases": 27,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "desktop-test-app",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 14018,
+      "cases": 26,
+      "log": "test-results.txt",
+      "initialAttempt": "initial-run-summary.json"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 22514,
+      "cases": 72,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8594,
+      "cases": 6,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8201,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 8690,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 37478,
+      "cases": 14,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 128820,
+      "cases": 31,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 46711,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 51843,
+      "cases": 30,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 25064,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32204,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32139,
+      "cases": 26,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 57495,
+      "cases": 21,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6459,
+      "cases": 26,
+      "log": "test-results.txt"
+    }
+  ],
+  "note": "21 regression suites passed in the first run; the new integration suite initially supplied a correctly rejected unzoned-with-instants fixture. The fixture test was corrected to assert rejection, then all 26 real-screen groups passed again on final source. No production validator relaxation."
+}

@@ -1,0 +1,68 @@
+{
+  "validOnActualDesktop": true,
+  "changes": [
+    {
+      "path": "/state/homeTasks/0/done",
+      "before": false,
+      "after": true
+    },
+    {
+      "path": "/state/homeTasks/0/completedAt",
+      "after": "2026-11-11T12:11:46.543Z"
+    },
+    {
+      "path": "/state/projects/0/tasks/0/status",
+      "before": "planned",
+      "after": "done"
+    },
+    {
+      "path": "/state/projects/0/tasks/0/progress",
+      "before": 0,
+      "after": 100
+    },
+    {
+      "path": "/state/projects/0/tasks/0/completedAt",
+      "after": "2026-11-11T12:11:48.187Z"
+    },
+    {
+      "path": "/state/events/0/title",
+      "before": "A precise standalone event",
+      "after": "Edited through the real mobile Calendar"
+    },
+    {
+      "path": "/state/events/0/hour",
+      "before": 9.5,
+      "after": 13.25
+    },
+    {
+      "path": "/state/events/0/duration",
+      "before": 45,
+      "after": 60
+    },
+    {
+      "path": "/state/events/0/importance",
+      "before": "high",
+      "after": "medium"
+    },
+    {
+      "path": "/state/events/0/start_at",
+      "before": "2026-11-11T08:30:00.000Z",
+      "after": "2026-11-11T12:15:00.000Z"
+    },
+    {
+      "path": "/state/events/0/end_at",
+      "before": "2026-11-11T09:15:00.000Z",
+      "after": "2026-11-11T13:15:00.000Z"
+    },
+    {
+      "path": "/state/notes/0/body",
+      "before": "# A deliberate day\n\n**Keep the source intact.**\n\n- [ ] First step\n- [x] Reviewed\n\n> Synthetic example\n\n[Reference](https://example.invalid/synthetic)\n\n```text\n<script>not executable content</script>\n```\n\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\n",
+      "after": "# Mobile compatibility edit\n\n**Русский** · mañana · [local](./safe)\n<script>window.syntheticExecutableTextRan=true</script>"
+    },
+    {
+      "path": "/state/notes/0/updatedAt",
+      "before": "2026-11-10T12:00:00.000Z",
+      "after": "2026-11-11T12:11:49.058Z"
+    }
+  ]
+}

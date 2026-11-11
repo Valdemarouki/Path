@@ -1,0 +1,120 @@
+{
+  "cases": 26,
+  "results": [
+    {
+      "name": "A: approved pooled fixture opened in real Today, byte-independent full desktop export exact"
+    },
+    {
+      "name": "C: real Today completion persists exact zero-duration task with only done/completedAt changes"
+    },
+    {
+      "name": "B/D: real Calendar card + existing editor title/time/importance, canonical metadata retained"
+    },
+    {
+      "name": "B: real Projects canonical nested completion updates project counter without changing linked task"
+    },
+    {
+      "name": "B/E: real Notes Markdown edit escaped as source, unknown note fields preserved"
+    },
+    {
+      "name": "Habits/Sport/Canvas/Progress use real screens with explicit supported viewing, no unsupported edit controls"
+    },
+    {
+      "name": "F/G: reload restores selected dataset, task/project/event/note edits across real screens"
+    },
+    {
+      "name": "H/I: real browser download validated by actual isolated desktop validator; exact allowed-field diff",
+      "changedPaths": [
+        "/state/homeTasks/0/done",
+        "/state/homeTasks/0/completedAt",
+        "/state/projects/0/tasks/0/status",
+        "/state/projects/0/tasks/0/progress",
+        "/state/projects/0/tasks/0/completedAt",
+        "/state/events/0/title",
+        "/state/events/0/hour",
+        "/state/events/0/duration",
+        "/state/events/0/importance",
+        "/state/events/0/start_at",
+        "/state/events/0/end_at",
+        "/state/notes/0/body",
+        "/state/notes/0/updatedAt"
+      ]
+    },
+    {
+      "name": "J: exit opens original native data unchanged; re-entry restores complete test copy"
+    },
+    {
+      "name": "New fixture creates independent copy; selecting previous copy restores all edits"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "Locale/width + reduced motion real-screen matrix",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "Quota failure produces no success or source change; explicit retry succeeds"
+    },
+    {
+      "name": "Two-tab stale writer blocked; latest edit and unsaved older draft both recoverable"
+    },
+    {
+      "name": "Typed same-string IDs, exact zero/fractional durations, legacy timezone and recurrence remain safe on real screens"
+    },
+    {
+      "name": "Damaged synthetic fixture rejected without replacing last working dataset"
+    },
+    {
+      "name": "Unzoned record with incompatible retained instants rejected; previous source preserved without zone inference"
+    },
+    {
+      "name": "Delayed fixture loading blocks background task action; neither source copy receives queued writes"
+    },
+    {
+      "name": "Recorded actual real-screen edits and reload at normal speed; collapsed controls, no generated UI"
+    }
+  ],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "nativeStorage": "exact native sentinel unchanged; zero reads/writes by test-mode app (sentinel oracle bypasses hook); ordinary exit may read native storage",
+  "platform": "Linux Chromium; synthetic profiles only; physical Windows/iOS/Android not tested"
+}

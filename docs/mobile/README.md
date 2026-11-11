@@ -1,4 +1,4 @@
-> Текущий этап: [проверяемая совместимость desktop-данных и локальный preview](data-compatibility/REPORT.md), [точный контракт по сущностям](data-compatibility/CONTRACT.md). Предыдущие этапы сохранены.
+> Текущий этап: [синтетические desktop-данные в настоящих мобильных экранах](desktop-test-mode/REPORT.md), [архитектура изолированного test mode](desktop-test-mode/ARCHITECTURE.md). Предыдущий [compatibility preview и контракт](data-compatibility/REPORT.md) сохранены.
 
 > Текущий этап: [единые числовые и временные селекторы — аудит, проверка и видео](numeric-pickers/REPORT.md). Предыдущие этапы и доказательства сохранены.
 
