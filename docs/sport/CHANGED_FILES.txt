@@ -320,6 +320,7 @@ docs/sport/validation/check-storage.cjs.log
 docs/sport/validation/check-workout-builder.cjs.log
 docs/sport/validation/check-workout-timing.cjs.log
 docs/sport/validation/core-compat.log
+docs/sport/validation/desktop-regression.initial.log
 docs/sport/validation/desktop-regression.json
 docs/sport/validation/desktop-regression.log
 docs/sport/validation/local-assets.cjs

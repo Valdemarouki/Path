@@ -25,6 +25,13 @@
 на v4 raw draft вместо устаревшего scalar result и на утверждённую композицию
 Library/Schedule; семантические проверки сохранения и планирования остаются.
 
+`desktop-regression.initial.log` сохраняет первый запуск: устаревший scalar
+draft assertion и реальная потеря sidebar из-за локализованного anchor. После
+исправлений семь сценариев прошли; финальный aggregate — `desktop-regression.log`
+и JSON. `sport-dataset-switch/initial-harness-*` сохраняет первоначальный таймаут
+автоматизации на закрытом details; тест затем явно раскрывает доступный control.
+Это не итоговые результаты: authoritative PASS находится в `verification.json`.
+
 Полные новые UI цепочки: `node mobile/tests/sport-package-browser.cjs` и
 `node project-control/check-sport-package-browser.cjs`, JSON и видео в
 `../browser/`. В mobile suite дополнительно включён same-ID dataset-switch
