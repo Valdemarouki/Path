@@ -1,0 +1,19 @@
+{
+  "baseline": "3b4bee560ee2547ba0a27fc89733c6e11155cae2",
+  "build": "phone-preflight-2026-11-11-r3",
+  "suites": {
+    "navigation-lifecycle": 18,
+    "navigation-layers": 14,
+    "transformation": 21,
+    "habits-navigation": 13,
+    "phone-viewport": 8,
+    "phone-gestures": 7,
+    "refinement": 13,
+    "phone-performance": 7
+  },
+  "buildPassed": true,
+  "physicalSafariTested": false,
+  "newListeners": false,
+  "browserMode": "Chromium Linux; synthetic profiles; local static-file request interception",
+  "totalGroups": 101
+}

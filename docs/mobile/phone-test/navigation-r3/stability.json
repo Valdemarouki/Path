@@ -1,0 +1,422 @@
+{
+  "cases": 7,
+  "results": [
+    {
+      "name": "Performance normal: bounded DOM/global listeners/timers, no idle RAF or retained IMPACT/numeric layers",
+      "size": "normal",
+      "counts": {
+        "events": 24,
+        "notes": 32
+      },
+      "serializedBytes": 31132,
+      "routes": [
+        {
+          "route": "calendar",
+          "handlerToTwoRAFMs": 69,
+          "intlConstructors": 3
+        },
+        {
+          "route": "notes",
+          "handlerToTwoRAFMs": 63,
+          "intlConstructors": 1
+        },
+        {
+          "route": "calendar",
+          "handlerToTwoRAFMs": 56.5,
+          "intlConstructors": 2
+        },
+        {
+          "route": "notes",
+          "handlerToTwoRAFMs": 32.30000000074506,
+          "intlConstructors": 1
+        }
+      ],
+      "scroll": {
+        "calendar": {
+          "frames": 74,
+          "duration": 1249.9,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 33.399999999999864,
+          "over50Ms": 0,
+          "scrollY": 1650,
+          "scrollHeight": 4576
+        },
+        "notes": {
+          "frames": 74,
+          "duration": 1233.3000000000002,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999727,
+          "maxFrameMs": 16.800000000000182,
+          "over50Ms": 0,
+          "scrollY": 1650,
+          "scrollHeight": 4045
+        }
+      },
+      "panel": [],
+      "before": {
+        "intlConstructors": 19,
+        "pendingRAF": 0,
+        "rafCalls": 179,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 437,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 428.19999999925494,
+            "duration": 79
+          }
+        ]
+      },
+      "afterPanels": {
+        "intlConstructors": 19,
+        "pendingRAF": 0,
+        "rafCalls": 507,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 437,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 428.19999999925494,
+            "duration": 79
+          }
+        ]
+      },
+      "afterNumeric": {
+        "intlConstructors": 34,
+        "pendingRAF": 0,
+        "rafCalls": 525,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 673,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 428.19999999925494,
+            "duration": 79
+          }
+        ]
+      },
+      "duringImpact": {
+        "impact": 5,
+        "layers": 1
+      },
+      "final": {
+        "intlConstructors": 35,
+        "pendingRAF": 0,
+        "rafCalls": 580,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 437,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 428.19999999925494,
+            "duration": 79
+          }
+        ]
+      }
+    },
+    {
+      "name": "Performance large: bounded DOM/global listeners/timers, no idle RAF or retained IMPACT/numeric layers",
+      "size": "large",
+      "counts": {
+        "events": 400,
+        "notes": 400
+      },
+      "serializedBytes": 721591,
+      "routes": [
+        {
+          "route": "calendar",
+          "handlerToTwoRAFMs": 115.5,
+          "intlConstructors": 3
+        },
+        {
+          "route": "notes",
+          "handlerToTwoRAFMs": 80.59999999962747,
+          "intlConstructors": 1
+        },
+        {
+          "route": "calendar",
+          "handlerToTwoRAFMs": 131,
+          "intlConstructors": 2
+        },
+        {
+          "route": "notes",
+          "handlerToTwoRAFMs": 65.40000000037253,
+          "intlConstructors": 1
+        }
+      ],
+      "scroll": {
+        "calendar": {
+          "frames": 74,
+          "duration": 1233.2,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.800000000000068,
+          "over50Ms": 0,
+          "scrollY": 1650,
+          "scrollHeight": 62397
+        },
+        "notes": {
+          "frames": 74,
+          "duration": 1233.3000000000002,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.700000000000273,
+          "maxFrameMs": 16.800000000000182,
+          "over50Ms": 0,
+          "scrollY": 1650,
+          "scrollHeight": 44893
+        }
+      },
+      "panel": [],
+      "before": {
+        "intlConstructors": 19,
+        "pendingRAF": 0,
+        "rafCalls": 179,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 1909,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 178.80000000074506,
+            "duration": 62
+          },
+          {
+            "start": 379.5,
+            "duration": 79
+          },
+          {
+            "start": 579.3000000007451,
+            "duration": 62
+          },
+          {
+            "start": 1963.1000000014901,
+            "duration": 187
+          },
+          {
+            "start": 3948.2000000011176,
+            "duration": 54
+          },
+          {
+            "start": 4246.9000000003725,
+            "duration": 168
+          },
+          {
+            "start": 4759.300000000745,
+            "duration": 65
+          }
+        ]
+      },
+      "afterPanels": {
+        "intlConstructors": 19,
+        "pendingRAF": 0,
+        "rafCalls": 508,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 1909,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 178.80000000074506,
+            "duration": 62
+          },
+          {
+            "start": 379.5,
+            "duration": 79
+          },
+          {
+            "start": 579.3000000007451,
+            "duration": 62
+          },
+          {
+            "start": 1963.1000000014901,
+            "duration": 187
+          },
+          {
+            "start": 3948.2000000011176,
+            "duration": 54
+          },
+          {
+            "start": 4246.9000000003725,
+            "duration": 168
+          },
+          {
+            "start": 4759.300000000745,
+            "duration": 65
+          }
+        ]
+      },
+      "afterNumeric": {
+        "intlConstructors": 34,
+        "pendingRAF": 0,
+        "rafCalls": 525,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 5937,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 178.80000000074506,
+            "duration": 62
+          },
+          {
+            "start": 379.5,
+            "duration": 79
+          },
+          {
+            "start": 579.3000000007451,
+            "duration": 62
+          },
+          {
+            "start": 1963.1000000014901,
+            "duration": 187
+          },
+          {
+            "start": 3948.2000000011176,
+            "duration": 54
+          },
+          {
+            "start": 4246.9000000003725,
+            "duration": 168
+          },
+          {
+            "start": 4759.300000000745,
+            "duration": 65
+          },
+          {
+            "start": 14302,
+            "duration": 65
+          },
+          {
+            "start": 15221.900000000373,
+            "duration": 119
+          }
+        ]
+      },
+      "duringImpact": {
+        "impact": 5,
+        "layers": 1
+      },
+      "final": {
+        "intlConstructors": 35,
+        "pendingRAF": 0,
+        "rafCalls": 577,
+        "intervalCalls": 0,
+        "intervals": [
+          30000
+        ],
+        "timeouts": [],
+        "globalListeners": 71,
+        "nodes": 1909,
+        "animations": [],
+        "longTasks": [
+          {
+            "start": 178.80000000074506,
+            "duration": 62
+          },
+          {
+            "start": 379.5,
+            "duration": 79
+          },
+          {
+            "start": 579.3000000007451,
+            "duration": 62
+          },
+          {
+            "start": 1963.1000000014901,
+            "duration": 187
+          },
+          {
+            "start": 3948.2000000011176,
+            "duration": 54
+          },
+          {
+            "start": 4246.9000000003725,
+            "duration": 168
+          },
+          {
+            "start": 4759.300000000745,
+            "duration": 65
+          },
+          {
+            "start": 14302,
+            "duration": 65
+          },
+          {
+            "start": 15221.900000000373,
+            "duration": 119
+          }
+        ]
+      }
+    },
+    {
+      "name": "Offline distinction: reload/new page work with loopback server reachable and all external hosts blocked"
+    },
+    {
+      "name": "Offline A: fully loaded app saves a synthetic task locally with all network unavailable"
+    },
+    {
+      "name": "Offline B: cache-disabled reload cannot start with app server unreachable; no service worker",
+      "error": "page.reload: net::ERR_INTERNET_DISCONNECTED"
+    },
+    {
+      "name": "Offline C: fresh page cannot start with app server unreachable and empty cache",
+      "error": "page.goto: net::ERR_INTERNET_DISCONNECTED at http://127.0.0.1:8010/"
+    },
+    {
+      "name": "Offline failed launches retain synthetic local records; reconnect restores them"
+    }
+  ],
+  "unexpected": [],
+  "external": [],
+  "conditions": {
+    "platform": "Linux Chromium headless; no physical phone",
+    "viewport": "390x844 CSS px",
+    "deviceScaleFactor": 1,
+    "cpuThrottle": "none",
+    "network": "existing loopback server8010 only, all other requests blocked",
+    "syntheticDate": "2026-11-11",
+    "scroll": "75 requestAnimationFrame steps of22CSSpx, measured frame gaps; not physical-touch latency",
+    "timings": "host/container dependent; no device FPS guarantee",
+    "host": {
+      "platform": "linux",
+      "arch": "x64",
+      "node": "v24.22.1",
+      "cpus": 5
+    },
+    "intentionalPeriodicTimers": "Measured warmed baseline timers; clock remains periodic, workout scheduler is active only when visible Sport requires it. Timer inventories are compared before/after transient interactions, not assumed to be zero."
+  },
+  "offline": "No service worker installed; localStorage persistence does not guarantee offline reload/cold start."
+}

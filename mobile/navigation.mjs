@@ -39,7 +39,7 @@ export function createNavigation(nav){
   const reduced={get matches(){return systemReduced.matches||document.documentElement.dataset.motion==='off';},addEventListener(type,fn){systemReduced.addEventListener(type,fn);window.addEventListener('path-motion-change',fn);}};
   const shade=document.createElement('div');shade.className='nav-shade';shade.hidden=true;shade.setAttribute('aria-hidden','true');document.body.append(shade);
   nav.dataset.blur=CSS.supports('backdrop-filter','blur(1px)')||CSS.supports('-webkit-backdrop-filter','blur(1px)')?'supported':'fallback';
-  let destination='today',language='en',opened=false,modalActive=false,suspended=false,mode='normal',motion=null,rootAnimation=null,shadeAnimation=null,dragFrame=0,serial=0;
+  let destination='today',language='en',opened=false,modalActive=false,suspended=false,mode='normal',motion=null,rootAnimation=null,shadeAnimation=null,extraAnimation=null,settleTimer=0,dragFrame=0,serial=0;
   let historyRestoration=null;
   const restoreHistory=()=>requestAnimationFrame(()=>{if(!modalActive&&!pendingBack&&historyRestoration!==null){history.scrollRestoration=historyRestoration;historyRestoration=null;}});
   let dragging=null,suppressClickUntil=0,lastY=scrollY,direction=0,travel=0,ignoreScrollUntil=0,savedY=0,bodyBefore='',inertBefore=[],pendingBack=0,ownsHistory=false;
@@ -60,7 +60,8 @@ export function createNavigation(nav){
     if(handle.hasPointerCapture(id))handle.releasePointerCapture(id);
   }
   function stopAnimations(){
-    serial++;rootAnimation?.cancel();rootAnimation=null;shadeAnimation?.cancel();shadeAnimation=null;
+    serial++;if(settleTimer){clearTimeout(settleTimer);settleTimer=0;}
+    rootAnimation?.cancel();rootAnimation=null;shadeAnimation?.cancel();shadeAnimation=null;extraAnimation?.cancel();extraAnimation=null;
     if(dragFrame){cancelAnimationFrame(dragFrame);dragFrame=0;}
     quick.getAnimations().forEach(a=>a.cancel());
     for(const cell of cells.values())cell.getAnimations().forEach(a=>a.cancel());
@@ -68,8 +69,8 @@ export function createNavigation(nav){
   }
   function layout(open){
     row.hidden=false;nav.dataset.state=open?'expanded':mode;
-    if(open){for(const key of mainKeys)cells.get(key).append(buttons.get(key));}
-    else{for(const key of PRIMARY)row.append(key==='quick'?quick:buttons.get(key));}
+    if(open){for(const key of mainKeys){const b=buttons.get(key),cell=cells.get(key);if(b.parentElement!==cell)cell.append(b);}}
+    else if(mainKeys.some(key=>buttons.get(key).parentElement!==row)){for(const key of PRIMARY)row.append(key==='quick'?quick:buttons.get(key));}
     extra.inert=!open;extra.setAttribute('aria-hidden',String(!open));row.inert=open;quick.inert=open;
     extra.style.opacity='';quick.style.opacity='';quick.style.transform='';
   }
@@ -108,27 +109,35 @@ export function createNavigation(nav){
     const ghost=document.createElement('div');ghost.className='nav-flight';ghost.setAttribute('aria-hidden','true');ghost.innerHTML=icon(key);ghost.style.left=rect.x+'px';ghost.style.top=rect.y+'px';ghost.style.color=color;document.body.append(ghost);flights.set(key,ghost);buttons.get(key).querySelector('svg').style.visibility='hidden';return ghost;
   }
   function complete(token){
-    if(token!==serial)return;motion=null;rootAnimation=null;shadeAnimation?.cancel();shadeAnimation=null;delete nav.dataset.transitioning;finishFlights();
+    if(token!==serial||motion?.token!==token)return;
+    if(settleTimer){clearTimeout(settleTimer);settleTimer=0;}
+    rootAnimation?.cancel();rootAnimation=null;shadeAnimation?.cancel();shadeAnimation=null;extraAnimation?.cancel();extraAnimation=null;
+    quick.getAnimations().forEach(a=>a.cancel());for(const cell of cells.values())cell.getAnimations().forEach(a=>a.cancel());
+    motion=null;delete nav.dataset.transitioning;finishFlights();extra.style.opacity='';quick.style.opacity='';quick.style.transform='';
     row.hidden=opened;row.inert=opened;quick.inert=opened;extra.inert=!opened;paintFrame();shadePosition(geometry().height);
   }
   function transform(open,{drag=false}={}){
     if(suspended)return null;
-    const from=geometry(),fromIcons=currentIcons(),plusFrom={opacity:getComputedStyle(quick).opacity,transform:getComputedStyle(quick).transform};stopAnimations();finishFlights();const token=serial;
+    const from=geometry(),fromIcons=currentIcons(),extraFrom=getComputedStyle(extra).opacity,plusFrom={opacity:getComputedStyle(quick).opacity,transform:getComputedStyle(quick).transform};stopAnimations();finishFlights();delete nav.dataset.transitioning;const token=serial;
     const ends=endpoints();ends.start={g:from,icons:fromIcons};opened=open;layout(open);modal(open);handle.setAttribute('aria-expanded',String(open));handle.setAttribute('aria-label',t(open?'closeSections':'openSections',language));
     const target=open?ends.open:ends.closed;setGeometry(target.g);paintFrame();shadePosition(target.g.height);
-    motion={ends,token};nav.dataset.transitioning='true';quick.inert=true;
+    motion={ends,token};nav.dataset.transitioning=open?'opening':'closing';quick.inert=true;
     if(reduced.matches&&!drag){complete(token);return ends;}
     const colors=new Map(mainKeys.map(key=>[key,getComputedStyle(buttons.get(key)).color]));
     for(const key of mainKeys){
       const a=fromIcons.get(key),b=target.icons.get(key),ghost=ghostAt(key,a,colors.get(key));
       if(!drag){const translation='translate3d('+(b.x-a.x)+'px,'+(b.y-a.y)+'px,0)';ghost.style.transform=translation;ghost.animate([{transform:'translate3d(0,0,0)'},{transform:translation}],{duration:440,easing:'cubic-bezier(.22,.9,.25,1.06)'});}
     }
-    if(drag){setGeometry(from);shadePosition(from.height);return ends;}
+    if(drag){setGeometry(from);shadePosition(from.height);extra.style.opacity=extraFrom;return ends;}
     quick.animate([plusFrom,{opacity:open?0:1,transform:open?'scale(.9)':'scale(1)'}],{duration:180,easing:'ease-out'});
+    extraAnimation=extra.animate([{opacity:extraFrom},{opacity:open?1:0}],{duration:440,easing:'cubic-bezier(.22,.9,.25,1.06)',fill:'both'});
     rootAnimation=nav.animate([{height:from.height+'px',left:from.inset+'px',right:from.inset+'px'},{height:target.g.height+'px',left:target.g.inset+'px',right:target.g.inset+'px'}],{duration:440,easing:'cubic-bezier(.22,.9,.25,1.06)'});
     if(modalActive)shadeAnimation=shade.animate([{transform:shadeTransform(from.height)},{transform:shadeTransform(target.g.height)}],{duration:440,easing:'cubic-bezier(.22,.9,.25,1.06)'});
     for(const [i,cell]of [...cells.values()].entries())cell.animate(open?[{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'none'}]:[{opacity:1,transform:'none'},{opacity:0,transform:'translateY(4px)'}],{duration:180,delay:(open?i:allKeys.length-1-i)*25,easing:'ease-out',fill:'both'});
-    rootAnimation.finished.then(()=>{for(const cell of cells.values())cell.getAnimations().forEach(a=>a.cancel());complete(token);}).catch(()=>{});
+    // A canceled current animation still settles; superseded callbacks cannot
+    // clean up the next transition. The finite fallback covers a missing event.
+    rootAnimation.finished.then(()=>complete(token),()=>complete(token));
+    settleTimer=setTimeout(()=>complete(token),600);
     return ends;
   }
   function open(){if(suspended||opened&&!dragging)return;transform(true);handle.focus({preventScroll:true});}
@@ -161,12 +170,18 @@ export function createNavigation(nav){
     d.paint=null;
   }
   function release(e,cancel=false){const d=dragging;if(!d||d.id!==e.pointerId)return;if(dragFrame){cancelAnimationFrame(dragFrame);dragFrame=0;}paintDrag();dragging=null;delete nav.dataset.dragging;if(!d.moved)return;suppressClickUntil=performance.now()+400;const target=cancel?d.wasOpen:d.velocity>.4||(d.velocity>=-.4&&d.current>.45);if(target){mode='normal';transform(true);}else{opened=true;close();}}
-  handle.addEventListener('pointerup',e=>release(e));handle.addEventListener('pointercancel',e=>release(e,true));shade.addEventListener('click',()=>close());
+  handle.addEventListener('pointerup',e=>release(e));handle.addEventListener('pointercancel',e=>release(e,true));handle.addEventListener('lostpointercapture',e=>release(e,true));shade.addEventListener('click',()=>close());
   nav.addEventListener('click',e=>{if(e.target.closest('[data-route],[data-add]')){close({focus:false});collapsed('normal');}});
   nav.addEventListener('keydown',e=>{if(!opened)return;if(e.key==='Escape'){e.preventDefault();e.stopPropagation();close();}else if(e.key==='Tab'){const items=[...nav.querySelectorAll('button')].filter(b=>!b.closest('[inert]')&&!b.inert&&!b.hidden&&b.getClientRects().length),first=items[0],last=items.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
   window.addEventListener('popstate',()=>{if(pendingBack){pendingBack--;restoreHistory();return;}if(opened)close({back:true});restoreHistory();});
   window.addEventListener('scroll',()=>{if(opened||dragging||suspended)return;const y=Math.max(0,Math.min(scrollY,document.documentElement.scrollHeight-innerHeight));if(motion||performance.now()<ignoreScrollUntil){lastY=y;travel=0;direction=0;return;}if(y<32){collapsed('normal');lastY=y;travel=0;direction=0;return;}const delta=y-lastY;lastY=y;if(Math.abs(delta)<2)return;const dir=Math.sign(delta);if(dir!==direction){direction=dir;travel=0;}travel+=Math.abs(delta);if(travel>=36){collapsed(dir>0?'compact':'normal');travel=0;}},{passive:true});
-  window.addEventListener('resize',()=>{cancelDrag();if(motion){stopAnimations();finishFlights();motion=null;delete nav.dataset.transitioning;}if(opened){const ends=endpoints();layout(true);setGeometry(ends.open.g);row.hidden=true;}else{layout(false);collapsed(mode,false);}paintFrame();shadePosition(geometry().height);});
+  function settle(){
+    cancelDrag();stopAnimations();finishFlights();motion=null;delete nav.dataset.transitioning;
+    if(opened){const ends=endpoints();layout(true);setGeometry(ends.open.g);row.hidden=true;}
+    else{layout(false);setGeometry(closedGeometry());}
+    paintFrame();shadePosition(geometry().height);
+  }
+  window.addEventListener('resize',settle);
   new ResizeObserver(entries=>{
     // Transition endpoints already drive the shade and hidden frame. Measuring
     // them here would force another layout on every animated-height frame.
@@ -174,7 +189,10 @@ export function createNavigation(nav){
     if(modalActive)shadePosition(entries[0].borderBoxSize?.[0]?.blockSize??geometry().height);
     if(!opened)paintFrame();
   }).observe(nav);
-  reduced.addEventListener('change',()=>{cancelDrag();stopAnimations();finishFlights();motion=null;delete nav.dataset.transitioning;if(opened){const ends=endpoints();layout(true);setGeometry(ends.open.g);row.hidden=true;}else{layout(false);collapsed(mode,false);}paintFrame();shadePosition(geometry().height);});
+  reduced.addEventListener('change',settle);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&(motion||dragging))settle();});
+  window.addEventListener('pagehide',()=>{if(motion||dragging)settle();});
+  window.addEventListener('pageshow',settle);
   collapsed('normal',false);
   return{
     update(route,lang){
@@ -183,6 +201,6 @@ export function createNavigation(nav){
       for(const b of nav.querySelectorAll('[data-route],[data-add]')){const key=b.hasAttribute('data-add')?'quick':b.dataset.route,label=t(key==='habits'?'navHabits':key,lang);b.setAttribute('aria-label',label);if(key===route)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');const span=b.querySelector('.nav-label')||b.querySelector('span');if(span)span.textContent=label;const small=b.querySelector('small');if(small)small.textContent=key==='settings'?t('language',lang):['today','calendar','habits'].includes(key)?'':t('local',lang);}
       for(const [key,cell]of cells)cell.dataset.active=String(key===route);paintFrame(changed);
     },
-    suspend(value){if(value){close({focus:false});stopAnimations();finishFlights();motion=null;delete nav.dataset.transitioning;layout(false);}suspended=value;nav.hidden=value;collapsed('normal',false);},open,close
+    suspend(value){if(value){close({focus:false});settle();}suspended=value;nav.hidden=value;collapsed('normal',false);},open,close
   };
 }

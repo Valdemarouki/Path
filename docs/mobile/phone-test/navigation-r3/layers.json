@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 320/en",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 320/ru",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 320/es",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 390/en",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 390/ru",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 390/es",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 430/en",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 430/ru",
+    "Every closing frame keeps heading outside primary row; data/scroll retained: 430/es",
+    "Canceled current opening/closing settles semantic controls and clears transient layers",
+    "Superseded finished callback cannot clean up a new close/reopen transition",
+    "Finite fallback settles a paused/lost completion without retained animations",
+    "Tab during opening retains focused grid button through settlement and Enter navigation",
+    "Safari-like resize interruption in both directions and reduced motion leave coherent final layers"
+  ],
+  "baseline": null,
+  "conditions": "Linux Chromium; synthetic contexts; local-file request interception; not physical Safari"
+}

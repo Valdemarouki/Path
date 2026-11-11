@@ -1,0 +1,20 @@
+{
+  "viewport": [
+    390,
+    700
+  ],
+  "browser": "Chromium/Linux headless",
+  "capture": "CDP actual frame timestamps, played at original speed; mp4fps30/gif12",
+  "physicalPhoneTested": false,
+  "actions": [
+    "ordinary open/close",
+    "90ms rapid reversals",
+    "actual CDP touch drag up/down"
+  ],
+  "capturedFrames": 212,
+  "duration": 6.378066062927246,
+  "pageErrors": [],
+  "finalState": "normal",
+  "remainingFlights": 0,
+  "remainingTransition": false
+}

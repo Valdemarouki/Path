@@ -1,0 +1,46 @@
+{
+  "closing": {
+    "state": "normal",
+    "transitioning": "true",
+    "extraOpacity": "1",
+    "extraVisibility": "visible",
+    "extra": {
+      "top": 631.609375,
+      "bottom": 692,
+      "height": 60.390625
+    },
+    "title": {
+      "top": 631.609375,
+      "bottom": 659.609375,
+      "height": 28
+    },
+    "row": {
+      "top": 626,
+      "bottom": 692,
+      "height": 66
+    },
+    "quickInert": true
+  },
+  "canceled": {
+    "state": "normal",
+    "transitioning": "true",
+    "extraOpacity": "1",
+    "extraVisibility": "visible",
+    "extra": {
+      "top": 626,
+      "bottom": 692,
+      "height": 66
+    },
+    "title": {
+      "top": 626,
+      "bottom": 654,
+      "height": 28
+    },
+    "row": {
+      "top": 626,
+      "bottom": 692,
+      "height": 66
+    },
+    "quickInert": true
+  }
+}

@@ -1,3 +1,5 @@
+Точечное обновление PHONE R3: [исправление наложения заголовка панели, отмены переходов и пакет для R1/R2](phone-test/NAVIGATION_R3.md).
+
 Точечное обновление PHONE R2: [скрытие полос прокрутки, оптимизация перехода навигации и замеры](phone-test/NAVIGATION_R2.md).
 
 Текущий этап: [подготовка iPhone 12 Pro / Safari](phone-test/REPORT.md), [пошаговый доступ Windows → iPhone](phone-test/ACCESS.md), [чеклист](phone-test/PHONE_CHECKLIST.md).
