@@ -1,3 +1,5 @@
+> Текущий этап: [завершение Calendar и отметки Habits в синтетических desktop-копиях](desktop-actions/REPORT.md), [подтверждённая desktop-семантика](desktop-actions/DESKTOP_SEMANTICS.md). Предыдущие этапы сохранены ниже.
+
 > Текущий этап: [синтетические desktop-данные в настоящих мобильных экранах](desktop-test-mode/REPORT.md), [архитектура изолированного test mode](desktop-test-mode/ARCHITECTURE.md). Предыдущий [compatibility preview и контракт](data-compatibility/REPORT.md) сохранены.
 
 > Текущий этап: [единые числовые и временные селекторы — аудит, проверка и видео](numeric-pickers/REPORT.md). Предыдущие этапы и доказательства сохранены.

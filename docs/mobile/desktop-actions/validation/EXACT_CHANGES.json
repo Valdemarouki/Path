@@ -1,0 +1,44 @@
+{
+  "desktopValidated": true,
+  "eventCompletion": [
+    {
+      "path": "/state/events/14/done",
+      "object": {
+        "kind": "event",
+        "id": "action-2"
+      },
+      "field": "done",
+      "beforePresent": true,
+      "afterPresent": true,
+      "before": false,
+      "after": true
+    }
+  ],
+  "eventUndo": "Complete source exactly restored; see event-undo-desktop.json",
+  "binaryMarkThenUndo": [
+    {
+      "path": "/state/habits/0/values/2026-11-11",
+      "object": {
+        "kind": "habit",
+        "id": "compat-habit-daily"
+      },
+      "field": "2026-11-11",
+      "beforePresent": false,
+      "afterPresent": true,
+      "before": null,
+      "after": 0
+    },
+    {
+      "path": "/state/habits/0/checkIns/2026-11-11",
+      "object": {
+        "kind": "habit",
+        "id": "compat-habit-daily"
+      },
+      "field": "2026-11-11",
+      "beforePresent": false,
+      "afterPresent": true,
+      "before": null,
+      "after": false
+    }
+  ]
+}

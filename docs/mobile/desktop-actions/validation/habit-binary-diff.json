@@ -1,0 +1,13 @@
+{
+  "validOnActualDesktop": true,
+  "changes": [
+    {
+      "path": "/state/habits/0/values/2026-11-11",
+      "after": 0
+    },
+    {
+      "path": "/state/habits/0/checkIns/2026-11-11",
+      "after": false
+    }
+  ]
+}

@@ -1,0 +1,1127 @@
+models
+TAP version 13
+# Subtest: canonical project task: edit, Today, deadline, main, complete, progress, reload, delete and Undo
+ok 1 - canonical project task: edit, Today, deadline, main, complete, progress, reload, delete and Undo
+  ---
+  duration_ms: 18.194652
+  type: 'test'
+  ...
+# Subtest: complex project task stays intact and readonly; unknown fields survive supported edits
+ok 2 - complex project task stays intact and readonly; unknown fields survive supported edits
+  ---
+  duration_ms: 1.276962
+  type: 'test'
+  ...
+# Subtest: dated habit schedule, repeated toggle, streak, archive retains history and schedule versions
+ok 3 - dated habit schedule, repeated toggle, streak, archive retains history and schedule versions
+  ---
+  duration_ms: 1.144003
+  type: 'test'
+  ...
+# Subtest: Markdown notes retain source and opaque fields; trash/restore/search survives reload
+ok 4 - Markdown notes retain source and opaque fields; trash/restore/search survives reload
+  ---
+  duration_ms: 1.437512
+  type: 'test'
+  ...
+# Subtest: template → snapshot plan → persisted session → reps/load/rest → immutable history and Calendar completion
+ok 5 - template → snapshot plan → persisted session → reps/load/rest → immutable history and Calendar completion
+  ---
+  duration_ms: 3.777776
+  type: 'test'
+  ...
+# Subtest: workout invalid inputs/empty finish/quota leave active session and disk untouched
+ok 6 - workout invalid inputs/empty finish/quota leave active session and disk untouched
+  ---
+  duration_ms: 0.706077
+  type: 'test'
+  ...
+# Subtest: progress uses completion moments, eligible dated habits and deduplicated workout IDs; week begins Monday
+ok 7 - progress uses completion moments, eligible dated habits and deduplicated workout IDs; week begins Monday
+  ---
+  duration_ms: 0.355993
+  type: 'test'
+  ...
+# Subtest: migration is repeatable and unknown extension collections are retained without coercion
+ok 8 - migration is repeatable and unknown extension collections are retained without coercion
+  ---
+  duration_ms: 0.38054
+  type: 'test'
+  ...
+# Subtest: saved workout inputs preserve logged flags, rest timestamps and extension fields without logging twice
+ok 9 - saved workout inputs preserve logged flags, rest timestamps and extension fields without logging twice
+  ---
+  duration_ms: 0.440019
+  type: 'test'
+  ...
+# Subtest: unsupported/colliding identities are not exposed as duplicate Today task controls
+ok 10 - unsupported/colliding identities are not exposed as duplicate Today task controls
+  ---
+  duration_ms: 0.409944
+  type: 'test'
+  ...
+# Subtest: corrupt owned active session and future project Undo schemas fail closed without touching disk
+ok 11 - corrupt owned active session and future project Undo schemas fail closed without touching disk
+  ---
+  duration_ms: 0.67505
+  type: 'test'
+  ...
+# Subtest: Canvas source projections reflect canonical edits without changing nodes, edges or viewport
+ok 12 - Canvas source projections reflect canonical edits without changing nodes, edges or viewport
+  ---
+  duration_ms: 0.398567
+  type: 'test'
+  ...
+# Subtest: new notes and workout control fields use the audited desktop timestamp types and one-based set indices
+ok 13 - new notes and workout control fields use the audited desktop timestamp types and one-based set indices
+  ---
+  duration_ms: 0.357365
+  type: 'test'
+  ...
+# Subtest: undoing a set clears its actual value and only cancels its own rest timer
+ok 14 - undoing a set clears its actual value and only cancels its own rest timer
+  ---
+  duration_ms: 0.290696
+  type: 'test'
+  ...
+# Subtest: old archived main-task references remain valid on migration without exposing hidden tasks
+ok 15 - old archived main-task references remain valid on migration without exposing hidden tasks
+  ---
+  duration_ms: 0.468431
+  type: 'test'
+  ...
+# Subtest: metadata-only project task edits preserve fractional progress; unknown field shapes cannot be flattened
+ok 16 - metadata-only project task edits preserve fractional progress; unknown field shapes cannot be flattened
+  ---
+  duration_ms: 0.407029
+  type: 'test'
+  ...
+# Subtest: completion changes only done; undo and reload preserve ID, priority, instants and opaque fields
+ok 17 - completion changes only done; undo and reload preserve ID, priority, instants and opaque fields
+  ---
+  duration_ms: 13.065042
+  type: 'test'
+  ...
+# Subtest: repeating the same desired value is idempotent; a stale expectation is rejected
+ok 18 - repeating the same desired value is idempotent; a stale expectation is rejected
+  ---
+  duration_ms: 0.795051
+  type: 'test'
+  ...
+# Subtest: a failed durable write leaves both in-memory and serialized state unchanged; retry writes once
+ok 19 - a failed durable write leaves both in-memory and serialized state unchanged; retry writes once
+  ---
+  duration_ms: 2.168778
+  type: 'test'
+  ...
+# Subtest: linked, recurring, incoming workout, Free Time, deadlines and unknown types stay protected
+ok 20 - linked, recurring, incoming workout, Free Time, deadlines and unknown types stay protected
+  ---
+  duration_ms: 3.326661
+  type: 'test'
+  ...
+# Subtest: a conflicting tab cannot complete over newer bytes
+ok 21 - a conflicting tab cannot complete over newer bytes
+  ---
+  duration_ms: 0.4808
+  type: 'test'
+  ...
+# Subtest: radial impulse: up/down symmetry, multiple columns, attenuation and mobile cap
+ok 22 - radial impulse: up/down symmetry, multiple columns, attenuation and mobile cap
+  ---
+  duration_ms: 0.763263
+  type: 'test'
+  ...
+# Subtest: arrival is distance-based and coincides with the expanding ring, not one simultaneous kick
+ok 23 - arrival is distance-based and coincides with the expanding ring, not one simultaneous kick
+  ---
+  duration_ms: 0.183845
+  type: 'test'
+  ...
+# Subtest: one fast outward impulse, one small reverse overshoot, exact zero with a calm stop
+ok 24 - one fast outward impulse, one small reverse overshoot, exact zero with a calm stop
+  ---
+  duration_ms: 5.549258
+  type: 'test'
+  ...
+# Subtest: edge bounds include the reverse excursion and never push fully visible cards outside the viewport
+ok 25 - edge bounds include the reverse excursion and never push fully visible cards outside the viewport
+  ---
+  duration_ms: 1.664001
+  type: 'test'
+  ...
+# Subtest: create/edit/reload keep ID and all unknown event/root fields
+ok 26 - create/edit/reload keep ID and all unknown event/root fields
+  ---
+  duration_ms: 15.869482
+  type: 'test'
+  ...
+# Subtest: DST gap is rejected and both fold instants are explicit (Warsaw, New York, half-hour zone)
+ok 27 - DST gap is rejected and both fold instants are explicit (Warsaw, New York, half-hour zone)
+  ---
+  duration_ms: 2.667103
+  type: 'test'
+  ...
+# Subtest: cross-midnight, deadline zero duration and Upcoming exclusion
+ok 28 - cross-midnight, deadline zero duration and Upcoming exclusion
+  ---
+  duration_ms: 1.318995
+  type: 'test'
+  ...
+# Subtest: Free Time neutral priority/incomplete; protected overlap requires explicit acknowledgement
+ok 29 - Free Time neutral priority/incomplete; protected overlap requires explicit acknowledgement
+  ---
+  duration_ms: 2.060565
+  type: 'test'
+  ...
+# Subtest: series, links and unknown enums are read-only and preserve raw bytes
+ok 30 - series, links and unknown enums are read-only and preserve raw bytes
+  ---
+  duration_ms: 2.033955
+  type: 'test'
+  ...
+# Subtest: failed persistence leaves original v1 bytes and event draft untouched
+ok 31 - failed persistence leaves original v1 bytes and event draft untouched
+  ---
+  duration_ms: 1.452044
+  type: 'test'
+  ...
+# Subtest: legacy non-quarter instants are not rounded on title-only edit
+ok 32 - legacy non-quarter instants are not rounded on title-only edit
+  ---
+  duration_ms: 1.186336
+  type: 'test'
+  ...
+# Subtest: v2 to v5 is lazy and nondestructive, failed write does not migrate disk
+ok 33 - v2 to v5 is lazy and nondestructive, failed write does not migrate disk
+  ---
+  duration_ms: 1.46956
+  type: 'test'
+  ...
+# Subtest: delete, reload and Undo restore exact ID, all extensions and relative insertion point
+ok 34 - delete, reload and Undo restore exact ID, all extensions and relative insertion point
+  ---
+  duration_ms: 14.670806
+  type: 'test'
+  ...
+# Subtest: failed delete and failed restore do not partially modify memory, data or undo snapshot
+ok 35 - failed delete and failed restore do not partially modify memory, data or undo snapshot
+  ---
+  duration_ms: 2.207085
+  type: 'test'
+  ...
+# Subtest: series and linked objects cannot be deleted under the guise of one event
+ok 36 - series and linked objects cannot be deleted under the guise of one event
+  ---
+  duration_ms: 1.00865
+  type: 'test'
+  ...
+# Subtest: restore refuses ID collision, retains undo, and never overwrites newer records
+ok 37 - restore refuses ID collision, retains undo, and never overwrites newer records
+  ---
+  duration_ms: 0.915721
+  type: 'test'
+  ...
+# Subtest: last deletion replaces only the one-level buffer, not other entities
+ok 38 - last deletion replaces only the one-level buffer, not other entities
+  ---
+  duration_ms: 0.396284
+  type: 'test'
+  ...
+# Subtest: migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields
+ok 39 - migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields
+  ---
+  duration_ms: 1.484813
+  type: 'test'
+  ...
+# Subtest: future/invalid undo schemas fail closed without overwriting original stored bytes
+ok 40 - future/invalid undo schemas fail closed without overwriting original stored bytes
+  ---
+  duration_ms: 0.330976
+  type: 'test'
+  ...
+# Subtest: chronological order is deterministic for equal instants and bare date-only deadlines
+ok 41 - chronological order is deterministic for equal instants and bare date-only deadlines
+  ---
+  duration_ms: 1.118955
+  type: 'test'
+  ...
+# Subtest: explicit end supports midnight and DST elapsed duration without guessing the next day
+ok 42 - explicit end supports midnight and DST elapsed duration without guessing the next day
+  ---
+  duration_ms: 7.228032
+  type: 'test'
+  ...
+# Subtest: invalid dates/time strings and non-quarter retiming cannot save
+ok 43 - invalid dates/time strings and non-quarter retiming cannot save
+  ---
+  duration_ms: 1.247117
+  type: 'test'
+  ...
+# Subtest: changing to a date-only deadline clears the interval rather than leaving stale instants
+ok 44 - changing to a date-only deadline clears the interval rather than leaving stale instants
+  ---
+  duration_ms: 1.183552
+  type: 'test'
+  ...
+# Subtest: metadata-only edits keep pre-existing overlaps without requiring a new reservation override
+ok 45 - metadata-only edits keep pre-existing overlaps without requiring a new reservation override
+  ---
+  duration_ms: 1.585905
+  type: 'test'
+  ...
+# Subtest: incoming active/history workout links also protect otherwise standalone-looking events
+ok 46 - incoming active/history workout links also protect otherwise standalone-looking events
+  ---
+  duration_ms: 1.505814
+  type: 'test'
+  ...
+# Subtest: full active list blocks restoration without discarding the retained record
+ok 47 - full active list blocks restoration without discarding the retained record
+  ---
+  duration_ms: 18.78139
+  type: 'test'
+  ...
+# Subtest: standalone completion matches actual desktop occurrence operation and changes only done
+ok 48 - standalone completion matches actual desktop occurrence operation and changes only done
+  ---
+  duration_ms: 102.125941
+  type: 'test'
+  ...
+# Subtest: completion undo sets false without deleting or rewriting any event metadata
+ok 49 - completion undo sets false without deleting or rewriting any event metadata
+  ---
+  duration_ms: 50.173243
+  type: 'test'
+  ...
+# Subtest: repeated event state requests are idempotent including an absent original false flag
+ok 50 - repeated event state requests are idempotent including an absent original false flag
+  ---
+  duration_ms: 78.295499
+  type: 'test'
+  ...
+# Subtest: linked/recurring/history/free-time/deadline and legacy events stay completion protected
+ok 51 - linked/recurring/history/free-time/deadline and legacy events stay completion protected
+  ---
+  duration_ms: 77.863102
+  type: 'test'
+  ...
+# Subtest: unknown relationship or enum cannot gain completion permission via forged view entries
+ok 52 - unknown relationship or enum cannot gain completion permission via forged view entries
+  ---
+  duration_ms: 31.382398
+  type: 'test'
+  ...
+# Subtest: binary manual mark/undo matches actual desktop dated values/checkIns, retaining false on undo
+ok 53 - binary manual mark/undo matches actual desktop dated values/checkIns, retaining false on undo
+  ---
+  duration_ms: 79.613573
+  type: 'test'
+  ...
+# Subtest: binary repeated mark/unmark never duplicates or normalizes already absent zero history
+ok 54 - binary repeated mark/unmark never duplicates or normalizes already absent zero history
+  ---
+  duration_ms: 201.280451
+  type: 'test'
+  ...
+# Subtest: manual count stores exact fractional value and zero without changing checkIns
+ok 55 - manual count stores exact fractional value and zero without changing checkIns
+  ---
+  duration_ms: 103.266348
+  type: 'test'
+  ...
+# Subtest: manual duration units are minutes and finite fractions survive unchanged
+ok 56 - manual duration units are minutes and finite fractions survive unchanged
+  ---
+  duration_ms: 52.541228
+  type: 'test'
+  ...
+# Subtest: quantity explicit zero creates only the requested dated value while no-op viewing preserves absence
+ok 57 - quantity explicit zero creates only the requested dated value while no-op viewing preserves absence
+  ---
+  duration_ms: 35.193845
+  type: 'test'
+  ...
+# Subtest: latest effective rule determines day kind and source, without rewriting old history
+ok 58 - latest effective rule determines day kind and source, without rewriting old history
+  ---
+  duration_ms: 20.909597
+  type: 'test'
+  ...
+# Subtest: out-of-schedule, future, skipped, paused and archived days are rejected without modifying source
+ok 59 - out-of-schedule, future, skipped, paused and archived days are rejected without modifying source
+  ---
+  duration_ms: 155.028699
+  type: 'test'
+  ...
+# Subtest: explicit empty availability overrides old archived flag just as desktop
+ok 60 - explicit empty availability overrides old archived flag just as desktop
+  ---
+  duration_ms: 24.533775
+  type: 'test'
+  ...
+# Subtest: weekly, sport-source, missing rules and unknown units remain explicitly unsupported
+ok 61 - weekly, sport-source, missing rules and unknown units remain explicitly unsupported
+  ---
+  duration_ms: 83.472671
+  type: 'test'
+  ...
+# Subtest: invalid values, dates, command extras and malformed boolean state fail atomically
+ok 62 - invalid values, dates, command extras and malformed boolean state fail atomically
+  ---
+  duration_ms: 115.279695
+  type: 'test'
+  ...
+# Subtest: test repository completion and habit values persist canonically across reload/resume
+ok 63 - test repository completion and habit values persist canonically across reload/resume
+  ---
+  duration_ms: 254.49574
+  type: 'test'
+  ...
+# Subtest: UI projection cannot delete history or change a binary check without its matching value
+ok 64 - UI projection cannot delete history or change a binary check without its matching value
+  ---
+  duration_ms: 256.165428
+  type: 'test'
+  ...
+# Subtest: multiple event/habit changes are all-or-nothing on invalid final operation or disk failure
+ok 65 - multiple event/habit changes are all-or-nothing on invalid final operation or disk failure
+  ---
+  duration_ms: 182.559301
+  type: 'test'
+  ...
+# Subtest: stale tab event/habit changes conflict and retain recoverable older source
+ok 66 - stale tab event/habit changes conflict and retain recoverable older source
+  ---
+  duration_ms: 147.885485
+  type: 'test'
+  ...
+# Subtest: same-string IDs for event and habit remain typed and independent
+ok 67 - same-string IDs for event and habit remain typed and independent
+  ---
+  duration_ms: 115.310291
+  type: 'test'
+  ...
+# Subtest: civil history keys and selected weekday remain stable in distant host zones
+ok 68 - civil history keys and selected weekday remain stable in distant host zones
+  ---
+  duration_ms: 89.281618
+  type: 'test'
+  ...
+# Subtest: all desktop entities, identities, links, date types, rich content and envelope fields round-trip exactly
+ok 69 - all desktop entities, identities, links, date types, rich content and envelope fields round-trip exactly
+  ---
+  duration_ms: 2.873782
+  type: 'test'
+  ...
+# Subtest: staging/re-export is repeatable and never appends or duplicates records
+ok 70 - staging/re-export is repeatable and never appends or duplicates records
+  ---
+  duration_ms: 1.404453
+  type: 'test'
+  ...
+# Subtest: input/result are independent snapshots; scoped IDs are not globally remapped
+ok 71 - input/result are independent snapshots; scoped IDs are not globally remapped
+  ---
+  duration_ms: 0.427991
+  type: 'test'
+  ...
+# Subtest: unknown envelope/schema and ambiguous scoped IDs are rejected without mutating source
+ok 72 - unknown envelope/schema and ambiguous scoped IDs are rejected without mutating source
+  ---
+  duration_ms: 0.618837
+  type: 'test'
+  ...
+# Subtest: mobile backup has a separate explicit envelope; it cannot be misread as desktop checkpoint
+ok 73 - mobile backup has a separate explicit envelope; it cannot be misread as desktop checkpoint
+  ---
+  duration_ms: 14.674952
+  type: 'test'
+  ...
+# Subtest: asset codecs and pools remain byte-for-byte JSON-equivalent staging data, without resolving external resources
+ok 74 - asset codecs and pools remain byte-for-byte JSON-equivalent staging data, without resolving external resources
+  ---
+  duration_ms: 0.94781
+  type: 'test'
+  ...
+# Subtest: unsafe keys, cycles, non-JSON objects and oversized depth are rejected
+ok 75 - unsafe keys, cycles, non-JSON objects and oversized depth are rejected
+  ---
+  duration_ms: 0.662822
+  type: 'test'
+  ...
+# Subtest: synthetic plain/pooled exports pass the actual isolated desktop codec and validator
+ok 76 - synthetic plain/pooled exports pass the actual isolated desktop codec and validator
+  ---
+  duration_ms: 25.861602
+  type: 'test'
+  ...
+# Subtest: corpus contains all types/priorities/statuses, cancellation/history, units, assets and graph
+ok 77 - corpus contains all types/priorities/statuses, cancellation/history, units, assets and graph
+  ---
+  duration_ms: 14.414322
+  type: 'test'
+  ...
+# Subtest: desktop → frozen mobile view → desktop is exact, repeatable, independent, without default filling
+ok 78 - desktop → frozen mobile view → desktop is exact, repeatable, independent, without default filling
+  ---
+  duration_ms: 128.811531
+  type: 'test'
+  ...
+# Subtest: event title only: absent notes/location remain absent, instants/type/priority and unknown data stay exact
+ok 79 - event title only: absent notes/location remain absent, instants/type/priority and unknown data stay exact
+  ---
+  duration_ms: 45.483937
+  type: 'test'
+  ...
+# Subtest: time edit uses the existing mobile interval validator and patches only timing fields
+ok 80 - time edit uses the existing mobile interval validator and patches only timing fields
+  ---
+  duration_ms: 55.70813
+  type: 'test'
+  ...
+# Subtest: midnight, DST fold and date-only fields retain distinct civil/instant semantics
+ok 81 - midnight, DST fold and date-only fields retain distinct civil/instant semantics
+  ---
+  duration_ms: 99.787308
+  type: 'test'
+  ...
+# Subtest: importance changes exactly one property, linked/series/history sources remain read-only
+ok 82 - importance changes exactly one property, linked/series/history sources remain read-only
+  ---
+  duration_ms: 70.683733
+  type: 'test'
+  ...
+# Subtest: home completion/undo exactly matches desktop operation, retaining zero duration and opaque fields
+ok 83 - home completion/undo exactly matches desktop operation, retaining zero duration and opaque fields
+  ---
+  duration_ms: 71.816028
+  type: 'test'
+  ...
+# Subtest: project completion/undo shares canonical source and leaves event/dependencies/sibling IDs alone
+ok 84 - project completion/undo shares canonical source and leaves event/dependencies/sibling IDs alone
+  ---
+  duration_ms: 80.110807
+  type: 'test'
+  ...
+# Subtest: repeated completion is idempotent and never invents a new timestamp or duplicate
+ok 85 - repeated completion is idempotent and never invents a new timestamp or duplicate
+  ---
+  duration_ms: 121.257515
+  type: 'test'
+  ...
+# Subtest: supported Markdown edit patches body/updatedAt only; rich attachments/blocks never flattened
+ok 86 - supported Markdown edit patches body/updatedAt only; rich attachments/blocks never flattened
+  ---
+  duration_ms: 37.003023
+  type: 'test'
+  ...
+# Subtest: pooled assets are opaque and reversible; actual desktop decoder still resolves original content
+ok 87 - pooled assets are opaque and reversible; actual desktop decoder still resolves original content
+  ---
+  duration_ms: 20.620875
+  type: 'test'
+  ...
+# Subtest: main selection is an explicit mobile view preference, never an invented desktop field
+ok 88 - main selection is an explicit mobile view preference, never an invented desktop field
+  ---
+  duration_ms: 47.473361
+  type: 'test'
+  ...
+# Subtest: partial legacy event can change title without adding optional defaults or guessing a timezone
+ok 89 - partial legacy event can change title without adding optional defaults or guessing a timezone
+  ---
+  duration_ms: 16.418813
+  type: 'test'
+  ...
+# Subtest: malformed roots/required fields/types produce diagnostics rather than partial projection
+ok 90 - malformed roots/required fields/types produce diagnostics rather than partial projection
+  ---
+  duration_ms: 91.857595
+  type: 'test'
+  ...
+# Subtest: duplicate identity in a collection or anywhere among all task scopes is rejected, not remapped
+ok 91 - duplicate identity in a collection or anywhere among all task scopes is rejected, not remapped
+  ---
+  duration_ms: 80.204338
+  type: 'test'
+  ...
+# Subtest: desktop cross-entity ID reuse is retained with entity-kind scope, not globally renamed
+ok 92 - desktop cross-entity ID reuse is retained with entity-kind scope, not globally renamed
+  ---
+  duration_ms: 22.311056
+  type: 'test'
+  ...
+# Subtest: live missing references, invalid scopes, dependency cycles and cancelled materialized occurrences are reported
+ok 93 - live missing references, invalid scopes, dependency cycles and cancelled materialized occurrences are reported
+  ---
+  duration_ms: 31.924409
+  type: 'test'
+  ...
+# Subtest: deleted snapshot source is a visible historical warning, not an ID rewrite or discarded workout
+ok 94 - deleted snapshot source is a visible historical warning, not an ID rewrite or discarded workout
+  ---
+  duration_ms: 10.620942
+  type: 'test'
+  ...
+# Subtest: unknown enum values stay opaque and cannot be silently replaced or edited
+ok 95 - unknown enum values stay opaque and cannot be silently replaced or edited
+  ---
+  duration_ms: 68.201807
+  type: 'test'
+  ...
+# Subtest: unsupported format/version/codec and missing assets are explained, never partly activated
+ok 96 - unsupported format/version/codec and missing assets are explained, never partly activated
+  ---
+  duration_ms: 14.580891
+  type: 'test'
+  ...
+# Subtest: bad civil dates, mismatched instants, timezone and DST gap are rejected without repairing source
+ok 97 - bad civil dates, mismatched instants, timezone and DST gap are rejected without repairing source
+  ---
+  duration_ms: 17.539142
+  type: 'test'
+  ...
+# Subtest: invalid or forged mutations fail without touching the immutable canonical source
+ok 98 - invalid or forged mutations fail without touching the immutable canonical source
+  ---
+  duration_ms: 102.922233
+  type: 'test'
+  ...
+# Subtest: file parser rejects corruption, duplicate keys, lossy numbers, unsafe trees and oversized UTF-8
+ok 99 - file parser rejects corruption, duplicate keys, lossy numbers, unsafe trees and oversized UTF-8
+  ---
+  duration_ms: 56.481462
+  type: 'test'
+  ...
+# Subtest: direct data APIs reject accessors without executing them, non-JSON shapes and sparse arrays
+ok 100 - direct data APIs reject accessors without executing them, non-JSON shapes and sparse arrays
+  ---
+  duration_ms: 1.622339
+  type: 'test'
+  ...
+# Subtest: civil dates, IDs and retimed instants remain stable under UTC, New York and Kiritimati host zones
+ok 101 - civil dates, IDs and retimed instants remain stable under UTC, New York and Kiritimati host zones
+  ---
+  duration_ms: 378.078281
+  type: 'test'
+  ...
+# Subtest: empty namespace reads only its own key, never seeds or rewrites native storage
+ok 102 - empty namespace reads only its own key, never seeds or rewrites native storage
+  ---
+  duration_ms: 1.712604
+  type: 'test'
+  ...
+# Subtest: plain and pooled fixtures project into actual screen shape and export exact canonical source
+ok 103 - plain and pooled fixtures project into actual screen shape and export exact canonical source
+  ---
+  duration_ms: 295.408918
+  type: 'test'
+  ...
+# Subtest: one canonical task source powers Today/Calendar/Projects with exact completion and undo
+ok 104 - one canonical task source powers Today/Calendar/Projects with exact completion and undo
+  ---
+  duration_ms: 615.697555
+  type: 'test'
+  ...
+# Subtest: event title/time/importance and Markdown body mutate only whitelisted full-source paths
+ok 105 - event title/time/importance and Markdown body mutate only whitelisted full-source paths
+  ---
+  duration_ms: 216.424041
+  type: 'test'
+  ...
+# Subtest: all supported changes and selected copy persist after reconstructing the repository
+ok 106 - all supported changes and selected copy persist after reconstructing the repository
+  ---
+  duration_ms: 184.018625
+  type: 'test'
+  ...
+# Subtest: new fixture always creates a separate copy; resume never duplicates source objects
+ok 107 - new fixture always creates a separate copy; resume never duplicates source objects
+  ---
+  duration_ms: 289.962403
+  type: 'test'
+  ...
+# Subtest: main is a per-copy mobile preference, excluded from desktop export
+ok 108 - main is a per-copy mobile preference, excluded from desktop export
+  ---
+  duration_ms: 54.333872
+  type: 'test'
+  ...
+# Subtest: unavailable persisted main references are not shown or added to exported desktop fields
+ok 109 - unavailable persisted main references are not shown or added to exported desktop fields
+  ---
+  duration_ms: 55.684405
+  type: 'test'
+  ...
+# Subtest: zero/fractional task durations survive views, main choice, completion and plain open/close unchanged
+ok 110 - zero/fractional task durations survive views, main choice, completion and plain open/close unchanged
+  ---
+  duration_ms: 185.970248
+  type: 'test'
+  ...
+# Subtest: cross-kind identical IDs remain typed, and event editing never edits same-ID note
+ok 111 - cross-kind identical IDs remain typed, and event editing never edits same-ID note
+  ---
+  duration_ms: 81.151475
+  type: 'test'
+  ...
+# Subtest: legacy event has no inferred zone; metadata edit leaves absent fields absent and retime fails
+ok 112 - legacy event has no inferred zone; metadata edit leaves absent fields absent and retime fails
+  ---
+  duration_ms: 86.56358
+  type: 'test'
+  ...
+# Subtest: unsupported recurrence/advanced Habits/Sport/Canvas/attachments cannot be saved via projection
+ok 113 - unsupported recurrence/advanced Habits/Sport/Canvas/attachments cannot be saved via projection
+  ---
+  duration_ms: 226.533272
+  type: 'test'
+  ...
+# Subtest: rejected multi-field transaction is atomic even when first field is supported
+ok 114 - rejected multi-field transaction is atomic even when first field is supported
+  ---
+  duration_ms: 51.758526
+  type: 'test'
+  ...
+# Subtest: failed disk write keeps canonical cache, projection and last persisted dataset
+ok 115 - failed disk write keeps canonical cache, projection and last persisted dataset
+  ---
+  duration_ms: 110.706077
+  type: 'test'
+  ...
+# Subtest: failed fixture load never overwrites or adds a damaged dataset
+ok 116 - failed fixture load never overwrites or adds a damaged dataset
+  ---
+  duration_ms: 46.759342
+  type: 'test'
+  ...
+# Subtest: two open tabs detect stale writes and keep a recoverable cached export
+ok 117 - two open tabs detect stale writes and keep a recoverable cached export
+  ---
+  duration_ms: 160.133623
+  type: 'test'
+  ...
+# Subtest: stale no-op and same-dataset resume detect conflicts rather than falsely report success
+ok 118 - stale no-op and same-dataset resume detect conflicts rather than falsely report success
+  ---
+  duration_ms: 62.155233
+  type: 'test'
+  ...
+# Subtest: corrupt persisted root cannot replace existing cached dataset on refresh
+ok 119 - corrupt persisted root cannot replace existing cached dataset on refresh
+  ---
+  duration_ms: 35.125883
+  type: 'test'
+  ...
+# Subtest: field-change report names actual objects and distinguishes absent field from null
+ok 120 - field-change report names actual objects and distinguishes absent field from null
+  ---
+  duration_ms: 90.478211
+  type: 'test'
+  ...
+# Subtest: mutating returned view/export/report cannot mutate canonical or saved storage
+ok 121 - mutating returned view/export/report cannot mutate canonical or saved storage
+  ---
+  duration_ms: 32.06496
+  type: 'test'
+  ...
+# Subtest: timeline ambiguity visibly disables retiming every affected event instead of offering a doomed save
+ok 122 - timeline ambiguity visibly disables retiming every affected event instead of offering a doomed save
+  ---
+  duration_ms: 41.62921
+  type: 'test'
+  ...
+# Subtest: separate namespace, stable IDs, create/complete/uncomplete and reload
+ok 123 - separate namespace, stable IDs, create/complete/uncomplete and reload
+  ---
+  duration_ms: 11.718836
+  type: 'test'
+  ...
+# Subtest: habit history persists per date without changing yesterday
+ok 124 - habit history persists per date without changing yesterday
+  ---
+  duration_ms: 1.657402
+  type: 'test'
+  ...
+# Subtest: weekday eligibility and effective schedule date
+ok 125 - weekday eligibility and effective schedule date
+  ---
+  duration_ms: 0.219879
+  type: 'test'
+  ...
+# Subtest: write failures preserve memory, disk and revision
+ok 126 - write failures preserve memory, disk and revision
+  ---
+  duration_ms: 1.069331
+  type: 'test'
+  ...
+# Subtest: corrupt and newer schemas are not overwritten
+ok 127 - corrupt and newer schemas are not overwritten
+  ---
+  duration_ms: 0.280189
+  type: 'test'
+  ...
+# Subtest: stale tab commit rejected without overwriting newer data
+ok 128 - stale tab commit rejected without overwriting newer data
+  ---
+  duration_ms: 0.556213
+  type: 'test'
+  ...
+# Subtest: invalid task titles and dates leave state unchanged
+ok 129 - invalid task titles and dates leave state unchanged
+  ---
+  duration_ms: 0.519348
+  type: 'test'
+  ...
+# Subtest: validation rejects duplicate IDs and unsupported habit kinds
+ok 130 - validation rejects duplicate IDs and unsupported habit kinds
+  ---
+  duration_ms: 0.338017
+  type: 'test'
+  ...
+# Subtest: locale selection persists independently of title text
+ok 131 - locale selection persists independently of title text
+  ---
+  duration_ms: 0.557725
+  type: 'test'
+  ...
+# Subtest: next event excludes ended/completed events and includes ongoing
+ok 132 - next event excludes ended/completed events and includes ongoing
+  ---
+  duration_ms: 0.305607
+  type: 'test'
+  ...
+# Subtest: cross-midnight events overlap both days and sort by instant
+ok 133 - cross-midnight events overlap both days and sort by instant
+  ---
+  duration_ms: 0.196644
+  type: 'test'
+  ...
+# Subtest: local date shifting across leap days and DST retains calendar semantics
+ok 134 - local date shifting across leap days and DST retains calendar semantics
+  ---
+  duration_ms: 0.062374
+  type: 'test'
+  ...
+# Subtest: comma/dot decimals and small values remain exact; invalid input rejected
+ok 135 - comma/dot decimals and small values remain exact; invalid input rejected
+  ---
+  duration_ms: 0.959346
+  type: 'test'
+  ...
+# Subtest: clock is canonical 24h, never silently wraps dates
+ok 136 - clock is canonical 24h, never silently wraps dates
+  ---
+  duration_ms: 0.255072
+  type: 'test'
+  ...
+# Subtest: legacy off-grid values allowed unchanged; new changes follow model grid
+ok 137 - legacy off-grid values allowed unchanged; new changes follow model grid
+  ---
+  duration_ms: 0.205728
+  type: 'test'
+  ...
+# Subtest: long duration not restricted to a clock day, optional distinct from zero
+ok 138 - long duration not restricted to a clock day, optional distinct from zero
+  ---
+  duration_ms: 0.300379
+  type: 'test'
+  ...
+# Subtest: integer endpoints clamp without wrap; repeated reverse returns exactly
+ok 139 - integer endpoints clamp without wrap; repeated reverse returns exactly
+  ---
+  duration_ms: 0.109775
+  type: 'test'
+  ...
+# Subtest: decimal convenience increment never quantizes an existing fraction
+ok 140 - decimal convenience increment never quantizes an existing fraction
+  ---
+  duration_ms: 0.237415
+  type: 'test'
+  ...
+# Subtest: home deletion Undo survives reload with the original ID, extensions, order and main reference
+ok 141 - home deletion Undo survives reload with the original ID, extensions, order and main reference
+  ---
+  duration_ms: 17.681183
+  type: 'test'
+  ...
+# Subtest: failed delete/restore writes preserve memory, bytes, revision and the durable recovery snapshot
+ok 142 - failed delete/restore writes preserve memory, bytes, revision and the durable recovery snapshot
+  ---
+  duration_ms: 2.012413
+  type: 'test'
+  ...
+# Subtest: Undo respects a newer main choice and never overwrites an occupied ID in another task scope
+ok 143 - Undo respects a newer main choice and never overwrites an occupied ID in another task scope
+  ---
+  duration_ms: 0.468482
+  type: 'test'
+  ...
+# Subtest: linked/archived/explicitly read-only/ambiguous home tasks reject every entity-changing path
+ok 144 - linked/archived/explicitly read-only/ambiguous home tasks reject every entity-changing path
+  ---
+  duration_ms: 1.101028
+  type: 'test'
+  ...
+# Subtest: new home tasks cannot reuse an existing project task identity
+ok 145 - new home tasks cannot reuse an existing project task identity
+  ---
+  duration_ms: 0.287211
+  type: 'test'
+  ...
+# Subtest: owned Undo validation fails closed and mobile backup / desktop staging preserve the new extension
+ok 146 - owned Undo validation fails closed and mobile backup / desktop staging preserve the new extension
+  ---
+  duration_ms: 1.195781
+  type: 'test'
+  ...
+# Subtest: Progress counts the canonical task once across ambiguous scopes, without changing source IDs
+ok 147 - Progress counts the canonical task once across ambiguous scopes, without changing source IDs
+  ---
+  duration_ms: 0.596913
+  type: 'test'
+  ...
+# Subtest: changing only a timed category keeps legacy non-quarter instants; real retiming still requires the grid
+ok 148 - changing only a timed category keeps legacy non-quarter instants; real retiming still requires the grid
+  ---
+  duration_ms: 2.893382
+  type: 'test'
+  ...
+# Subtest: v1 migration preserves every entity and leaves bytes untouched until successful write
+ok 149 - v1 migration preserves every entity and leaves bytes untouched until successful write
+  ---
+  duration_ms: 17.263588
+  type: 'test'
+  ...
+# Subtest: full task lifecycle retains ID and main references are never copied or broken
+ok 150 - full task lifecycle retains ID and main references are never copied or broken
+  ---
+  duration_ms: 2.994584
+  type: 'test'
+  ...
+# Subtest: switching main preserves previous task; Undo respects a subsequent main choice
+ok 151 - switching main preserves previous task; Undo respects a subsequent main choice
+  ---
+  duration_ms: 0.353509
+  type: 'test'
+  ...
+# Subtest: overdue excludes completed and future tasks, never changes dates
+ok 152 - overdue excludes completed and future tasks, never changes dates
+  ---
+  duration_ms: 0.388021
+  type: 'test'
+  ...
+# Subtest: invalid edits, durations, references and failed migration writes cannot mutate disk
+ok 153 - invalid edits, durations, references and failed migration writes cannot mutate disk
+  ---
+  duration_ms: 1.102771
+  type: 'test'
+  ...
+# Subtest: explicit refresh preserves another writer and lets a retained draft retry deliberately
+ok 154 - explicit refresh preserves another writer and lets a retained draft retry deliberately
+  ---
+  duration_ms: 0.846347
+  type: 'test'
+  ...
+1..154
+# tests 154
+# suites 0
+# pass 154
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3225.912092
+
+
+browser
+PASS 55 browser cases: task/habit persistence, locales, calendar dates, keyboard, storage failures, responsive layouts, reduced motion, isolation. Screenshots: /tmp/path-desktop-actions-release/browser
+
+
+tasks
+PASS 24 task/browser cases including lifecycle, stable IDs, write failure, simultaneous tabs, midnight, matrix and recording.
+
+
+functional-alpha
+CHECK 1 Create project + canonical nested task; no homeTask copy
+CHECK 2 Main reference and completion update the same project task
+CHECK 3 Calendar derived deadline opens the shared project task editor
+CHECK 4 Project progress and durable task deletion Undo
+CHECK 5 Cross-section task changes restore after reload
+CHECK 6 Deleted source cannot be resurrected by a retained stale editor after explicit refresh
+CHECK 7 Quick Add type switch protects a dirty task draft
+CHECK 8 Quick Add note and Unicode title/body search
+CHECK 9 Note edit/reload/trash/immediate Undo with stable ID
+CHECK 10 Rich desktop document is protected from plain-text rewriting
+CHECK 11 Failed note write retains draft and exact stored data, retry saves
+CHECK 12 Stale writer blocked; explicit refresh shows latest record while retaining draft
+CHECK 13 Weekday habit create/check/uncheck/history/archive preserves dated history
+CHECK 14 Template → scheduled snapshot → Calendar event → working Sport action
+CHECK 15 Invalid workout input and failed set write preserve results and exact active-session data
+CHECK 16 Active workout restores reps/load and original plan snapshot after reload
+CHECK 17 Rest timer uses timestamps and catches up after a clock/background gap
+CHECK 18 Finish creates one immutable result and completes linked Calendar plan
+CHECK 19 Read-only Canvas pan/zoom leaves graph bytes unchanged; linked note uses shared editor
+CHECK 20 Progress derives real completed tasks/workouts and project percentage
+CHECK 21 Saved reduced-motion preference suppresses WAAPI icon flights
+CHECK 22 All sections and note/workout/habit/project forms: 320px / en
+CHECK 23 All sections and note/workout/habit/project forms: 320px / ru
+CHECK 24 All sections and note/workout/habit/project forms: 320px / es
+CHECK 25 All sections and note/workout/habit/project forms: 390px / en
+CHECK 26 All sections and note/workout/habit/project forms: 390px / ru
+CHECK 27 All sections and note/workout/habit/project forms: 390px / es
+CHECK 28 All sections and note/workout/habit/project forms: 430px / en
+CHECK 29 All sections and note/workout/habit/project forms: 430px / ru
+CHECK 30 All sections and note/workout/habit/project forms: 430px / es
+CHECK 31 Landscape editor scrolls Save into the available viewport
+CHECK 32 Route focus is visible at the heading for keyboard, without a whole-page ring after pointer input
+CHECK 33 No external app requests, no uncaught page errors or fake sync actions
+CHECK 34 Opaque enums and quoted stable IDs remain text and preserve label/control associations
+PASS 34 functional Alpha workflows/matrix checks
+
+
+actions
+PASS 93 shared action controls / localized layout / Trash behavior scenarios.
+
+
+review
+PASS 32 comprehensive-review defect scenarios.
+
+
+numeric-pickers
+PASS 27 numeric picker integration groups. /tmp/path-desktop-actions-release/numeric-pickers
+
+
+desktop-preview
+PASS 27 desktop preview browser integration groups. /tmp/path-desktop-actions-release/desktop-preview
+
+
+desktop-test-app
+CHECK 1 A: approved pooled fixture opened in real Today, byte-independent full desktop export exact
+CHECK 2 C: real Today completion persists exact zero-duration task with only done/completedAt changes
+CHECK 3 B/D: real Calendar card + existing editor title/time/importance, canonical metadata retained
+CHECK 4 B: real Projects canonical nested completion updates project counter without changing linked task
+CHECK 5 B/E: real Notes Markdown edit escaped as source, unknown note fields preserved
+CHECK 6 Habits/Sport/Canvas/Progress use real screens with explicit supported viewing, no unsupported edit controls
+CHECK 7 F/G: reload restores selected dataset, task/project/event/note edits across real screens
+CHECK 8 H/I: real browser download validated by actual isolated desktop validator; exact allowed-field diff
+CHECK 9 J: exit opens original native data unchanged; re-entry restores complete test copy
+CHECK 10 New fixture creates independent copy; selecting previous copy restores all edits
+CHECK 11 Locale/width + reduced motion real-screen matrix
+CHECK 12 Locale/width + reduced motion real-screen matrix
+CHECK 13 Locale/width + reduced motion real-screen matrix
+CHECK 14 Locale/width + reduced motion real-screen matrix
+CHECK 15 Locale/width + reduced motion real-screen matrix
+CHECK 16 Locale/width + reduced motion real-screen matrix
+CHECK 17 Locale/width + reduced motion real-screen matrix
+CHECK 18 Locale/width + reduced motion real-screen matrix
+CHECK 19 Locale/width + reduced motion real-screen matrix
+CHECK 20 Quota failure produces no success or source change; explicit retry succeeds
+CHECK 21 Two-tab stale writer blocked; latest edit and unsaved older draft both recoverable
+CHECK 22 Typed same-string IDs, exact zero/fractional durations, legacy timezone and recurrence remain safe on real screens
+CHECK 23 Damaged synthetic fixture rejected without replacing last working dataset
+CHECK 24 Unzoned record with incompatible retained instants rejected; previous source preserved without zone inference
+CHECK 25 Delayed fixture loading blocks background task action; neither source copy receives queued writes
+CHECK 26 Recorded actual real-screen edits and reload at normal speed; collapsed controls, no generated UI
+PASS 26 desktop test-mode real-screen groups. /tmp/path-desktop-actions-release/desktop-test-app
+
+
+desktop-actions final31
+CHECK 1 A: hold → one durable done flag → sequential visible IMPACT → exact settle → reload/export; IDs/unknown fields/history unchanged
+CHECK 2 B: accessible editor undo changes only done=false; no second wave; exact source restored
+CHECK 3 Short tap, early release and actual touch scrolling preserve the source; no successful effect
+CHECK 4 Completion quota failure retains bytes/state and suppresses success; explicit retry writes once
+CHECK 5 Rapid repeated touches while save is queued produce one operation and no accidental editor
+CHECK 6 Reduced-motion hold retains clear fill and saved state without neighbor movement
+CHECK 7 Reduced-motion hold retains clear fill and saved state without neighbor movement
+CHECK 8 Changing Calendar day cancels charging and leaves canonical source unchanged
+CHECK 9 Linked, workout and recurrence completion stays protected with intact source/series
+CHECK 10 C: Today mark → Habits → reload → Habits undo → Today; desktop dated zero/false retained, prior history unchanged
+CHECK 11 Rapid binary clicks during queued save create one dated mark and one write
+CHECK 12 Skipped day of a supported binary habit stays protected and retains its pre-existing dated history
+CHECK 13 Historical civil day in UTC+14 stays distinct from the Today anchor, without UTC rewriting
+CHECK 14 Manual quantitative value7.25 persists exactly; undo to0 changes only values[day], checkIns unchanged
+CHECK 15 Manual duration12.75 minutes in EN/RU/ES survives reload and explicit clear0; only dated value changes, checkIns/source/native preserved
+CHECK 16 Off-schedule, skipped/weekly and sport-source days expose restrictions without invented marks or streaks
+CHECK 17 Habit quantity write failure keeps draft/old history; explicit retry persists exact decimal
+CHECK 18 Two-tab habit conflict retains newer source and older unsaved decimal draft without silent overwrite
+CHECK 19 Same string ID for event and habit remains type-scoped; accessible event action and habit action stay independent
+CHECK 20 Canonical event IDs resembling generated task deadlines keep separate controls, aria IDs and completion scope
+CHECK 21 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 22 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 23 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 24 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 25 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 26 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 27 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 28 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 29 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 30 Recorded actual touch fill/cancel/completion/IMPACT/undo/reload at normal speed
+CHECK 31 Recorded actual Today/Habits mark/reload/undo and exact quantitative update at normal speed
+PASS 31 desktop Calendar/Habits action groups. /tmp/path-desktop-actions-final31
+
+
+calendar-editor
+PASS 72 Calendar editor cases: create/edit/reload, IDs, unknown fields, recurring read-only, cross-midnight, failure/retry, dirty close, keyboard and language/width matrix.
+
+
+calendar-compatibility
+PASS 6 additional Calendar compatibility cases.
+
+
+importance
+PASS 9 importance cases.
+
+
+calendar-cards
+PASS 9 calendar-card cases: locales, widths, long titles, completion, opaque surfaces, focus, stable press, unchanged stored data.
+
+
+calendar-polish
+PASS 14 Calendar polish scenarios; complete lifecycle, durable Undo, failures, focus, end controls, migration-backed storage and recording.
+
+
+calendar-completion
+PASS 31 Calendar completion scenarios. /tmp/path-desktop-actions-release/calendar-completion
+
+
+calendar-impact
+PASS 13 Calendar impact scenarios; normal-speed displacement and exact return measured.
+
+
+navigation-panel
+PASS 30 panel cases; RAF timing {"maxScrollY":225,"frames":90,"p95Ms":20,"over50Ms":0}
+
+
+habits-navigation
+CHECK 1 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / en
+CHECK 2 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / ru
+CHECK 3 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / es
+CHECK 4 Compact retains rightmost Habits and expands directly into the same grid
+CHECK 5 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / en
+CHECK 6 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / ru
+CHECK 7 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / es
+CHECK 8 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / en
+CHECK 9 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / ru
+CHECK 10 DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / es
+CHECK 11 Habits stays in the right column; reversal is continuous; glyph never scales or rotates; original node and endpoints retained
+CHECK 12 Reduced motion bypasses flights, springs and stagger: os
+CHECK 13 Reduced motion bypasses flights, springs and stagger: saved
+PASS 13 Habits navigation checks; screenshots and real transition recording: /tmp/path-desktop-actions-release/habits-navigation
+
+
+refinement
+PASS 13 refinement cases; measured normal 118px / compact 64px; evidence and two recordings saved.
+
+
+surfaces
+PASS 26 surface cases: locales, 320/390px, full-width edge panel, hit areas, persistence, inset simulation and reduced motion.
+
+
+transformation
+PASS 21 transformation cases; persistent unique controls, geometry, rapid reversal, grid order, touch, matrix, reduced motion and two recordings.
+
+
+typography
+PASS 26 typography preview cases; all heading/task/navigation glyphs use the local custom Manrope font; production surfaces and panel geometry match.

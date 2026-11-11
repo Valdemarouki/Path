@@ -1,0 +1,159 @@
+{
+  "cases": 31,
+  "results": [
+    {
+      "name": "A: hold → one durable done flag → sequential visible IMPACT → exact settle → reload/export; IDs/unknown fields/history unchanged",
+      "stats": [
+        {
+          "id": "action-1",
+          "min": -13.722869873046875,
+          "max": 1.6449432373046875,
+          "onset": 1068
+        },
+        {
+          "id": "action-3",
+          "min": -1.64495849609375,
+          "max": 13.722869873046875,
+          "onset": 1068
+        }
+      ]
+    },
+    {
+      "name": "B: accessible editor undo changes only done=false; no second wave; exact source restored"
+    },
+    {
+      "name": "Short tap, early release and actual touch scrolling preserve the source; no successful effect"
+    },
+    {
+      "name": "Completion quota failure retains bytes/state and suppresses success; explicit retry writes once"
+    },
+    {
+      "name": "Rapid repeated touches while save is queued produce one operation and no accidental editor"
+    },
+    {
+      "name": "Reduced-motion hold retains clear fill and saved state without neighbor movement",
+      "prefs": {
+        "reduced": "reduce",
+        "motion": "system"
+      }
+    },
+    {
+      "name": "Reduced-motion hold retains clear fill and saved state without neighbor movement",
+      "prefs": {
+        "reduced": "no-preference",
+        "motion": "off"
+      }
+    },
+    {
+      "name": "Changing Calendar day cancels charging and leaves canonical source unchanged"
+    },
+    {
+      "name": "Linked, workout and recurrence completion stays protected with intact source/series"
+    },
+    {
+      "name": "C: Today mark → Habits → reload → Habits undo → Today; desktop dated zero/false retained, prior history unchanged"
+    },
+    {
+      "name": "Rapid binary clicks during queued save create one dated mark and one write"
+    },
+    {
+      "name": "Skipped day of a supported binary habit stays protected and retains its pre-existing dated history"
+    },
+    {
+      "name": "Historical civil day in UTC+14 stays distinct from the Today anchor, without UTC rewriting"
+    },
+    {
+      "name": "Manual quantitative value7.25 persists exactly; undo to0 changes only values[day], checkIns unchanged"
+    },
+    {
+      "name": "Manual duration12.75 minutes in EN/RU/ES survives reload and explicit clear0; only dated value changes, checkIns/source/native preserved",
+      "locales": [
+        {
+          "lang": "en",
+          "inputType": "number",
+          "typedValue": "12.75"
+        },
+        {
+          "lang": "ru",
+          "inputType": "number",
+          "typedValue": "12.75"
+        },
+        {
+          "lang": "es",
+          "inputType": "number",
+          "typedValue": "12.75"
+        }
+      ]
+    },
+    {
+      "name": "Off-schedule, skipped/weekly and sport-source days expose restrictions without invented marks or streaks"
+    },
+    {
+      "name": "Habit quantity write failure keeps draft/old history; explicit retry persists exact decimal"
+    },
+    {
+      "name": "Two-tab habit conflict retains newer source and older unsaved decimal draft without silent overwrite"
+    },
+    {
+      "name": "Same string ID for event and habit remains type-scoped; accessible event action and habit action stay independent"
+    },
+    {
+      "name": "Canonical event IDs resembling generated task deadlines keep separate controls, aria IDs and completion scope"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 320,
+      "lang": "en"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 320,
+      "lang": "ru"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 320,
+      "lang": "es"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 390,
+      "lang": "en"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 390,
+      "lang": "ru"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 390,
+      "lang": "es"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 430,
+      "lang": "en"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 430,
+      "lang": "ru"
+    },
+    {
+      "name": "Locales/widths + reduced motion preserve readable supported controls and state",
+      "width": 430,
+      "lang": "es"
+    },
+    {
+      "name": "Recorded actual touch fill/cancel/completion/IMPACT/undo/reload at normal speed"
+    },
+    {
+      "name": "Recorded actual Today/Habits mark/reload/undo and exact quantitative update at normal speed"
+    }
+  ],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "nativeStorage": "Exact synthetic sentinel unchanged, zero app reads/writes in all desktop test contexts",
+  "platform": "Linux Chromium real touch/compositor, synthetic profiles only; physical Windows/iOS/Android not tested"
+}

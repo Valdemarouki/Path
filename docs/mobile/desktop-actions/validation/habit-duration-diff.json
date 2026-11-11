@@ -1,0 +1,50 @@
+[
+  {
+    "lang": "en",
+    "unitText": "Nov 11 · min",
+    "inputType": "number",
+    "typedValue": "12.75",
+    "storedValue": 12.75,
+    "clearedValue": 0,
+    "validOnActualDesktop": true,
+    "changes": [
+      {
+        "path": "/state/habits/1/values/2026-11-11",
+        "before": 6,
+        "after": 0
+      }
+    ]
+  },
+  {
+    "lang": "ru",
+    "unitText": "11 нояб. · мин",
+    "inputType": "number",
+    "typedValue": "12.75",
+    "storedValue": 12.75,
+    "clearedValue": 0,
+    "validOnActualDesktop": true,
+    "changes": [
+      {
+        "path": "/state/habits/1/values/2026-11-11",
+        "before": 6,
+        "after": 0
+      }
+    ]
+  },
+  {
+    "lang": "es",
+    "unitText": "11 nov · min",
+    "inputType": "number",
+    "typedValue": "12.75",
+    "storedValue": 12.75,
+    "clearedValue": 0,
+    "validOnActualDesktop": true,
+    "changes": [
+      {
+        "path": "/state/habits/1/values/2026-11-11",
+        "before": 6,
+        "after": 0
+      }
+    ]
+  }
+]

@@ -1,0 +1,192 @@
+{
+  "suites": 23,
+  "passed": 23,
+  "results": [
+    {
+      "name": "models",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 3259,
+      "cases": 154,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 29248,
+      "cases": 55,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "tasks",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 34707,
+      "cases": 24,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "functional-alpha",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 43046,
+      "cases": 34,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 33839,
+      "cases": 93,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 88572,
+      "cases": 32,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "numeric-pickers",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 47704,
+      "cases": 27,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "desktop-preview",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 18335,
+      "cases": 27,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "desktop-test-app",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 46302,
+      "cases": 26,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "desktop-actions",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 96578,
+      "cases": 31,
+      "log": "test-results.txt",
+      "finalIntegrationRepeat": "Final source + source/projection ID collision and 3-locale duration scenarios"
+    },
+    {
+      "name": "calendar-editor",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 17837,
+      "cases": 72,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-compatibility",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 9349,
+      "cases": 6,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "importance",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6883,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-cards",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6115,
+      "cases": 9,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-polish",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 36763,
+      "cases": 14,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-completion",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 125745,
+      "cases": 31,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "calendar-impact",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 45612,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "navigation-panel",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 49879,
+      "cases": 30,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "habits-navigation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 23515,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "refinement",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 30663,
+      "cases": 13,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "surfaces",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 32312,
+      "cases": 26,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "transformation",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 57296,
+      "cases": 21,
+      "log": "test-results.txt"
+    },
+    {
+      "name": "typography",
+      "status": "PASS",
+      "exitCode": 0,
+      "elapsedMs": 6355,
+      "cases": 26,
+      "log": "test-results.txt"
+    }
+  ],
+  "note": "23/23 regression suites passed. The new browser suite was extended from 27 to 31 groups and rerun on final source; its final result is included here. Model cases154 include21 new action-semantic tests. No real user stores or external services."
+}
