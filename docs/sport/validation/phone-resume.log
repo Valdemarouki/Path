@@ -1,0 +1,10 @@
+CHECK 1 Background-return event across midnight recomputes elapsed/rest from timestamps; auto-saved typed draft and storage remain unchanged
+CHECK 2 Automatically saved typed incomplete inputs, active workout identity and expired rest restore after reload
+CHECK 3 Paused session retains remaining rest through background gap; resume excludes paused time and uses a new deadline
+CHECK 4 Open note editor and unsaved multiline input survive foreground-return/day refresh without a write
+CHECK 5 Same-day foreground return updates nearest event even when the main content landmark retains focus
+CHECK 6 Foreground return after emulated timezone change refreshes Today display from 11:00 to 05:00 without rewriting source dates or timezone
+CHECK 7 No workout interval or one-second timer wake remains while Today is open, even with a stored active session
+CHECK 8 Repeated route/visibility/page lifecycle changes leave exactly one visible workout interval and remove it when hidden
+CHECK 9 Paused workout has no ticking interval; resuming restarts one timer without duplicate listeners
+PASS 9 phone resume checks. /tmp/path-sport-phone-resume

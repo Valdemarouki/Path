@@ -1,0 +1,9 @@
+PASS 1 capability probe shows build identity, touches only one temporary key, removes it and leaves both app stores unchanged
+PASS 2 missing Web Locks is explicitly blocked without an unsafe storage fallback or writes
+PASS 3 Quick Add long textarea and Save fit a 430px visual viewport while layout stays844; restore preserves draft and page
+PASS 4 Calendar sheet accounts for visual viewport offsetTop32 and keeps textarea/Save accessible without clearing draft
+PASS 5 Notes long Markdown draft remains exact and confirmation reachable; viewport changes do not auto-save or lose it
+PASS 6 nested numeric manual keyboard model Cancel restores exact parent draft and original duration
+PASS 7 100 visual resize events coalesce, no idle RAF remains, navigation children hide and pinch zoom is not counter-panned
+PASS 8 landscape confirmation reachable without horizontal overflow; safe-area support recorded rather than assumed
+PASS 8 focused viewport/probe groups. /workspace/Path/docs/sport/validation/phone-viewport

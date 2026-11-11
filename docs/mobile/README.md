@@ -1,3 +1,5 @@
+Текущий этап SPORT A1: [Sport на desktop/mobile, совместимость и сквозные проверки](../sport/REPORT.md), [локальный запуск Windows → iPhone](../sport/LOCAL_TEST_RU.md).
+
 Точечное обновление PHONE R3: [исправление наложения заголовка панели, отмены переходов и пакет для R1/R2](phone-test/NAVIGATION_R3.md).
 
 Точечное обновление PHONE R2: [скрытие полос прокрутки, оптимизация перехода навигации и замеры](phone-test/NAVIGATION_R2.md).

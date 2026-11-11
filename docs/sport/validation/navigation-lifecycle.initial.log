@@ -1,0 +1,9 @@
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.focus-card') to be visible[22m
+
+    at scene (/workspace/Path/mobile/tests/navigation-lifecycle.cjs:23:157)
+    at async main (/workspace/Path/mobile/tests/navigation-lifecycle.cjs:38:14) {
+  log: [ "  - waiting for locator('.focus-card') to be visible" ],
+  name: 'TimeoutError'
+}

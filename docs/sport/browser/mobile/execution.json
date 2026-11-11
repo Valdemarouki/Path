@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "mobile/tests/sport-package-browser.cjs"
+  ],
+  "case": "all",
+  "startedAt": "2026-11-11T20:41:14.063417+00:00",
+  "finishedAt": "2026-11-11T20:42:22.504616+00:00",
+  "seconds": 68.441,
+  "exitCode": 0
+}

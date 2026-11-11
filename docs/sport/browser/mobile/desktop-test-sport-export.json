@@ -1,0 +1,1605 @@
+{
+  "format": "path-checkpoint",
+  "version": 2,
+  "futureEnvelope": {
+    "generator": "synthetic fixture",
+    "keep": true
+  },
+  "state": {
+    "createdAt": 1767268800000,
+    "settings": {
+      "motion": "subtle"
+    },
+    "homeTasks": [
+      {
+        "id": "compat-home",
+        "title": "Plan a synthetic day",
+        "date": "2026-11-11",
+        "duration": 0,
+        "done": false,
+        "future": {
+          "flag": false,
+          "zero": 0,
+          "empty": "",
+          "nothing": null
+        }
+      },
+      {
+        "id": "compat-absent",
+        "title": "An absent duration stays absent",
+        "date": "2026-11-11",
+        "done": false
+      },
+      {
+        "id": "compat-home-done",
+        "title": "Previously completed task",
+        "date": "2026-11-10",
+        "duration": 25.5,
+        "done": true,
+        "completedAt": "2026-11-10T10:00:00.000Z"
+      }
+    ],
+    "projects": [
+      {
+        "id": "compat-project",
+        "name": "Compatibility experiment",
+        "description": "Only synthetic records",
+        "status": "active",
+        "noteIds": [
+          "compat-note"
+        ],
+        "milestones": [
+          {
+            "id": "compat-milestone",
+            "title": "Review",
+            "date": "2026-11-13"
+          }
+        ],
+        "tasks": [
+          {
+            "id": "compat-project-base",
+            "title": "A basic project task",
+            "status": "planned",
+            "progress": 0,
+            "estimate": 1,
+            "deadline": "2026-11-12",
+            "importance": "low",
+            "dependencies": [],
+            "futureTask": {
+              "retained": [
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "id": "compat-project-task",
+            "title": "A task with preserved dependencies",
+            "description": "Linked to a note and a Calendar session",
+            "status": "progress",
+            "progress": 35,
+            "estimate": 2.5,
+            "start": "2026-11-09",
+            "end": "2026-11-13",
+            "deadline": "2026-11-12",
+            "importance": "medium",
+            "dependencies": [
+              "compat-project-base"
+            ],
+            "sourceNoteId": "compat-note",
+            "subtasks": [
+              {
+                "id": "compat-subtask",
+                "title": "Inspect fields",
+                "done": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "compat-paused",
+        "name": "Paused example",
+        "status": "paused",
+        "tasks": []
+      },
+      {
+        "id": "compat-completed",
+        "name": "Completed example",
+        "status": "completed",
+        "tasks": [
+          {
+            "id": "compat-project-done",
+            "title": "Completed project task",
+            "status": "done",
+            "progress": 100,
+            "completedAt": "2026-11-10T10:15:00.000Z"
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "id": "compat-event",
+        "title": "A precise standalone event",
+        "date": "2026-11-11",
+        "hour": 9.5,
+        "duration": 45,
+        "type": "busy",
+        "importance": "high",
+        "done": false,
+        "eventIcon": "book",
+        "reminderMinutes": 15,
+        "future": {
+          "opaque": "keep this",
+          "values": [
+            null,
+            false,
+            0,
+            ""
+          ]
+        },
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T08:30:00.000Z",
+        "end_at": "2026-11-11T09:15:00.000Z"
+      },
+      {
+        "id": "compat-workout",
+        "title": "Planned training",
+        "date": "2026-11-11",
+        "hour": 16,
+        "duration": 45,
+        "type": "workout",
+        "importance": "medium",
+        "done": false,
+        "workoutTemplateId": "compat-template",
+        "plannedSnapshot": {
+          "id": "compat-template",
+          "name": "Synthetic strength session",
+          "detail": "A reproducible template",
+          "duration": 45,
+          "programId": "compat-program",
+          "futureTemplate": {
+            "doNotFlatten": true
+          },
+          "exercises": [
+            {
+              "id": "compat-reps",
+              "definitionId": "exercise:synthetic-reps",
+              "name": "Goblet squat",
+              "sets": 2,
+              "target": "8–12",
+              "rest": 60,
+              "unit": "reps",
+              "category": "base",
+              "equipment": "Synthetic weight",
+              "restPresets": {
+                "warmup": 30,
+                "working": 60,
+                "heavy": 120
+              }
+            },
+            {
+              "id": "compat-seconds",
+              "definitionId": "exercise:synthetic-seconds",
+              "name": "Static hold",
+              "sets": 1,
+              "target": "30",
+              "rest": 0,
+              "unit": "seconds"
+            },
+            {
+              "id": "compat-kg",
+              "definitionId": "exercise:synthetic-kg",
+              "name": "Measured load",
+              "sets": 1,
+              "target": "20",
+              "rest": 90,
+              "unit": "kg"
+            }
+          ]
+        },
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T15:00:00.000Z",
+        "end_at": "2026-11-11T15:45:00.000Z"
+      },
+      {
+        "id": "compat-routine",
+        "title": "Completed routine",
+        "date": "2026-11-11",
+        "hour": 12,
+        "duration": 30,
+        "type": "routine",
+        "importance": "low",
+        "done": true,
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T11:00:00.000Z",
+        "end_at": "2026-11-11T11:30:00.000Z"
+      },
+      {
+        "id": "compat-deadline",
+        "title": "A date-only deadline",
+        "date": "2026-11-11",
+        "hour": 0,
+        "duration": 0,
+        "type": "deadline",
+        "importance": "high",
+        "done": false
+      },
+      {
+        "id": "compat-midnight",
+        "title": "Across midnight",
+        "date": "2026-11-11",
+        "hour": 23.75,
+        "duration": 90,
+        "type": "focus",
+        "importance": "none",
+        "done": false,
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T22:45:00.000Z",
+        "end_at": "2026-11-12T00:15:00.000Z"
+      },
+      {
+        "id": "compat-rest",
+        "title": "Protected rest",
+        "date": "2026-11-11",
+        "hour": 20,
+        "duration": 60,
+        "type": "free_time",
+        "importance": "none",
+        "done": false,
+        "protected": true,
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T19:00:00.000Z",
+        "end_at": "2026-11-11T20:00:00.000Z"
+      },
+      {
+        "id": "compat-linked",
+        "title": "Project session",
+        "date": "2026-11-11",
+        "hour": 10.5,
+        "duration": 30,
+        "type": "busy",
+        "importance": "medium",
+        "done": false,
+        "projectId": "compat-project",
+        "taskId": "compat-project-task",
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T09:30:00.000Z",
+        "end_at": "2026-11-11T10:00:00.000Z"
+      },
+      {
+        "id": "compat-workout-done",
+        "title": "Completed training",
+        "date": "2026-11-10",
+        "hour": 16,
+        "duration": 45,
+        "type": "workout",
+        "importance": "medium",
+        "done": true,
+        "workoutTemplateId": "compat-template",
+        "plannedSnapshot": {
+          "id": "compat-template",
+          "name": "Synthetic strength session",
+          "detail": "A reproducible template",
+          "duration": 45,
+          "programId": "compat-program",
+          "futureTemplate": {
+            "doNotFlatten": true
+          },
+          "exercises": [
+            {
+              "id": "compat-reps",
+              "definitionId": "exercise:synthetic-reps",
+              "name": "Goblet squat",
+              "sets": 2,
+              "target": "8–12",
+              "rest": 60,
+              "unit": "reps",
+              "category": "base",
+              "equipment": "Synthetic weight",
+              "restPresets": {
+                "warmup": 30,
+                "working": 60,
+                "heavy": 120
+              }
+            },
+            {
+              "id": "compat-seconds",
+              "definitionId": "exercise:synthetic-seconds",
+              "name": "Static hold",
+              "sets": 1,
+              "target": "30",
+              "rest": 0,
+              "unit": "seconds"
+            },
+            {
+              "id": "compat-kg",
+              "definitionId": "exercise:synthetic-kg",
+              "name": "Measured load",
+              "sets": 1,
+              "target": "20",
+              "rest": 90,
+              "unit": "kg"
+            }
+          ]
+        },
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-10T15:00:00.000Z",
+        "end_at": "2026-11-10T15:45:00.000Z"
+      },
+      {
+        "id": "compat-repeat-1",
+        "title": "Bounded repetition",
+        "date": "2026-11-11",
+        "hour": 8.25,
+        "duration": 30,
+        "type": "routine",
+        "importance": "low",
+        "done": false,
+        "seriesId": "compat-series",
+        "occurrenceDate": "2026-11-11",
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-11T07:15:00.000Z",
+        "end_at": "2026-11-11T07:45:00.000Z"
+      },
+      {
+        "id": "compat-repeat-3",
+        "title": "Changed occurrence",
+        "date": "2026-11-14",
+        "hour": 8.5,
+        "duration": 45,
+        "type": "routine",
+        "importance": "low",
+        "done": false,
+        "seriesId": "compat-series",
+        "occurrenceDate": "2026-11-13",
+        "seriesException": true,
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "start_at": "2026-11-14T07:30:00.000Z",
+        "end_at": "2026-11-14T08:15:00.000Z"
+      },
+      {
+        "id": "compat-fold-earlier",
+        "title": "First repeated clock time",
+        "date": "2026-10-25",
+        "hour": 2.5,
+        "duration": 30,
+        "type": "busy",
+        "importance": "none",
+        "done": false,
+        "fold": "earlier",
+        "tzid": "Europe/Warsaw",
+        "start_at": "2026-10-25T00:30:00.000Z",
+        "end_at": "2026-10-25T01:00:00.000Z"
+      },
+      {
+        "id": "compat-fold-later",
+        "title": "Second repeated clock time",
+        "date": "2026-10-25",
+        "hour": 2.5,
+        "duration": 30,
+        "type": "busy",
+        "importance": "none",
+        "done": false,
+        "fold": "later",
+        "tzid": "Europe/Warsaw",
+        "start_at": "2026-10-25T01:30:00.000Z",
+        "end_at": "2026-10-25T02:00:00.000Z"
+      },
+      {
+        "id": "fd9718c5-aa91-4880-9060-9a8cab0540fe",
+        "title": "A · Deliberate strength",
+        "date": "2026-11-11",
+        "hour": 18.25,
+        "duration": 45,
+        "tzid": "Europe/Warsaw",
+        "fold": "earlier",
+        "type": "workout",
+        "notes": "",
+        "location": "",
+        "eventIcon": "sport",
+        "importance": "none",
+        "done": true,
+        "protected": false,
+        "start_at": "2026-11-11T17:15:00.000Z",
+        "end_at": "2026-11-11T18:00:00.000Z",
+        "workoutTemplateId": "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+        "plannedSnapshot": {
+          "id": "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+          "exercises": [
+            {
+              "id": "c837c732-062e-4a84-a724-adfcac54861c",
+              "definitionId": "catalog:pull-up",
+              "name": "Pull-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "pull-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 8
+              },
+              "target": "8 reps",
+              "rest": 15,
+              "category": "back",
+              "equipment": [
+                "pull-up-bar"
+              ],
+              "primaryMuscles": [
+                "lats",
+                "upperback",
+                "biceps"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "249ccd58-18a9-4b29-a900-2773ca3c004f",
+              "definitionId": "catalog:push-up",
+              "name": "Push-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "push-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 12
+              },
+              "target": "12 reps",
+              "rest": 15,
+              "category": "chest",
+              "equipment": [
+                "bodyweight"
+              ],
+              "primaryMuscles": [
+                "chest",
+                "triceps",
+                "shoulders"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "5463b14d-9c66-407e-8322-a56001c5eb8e",
+              "definitionId": "catalog:hollow-body-hold",
+              "name": "Hollow body hold",
+              "measurementType": "seconds",
+              "unit": "seconds",
+              "assetKey": "hollow-body-hold",
+              "sets": 1,
+              "targetValues": {
+                "seconds": 30.5
+              },
+              "target": "30.5 seconds",
+              "rest": 15,
+              "category": "core-stability",
+              "equipment": [
+                "bodyweight"
+              ],
+              "primaryMuscles": [
+                "abs"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "212d8cbc-e2b6-4263-8e22-c11f79989ecb",
+              "definitionId": "catalog:barbell-bench-press",
+              "name": "Barbell bench press",
+              "measurementType": "weightReps",
+              "unit": "reps",
+              "assetKey": "barbell-bench-press",
+              "sets": 1,
+              "targetValues": {
+                "reps": 6,
+                "weightKg": 12.5
+              },
+              "target": "6 reps · 12.5 kg",
+              "rest": 15,
+              "category": "chest",
+              "equipment": [
+                "barbell",
+                "bench"
+              ],
+              "primaryMuscles": [
+                "chest",
+                "triceps",
+                "shoulders"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "9d5aaf7e-0887-41ab-bbed-7be21baf8911",
+              "definitionId": "catalog:pull-up",
+              "name": "Pull-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "pull-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 8
+              },
+              "target": "8 reps",
+              "rest": 15,
+              "category": "back",
+              "equipment": [
+                "pull-up-bar"
+              ],
+              "primaryMuscles": [
+                "lats",
+                "upperback",
+                "biceps"
+              ],
+              "variant": "",
+              "notes": ""
+            }
+          ],
+          "name": "A · Deliberate strength",
+          "detail": "",
+          "duration": 30,
+          "programId": "117c9e14-f666-4619-85e4-d2630d97aee0",
+          "sportVersion": 4
+        }
+      }
+    ],
+    "eventSeries": [
+      {
+        "id": "compat-series",
+        "frequency": "daily",
+        "count": 3,
+        "startDate": "2026-11-11",
+        "cancelledDates": [
+          "2026-11-12"
+        ],
+        "futureSeries": {
+          "keep": true
+        }
+      }
+    ],
+    "habits": [
+      {
+        "id": "compat-habit-daily",
+        "name": "Daily reading",
+        "icon": "book",
+        "startDate": "2026-11-01",
+        "schedules": [
+          {
+            "from": "2026-11-01",
+            "frequency": "daily",
+            "goal": 1,
+            "kind": "completion",
+            "days": "0,1,2,3,4,5,6",
+            "source": "manual"
+          }
+        ],
+        "values": {
+          "2026-11-08": 1,
+          "2026-11-09": 0,
+          "2026-11-10": 1
+        },
+        "checkIns": {
+          "2026-11-08": true,
+          "2026-11-10": true
+        }
+      },
+      {
+        "id": "compat-habit-days",
+        "name": "Count on selected days",
+        "startDate": "2026-11-01",
+        "schedules": [
+          {
+            "from": "2026-11-01",
+            "frequency": "days",
+            "kind": "count",
+            "goal": 8,
+            "days": "1,3,5",
+            "source": "manual"
+          }
+        ],
+        "values": {
+          "2026-11-09": 8,
+          "2026-11-11": 6
+        },
+        "checkIns": {}
+      },
+      {
+        "id": "compat-habit-weekly",
+        "name": "Weekly measured practice",
+        "startDate": "2026-11-02",
+        "schedules": [
+          {
+            "from": "2026-11-02",
+            "frequency": "weekly",
+            "kind": "duration",
+            "goal": 20,
+            "weekTarget": 3,
+            "days": "0,1,2,3,4,5,6",
+            "source": "manual"
+          }
+        ],
+        "values": {
+          "2026-11-08": 25,
+          "2026-11-10": 30
+        },
+        "checkIns": {},
+        "availability": [
+          {
+            "from": "2026-11-02",
+            "state": "active"
+          },
+          {
+            "from": "2026-11-09",
+            "state": "paused"
+          },
+          {
+            "from": "2026-11-10",
+            "state": "active"
+          }
+        ],
+        "exceptions": {
+          "2026-11-12": "skipped"
+        }
+      },
+      {
+        "id": "compat-habit-sport",
+        "name": "Source from recorded training",
+        "startDate": "2026-11-01",
+        "schedules": [
+          {
+            "from": "2026-11-01",
+            "frequency": "daily",
+            "kind": "completion",
+            "goal": 1,
+            "days": "0,1,2,3,4,5,6",
+            "source": "sport"
+          }
+        ],
+        "values": {},
+        "checkIns": {}
+      }
+    ],
+    "workouts": [
+      {
+        "id": "compat-template",
+        "name": "Synthetic strength session",
+        "detail": "A reproducible template",
+        "duration": 45,
+        "programId": "compat-program",
+        "futureTemplate": {
+          "doNotFlatten": true
+        },
+        "exercises": [
+          {
+            "id": "compat-reps",
+            "definitionId": "exercise:synthetic-reps",
+            "name": "Goblet squat",
+            "sets": 2,
+            "target": "8–12",
+            "rest": 60,
+            "unit": "reps",
+            "category": "base",
+            "equipment": "Synthetic weight",
+            "restPresets": {
+              "warmup": 30,
+              "working": 60,
+              "heavy": 120
+            }
+          },
+          {
+            "id": "compat-seconds",
+            "definitionId": "exercise:synthetic-seconds",
+            "name": "Static hold",
+            "sets": 1,
+            "target": "30",
+            "rest": 0,
+            "unit": "seconds"
+          },
+          {
+            "id": "compat-kg",
+            "definitionId": "exercise:synthetic-kg",
+            "name": "Measured load",
+            "sets": 1,
+            "target": "20",
+            "rest": 90,
+            "unit": "kg"
+          }
+        ]
+      },
+      {
+        "id": "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+        "exercises": [
+          {
+            "id": "c837c732-062e-4a84-a724-adfcac54861c",
+            "definitionId": "catalog:pull-up",
+            "name": "Pull-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "pull-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 8
+            },
+            "target": "8 reps",
+            "rest": 15,
+            "category": "back",
+            "equipment": [
+              "pull-up-bar"
+            ],
+            "primaryMuscles": [
+              "lats",
+              "upperback",
+              "biceps"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "249ccd58-18a9-4b29-a900-2773ca3c004f",
+            "definitionId": "catalog:push-up",
+            "name": "Push-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "push-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 12
+            },
+            "target": "12 reps",
+            "rest": 15,
+            "category": "chest",
+            "equipment": [
+              "bodyweight"
+            ],
+            "primaryMuscles": [
+              "chest",
+              "triceps",
+              "shoulders"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "5463b14d-9c66-407e-8322-a56001c5eb8e",
+            "definitionId": "catalog:hollow-body-hold",
+            "name": "Hollow body hold",
+            "measurementType": "seconds",
+            "unit": "seconds",
+            "assetKey": "hollow-body-hold",
+            "sets": 1,
+            "targetValues": {
+              "seconds": 30.5
+            },
+            "target": "30.5 seconds",
+            "rest": 15,
+            "category": "core-stability",
+            "equipment": [
+              "bodyweight"
+            ],
+            "primaryMuscles": [
+              "abs"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "212d8cbc-e2b6-4263-8e22-c11f79989ecb",
+            "definitionId": "catalog:barbell-bench-press",
+            "name": "Barbell bench press",
+            "measurementType": "weightReps",
+            "unit": "reps",
+            "assetKey": "barbell-bench-press",
+            "sets": 1,
+            "targetValues": {
+              "reps": 6,
+              "weightKg": 12.5
+            },
+            "target": "6 reps · 12.5 kg",
+            "rest": 15,
+            "category": "chest",
+            "equipment": [
+              "barbell",
+              "bench"
+            ],
+            "primaryMuscles": [
+              "chest",
+              "triceps",
+              "shoulders"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "9d5aaf7e-0887-41ab-bbed-7be21baf8911",
+            "definitionId": "catalog:pull-up",
+            "name": "Pull-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "pull-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 8
+            },
+            "target": "8 reps",
+            "rest": 15,
+            "category": "back",
+            "equipment": [
+              "pull-up-bar"
+            ],
+            "primaryMuscles": [
+              "lats",
+              "upperback",
+              "biceps"
+            ],
+            "variant": "",
+            "notes": ""
+          }
+        ],
+        "name": "A · Revised future plan",
+        "detail": "",
+        "duration": 30,
+        "programId": "117c9e14-f666-4619-85e4-d2630d97aee0",
+        "sportVersion": 4
+      },
+      {
+        "id": "8b862d66-625f-4265-aaf0-c522aea5f22f",
+        "exercises": [],
+        "name": "B · Next practice",
+        "detail": "",
+        "duration": 30,
+        "programId": "117c9e14-f666-4619-85e4-d2630d97aee0",
+        "sportVersion": 4
+      },
+      {
+        "id": "67273de5-3739-4d08-8b20-fab4f87c30a4",
+        "exercises": [
+          {
+            "id": "c9d5c0fe-c48f-424d-a7b6-2f1c7875bd47",
+            "definitionId": "catalog:pull-up",
+            "name": "Pull-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "pull-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 8
+            },
+            "target": "8 reps",
+            "rest": 15,
+            "category": "back",
+            "equipment": [
+              "pull-up-bar"
+            ],
+            "primaryMuscles": [
+              "lats",
+              "upperback",
+              "biceps"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "9a6173d0-44e9-4ff5-ace2-1feb23242949",
+            "definitionId": "catalog:push-up",
+            "name": "Push-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "push-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 12
+            },
+            "target": "12 reps",
+            "rest": 15,
+            "category": "chest",
+            "equipment": [
+              "bodyweight"
+            ],
+            "primaryMuscles": [
+              "chest",
+              "triceps",
+              "shoulders"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "cd68edbc-dbc1-425b-b18c-3b2967b24215",
+            "definitionId": "catalog:hollow-body-hold",
+            "name": "Hollow body hold",
+            "measurementType": "seconds",
+            "unit": "seconds",
+            "assetKey": "hollow-body-hold",
+            "sets": 1,
+            "targetValues": {
+              "seconds": 30.5
+            },
+            "target": "30.5 seconds",
+            "rest": 15,
+            "category": "core-stability",
+            "equipment": [
+              "bodyweight"
+            ],
+            "primaryMuscles": [
+              "abs"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "743b583c-9c05-47d1-b97e-cfb388333dd0",
+            "definitionId": "catalog:barbell-bench-press",
+            "name": "Barbell bench press",
+            "measurementType": "weightReps",
+            "unit": "reps",
+            "assetKey": "barbell-bench-press",
+            "sets": 1,
+            "targetValues": {
+              "reps": 6,
+              "weightKg": 12.5
+            },
+            "target": "6 reps · 12.5 kg",
+            "rest": 15,
+            "category": "chest",
+            "equipment": [
+              "barbell",
+              "bench"
+            ],
+            "primaryMuscles": [
+              "chest",
+              "triceps",
+              "shoulders"
+            ],
+            "variant": "",
+            "notes": ""
+          },
+          {
+            "id": "37dc5d1d-3a16-46d0-9cfd-b0b5bcb91456",
+            "definitionId": "catalog:pull-up",
+            "name": "Pull-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "assetKey": "pull-up",
+            "sets": 1,
+            "targetValues": {
+              "reps": 8
+            },
+            "target": "8 reps",
+            "rest": 15,
+            "category": "back",
+            "equipment": [
+              "pull-up-bar"
+            ],
+            "primaryMuscles": [
+              "lats",
+              "upperback",
+              "biceps"
+            ],
+            "variant": "",
+            "notes": ""
+          }
+        ],
+        "name": "A · Revised future plan",
+        "detail": "",
+        "duration": 30,
+        "programId": "24fa096e-3a18-462d-aba5-b411e3d955ca",
+        "sportVersion": 4,
+        "archived": false
+      },
+      {
+        "id": "4b4b198e-f2cc-4d41-bf63-0bd37d5bc7e7",
+        "exercises": [],
+        "name": "B · Next practice",
+        "detail": "",
+        "duration": 30,
+        "programId": "24fa096e-3a18-462d-aba5-b411e3d955ca",
+        "sportVersion": 4,
+        "archived": false
+      }
+    ],
+    "programs": [
+      {
+        "id": "compat-program",
+        "name": "Synthetic program",
+        "workoutOrder": [
+          "compat-template"
+        ],
+        "scheduleConfig": {
+          "mode": "weekly",
+          "weekdays": "1,3,5",
+          "cycles": 2,
+          "assignments": {
+            "1": "compat-template"
+          }
+        }
+      },
+      {
+        "id": "117c9e14-f666-4619-85e4-d2630d97aee0",
+        "name": "Browser acceptance program desktop-test",
+        "description": "",
+        "workoutOrder": [
+          "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+          "8b862d66-625f-4265-aaf0-c522aea5f22f"
+        ],
+        "sportVersion": 4
+      },
+      {
+        "id": "24fa096e-3a18-462d-aba5-b411e3d955ca",
+        "name": "Browser acceptance program desktop-test — copy",
+        "description": "",
+        "workoutOrder": [
+          "67273de5-3739-4d08-8b20-fab4f87c30a4",
+          "4b4b198e-f2cc-4d41-bf63-0bd37d5bc7e7"
+        ],
+        "sportVersion": 4,
+        "archived": true
+      }
+    ],
+    "workoutRecords": [
+      {
+        "sportVersion": 3,
+        "id": "compat-record",
+        "templateId": "compat-template",
+        "sessionId": "compat-workout-done",
+        "startedAt": "2026-11-10T15:00:00.000Z",
+        "endedAt": "2026-11-10T15:40:00.000Z",
+        "completedDate": "2026-11-10",
+        "durationMs": 2400000,
+        "mode": "full",
+        "status": "completed",
+        "snapshot": {
+          "id": "compat-template",
+          "name": "Synthetic strength session",
+          "detail": "A reproducible template",
+          "duration": 45,
+          "programId": "compat-program",
+          "futureTemplate": {
+            "doNotFlatten": true
+          },
+          "exercises": [
+            {
+              "id": "compat-reps",
+              "definitionId": "exercise:synthetic-reps",
+              "name": "Goblet squat",
+              "sets": 2,
+              "target": "8–12",
+              "rest": 60,
+              "unit": "reps",
+              "category": "base",
+              "equipment": "Synthetic weight",
+              "restPresets": {
+                "warmup": 30,
+                "working": 60,
+                "heavy": 120
+              }
+            },
+            {
+              "id": "compat-seconds",
+              "definitionId": "exercise:synthetic-seconds",
+              "name": "Static hold",
+              "sets": 1,
+              "target": "30",
+              "rest": 0,
+              "unit": "seconds"
+            },
+            {
+              "id": "compat-kg",
+              "definitionId": "exercise:synthetic-kg",
+              "name": "Measured load",
+              "sets": 1,
+              "target": "20",
+              "rest": 90,
+              "unit": "kg"
+            }
+          ]
+        },
+        "sets": [
+          {
+            "id": "compat-set-compat-reps-0",
+            "sessionRef": "compat-record",
+            "exerciseId": "compat-reps",
+            "definitionId": "exercise:synthetic-reps",
+            "unit": "reps",
+            "name": "Goblet squat",
+            "index": 1,
+            "target": "8–12",
+            "rest": 60,
+            "kind": "working",
+            "result": "8",
+            "actualValue": 8,
+            "done": true,
+            "loggedAt": "2026-11-10T15:20:00.000Z"
+          },
+          {
+            "id": "compat-set-compat-reps-1",
+            "sessionRef": "compat-record",
+            "exerciseId": "compat-reps",
+            "definitionId": "exercise:synthetic-reps",
+            "unit": "reps",
+            "name": "Goblet squat",
+            "index": 2,
+            "target": "8–12",
+            "rest": 60,
+            "kind": "heavy",
+            "result": "9",
+            "actualValue": 9,
+            "done": true,
+            "loggedAt": "2026-11-10T15:20:00.000Z"
+          },
+          {
+            "id": "compat-set-compat-seconds-0",
+            "sessionRef": "compat-record",
+            "exerciseId": "compat-seconds",
+            "definitionId": "exercise:synthetic-seconds",
+            "unit": "seconds",
+            "name": "Static hold",
+            "index": 1,
+            "target": "30",
+            "rest": 0,
+            "kind": "working",
+            "result": "35.5",
+            "actualValue": 35.5,
+            "done": true,
+            "loggedAt": "2026-11-10T15:20:00.000Z"
+          },
+          {
+            "id": "compat-set-compat-kg-0",
+            "sessionRef": "compat-record",
+            "exerciseId": "compat-kg",
+            "definitionId": "exercise:synthetic-kg",
+            "unit": "kg",
+            "name": "Measured load",
+            "index": 1,
+            "target": "20",
+            "rest": 90,
+            "kind": "working",
+            "result": "20.25",
+            "actualValue": 20.25,
+            "done": true,
+            "loggedAt": "2026-11-10T15:20:00.000Z"
+          }
+        ],
+        "futureRecord": {
+          "keep": true
+        }
+      },
+      {
+        "sportVersion": 4,
+        "id": "dac7a2a9-4179-495f-850b-bb3072e15593",
+        "templateId": "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+        "sessionId": "fd9718c5-aa91-4880-9060-9a8cab0540fe",
+        "startedAt": "2026-11-11T11:00:00.000Z",
+        "snapshot": {
+          "id": "1dd3ecc6-d832-48ba-89bd-8957d7d2b8cd",
+          "exercises": [
+            {
+              "id": "c837c732-062e-4a84-a724-adfcac54861c",
+              "definitionId": "catalog:pull-up",
+              "name": "Pull-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "pull-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 8
+              },
+              "target": "8 reps",
+              "rest": 15,
+              "category": "back",
+              "equipment": [
+                "pull-up-bar"
+              ],
+              "primaryMuscles": [
+                "lats",
+                "upperback",
+                "biceps"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "249ccd58-18a9-4b29-a900-2773ca3c004f",
+              "definitionId": "catalog:push-up",
+              "name": "Push-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "push-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 12
+              },
+              "target": "12 reps",
+              "rest": 15,
+              "category": "chest",
+              "equipment": [
+                "bodyweight"
+              ],
+              "primaryMuscles": [
+                "chest",
+                "triceps",
+                "shoulders"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "5463b14d-9c66-407e-8322-a56001c5eb8e",
+              "definitionId": "catalog:hollow-body-hold",
+              "name": "Hollow body hold",
+              "measurementType": "seconds",
+              "unit": "seconds",
+              "assetKey": "hollow-body-hold",
+              "sets": 1,
+              "targetValues": {
+                "seconds": 30.5
+              },
+              "target": "30.5 seconds",
+              "rest": 15,
+              "category": "core-stability",
+              "equipment": [
+                "bodyweight"
+              ],
+              "primaryMuscles": [
+                "abs"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "212d8cbc-e2b6-4263-8e22-c11f79989ecb",
+              "definitionId": "catalog:barbell-bench-press",
+              "name": "Barbell bench press",
+              "measurementType": "weightReps",
+              "unit": "reps",
+              "assetKey": "barbell-bench-press",
+              "sets": 1,
+              "targetValues": {
+                "reps": 6,
+                "weightKg": 12.5
+              },
+              "target": "6 reps · 12.5 kg",
+              "rest": 15,
+              "category": "chest",
+              "equipment": [
+                "barbell",
+                "bench"
+              ],
+              "primaryMuscles": [
+                "chest",
+                "triceps",
+                "shoulders"
+              ],
+              "variant": "",
+              "notes": ""
+            },
+            {
+              "id": "9d5aaf7e-0887-41ab-bbed-7be21baf8911",
+              "definitionId": "catalog:pull-up",
+              "name": "Pull-up",
+              "measurementType": "reps",
+              "unit": "reps",
+              "assetKey": "pull-up",
+              "sets": 1,
+              "targetValues": {
+                "reps": 8
+              },
+              "target": "8 reps",
+              "rest": 15,
+              "category": "back",
+              "equipment": [
+                "pull-up-bar"
+              ],
+              "primaryMuscles": [
+                "lats",
+                "upperback",
+                "biceps"
+              ],
+              "variant": "",
+              "notes": ""
+            }
+          ],
+          "name": "A · Deliberate strength",
+          "detail": "",
+          "duration": 30,
+          "programId": "117c9e14-f666-4619-85e4-d2630d97aee0",
+          "sportVersion": 4
+        },
+        "mode": "full",
+        "status": "partial",
+        "sets": [
+          {
+            "id": "dac7a2a9-4179-495f-850b-bb3072e15593:set:c837c732-062e-4a84-a724-adfcac54861c:1",
+            "sessionRef": "dac7a2a9-4179-495f-850b-bb3072e15593",
+            "exerciseId": "c837c732-062e-4a84-a724-adfcac54861c",
+            "definitionId": "catalog:pull-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "name": "Pull-up",
+            "index": 1,
+            "target": "8 reps",
+            "targetValues": {
+              "reps": 8
+            },
+            "rest": 15,
+            "kind": "working",
+            "result": "8",
+            "done": true,
+            "actual": {
+              "reps": 8
+            },
+            "actualValue": 8,
+            "loggedAt": "2026-11-11T11:00:00.000Z"
+          },
+          {
+            "id": "dac7a2a9-4179-495f-850b-bb3072e15593:set:249ccd58-18a9-4b29-a900-2773ca3c004f:1",
+            "sessionRef": "dac7a2a9-4179-495f-850b-bb3072e15593",
+            "exerciseId": "249ccd58-18a9-4b29-a900-2773ca3c004f",
+            "definitionId": "catalog:push-up",
+            "measurementType": "reps",
+            "unit": "reps",
+            "name": "Push-up",
+            "index": 1,
+            "target": "12 reps",
+            "targetValues": {
+              "reps": 12
+            },
+            "rest": 15,
+            "kind": "working",
+            "result": "12",
+            "done": true,
+            "actual": {
+              "reps": 12
+            },
+            "actualValue": 12,
+            "loggedAt": "2026-11-11T11:00:30.000Z"
+          },
+          {
+            "id": "dac7a2a9-4179-495f-850b-bb3072e15593:set:5463b14d-9c66-407e-8322-a56001c5eb8e:1",
+            "sessionRef": "dac7a2a9-4179-495f-850b-bb3072e15593",
+            "exerciseId": "5463b14d-9c66-407e-8322-a56001c5eb8e",
+            "definitionId": "catalog:hollow-body-hold",
+            "measurementType": "seconds",
+            "unit": "seconds",
+            "name": "Hollow body hold",
+            "index": 1,
+            "target": "30.5 seconds",
+            "targetValues": {
+              "seconds": 30.5
+            },
+            "rest": 15,
+            "kind": "working",
+            "result": "30.5",
+            "done": true,
+            "actual": {
+              "seconds": 30.5
+            },
+            "actualValue": 30.5,
+            "loggedAt": "2026-11-11T11:00:30.000Z"
+          },
+          {
+            "id": "dac7a2a9-4179-495f-850b-bb3072e15593:set:212d8cbc-e2b6-4263-8e22-c11f79989ecb:1",
+            "sessionRef": "dac7a2a9-4179-495f-850b-bb3072e15593",
+            "exerciseId": "212d8cbc-e2b6-4263-8e22-c11f79989ecb",
+            "definitionId": "catalog:barbell-bench-press",
+            "measurementType": "weightReps",
+            "unit": "reps",
+            "name": "Barbell bench press",
+            "index": 1,
+            "target": "6 reps · 12.5 kg",
+            "targetValues": {
+              "reps": 6,
+              "weightKg": 12.5
+            },
+            "rest": 15,
+            "kind": "working",
+            "result": "6",
+            "done": true,
+            "actual": {
+              "reps": 6,
+              "weightKg": 12.5
+            },
+            "actualValue": 6,
+            "loggedAt": "2026-11-11T11:00:30.000Z"
+          }
+        ],
+        "pausedMs": 0,
+        "endedAt": "2026-11-11T11:00:30.000Z",
+        "durationMs": 30000,
+        "plannedSetCount": 5
+      }
+    ],
+    "notes": [
+      {
+        "id": "compat-note",
+        "kind": "note",
+        "title": "A synthetic planning document",
+        "body": "# A deliberate day\n\n**Keep the source intact.**\n\n- [ ] First step\n- [x] Reviewed\n\n> Synthetic example\n\n[Reference](https://example.invalid/synthetic)\n\n```text\n<script>not executable content</script>\n```\n\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\nA long thought: mañana, внимание, élève.\n",
+        "visibility": "private",
+        "updatedAt": "2026-11-10T12:00:00.000Z",
+        "tags": [
+          "synthetic",
+          "совместимость"
+        ],
+        "pinned": true,
+        "customEditor": {
+          "cursor": 25
+        }
+      },
+      {
+        "id": "compat-note-attached",
+        "kind": "note",
+        "title": "An attached source remains read-only",
+        "body": "## Attachment example\n\n*Formatted source*, stored separately from its file.",
+        "updatedAt": "2026-11-10T12:00:00.000Z",
+        "attachments": [
+          {
+            "id": "compat-attachment",
+            "name": "synthetic.txt",
+            "type": "text/plain",
+            "size": 9,
+            "data": "data:text/plain;base64,c3ludGhldGlj"
+          }
+        ],
+        "blocks": [
+          {
+            "kind": "futureBlock",
+            "payload": {
+              "notFlattened": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "compat-journal",
+        "kind": "journal",
+        "title": "Synthetic private journal",
+        "body": "No personal content.",
+        "visibility": "private",
+        "date": "2026-11-10",
+        "updatedAt": "2026-11-10T12:00:00.000Z"
+      }
+    ],
+    "canvases": [
+      {
+        "id": "compat-board",
+        "name": "A source-preserving board",
+        "updatedAt": "2026-11-10T12:00:00.000Z",
+        "viewport": {
+          "zoom": 1.25,
+          "left": 10,
+          "top": 20
+        },
+        "nodes": [
+          {
+            "id": "compat-frame",
+            "kind": "group",
+            "x": 0,
+            "y": 0,
+            "width": 1000,
+            "height": 800,
+            "title": "Collapsed group",
+            "body": "",
+            "collapsed": true
+          },
+          {
+            "id": "compat-node-note",
+            "kind": "note",
+            "x": 30,
+            "y": 50,
+            "width": 280,
+            "height": 180,
+            "title": "",
+            "body": "",
+            "entityRef": {
+              "type": "note",
+              "id": "compat-note"
+            }
+          },
+          {
+            "id": "compat-node-task",
+            "kind": "task",
+            "x": 350,
+            "y": 50,
+            "width": 280,
+            "height": 180,
+            "title": "Shared source",
+            "body": "",
+            "entityRef": {
+              "type": "task",
+              "id": "compat-project-task"
+            }
+          },
+          {
+            "id": "compat-node-project",
+            "kind": "project",
+            "x": 30,
+            "y": 300,
+            "width": 280,
+            "height": 180,
+            "title": "",
+            "body": "",
+            "entityRef": {
+              "type": "project",
+              "id": "compat-project"
+            }
+          },
+          {
+            "id": "compat-node-file",
+            "kind": "file",
+            "x": 350,
+            "y": 300,
+            "width": 280,
+            "height": 220,
+            "title": "Synthetic attachment",
+            "body": "",
+            "attachment": {
+              "name": "synthetic.txt",
+              "type": "text/plain",
+              "size": 9,
+              "data": "data:text/plain;base64,c3ludGhldGlj"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "from": "compat-node-note",
+            "to": "compat-node-task",
+            "directed": true,
+            "label": "Original relation",
+            "fromSide": "right",
+            "toSide": "left",
+            "futureEdge": {
+              "weight": 2
+            }
+          }
+        ],
+        "futureBoard": {
+          "doNotMove": true
+        }
+      }
+    ],
+    "focusRecords": [
+      {
+        "id": "compat-focus",
+        "taskId": "compat-home",
+        "date": "2026-11-10",
+        "minutes": 25,
+        "startedAt": "2026-11-10T09:00:00.000Z",
+        "confirmedAt": "2026-11-10T09:25:00.000Z"
+      }
+    ],
+    "futureRoot": {
+      "dates": [
+        "2026-11-11"
+      ],
+      "empty": "",
+      "zero": 0,
+      "falseValue": false,
+      "nullValue": null,
+      "unrecognized": [
+        1,
+        2,
+        3
+      ]
+    },
+    "sportsLibrary": {
+      "version": 1,
+      "customDefinitions": [],
+      "favoriteIds": [],
+      "recentIds": [
+        "catalog:barbell-bench-press",
+        "catalog:hollow-body-hold",
+        "catalog:push-up",
+        "catalog:pull-up"
+      ]
+    }
+  }
+}

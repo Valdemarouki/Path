@@ -1,0 +1,4 @@
+PASS Sport v3: actual validation/zero, stable identity+unit previous, immutable snapshots, idempotent logging/undo/finish, timestamp rest+restart, paused ±15, swap guard+targets, computed short copy, Calendar protected/travel, measured skills, progression evidence and write-failure rollback.
+PASS Sport v3 pending-input recovery after write failure, fractional skill tests, single form identity, preference notes/rest and history isolation.
+PASS full-workout relocation: protected day skipped, preview non-mutating, late conflict blocked, explicit commit once.
+PASS progression for legacy and typed reps/seconds: explicit update, editor targetValues coherence, consumed evidence, idempotent confirmation and immutable history.

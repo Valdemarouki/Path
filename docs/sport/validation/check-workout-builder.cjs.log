@@ -1,0 +1,2 @@
+PASS workout draft isolation, order/bounds, numeric validation, immutable scheduled/history snapshots, save failure/retry, persisted rest deadline and expiry.
+PASS independent rest pause/resume, add time, skip cleanup and interaction with workout pause.

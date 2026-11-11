@@ -1,0 +1,19 @@
+PASS 1 closing title/grid never paint over returning row: 320px / en
+PASS 2 closing title/grid never paint over returning row: 320px / ru
+PASS 3 closing title/grid never paint over returning row: 320px / es
+PASS 4 closing title/grid never paint over returning row: 390px / en
+PASS 5 closing title/grid never paint over returning row: 390px / ru
+PASS 6 closing title/grid never paint over returning row: 390px / es
+PASS 7 closing title/grid never paint over returning row: 430px / en
+PASS 8 closing title/grid never paint over returning row: 430px / ru
+PASS 9 closing title/grid never paint over returning row: 430px / es
+PASS 10 native root animation cancellation settles opening without mixed states
+PASS 11 native root animation cancellation settles closing without mixed states
+PASS 12 stalled native animation has bounded settlement and no retained decorative icons
+PASS 13 completion queued before reversal cannot cancel newer card animations
+PASS 14 changing browser height settles opening without stale header or icons
+PASS 15 changing browser height settles closing without stale header or icons
+PASS 16 settlement preserves keyboard focus already inside the grid
+PASS 17 page lifecycle settles opening safely (synthetic events, not iOS background)
+PASS 18 page lifecycle settles closing safely (synthetic events, not iOS background)
+PASS 18 navigation lifecycle groups. /workspace/Path/docs/sport/validation/navigation-lifecycle

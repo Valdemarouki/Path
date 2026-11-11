@@ -1,0 +1,1 @@
+PASS workout pause/resume idempotence, serialized pause restoration, frozen rest remainder, finish during pause, immutable duration and legacy fallback.

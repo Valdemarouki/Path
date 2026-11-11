@@ -1,0 +1,30 @@
+[
+  {
+    "script": "check-storage.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-sport-smart.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-sport-flow.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-sport-mini-planner.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-sport-session-integration.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-workout-timing.cjs",
+    "exitCode": 0
+  },
+  {
+    "script": "check-workout-builder.cjs",
+    "exitCode": 0
+  }
+]

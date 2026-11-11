@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "cases": 9,
+  "command": "MOBILE_PHONE_RESUME_EVIDENCE=/tmp/path-sport-phone-resume node --require /tmp/path-sport-phone-resume/transport.cjs mobile/tests/phone-resume.cjs",
+  "transport": "Local static-file interception, JavaScript MIME for .js and .mjs, no listener started",
+  "profiles": "Fresh synthetic native profiles, explicit Sport v4 weightReps fixture",
+  "physicalIPhoneTested": false
+}

@@ -1,0 +1,889 @@
+{
+  "cases": 18,
+  "checks": [
+    {
+      "name": "closing title/grid never paint over returning row: 320px / en",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 88,
+          "height": 566
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 293.484375,
+          "height": 360.515625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 456.828125,
+          "height": 197.171875
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 554.65625,
+          "height": 99.34375
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 607.078125,
+          "height": 46.921875
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 10.140625
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.46875,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.46875,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 632.171875,
+          "rowTop": 626,
+          "clippedTitleBottom": 632.171875,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.953125,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.953125,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 627.015625,
+          "rowTop": 626,
+          "clippedTitleBottom": 627.015625,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 320px / ru",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 88,
+          "height": 566
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 293.484375,
+          "height": 360.515625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 456.828125,
+          "height": 197.171875
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 554.65625,
+          "height": 99.34375
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 607.078125,
+          "height": 46.921875
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 10.140625
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.46875,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.46875,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 632.171875,
+          "rowTop": 626,
+          "clippedTitleBottom": 632.171875,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.953125,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.953125,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 627.015625,
+          "rowTop": 626,
+          "clippedTitleBottom": 627.015625,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 320px / es",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 88,
+          "height": 566
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 293.484375,
+          "height": 360.515625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 456.828125,
+          "height": 197.171875
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 554.65625,
+          "height": 99.34375
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 607.078125,
+          "height": 46.921875
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 10.140625
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.46875,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.46875,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 632.171875,
+          "rowTop": 626,
+          "clippedTitleBottom": 632.171875,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.953125,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.953125,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 627.015625,
+          "rowTop": 626,
+          "clippedTitleBottom": 627.015625,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 390px / en",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 106,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 292.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 440.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 529.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 577.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 592,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 595.15625,
+          "rowTop": 592,
+          "clippedTitleBottom": 595.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 597.609375,
+          "rowTop": 592,
+          "clippedTitleBottom": 597.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 596.484375,
+          "rowTop": 592,
+          "clippedTitleBottom": 596.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 592.921875,
+          "rowTop": 592,
+          "clippedTitleBottom": 592.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 390px / ru",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 106,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 292.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 440.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 529.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 577.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 592,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 595.15625,
+          "rowTop": 592,
+          "clippedTitleBottom": 595.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 597.609375,
+          "rowTop": 592,
+          "clippedTitleBottom": 597.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 596.484375,
+          "rowTop": 592,
+          "clippedTitleBottom": 596.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 592.921875,
+          "rowTop": 592,
+          "clippedTitleBottom": 592.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 390px / es",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 106,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 292.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 440.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 529.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 577.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 592,
+          "rowTop": 592,
+          "clippedTitleBottom": 592,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 595.15625,
+          "rowTop": 592,
+          "clippedTitleBottom": 595.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 597.609375,
+          "rowTop": 592,
+          "clippedTitleBottom": 597.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 596.484375,
+          "rowTop": 592,
+          "clippedTitleBottom": 596.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 592.921875,
+          "rowTop": 592,
+          "clippedTitleBottom": 592.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 430px / en",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 140,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 326.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 474.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 563.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 611.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.15625,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 631.609375,
+          "rowTop": 626,
+          "clippedTitleBottom": 631.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.484375,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 626.921875,
+          "rowTop": 626,
+          "clippedTitleBottom": 626.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 430px / ru",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 140,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 326.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 474.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 563.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 611.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.15625,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 631.609375,
+          "rowTop": 626,
+          "clippedTitleBottom": 631.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.484375,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 626.921875,
+          "rowTop": 626,
+          "clippedTitleBottom": 626.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "closing title/grid never paint over returning row: 430px / es",
+      "samples": [
+        {
+          "time": 0,
+          "opacity": 1,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 140,
+          "height": 514
+        },
+        {
+          "time": 40,
+          "opacity": 0.636957,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 326.609375,
+          "height": 327.390625
+        },
+        {
+          "time": 80,
+          "opacity": 0.348379,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 474.9375,
+          "height": 179.0625
+        },
+        {
+          "time": 120,
+          "opacity": 0.175533,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 563.78125,
+          "height": 90.21875
+        },
+        {
+          "time": 160,
+          "opacity": 0.0829284,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 611.375,
+          "height": 42.625
+        },
+        {
+          "time": 220,
+          "opacity": 0.0179322,
+          "visible": "visible",
+          "extraBottom": 626,
+          "rowTop": 626,
+          "clippedTitleBottom": 626,
+          "height": 9.203125
+        },
+        {
+          "time": 280,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 629.15625,
+          "rowTop": 626,
+          "clippedTitleBottom": 629.15625,
+          "height": 0
+        },
+        {
+          "time": 320,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 631.609375,
+          "rowTop": 626,
+          "clippedTitleBottom": 631.609375,
+          "height": 0
+        },
+        {
+          "time": 380,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 630.484375,
+          "rowTop": 626,
+          "clippedTitleBottom": 630.484375,
+          "height": 0
+        },
+        {
+          "time": 430,
+          "opacity": 0,
+          "visible": "visible",
+          "extraBottom": 626.921875,
+          "rowTop": 626,
+          "clippedTitleBottom": 626.921875,
+          "height": 0
+        }
+      ]
+    },
+    {
+      "name": "native root animation cancellation settles opening without mixed states"
+    },
+    {
+      "name": "native root animation cancellation settles closing without mixed states"
+    },
+    {
+      "name": "stalled native animation has bounded settlement and no retained decorative icons"
+    },
+    {
+      "name": "completion queued before reversal cannot cancel newer card animations"
+    },
+    {
+      "name": "changing browser height settles opening without stale header or icons"
+    },
+    {
+      "name": "changing browser height settles closing without stale header or icons"
+    },
+    {
+      "name": "settlement preserves keyboard focus already inside the grid"
+    },
+    {
+      "name": "page lifecycle settles opening safely (synthetic events, not iOS background)"
+    },
+    {
+      "name": "page lifecycle settles closing safely (synthetic events, not iOS background)"
+    }
+  ],
+  "conditions": "Linux Chromium; native WAAPI seek/cancel/pause and viewport resize; local-file request interception, synthetic profiles; no HTTP listener or external requests",
+  "physicalSafariTested": false
+}

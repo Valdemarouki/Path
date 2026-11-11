@@ -1,0 +1,29 @@
+{
+  "startedAt": "2026-11-11T20:38:09.181Z",
+  "finishedAt": "2026-11-11T20:38:41.240Z",
+  "inputSHA256": "c8bca91f4235b5537eca9a105db4c59e5c9711bba9c9fd15f965000c9a120d46",
+  "results": [],
+  "failures": [
+    {
+      "message": "locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#desktop-test-dataset')\u001b[22m\n\u001b[2m    - locator resolved to <select id=\"desktop-test-dataset\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    60 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying select option action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n",
+      "stack": "locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#desktop-test-dataset')\u001b[22m\n\u001b[2m    - locator resolved to <select id=\"desktop-test-dataset\">…</select>\u001b[22m\n\u001b[2m  - attempting select option action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m      - element is not visible\u001b[22m\n\u001b[2m    - retrying select option action\u001b[22m\n\u001b[2m      - waiting 100ms\u001b[22m\n\u001b[2m    60 × waiting for element to be visible and enabled\u001b[22m\n\u001b[2m       - element is not visible\u001b[22m\n\u001b[2m     - retrying select option action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\n    at main (/workspace/Path/mobile/tests/sport-package-browser.cjs:242:45)",
+      "diagnostics": [
+        {
+          "url": "https://path-sport.test/?desktop-test=1",
+          "screen": "workout",
+          "body": "Skip to content\nP\nATH\n/ MOBILE\nSPORT A1\nTest data\nReturn to local mode\nDesktop test mode · plain · 1\n\nSave or close the open editor before switching test copies.\n\nA · Strength, clear movement and careful progress / Осознанная практика\nBack to Sport\nElapsed 00:00\nPause\n\nExercise 1 of 2\n\nBarbell bench press\n\nSet 1 of 1\n\nTarget: 8 reps · 0 kg\n\nreps\nWeight, kg\n\nNo comparable result yet.\n\nYour draft is saved locally as you enter it.\n\nLog set\nNext set\nFinish workout\n\nSYNTHETIC DATA · LOCAL ONLY\n\nToday\nCalendar\nSport\nHabits",
+          "saving": false
+        }
+      ]
+    }
+  ],
+  "videos": [],
+  "conditions": {
+    "browser": "Linux Chromium",
+    "browserVersion": "156.0.8078.79",
+    "resources": "local-file interception only",
+    "syntheticOnly": true,
+    "physicalSafariTested": false,
+    "installedWindowsTested": false
+  }
+}

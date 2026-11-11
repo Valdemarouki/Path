@@ -1,0 +1,4 @@
+PASS mini planner: coordinate snap/clamp, invalid dates/steps, snapshots, duplicate prevention, protected conflicts, free-slot review, retry rollback, seven day targets, overnight agenda, library+planner composition.
+PASS mini timeline geometry across both Warsaw DST transitions.
+PASS program cards and all sequence cards expose drag sources; program drop requires workout selection and saves selected template only.
+PASS mini-calendar renders the actual system time zone.

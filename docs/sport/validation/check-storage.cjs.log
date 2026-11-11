@@ -1,0 +1,2 @@
+PASS: atomic state/history, restart Undo/Redo, branching, 20-step cap, quota failure and retry, failed Undo retry, stale-window protection, untouched legacy, corrupt-data protection, validation, reference-preserving rollback.
+PASS: recovery import, unsupported schema rejection, UUID fallback on HTTP.

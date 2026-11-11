@@ -1,0 +1,15 @@
+{
+  "name": "phone-gestures",
+  "command": [
+    "node",
+    "-r",
+    "./docs/sport/validation/local-assets.cjs",
+    "mobile/tests/phone-gestures.cjs"
+  ],
+  "startedAt": "2026-11-11T20:33:57.324309+00:00",
+  "finishedAt": "2026-11-11T20:34:17.625523+00:00",
+  "seconds": 20.301,
+  "exitCode": 0,
+  "transport": "local-file request interception preload; no listener",
+  "appSHA256": "94796e57da05b287a403937348e6cd9dfd4a4ac87bfb24cc817ffe05a18326cc"
+}

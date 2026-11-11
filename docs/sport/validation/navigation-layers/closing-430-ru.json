@@ -1,0 +1,242 @@
+[
+  {
+    "ms": 30,
+    "opacity": 1,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 38,
+    "opacity": 1,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 55,
+    "opacity": 0.84536,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 73,
+    "opacity": 0.694406,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 90,
+    "opacity": 0.5543,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 104,
+    "opacity": 0.431607,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 118,
+    "opacity": 0.329765,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 134,
+    "opacity": 0.329579,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 149,
+    "opacity": 0.24878,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 166,
+    "opacity": 0.186121,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 181,
+    "opacity": 0.13793,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 198,
+    "opacity": 0.100887,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 213,
+    "opacity": 0.0723377,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  },
+  {
+    "ms": 229,
+    "opacity": 0.0502839,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 25.84375,
+    "overlap": false
+  },
+  {
+    "ms": 246,
+    "opacity": 0.0332513,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 17.078125,
+    "overlap": false
+  },
+  {
+    "ms": 261,
+    "opacity": 0.0201407,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 10.34375,
+    "overlap": false
+  },
+  {
+    "ms": 278,
+    "opacity": 0.0101326,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 5.203125,
+    "overlap": false
+  },
+  {
+    "ms": 293,
+    "opacity": 0.00260721,
+    "clipBottom": 770,
+    "rowTop": 770,
+    "headingVisible": 1.328125,
+    "overlap": false
+  },
+  {
+    "ms": 309,
+    "opacity": 0,
+    "clipBottom": 771.5,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 325,
+    "opacity": 0,
+    "clipBottom": 773.5,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 341,
+    "opacity": 0,
+    "clipBottom": 774.796875,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 358,
+    "opacity": 0,
+    "clipBottom": 775.515625,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 373,
+    "opacity": 0,
+    "clipBottom": 775.765625,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 389,
+    "opacity": 0,
+    "clipBottom": 775.609375,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 405,
+    "opacity": 0,
+    "clipBottom": 775.09375,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 421,
+    "opacity": 0,
+    "clipBottom": 774.3125,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 437,
+    "opacity": 0,
+    "clipBottom": 773.28125,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 454,
+    "opacity": 0,
+    "clipBottom": 772.03125,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 469,
+    "opacity": 0,
+    "clipBottom": 770.609375,
+    "rowTop": 770,
+    "headingVisible": 0,
+    "overlap": false
+  },
+  {
+    "ms": 486,
+    "opacity": 0,
+    "clipBottom": 836,
+    "rowTop": 770,
+    "headingVisible": 28,
+    "overlap": false
+  }
+]

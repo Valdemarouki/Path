@@ -1,0 +1,38 @@
+PASS 1 complete UI chain: programs, ordered catalogue, typed goals, stable Calendar, draft/reload, rest, idempotent actuals, failure/retry, partial history
+PASS 2 complete UI chain: programs, ordered catalogue, typed goals, stable Calendar, draft/reload, rest, idempotent actuals, failure/retry, partial history
+PASS 3 catalogue search/favorites/custom/empty state; 19 filters, preserved exclusions and honest Scapular placeholder
+PASS 4 catalogue search/favorites/custom/empty state; 19 filters, preserved exclusions and honest Scapular placeholder
+PASS 5 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 6 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 7 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 8 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 9 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 10 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 11 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 12 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 13 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 14 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 15 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 16 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 17 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 18 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 19 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 20 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 21 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 22 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 23 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 24 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 25 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 26 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 27 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 28 localized long-title/typed controls/touch targets/no page overflow/reduced-motion presentation
+PASS 29 actual emulated-touch handle reorder; ordinary content pan scrolls without changing order
+PASS 30 actual emulated-touch handle reorder; ordinary content pan scrolls without changing order
+PASS 31 landscape 844×390 Spanish editor/workout and reachable bottom action
+PASS 32 missing local SVG becomes honest placeholder; exercise remains usable
+PASS 33 landscape 844×390 Spanish editor/workout and reachable bottom action
+PASS 34 missing local SVG becomes honest placeholder; exercise remains usable
+PASS 35 failed raw draft blocks desktop-copy switch; successful retry stays scoped despite identical session/set IDs
+PASS 36 stale tab keeps unfinished form and cannot overwrite concurrent Sport save
+PASS 37 stale tab keeps unfinished form and cannot overwrite concurrent Sport save
+PASS 37 Sport mobile browser groups. /workspace/Path/docs/sport/browser/mobile

@@ -1,0 +1,15 @@
+{
+  "name": "navigation-lifecycle",
+  "command": [
+    "node",
+    "-r",
+    "./docs/sport/validation/local-assets.cjs",
+    "mobile/tests/navigation-lifecycle.cjs"
+  ],
+  "startedAt": "2026-11-11T20:34:45.381478+00:00",
+  "finishedAt": "2026-11-11T20:35:04.630391+00:00",
+  "seconds": 19.249,
+  "exitCode": 0,
+  "transport": "local-file request interception preload; .js MIME normalization for unchanged legacy route tables; no listener",
+  "appSHA256": "94796e57da05b287a403937348e6cd9dfd4a4ac87bfb24cc817ffe05a18326cc"
+}

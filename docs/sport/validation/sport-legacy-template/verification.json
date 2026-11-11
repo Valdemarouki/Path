@@ -1,0 +1,35 @@
+{
+  "inputSHA256": "f3ad61d8f7ea8db69385facf87dbc23ea55348fa4bbe3769fe71d60fd26b178c",
+  "results": [
+    {
+      "mode": "native",
+      "checks": [
+        "no implicit data writes",
+        "explicit rename with metadata preservation",
+        "catalog Add and Cancel",
+        "reload persistence",
+        "advanced blocks read-only",
+        "unknown unit read-only"
+      ],
+      "status": "PASS"
+    },
+    {
+      "mode": "desktop-test",
+      "checks": [
+        "no implicit data writes",
+        "explicit rename with metadata preservation",
+        "catalog Add and Cancel",
+        "reload persistence",
+        "advanced blocks read-only",
+        "unknown unit read-only"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "conditions": {
+    "browser": "Linux Chromium",
+    "resources": "local-file interception only",
+    "syntheticOnly": true,
+    "physicalSafariTested": false
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-11-11T20:39:08.298Z",
+  "finishedAt": "2026-11-11T20:39:10.378Z",
+  "inputSHA256": "c8bca91f4235b5537eca9a105db4c59e5c9711bba9c9fd15f965000c9a120d46",
+  "results": [
+    {
+      "name": "failed raw draft blocks desktop-copy switch; successful retry stays scoped despite identical session/set IDs",
+      "mode": "desktop-test",
+      "width": 390,
+      "height": 844,
+      "language": "en",
+      "sameActiveId": "sport-dataset-same-active",
+      "sameSetId": "sport-dataset-same-active:set:sport-ui-matrix-slot-0:1",
+      "copies": 2,
+      "rawInputs": {
+        "reps": "7.",
+        "weightKg": "42,"
+      }
+    }
+  ],
+  "failures": [],
+  "videos": [],
+  "conditions": {
+    "browser": "Linux Chromium",
+    "browserVersion": "156.0.8078.79",
+    "resources": "local-file interception only",
+    "syntheticOnly": true,
+    "physicalSafariTested": false,
+    "installedWindowsTested": false
+  }
+}

@@ -1,0 +1,20 @@
+test_actual_handler_bootstrap_exposes_one_route_without_socket (__main__.PhoneServerTests.test_actual_handler_bootstrap_exposes_one_route_without_socket) ... ok
+test_actual_handler_parser_static_response_without_socket (__main__.PhoneServerTests.test_actual_handler_parser_static_response_without_socket) ... ok
+test_ca_bootstrap_reads_only_validated_public_bytes_not_keys (__main__.PhoneServerTests.test_ca_bootstrap_reads_only_validated_public_bytes_not_keys) ... ok
+test_cert_and_key_must_be_outside_served_root (__main__.PhoneServerTests.test_cert_and_key_must_be_outside_served_root) ... ok
+test_headers_disable_cache_and_content_sniffing (__main__.PhoneServerTests.test_headers_disable_cache_and_content_sniffing) ... ok
+test_https_tls12_and_keyboard_interrupt_cleanup_without_listening (__main__.PhoneServerTests.test_https_tls12_and_keyboard_interrupt_cleanup_without_listening) ... ok
+test_invalid_port_and_application_without_tls_rejected (__main__.PhoneServerTests.test_invalid_port_and_application_without_tls_rejected) ... ok
+test_invalid_tls_never_falls_back_to_plaintext_or_binds_a_socket (__main__.PhoneServerTests.test_invalid_tls_never_falls_back_to_plaintext_or_binds_a_socket) ... ok
+test_lan_requires_explicit_private_ipv4_and_acknowledgement (__main__.PhoneServerTests.test_lan_requires_explicit_private_ipv4_and_acknowledgement) ... ok
+test_no_server_is_created_when_importing_or_validating_default_config (__main__.PhoneServerTests.test_no_server_is_created_when_importing_or_validating_default_config) ... ok
+test_pem_ca_supported_but_private_key_markers_and_invalid_der_rejected (__main__.PhoneServerTests.test_pem_ca_supported_but_private_key_markers_and_invalid_der_rejected) ... ok
+test_static_paths_ignore_queries_and_never_list_directories (__main__.PhoneServerTests.test_static_paths_ignore_queries_and_never_list_directories) ... ok
+test_symlink_escape_is_rejected (__main__.PhoneServerTests.test_symlink_escape_is_rejected) ... ok
+test_traversal_hidden_files_keys_and_encoded_escapes_are_rejected (__main__.PhoneServerTests.test_traversal_hidden_files_keys_and_encoded_escapes_are_rejected) ... ok
+test_wrong_or_empty_static_directory_rejected (__main__.PhoneServerTests.test_wrong_or_empty_static_directory_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.113s
+
+OK

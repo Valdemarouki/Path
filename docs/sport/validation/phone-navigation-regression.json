@@ -1,0 +1,46 @@
+{
+  "createdAt": "2026-11-11T20:35:41.502905+00:00",
+  "status": "PASS",
+  "passedGroups": 47,
+  "suites": [
+    {
+      "name": "phone-viewport",
+      "groups": 8,
+      "exitCode": 0,
+      "log": "phone-viewport.log",
+      "execution": "phone-viewport.execution.json",
+      "details": "phone-viewport/verification.json"
+    },
+    {
+      "name": "phone-gestures",
+      "groups": 7,
+      "exitCode": 0,
+      "log": "phone-gestures.log",
+      "execution": "phone-gestures.execution.json",
+      "details": "phone-gestures/verification.json"
+    },
+    {
+      "name": "navigation-layers",
+      "groups": 14,
+      "exitCode": 0,
+      "log": "navigation-layers.log",
+      "execution": "navigation-layers.execution.json",
+      "details": "navigation-layers/checks.json"
+    },
+    {
+      "name": "navigation-lifecycle",
+      "groups": 18,
+      "exitCode": 0,
+      "log": "navigation-lifecycle.log",
+      "execution": "navigation-lifecycle.execution.json",
+      "details": "navigation-lifecycle/verification.json"
+    }
+  ],
+  "transport": "local-file interception only; no server/listener/tunnel or outbound resources",
+  "unchangedTestFiles": true,
+  "preloadMimeCorrection": "Navigation fixtures had private MIME tables without .js. Preload now normalizes application/octet-stream to text/javascript only for .js responses; no assertions or app code changed. Initial timeout logs/JSON retained as navigation-*.initial.*.",
+  "builtAppSHA256": "94796e57da05b287a403937348e6cd9dfd4a4ac87bfb24cc817ffe05a18326cc",
+  "physicalPhoneTested": false,
+  "osKeyboardTested": false,
+  "iosBackgroundTested": false
+}

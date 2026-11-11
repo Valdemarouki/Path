@@ -1,0 +1,11 @@
+{
+  "command": [
+    "node",
+    "mobile/tests/sport-package-browser.cjs"
+  ],
+  "case": "dataset",
+  "startedAt": "2026-11-11T20:39:07.938768+00:00",
+  "finishedAt": "2026-11-11T20:39:10.391086+00:00",
+  "seconds": 2.452,
+  "exitCode": 0
+}

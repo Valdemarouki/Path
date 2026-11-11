@@ -1,0 +1,8 @@
+PASS 1 expanded panel touch on shade leaves background fixed; close restores exact page position
+PASS 2 open panel rotates to landscape; last tile and close remain accessible, background retained
+PASS 3 outside-picker touch scrolls editor only; drag Cancel preserves draft/value/parent scroll and save restores page
+PASS 4 nested selector rotation preserves draft and last confirmation is reachable
+PASS 5 nested selector rotation preserves draft and last confirmation is reachable
+PASS 6 nested selector rotation preserves draft and last confirmation is reachable
+PASS 7 real touch scroll during charge cancels hold with no completion, editor or storage mutation
+PASS 7 focused phone gesture groups. /workspace/Path/docs/sport/validation/phone-gestures
