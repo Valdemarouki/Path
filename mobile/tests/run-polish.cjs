@@ -5,7 +5,7 @@ const {execFile}=require('node:child_process');
 const root=path.resolve(__dirname,'../..'),arg=process.argv.indexOf('--evidence');
 const output=path.resolve(arg>=0?process.argv[arg+1]:path.join(os.tmpdir(),'path-calendar-polish-validation'));
 const jobs=[
- ['models',['--test','--test-reporter=tap','mobile/tests/model.test.mjs','mobile/tests/tasks-model.test.mjs','mobile/tests/calendar-model.test.mjs','mobile/tests/calendar-polish.test.mjs','mobile/tests/calendar-completion.test.mjs','mobile/tests/calendar-impact.test.mjs','mobile/tests/alpha-model.test.mjs','mobile/tests/desktop-adapter.test.mjs','mobile/tests/review-model.test.mjs','mobile/tests/numeric-values.test.mjs','mobile/tests/desktop-compatibility.test.mjs']],
+ ['models',['--test','--test-reporter=tap','mobile/tests/model.test.mjs','mobile/tests/tasks-model.test.mjs','mobile/tests/calendar-model.test.mjs','mobile/tests/calendar-polish.test.mjs','mobile/tests/calendar-completion.test.mjs','mobile/tests/calendar-impact.test.mjs','mobile/tests/alpha-model.test.mjs','mobile/tests/desktop-adapter.test.mjs','mobile/tests/review-model.test.mjs','mobile/tests/numeric-values.test.mjs','mobile/tests/desktop-compatibility.test.mjs','mobile/tests/desktop-test-repository.test.mjs']],
  ['browser',['mobile/tests/browser.cjs'],'MOBILE_EVIDENCE_DIR'],
  ['tasks',['mobile/tests/tasks.cjs'],'MOBILE_TASK_EVIDENCE'],
  ['functional-alpha',['mobile/tests/functional-alpha.cjs'],'MOBILE_ALPHA_EVIDENCE'],
@@ -13,6 +13,7 @@ const jobs=[
  ['review',['mobile/tests/review.cjs'],'MOBILE_REVIEW_EVIDENCE'],
  ['numeric-pickers',['mobile/tests/numeric-pickers.cjs'],'MOBILE_NUMERIC_EVIDENCE'],
  ['desktop-preview',['mobile/tests/desktop-preview.cjs'],'MOBILE_DESKTOP_PREVIEW_EVIDENCE'],
+ ['desktop-test-app',['mobile/tests/desktop-test-app.cjs'],'MOBILE_DESKTOP_TEST_EVIDENCE'],
  ['calendar-editor',['mobile/tests/calendar-editor.cjs'],'MOBILE_EDITOR_EVIDENCE'],
  ['calendar-compatibility',['mobile/tests/calendar-compatibility.cjs'],'MOBILE_COMPAT_EVIDENCE'],
  ['importance',['mobile/tests/event-importance.cjs'],'MOBILE_IMPORTANCE_EVIDENCE'],

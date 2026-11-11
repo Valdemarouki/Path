@@ -1,5 +1,7 @@
 import {templateEditable} from './alpha-model.mjs';
 import {actionButton} from './actions.mjs';
+import {testCommands} from './desktop-test-repository.mjs';
+import {desktopTestText} from './desktop-test-i18n.mjs';
 import {EVENT_TYPES,IMPORTANCE,EVENT_ICONS,eventReadOnly,saveEvent,deleteEvent,restoreEvent,durationFromEnd,zoneParts,wallCandidates,systemZone} from './calendar-model.mjs';
 
 export function createEventEditor({getState,commit,tr,label,date,getError,navigation,refresh,isStale=()=>false,openWorkout=null,onCompletion=()=>{}}){
@@ -9,6 +11,9 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  undoBar.innerHTML='<div role="status"><span id="event-deleted-label"></span><strong id="event-undo-title"></strong><small id="event-undo-when"></small><small id="event-undo-retention"></small></div><button type="button" id="event-undo" class="action-button action-button--secondary"></button><p id="event-undo-error" class="error" role="alert" hidden></p><button type="button" id="event-undo-refresh" class="action-button action-button--secondary" hidden></button>';
  document.querySelector('.shell').insertBefore(undoBar,document.getElementById('content'));
  const $=id=>dialog.querySelector('#'+id),u=id=>undoBar.querySelector('#'+id);
+ const testing=()=>!!getState()?.desktopTest?.active;
+ const testText=key=>desktopTestText(key,document.documentElement.lang);
+ let capabilities=[];
  const typeKey={busy:'eventTypeBusy',workout:'eventTypeWorkout',routine:'eventTypeRoutine',deadline:'eventTypeDeadline',focus:'eventTypeFocus',free_time:'eventTypeFree'};
  const iconKey={calendar:'eventIconCalendar',book:'eventIconBook',focus:'eventIconFocus',sport:'eventIconSport',sun:'eventIconSun'};
  let editing=null,initial='',lastFocus,busy=false,readOnly=false,endEdited=false,afterClose=null;
@@ -35,6 +40,14 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  }
  function close(){if(busy)return;if(snapshot()!==initial){$('event-discard').hidden=false;$('event-continue').focus();}else dialog.close();}
  function disabledControls(){
+  if(testing()){
+   const title=capabilities.includes('eventTitle'),timed=capabilities.includes('eventTime'),importance=capabilities.includes('eventImportance');
+   for(const id of ['event-name'])$(id).disabled=readOnly||!title;
+   for(const id of ['event-date','event-time','event-duration','event-end-date','event-end-time','event-end-fold','event-fold','event-overlap'])$(id).disabled=readOnly||!timed;
+   $('event-importance').disabled=readOnly||!importance;
+   for(const id of ['event-type','event-done','event-protected','event-notes','event-location','event-tz','event-icon'])$(id).disabled=true;
+   return;
+  }
   const free=$('event-type').value==='free_time',deadline=$('event-type').value==='deadline';
   for(const id of ['event-time','event-duration','event-end-date','event-end-time','event-end-fold'])$(id).disabled=readOnly||deadline;
   $('event-importance').disabled=readOnly||free;$('event-done').disabled=readOnly||free||deadline;$('event-protected').disabled=readOnly||!free;
@@ -46,7 +59,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  }
  function timing(fromEnd=false){
   const free=$('event-type').value==='free_time',deadline=$('event-type').value==='deadline';disabledControls();
-  if(!readOnly){if(deadline){$('event-duration').value='0';$('event-done').checked=false;}else if($('event-duration').value==='0')$('event-duration').value='30';if(free){$('event-importance').value='none';$('event-done').checked=false;}}
+  if(!readOnly&&!testing()){if(deadline){$('event-duration').value='0';$('event-done').checked=false;}else if($('event-duration').value==='0')$('event-duration').value='30';if(free){$('event-importance').value='none';$('event-done').checked=false;}}
   if(deadline){$('event-end').textContent=tr('eventTypeDeadline');return;}
   try{
    const start=startInstant();
@@ -68,25 +81,25 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
  function latestDetails(){
   if(!editing)return;const current=getState().events.find(e=>e.id===editing);
   if(!current){error('eventMissing');return;}
-  const pairs=[['eventName',label(current)],['date',current.date],['eventStart',`${String(Math.floor(current.hour)).padStart(2,'0')}:${String(Math.round(current.hour%1*60)).padStart(2,'0')}`],['eventDuration',current.duration+' '+tr('minutes')],['eventNotes',current.notes??''],['eventLocation',current.location??''],['eventZone',current.tzid??systemZone()],['eventFold',['earlier','later'].includes(current.fold??'earlier')?tr(current.fold==='later'?'eventLater':'eventEarlier'):String(current.fold)],['eventDone',tr(current.done?'eventCompleted':'eventPending')],['eventType',typeKey[current.type]?tr(typeKey[current.type]):String(current.type)],['eventPriority',tr('importance'+(current.importance??'none'))]];
+  const pairs=[['eventName',label(current)],['date',current.date],['eventStart',`${String(Math.floor(current.hour)).padStart(2,'0')}:${String(Math.round(current.hour%1*60)).padStart(2,'0')}`],['eventDuration',current.duration+' '+tr('minutes')],['eventNotes',current.notes??''],['eventLocation',current.location??''],['eventZone',current.tzid??(testing()?testText('noZone'):systemZone())],['eventFold',['earlier','later'].includes(current.fold??'earlier')?tr(current.fold==='later'?'eventLater':'eventEarlier'):String(current.fold)],['eventDone',tr(current.done?'eventCompleted':'eventPending')],['eventType',typeKey[current.type]?tr(typeKey[current.type]):String(current.type)],['eventPriority',tr('importance'+(current.importance??'none'))]];
   if($('event-save'))$('event-save').textContent=tr('eventSaveDraft');
   $('event-latest').hidden=false;$('event-latest-values').textContent=pairs.map(([key,value])=>tr(key)+': '+value).join('\n');
  }
  function open(id=null){
-  if(busy||dialog.open)return;const state=getState(),event=id?state.events.find(e=>e.id===id):null;if(!state||id&&!event)return;
-  editing=id;lastFocus=document.activeElement;afterClose=null;readOnly=eventReadOnly(event,state);endEdited=false;
+  if(busy||dialog.open)return;const state=getState(),event=id?state.events.find(e=>e.id===id):null;if(!state||id&&!event||testing()&&!id)return;
+  editing=id;lastFocus=document.activeElement;afterClose=null;capabilities=testing()?testCommands(state,'event',id):[];readOnly=testing()?!capabilities.length:eventReadOnly(event,state);endEdited=false;
   document.querySelectorAll('[data-calendar-event]').forEach(c=>c.setAttribute('aria-expanded',String(c.dataset.calendarEvent===id)));
-  const tz=event?.tzid||systemZone(),type=event?.type??'busy';
+  const tz=event?.tzid||(testing()?'':systemZone()),type=event?.type??'busy';
   const preserved={};for(const [k,v]of Object.entries(event||{}))if(!['title','titleKey','notes','location','date','hour','duration','type','importance','done','protected','eventIcon'].includes(k))preserved[k]=v;
   if(readOnly)Object.assign(preserved,event);
   if(event){const incoming=[state.activeWorkout,...(Array.isArray(state.workoutRecords)?state.workoutRecords:[])].filter(r=>r?.sessionId===event.id);if(incoming.length)preserved.incomingWorkoutRefs=incoming.map(r=>({id:r.id,sessionId:r.sessionId}));}
   if(event?.seriesId)preserved.series=(state.eventSeries||[]).find(s=>s.id===event.seriesId)||null;
-  dialog.innerHTML=`<form id="event-form"><div class="sheet-head"><span class="eyebrow">${tr('calendar')}</span><button type="button" id="event-close" class="icon-button" aria-label="${tr('close')}">×</button></div><h2 id="event-heading">${tr(id?'editEvent':'newEvent')}</h2>${readOnly?`<p class="muted">${tr('eventReadOnly')}</p>`:''}
+  dialog.innerHTML=`<form id="event-form"><div class="sheet-head"><span class="eyebrow">${tr('calendar')}</span><button type="button" id="event-close" class="icon-button" aria-label="${tr('close')}">×</button></div><h2 id="event-heading">${tr(id?'editEvent':'newEvent')}</h2>${testing()?`<p class="muted" data-desktop-restriction>${esc(testText(readOnly?'eventProtected':'partialEvent'))}</p>${!event?.tzid?`<p class="muted">${esc(testText('noZone'))}</p>`:state.desktopTest.timelineBlocked?`<p class="muted">${esc(testText('timelineBlocked'))}</p>`:''}`:readOnly?`<p class="muted">${tr('eventReadOnly')}</p>`:''}
   <fieldset id="event-fields" ${readOnly?'disabled':''}>
   ${field('event-name','eventName',text('event-name',event?label(event):'','required maxlength="500" autocomplete="off"'))}
   ${field('event-date','date',text('event-date',event?.date||date(),'type="date" required min="2000-01-01" max="2099-12-31"'))}
   <div class="event-time-fields"><div>${field('event-time','eventStart',text('event-time',event?`${String(Math.floor(event.hour)).padStart(2,'0')}:${String(Math.round(event.hour%1*60)).padStart(2,'0')}`:'09:00','type="time" required step="60"'))}</div><div>${field('event-duration','eventDuration',text('event-duration',event?.duration??30,'type="number" min="1" max="10080" step="1" required'))}</div></div>
-  <p class="muted">${tr('eventEnd')}: <output id="event-end"></output></p><p class="muted">${tr('eventZone')}: ${esc(tz)}</p>
+  <p class="muted">${tr('eventEnd')}: <output id="event-end"></output></p><p class="muted">${tr('eventZone')}: ${esc(tz||(testing()?testText('noZone'):''))}</p>
   <details id="event-end-controls"><summary>${tr('eventSetEnd')}</summary><p class="muted">${tr('eventEndHint')}</p>
   ${field('event-end-date','eventEndDate',text('event-end-date','','type="date"'))}
   ${field('event-end-time','eventEndTime',text('event-end-time','','type="time" step="60"'))}
@@ -109,7 +122,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
   <p class="muted">${tr('eventPreview')}</p><p id="event-error" class="error" role="alert" hidden></p><button type="button" id="event-refresh" class="action-button action-button--secondary" hidden>${tr('refreshData')}</button>
   <section id="event-latest" hidden><h3>${tr('eventLatest')}</h3><p class="muted">${tr('eventReviewDraft')}</p><pre id="event-latest-values" class="event-preserved"></pre></section>
   <div id="event-discard" hidden><p>${tr('discardQuestion')}</p><button type="button" id="event-continue" class="action-button action-button--secondary">${tr('continueEdit')}</button><button type="button" id="event-discard-confirm" class="action-button action-button--secondary">${tr('discardEdit')}</button></div>
-  ${!readOnly?`<button type="submit" class="primary" id="event-save">${tr('eventSave')}</button>${id?`${actionButton(tr('eventDelete'),{kind:'icon',glyph:'trash',attrs:'id="event-delete"'})}<div id="event-delete-prompt" hidden><p>${tr('eventDeleteQuestion')}</p><button type="button" id="event-delete-confirm" class="action-button action-button--secondary">${tr('eventDeleteConfirm')}</button><button type="button" id="event-delete-cancel" class="action-button action-button--secondary">${tr('eventDeleteCancel')}</button></div>`:''}`:''}</form>`;
+  ${!readOnly?`<button type="submit" class="primary" id="event-save">${tr('eventSave')}</button>${id&&!testing()?`${actionButton(tr('eventDelete'),{kind:'icon',glyph:'trash',attrs:'id="event-delete"'})}<div id="event-delete-prompt" hidden><p>${tr('eventDeleteQuestion')}</p><button type="button" id="event-delete-confirm" class="action-button action-button--secondary">${tr('eventDeleteConfirm')}</button><button type="button" id="event-delete-cancel" class="action-button action-button--secondary">${tr('eventDeleteCancel')}</button></div>`:''}`:''}</form>`;
   timing();initial=snapshot();navigation.suspend(true);dialog.showModal();updateUndo();(readOnly?$('event-close'):$('event-name')).focus();
   if($('event-open-workout'))$('event-open-workout').onclick=()=>{afterClose=()=>openWorkout(event.id);dialog.close();};
   $('event-close').onclick=close;$('event-continue').onclick=()=>{$('event-discard').hidden=true;$('event-name').focus();};$('event-discard-confirm').onclick=()=>{if(!busy)dialog.close();};
@@ -136,7 +149,12 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
    let values;try{values=fields();}catch(e){error(e.message);return;}
    const idToSave=editing||crypto.randomUUID(),allowOverlap=$('event-overlap').checked,wasDone=!!getState().events.find(e=>e.id===editing)?.done;
    setBusy(true);let problem;
-   try{if(await commit(s=>{try{saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
+   try{if(await commit(s=>{try{if(testing()){
+      const target=s.events.find(e=>e.id===idToSave);if(!target)throw Error('eventMissing');
+      if(capabilities.includes('eventTitle'))target.title=values.title.trim();
+      if(capabilities.includes('eventImportance'))target.importance=values.importance;
+      if(capabilities.includes('eventTime')){const [h,m]=values.time.split(':').map(Number);Object.assign(target,{date:values.date,hour:h+m/60,duration:Number(values.duration),fold:values.fold});}
+     }else saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}},undefined,{desktopAllowOverlap:allowOverlap})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
   };
  }
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});

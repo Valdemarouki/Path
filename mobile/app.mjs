@@ -6,10 +6,15 @@ import {createAlphaUI} from './alpha-ui.mjs';
 import {tasksForDate,projectDeadlines,taskEntry,projectTaskEditable} from './task-selectors.mjs';
 import {mobileBackup} from './desktop-adapter.mjs';
 import {HABITS_ICON_PATH} from './habit-icon.mjs';
-import {canSetEventCompletion} from './calendar-model.mjs';
+import {canSetEventCompletion,zoneParts} from './calendar-model.mjs';
 import {createCalendarCompletion} from './calendar-completion.mjs';
 import {actionButton,setActionIcon} from './actions.mjs';
 import {installNumericFields} from './numeric-fields.mjs';
+import {createDesktopTestRepository,TEST_STORAGE_KEY,testCommands} from './desktop-test-repository.mjs';
+import {createDesktopTestControls,testModeText,downloadTestJSON} from './desktop-test-controls.mjs';
+const desktopMode=new URLSearchParams(location.search).get('desktop-test')==='1';
+const storageKey=desktopMode?TEST_STORAGE_KEY:STORAGE_KEY;
+let testControls;
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -33,18 +38,23 @@ const navigation = createNavigation($('navigation'));
 const numericPicker=installNumericFields({navigation,tr});
 const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
 const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:()=>navigate('sport'),getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
-const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing,isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
+const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>desktopMode||fatal||blocked||writing,isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
 const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd});
-try { repo=navigator.locks?await navigator.locks.request(STORAGE_KEY,()=>createRepository(localStorage)):createRepository(localStorage); state=repo.state; lang=state.language; }
+try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):createRepository(localStorage);repo=navigator.locks?await navigator.locks.request(storageKey,make):make(); state=repo.state; lang=state?.language||'en';if(desktopMode&&state){today=state.desktopTest.date;selected=today;} }
 catch { fatal=true; }
-const dateText = date => new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
+const testText=key=>testModeText(key,lang);
+if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId)selected=today;}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
+const dateText = date => !/^\d{4}-\d{2}-\d{2}$/.test(date)?'—':new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
 const time = instant => new Intl.DateTimeFormat(LOCALES[lang],{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(instant));
 function eventTime(event) {
+  if(desktopMode&&!event.tzid&&event.type!=='deadline')return `${event.date} · ${String(Math.floor(event.hour)).padStart(2,'0')}:${String(Math.round(event.hour%1*60)).padStart(2,'0')} · ${event.duration} min · ${testText('legacy')}`;
   if(event.type==='deadline')return tr('eventTypeDeadline')+' · '+dateText(event.date);
+  if(desktopMode){const formatter=new Intl.DateTimeFormat(LOCALES[lang],{timeZone:event.tzid,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}),end=zoneParts(Date.parse(event.end_at),event.tzid).date;return `${formatter.format(new Date(event.start_at))} – ${formatter.format(new Date(event.end_at))}${end!==event.date?' · '+dateText(end):''} · ${event.tzid}`;}
   const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
   return `${time(event.start_at)} – ${time(event.end_at)}${start!==end?' · '+dateText(end):''}`;
 }
 function calendarEventTime(event){
+  if(desktopMode)return eventTime(event);
   if(event.type==='deadline')return eventTime(event);
   const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
   return start===end?eventTime(event):`${dateText(start)} · ${time(event.start_at)} – ${dateText(end)} · ${time(event.end_at)}`;
@@ -55,12 +65,13 @@ function clearStorageError(preserveLayout=false){const el=$('storage-error');if(
 function showError(key) { const el=$('storage-error');delete el.dataset.resolved;el.style.visibility='';el.removeAttribute('aria-hidden');el.textContent=tr(key);el.hidden=false;if($('quick-add').open){$('form-error').textContent=tr(key);$('form-error').hidden=false;} }
 async function commit(change,focusId,options={}) {
   clearAnnouncement();
-  if(fatal||blocked||writing)return false;
+  if(fatal||blocked||writing||testControls?.isBusy())return false;
   if(!navigator.locks){lastSaveError=tr('lockUnavailable');if(!options.calendarCompletion)showError('lockUnavailable');return false;}
+  const datasetAtStart=state?.desktopTest?.datasetId;
   writing=true;document.documentElement.setAttribute('data-saving','true');
   try {
     // A gesture may be cancelled while waiting for another tab's storage lock.
-    const result=await navigator.locks.request(STORAGE_KEY,()=>options.guard&&!options.guard()?null:repo.commit(change));
+    const result=await navigator.locks.request(storageKey,()=>{if(desktopMode&&repo.state?.desktopTest?.datasetId!==datasetAtStart)throw Error('conflict');return options.guard&&!options.guard()?null:repo.commit(change,desktopMode?{allowOverlap:options.desktopAllowOverlap}:undefined);});
     if(!result)return false;state=result;lang=state.language;lastSaveError='';
     // The gesture updates its reserved status slot in place: no reflow or lost scroll.
     clearStorageError(!!options.calendarCompletion);if(!options.calendarCompletion){render();if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});announce(tr('saved'));}return true;
@@ -74,19 +85,20 @@ const durationText=minutes=>new Intl.NumberFormat(LOCALES[lang],{style:'unit',un
 function taskRow(task,primary=false) {
   const name=escape(label(task,lang));
   const button=`<button id="task-${escape(task.id)}" class="check" data-task="${escape(task.id)}" aria-pressed="${task.done}" ${task.readOnly?'disabled':''} aria-label="${escape(tr(task.done?'undo':'complete'))}: ${name}"><span class="tick">${icon('check')}</span></button>`;
-  if(primary)return `<section class="focus-card ${task.done?'completed':''}"><span class="eyebrow">${tr('mainTask')}</span><div class="focus-row">${button}<button type="button" class="task-copy task-editor" data-edit="${escape(task.id)}"><p>${name}</p><small>${task.duration?`${durationText(task.duration)} · `:''}${escape(dateText(task.date))}</small></button></div></section>`;
-  return `<div class="task-row ${task.done?'completed':''}">${button}<button type="button" class="task-name task-editor" data-edit="${escape(task.id)}"><span>${name}</span><small>${escape(dateText(task.date))}${task.duration?' · '+escape(durationText(task.duration)):''}</small></button></div>`;
+  if(primary)return `<section class="focus-card ${task.done?'completed':''}"><span class="eyebrow">${tr('mainTask')}</span><div class="focus-row">${button}<button type="button" class="task-copy task-editor" data-edit="${escape(task.id)}"><p>${name}</p><small>${task.duration!==undefined?`${durationText(task.duration)} · `:''}${escape(dateText(task.date))}</small></button></div></section>`;
+  return `<div class="task-row ${task.done?'completed':''}">${button}<button type="button" class="task-name task-editor" data-edit="${escape(task.id)}"><span>${name}</span><small>${escape(dateText(task.date))}${task.duration!==undefined?' · '+escape(durationText(task.duration)):''}</small></button></div>`;
 }
 function intro(title) {return `<div class="intro ${title==='today'?'today-intro':''}"><h1>${tr(title)}</h1></div>`;}
+function testMainSelector(){const items=tasksForDate(state,today);return `<div class="desktop-test-main"><label for="desktop-test-main">${testText('main')}</label><select id="desktop-test-main"><option value="">${testText('none')}</option>${items.map(task=>`<option value="${escape(task.id)}" ${state.mainTasks?.[today]===task.id?'selected':''}>${escape(label(task,lang))}</option>`).join('')}</select></div>`;}
 function todayView() {
-  const tasks=tasksForDate(state,today),main=mainTaskOnDay(state,today),otherTasks=tasks.filter(t=>t.id!==main?.id),overdue=overdueTasks(state,today),habits=state.habits.filter(h=>eligible(h,today)),next=nextEvent(state);
-  return `${intro('today','subtitle')}<p class="date-line">${escape(dateText(today))}</p>
-    ${main?taskRow(main,true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noMain')}</p>${actionButton(tr('add'),{kind:'create',attrs:'data-add'})}</section>`}
+  const tasks=tasksForDate(state,today),main=mainTaskOnDay(state,today),otherTasks=tasks.filter(t=>t.id!==main?.id),overdue=overdueTasks(state,today),habits=state.habits.filter(h=>!desktopMode&&eligible(h,today)),next=nextEvent(state);
+  return `${intro('today','subtitle')}${desktopMode?testMainSelector():''}<p class="date-line">${escape(dateText(today))}</p>
+    ${main?taskRow(main,true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noMain')}</p>${desktopMode?'':actionButton(tr('add'),{kind:'create',attrs:'data-add'})}</section>`}
     ${otherTasks.length?`<section class="extra-tasks"><div class="section-head"><span class="eyebrow">${tr('otherTasks')}</span><span class="counter">${otherTasks.filter(t=>t.done).length} / ${otherTasks.length}</span></div>${otherTasks.map(task=>taskRow(task)).join('')}</section>`:''}
     ${tasks.length&&tasks.every(t=>t.done)?`<p class="muted">${tr('allDone')}</p>`:''}
     ${overdue.length?`<section class="overdue"><h2>${tr('overdue')}</h2>${overdue.map(task=>taskRow(task)).join('')}</section>`:''}
     <section class="next-event"><span class="event-symbol">${icon('calendar')}</span><div class="event-copy"><span class="eyebrow">${tr(next&&Date.parse(next.start_at)<=Date.now()?'ongoing':'next')}</span><h3>${next?escape(label(next,lang)):tr('noEvents')}</h3>${next?`<p>${escape(eventTime(next))} · ${escape(dateText(dayKey(new Date(next.start_at))))}</p>`:''}<button class="action-button action-button--secondary" data-open-calendar>${tr('schedule')}</button></div></section>
-    <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>
+    <section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${desktopMode?'—':habits.filter(h=>habitDone(h,today)).length+' / '+habits.length}</span></div><div class="habit-grid">${desktopMode?state.habits.map(h=>`<button type="button" class="habit" data-route="habits"><span class="habit-icon">${icon('habits')}</span><span>${escape(label(h,lang))}</span></button>`).join(''):habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${desktopMode?testText('readonly'):tr('noHabits')}</p>`}</div></section>
     <aside class="reflection"><img src="assets/marcus.svg" alt="" aria-hidden="true"><div><p>${tr('reflection')}</p><small>${tr('reflectionNote')}</small></div></aside>`;
 }
 function calendarEventCard(event) {
@@ -97,36 +109,41 @@ function calendarEventCard(event) {
   const linked=event.taskId?(state.homeTasks.find(t=>t.id===event.taskId)||(Array.isArray(state.projects)?state.projects:[]).flatMap(p=>Array.isArray(p?.tasks)?p.tasks:[]).find(t=>t.id===event.taskId)):null;
   const sourceImportance=linked?linked.importance:event.importance;
   const importance=event.type!=='free_time'&&['low','medium','high'].includes(sourceImportance)?sourceImportance:'none';
-  const importanceLabel=event.taskId&&!linked&&event.type!=='free_time'?tr('eventLinkedPriority'):tr('importance'+importance);
-  return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}" aria-describedby="event-time-${escape(event.id)} event-meta-${escape(event.id)}${canSetEventCompletion(event,state)&&!event.done?' calendar-completion-hint':''}"${canSetEventCompletion(event,state)&&!event.done?' aria-keyshortcuts="Shift+Enter"':''}>
-    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time" id="event-time-${escape(event.id)}">${escape(calendarEventTime(event))}</p></div><div class="event-card-meta" id="event-meta-${escape(event.id)}"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${importanceLabel}</span><span class="event-status" aria-hidden="${!event.done}">${icon('check')} ${tr('eventCompleted')}</span></div></div>
+  const unknownImportance=desktopMode&&sourceImportance!==undefined&&!['none','low','medium','high'].includes(sourceImportance);
+  const importanceLabel=unknownImportance?String(sourceImportance)+' · '+testText('readonly'):event.taskId&&!linked&&event.type!=='free_time'?tr('eventLinkedPriority'):tr('importance'+importance);
+  return `<article data-importance="${importance}" data-calendar-event="${escape(event.id)}" role="button" class="agenda-item event-card ${event.done?'event-completed':''}" tabindex="0" aria-labelledby="event-title-${escape(event.id)}" aria-describedby="event-time-${escape(event.id)} event-meta-${escape(event.id)}${!desktopMode&&canSetEventCompletion(event,state)&&!event.done?' calendar-completion-hint':''}"${!desktopMode&&canSetEventCompletion(event,state)&&!event.done?' aria-keyshortcuts="Shift+Enter"':''}>
+    <div class="event-card-content"><div class="event-copy"><h3 id="event-title-${escape(event.id)}">${escape(label(event,lang))}</h3><p class="event-card-time" id="event-time-${escape(event.id)}">${escape(calendarEventTime(event))}</p></div><div class="event-card-meta" id="event-meta-${escape(event.id)}"><span class="event-kind">${icon(glyph)}<span>${types[event.type]?tr(typeKey):escape(event.type)}${event.type==='free_time'?' · '+tr(event.protected?'eventProtectedRest':'eventSoftRest'):''}</span></span>${customGlyph&&customGlyph!==glyph?`<span class="event-kind" role="img" aria-label="${tr('eventIcon')}">${icon(customGlyph)}</span>`:''}<span class="event-importance" data-importance="${importance}">${escape(importanceLabel)}</span><span class="event-status" aria-hidden="${!event.done}">${icon('check')} ${tr('eventCompleted')}</span></div></div>
   </article>`;
 }
+function desktopEventsOnDay(date){return state.events.filter(e=>{if(e.type==='deadline'||!e.tzid)return e.date===date;const end=zoneParts(Date.parse(e.end_at),e.tzid);return e.date<=date&&(end.date>date||end.date===date&&end.time!=='00:00');}).sort((a,b)=>a.hour-b.hour||a.id.localeCompare(b.id));}
 function calendarView() {
-  const events=[...projectDeadlines(state,selected),...eventsOnDay(state,selected)],tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
-  return `${intro('calendar')}<div class="calendar-actions">${actionButton(tr('newEvent'),{kind:'create',attrs:'data-new-event'})}${actionButton(tr('calendarToday'),{attrs:'data-calendar-today'})}</div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${tr('timezone')} ${escape(zone)}</p>
-  <p id="calendar-completion-hint" class="calendar-completion-hint">${tr('completionHint')} <span class="sr-only">${tr('completionKeyboard')}</span></p><section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
-  <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}<button class="action-button action-button--secondary" data-add>${tr('add')}</button>`;
+  const events=[...projectDeadlines(state,selected),...(desktopMode?desktopEventsOnDay(selected):eventsOnDay(state,selected))],tasks=state.homeTasks.filter(t=>t.date===selected),zone=Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return `${intro('calendar')}<div class="calendar-actions">${desktopMode?'':actionButton(tr('newEvent'),{kind:'create',attrs:'data-new-event'})}${actionButton(tr('calendarToday'),{attrs:'data-calendar-today'})}</div><label for="selected-date">${tr('date')}</label><div class="day-picker"><button class="icon-button" data-step="-1" aria-label="${tr('previous')}">${icon('left')}</button><input id="selected-date" type="date" value="${selected}" min="2000-01-01" max="2099-12-31"><button class="icon-button" data-step="1" aria-label="${tr('following')}">${icon('right')}</button></div><h2 class="section-head">${escape(dateText(selected))}</h2><p class="zone">${desktopMode?testText('zone'):tr('timezone')+' '+escape(zone)}</p>
+  <p id="calendar-completion-hint" class="calendar-completion-hint" ${desktopMode?'hidden':''}>${tr('completionHint')} <span class="sr-only">${tr('completionKeyboard')}</span></p><section aria-label="${tr('schedule')}">${events.map(calendarEventCard).join('')||`<p class="empty">${tr('noEvents')}</p>`}</section>
+  <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}${desktopMode?'':`<button class="action-button action-button--secondary" data-add>${tr('add')}</button>`}`;
 }
 function settingsView() {
-  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="action-button action-button--secondary" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>`;
+  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="action-button action-button--secondary" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>${desktopMode?'':`<a class="action-button action-button--secondary" id="desktop-test-open" href="?desktop-test=1">${testText('open')}</a>`}`;
 }
 function habitsView() {
-  const habits=state.habits.filter(h=>eligible(h,today));
-  return `${intro('navHabits')}<p class="date-line">${escape(dateText(today))}</p><section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${habits.filter(h=>habitDone(h,today)).length} / ${habits.length}</span></div><div class="habit-grid">${habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${tr('noHabits')}</p>`}</div></section>`;
+  const habits=state.habits.filter(h=>!desktopMode&&eligible(h,today));
+  return `${intro('navHabits')}<p class="date-line">${escape(dateText(today))}</p><section class="habits"><div class="section-head"><h2>${tr('habits')}</h2><span class="counter">${desktopMode?'—':habits.filter(h=>habitDone(h,today)).length+' / '+habits.length}</span></div><div class="habit-grid">${desktopMode?state.habits.map(h=>`<button type="button" class="habit" data-route="habits"><span class="habit-icon">${icon('habits')}</span><span>${escape(label(h,lang))}</span></button>`).join(''):habits.map(h=>`<button id="habit-${escape(h.id)}" class="habit" data-habit="${escape(h.id)}" aria-pressed="${habitDone(h,today)}" aria-label="${tr(habitDone(h,today)?'unmark':'mark')}: ${escape(label(h,lang))}"><span class="habit-icon">${icon(habitDone(h,today)?'check':h.icon)}</span><span>${escape(label(h,lang))}</span></button>`).join('')||`<p class="empty">${desktopMode?testText('readonly'):tr('noHabits')}</p>`}</div></section>`;
 }
 function unavailableView(key) {
   return `${intro(key)}<section class="notice">${icon(key)}<h2>${tr('unavailable')}</h2><p>${tr(key==='sync'?'syncDetail':key==='sport'?'sportNote':'unavailableDetail')}</p></section>`;
 }
 function render() {
   completion.beforeRender();
+  testControls?.render();
   if($('storage-error').dataset.resolved)clearStorageError();
   document.documentElement.lang=lang;document.querySelector('.skip').textContent=tr('skip');$('navigation').setAttribute('aria-label',tr('navigation'));
   navigation.update(route, lang);
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
+  if(desktopMode&&!state){$('content').innerHTML=`<p class="desktop-test-empty">${testText('empty')}</p>`;document.querySelectorAll('nav [data-add]').forEach(b=>b.disabled=true);return;}
   const motion=state.mobilePreferences?.motion==='off'?'off':'system';if(document.documentElement.dataset.motion!==motion){document.documentElement.dataset.motion=motion;window.dispatchEvent(new Event('path-motion-change'));}
   $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='settings'?settingsView():alpha.view(route)??unavailableView(route))+`<p class="local-tag">${tr('demo')}</p>`;
   alpha.mount();
+  if(desktopMode)document.querySelectorAll('nav [data-add]').forEach(b=>{b.disabled=true;b.setAttribute('title',testText('readonly'));});
   for(const [id,key] of Object.entries({'add-eyebrow':'quick','add-title':'add','task-label':'title','date-label':'date','add-note':'addNote','save-task':'save'}))$(id).textContent=tr(key);
   $('close-add').setAttribute('aria-label',tr('close'));
   for(const [id,key] of Object.entries({'date-today':'today','date-tomorrow':'tomorrow','date-other':'otherDate','details-label':'details','duration-label':'duration','note-label':'note','make-main':'makeMain','move-tomorrow':'moveTomorrow','delete-task':'deleteTask','discard-question':'discardQuestion','continue-edit':'continueEdit','discard-edit':'discardEdit','deleted-label':'deleted','undo-delete':'undoDelete','refresh-data':'refreshData','reload-in-editor':'refreshData'}))$(id).textContent=tr(key);
@@ -137,7 +154,7 @@ function render() {
   eventEditor.updateUndo();
   updateTaskProtection();updateTaskUndo();
 }
-function updateTaskProtection(){const entry=editing?taskEntry(state,editing):null,readOnly=!!entry&&!projectTaskEditable(state,entry),copy=readOnly&&$('quick-add').open&&formValue()!==baseline;$('task-fields').disabled=readOnly;$('task-readonly').hidden=!readOnly;$('task-readonly').textContent=tr('taskReadOnly');$('save-task').hidden=readOnly;$('edit-actions').hidden=!editing||readOnly;$('task-protected-copy').hidden=!copy;if(copy){$('task-copy-note').textContent=tr('taskDraftProtected');$('task-protected-draft').setAttribute('aria-label',tr('taskDraftProtected'));$('task-protected-draft').value=JSON.stringify({title:$('task-title').value,date:$('task-date').value,duration:$('task-duration').value,note:$('task-note').value},null,2);}return readOnly;}
+function updateTaskProtection(){if(desktopMode){$('task-fields').disabled=true;$('task-readonly').hidden=false;$('task-readonly').textContent=testText('task');$('save-task').hidden=true;$('edit-actions').hidden=true;return true;}const entry=editing?taskEntry(state,editing):null,readOnly=!!entry&&!projectTaskEditable(state,entry),copy=readOnly&&$('quick-add').open&&formValue()!==baseline;$('task-fields').disabled=readOnly;$('task-readonly').hidden=!readOnly;$('task-readonly').textContent=tr('taskReadOnly');$('save-task').hidden=readOnly;$('edit-actions').hidden=!editing||readOnly;$('task-protected-copy').hidden=!copy;if(copy){$('task-copy-note').textContent=tr('taskDraftProtected');$('task-protected-draft').setAttribute('aria-label',tr('taskDraftProtected'));$('task-protected-draft').value=JSON.stringify({title:$('task-title').value,date:$('task-date').value,duration:$('task-duration').value,note:$('task-note').value},null,2);}return readOnly;}
 function updateTaskUndo(){const undo=state?.mobileTaskUndo,el=$('undo-bar'),obscured=$('navigation').hidden||$('navigation').dataset.state==='expanded'||!!document.querySelector('dialog[open]');el.hidden=!undo;el.inert=obscured;el.classList.toggle('task-undo-obscured',obscured);el.setAttribute('aria-hidden',String(obscured));$('deleted-task-title').textContent=undo?label(undo.task,lang):'';$('deleted-task-date').textContent=undo?dateText(undo.task.date):'';$('task-undo-retention').textContent=tr('taskUndoRetention');$('undo-delete').setAttribute('aria-label',tr('undoDelete')+(undo?': '+label(undo.task,lang):''));}
 new MutationObserver(updateTaskUndo).observe($('navigation'),{attributes:true,attributeFilter:['data-state','hidden']});
 function navigate(destination) {
@@ -154,6 +171,7 @@ function requestClose(kind=null){
   else $('quick-add').close();
 }
 function openAdd(id=null) {
+  if(desktopMode&&!id)return;
   if(fatal||blocked||writing)return;
   const entry=id?taskEntry(state,id):null;if(entry?.project)return alpha.open('projectTask',id,entry.project.id);
   lastFocus=document.activeElement;editing=id;pendingQuick=null;
@@ -182,7 +200,7 @@ $('delete-task').addEventListener('click',async()=>{
 });
 $('undo-delete').addEventListener('click',async()=>{const id=state.mobileTaskUndo?.task.id;if(!id)return;let problem;const ok=await commit(s=>{try{restoreDeletedTask(s);}catch(e){problem=e.message;throw e;}});if(ok)document.getElementById('task-'+id)?.focus({preventScroll:true});else if(problem){lastSaveError=tr(problem);showError(problem);}});
 function refreshData(){
-  try{state=repo.refresh();lang=state.language;blocked=false;lastSaveError='';clearStorageError();$('conflict-actions').hidden=true;$('reload-in-editor').hidden=true;$('form-error').hidden=true;render();
+  try{state=repo.refresh();lang=state?.language||lang;blocked=false;lastSaveError='';clearStorageError();$('conflict-actions').hidden=true;$('reload-in-editor').hidden=true;$('form-error').hidden=true;render();
     if(editing&&!state.homeTasks.some(t=>t.id===editing)){$('form-error').textContent=tr('removedElsewhere');$('form-error').hidden=false;}
   }catch{showError('loadError');}
 }
@@ -204,10 +222,12 @@ document.addEventListener('click',async event=>{
     if(await commit(s=>isTask?toggleTask(s,button.dataset.task):toggleHabit(s,button.dataset.habit,today),id)&&!wasDone){document.getElementById(id)?.classList.add('celebrate');}return;
   }
   if(button.id==='export'){
+    if(desktopMode){downloadTestJSON(repo.exportDesktop(),'path-desktop-synthetic-copy.json');return;}
     const url=URL.createObjectURL(new Blob([JSON.stringify(mobileBackup(state),null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='path-mobile-backup-v1.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
 });
 document.addEventListener('change',event=>{
+  if(event.target.id==='desktop-test-main'){const value=event.target.value;return commit(s=>{if(value)s.mainTasks[today]=value;else delete s.mainTasks[today];});}
   if(event.target.id==='language')commit(s=>{s.language=event.target.value;},'language');
   if(event.target.id==='motion'){const value=event.target.value;commit(s=>{if(!s.mobilePreferences||typeof s.mobilePreferences!=='object'||Array.isArray(s.mobilePreferences))throw Error('alphaReadOnly');s.mobilePreferences.motion=value;},'motion');}
   if(event.target.id==='selected-date'&&event.target.validity.valid&&event.target.value){selected=event.target.value;render();$('selected-date').focus();}
@@ -227,9 +247,9 @@ $('task-form').addEventListener('submit',async event=>{
 $('task-form').addEventListener('input',()=>{if($('form-error').textContent===tr('invalid'))$('form-error').hidden=true;});
 $('task-form').addEventListener('invalid',event=>{event.preventDefault();$('form-error').textContent=tr('invalid');$('form-error').hidden=false;event.target.focus();},true);
 // Local-day refresh never closes the editor or discards its draft.
-function refreshClock(){const current=dayKey();if(current!==today){today=current;render();}else if(route==='today'&&!$('quick-add').open&&!alpha.isOpen()&&!eventEditor.isOpen()&&!$('content').contains(document.activeElement))render();}
+function refreshClock(){if(desktopMode)return;const current=dayKey();if(current!==today){today=current;render();}else if(route==='today'&&!$('quick-add').open&&!alpha.isOpen()&&!eventEditor.isOpen()&&!$('content').contains(document.activeElement))render();}
 setInterval(refreshClock,30000);window.addEventListener('focus',refreshClock);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshClock();});
-window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY||event.key===null){blocked=true;lastSaveError=tr('conflict');if(!completion.storageChanged()){showError('conflict');$('conflict-actions').hidden=false;$('reload-in-editor').hidden=false;}}});
+window.addEventListener('storage',event=>{if(event.key===storageKey||event.key===null){blocked=true;lastSaveError=tr('conflict');if(desktopMode)testControls?.setMessage('conflict');if(!completion.storageChanged()){showError('conflict');$('conflict-actions').hidden=false;$('reload-in-editor').hidden=false;}}});
 window.addEventListener('hashchange',()=>navigate(location.hash.slice(1)));
 render();
 if(location.hash)navigate(location.hash.slice(1));

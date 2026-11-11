@@ -1,0 +1,7 @@
+.desktop-test-banner{border:1px solid #ffffff24;border-radius:18px;padding:12px 14px;margin:0 0 18px;background:#1d1d1f;color:#e8e8eb;font-size:.85rem;overflow-wrap:anywhere}
+.desktop-test-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.desktop-test-heading strong{font-weight:500;letter-spacing:.03em}
+.desktop-test-banner details{margin-top:8px}.desktop-test-banner summary{min-height:44px;display:flex;align-items:center;cursor:pointer}
+.desktop-test-banner p{line-height:1.5}.desktop-test-banner .row-actions{flex-wrap:wrap}.desktop-test-banner select{max-width:100%}
+.desktop-test-main{margin-bottom:18px}.desktop-test-empty{padding:24px 0;line-height:1.6}
+.desktop-test-banner .action-button{font-size:.8rem;white-space:normal;text-align:center;max-width:100%;min-height:44px}
