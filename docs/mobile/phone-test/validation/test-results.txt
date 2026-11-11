@@ -1,0 +1,201 @@
+path-phone-viewport-final-source.log
+PASS 1 capability probe shows build identity, touches only one temporary key, removes it and leaves both app stores unchanged
+PASS 2 missing Web Locks is explicitly blocked without an unsafe storage fallback or writes
+PASS 3 Quick Add long textarea and Save fit a 430px visual viewport while layout stays844; restore preserves draft and page
+PASS 4 Calendar sheet accounts for visual viewport offsetTop32 and keeps textarea/Save accessible without clearing draft
+PASS 5 Notes long Markdown draft remains exact and confirmation reachable; viewport changes do not auto-save or lose it
+PASS 6 nested numeric manual keyboard model Cancel restores exact parent draft and original duration
+PASS 7 100 visual resize events coalesce, no idle RAF remains, navigation children hide and pinch zoom is not counter-panned
+PASS 8 landscape confirmation reachable without horizontal overflow; safe-area support recorded rather than assumed
+PASS 8 focused viewport/probe groups. /tmp/path-phone-viewport-final-source
+
+
+path-phone-gestures-final.log
+PASS 1 expanded panel touch on shade leaves background fixed; close restores exact page position
+PASS 2 open panel rotates to landscape; last tile and close remain accessible, background retained
+PASS 3 outside-picker touch scrolls editor only; drag Cancel preserves draft/value/parent scroll and save restores page
+PASS 4 nested selector rotation preserves draft and last confirmation is reachable
+PASS 5 nested selector rotation preserves draft and last confirmation is reachable
+PASS 6 nested selector rotation preserves draft and last confirmation is reachable
+PASS 7 real touch scroll during charge cancels hold with no completion, editor or storage mutation
+PASS 7 focused phone gesture groups. /tmp/path-phone-gestures
+
+
+path-phone-performance-final.log
+CHECK 1 Performance normal: bounded DOM/global listeners/timers, no idle RAF or retained IMPACT/numeric layers
+CHECK 2 Performance large: bounded DOM/global listeners/timers, no idle RAF or retained IMPACT/numeric layers
+CHECK 3 Offline distinction: reload/new page work with loopback server reachable and all external hosts blocked
+CHECK 4 Offline A: fully loaded app saves a synthetic task locally with all network unavailable
+CHECK 5 Offline B: cache-disabled reload cannot start with app server unreachable; no service worker
+CHECK 6 Offline C: fresh page cannot start with app server unreachable and empty cache
+CHECK 7 Offline failed launches retain synthetic local records; reconnect restores them
+PASS 7 focused performance/offline groups. /tmp/path-phone-performance-final
+
+
+path-phone-regression-browser-final.log
+PASS 55 browser cases: task/habit persistence, locales, calendar dates, keyboard, storage failures, responsive layouts, reduced motion, isolation. Screenshots: /tmp/path-phone-regression/browser-final
+
+
+path-phone-regression-calendar-editor-final.log
+PASS 72 Calendar editor cases: create/edit/reload, IDs, unknown fields, recurring read-only, cross-midnight, failure/retry, dirty close, keyboard and language/width matrix.
+
+
+path-phone-regression-numeric.log
+PASS 27 numeric picker integration groups. /tmp/path-phone-regression/numeric-pickers
+
+
+path-phone-regression-alpha.log
+CHECK 1 Create project + canonical nested task; no homeTask copy
+CHECK 2 Main reference and completion update the same project task
+CHECK 3 Calendar derived deadline opens the shared project task editor
+CHECK 4 Project progress and durable task deletion Undo
+CHECK 5 Cross-section task changes restore after reload
+CHECK 6 Deleted source cannot be resurrected by a retained stale editor after explicit refresh
+CHECK 7 Quick Add type switch protects a dirty task draft
+CHECK 8 Quick Add note and Unicode title/body search
+CHECK 9 Note edit/reload/trash/immediate Undo with stable ID
+CHECK 10 Rich desktop document is protected from plain-text rewriting
+CHECK 11 Failed note write retains draft and exact stored data, retry saves
+CHECK 12 Stale writer blocked; explicit refresh shows latest record while retaining draft
+CHECK 13 Weekday habit create/check/uncheck/history/archive preserves dated history
+CHECK 14 Template → scheduled snapshot → Calendar event → working Sport action
+CHECK 15 Invalid workout input and failed set write preserve results and exact active-session data
+CHECK 16 Active workout restores reps/load and original plan snapshot after reload
+CHECK 17 Rest timer uses timestamps and catches up after a clock/background gap
+CHECK 18 Finish creates one immutable result and completes linked Calendar plan
+CHECK 19 Read-only Canvas pan/zoom leaves graph bytes unchanged; linked note uses shared editor
+CHECK 20 Progress derives real completed tasks/workouts and project percentage
+CHECK 21 Saved reduced-motion preference suppresses WAAPI icon flights
+CHECK 22 All sections and note/workout/habit/project forms: 320px / en
+CHECK 23 All sections and note/workout/habit/project forms: 320px / ru
+CHECK 24 All sections and note/workout/habit/project forms: 320px / es
+CHECK 25 All sections and note/workout/habit/project forms: 390px / en
+CHECK 26 All sections and note/workout/habit/project forms: 390px / ru
+CHECK 27 All sections and note/workout/habit/project forms: 390px / es
+CHECK 28 All sections and note/workout/habit/project forms: 430px / en
+CHECK 29 All sections and note/workout/habit/project forms: 430px / ru
+CHECK 30 All sections and note/workout/habit/project forms: 430px / es
+CHECK 31 Landscape editor scrolls Save into the available viewport
+CHECK 32 Route focus is visible at the heading for keyboard, without a whole-page ring after pointer input
+CHECK 33 No external app requests, no uncaught page errors or fake sync actions
+CHECK 34 Opaque enums and quoted stable IDs remain text and preserve label/control associations
+PASS 34 functional Alpha workflows/matrix checks
+
+
+path-phone-regression-desktop.log
+CHECK 1 A: hold → one durable done flag → sequential visible IMPACT → exact settle → reload/export; IDs/unknown fields/history unchanged
+CHECK 2 B: accessible editor undo changes only done=false; no second wave; exact source restored
+CHECK 3 Short tap, early release and actual touch scrolling preserve the source; no successful effect
+CHECK 4 Completion quota failure retains bytes/state and suppresses success; explicit retry writes once
+CHECK 5 Rapid repeated touches while save is queued produce one operation and no accidental editor
+CHECK 6 Reduced-motion hold retains clear fill and saved state without neighbor movement
+CHECK 7 Reduced-motion hold retains clear fill and saved state without neighbor movement
+CHECK 8 Changing Calendar day cancels charging and leaves canonical source unchanged
+CHECK 9 Linked, workout and recurrence completion stays protected with intact source/series
+CHECK 10 C: Today mark → Habits → reload → Habits undo → Today; desktop dated zero/false retained, prior history unchanged
+CHECK 11 Rapid binary clicks during queued save create one dated mark and one write
+CHECK 12 Skipped day of a supported binary habit stays protected and retains its pre-existing dated history
+CHECK 13 Historical civil day in UTC+14 stays distinct from the Today anchor, without UTC rewriting
+CHECK 14 Manual quantitative value7.25 persists exactly; undo to0 changes only values[day], checkIns unchanged
+CHECK 15 Manual duration12.75 minutes in EN/RU/ES survives reload and explicit clear0; only dated value changes, checkIns/source/native preserved
+CHECK 16 Off-schedule, skipped/weekly and sport-source days expose restrictions without invented marks or streaks
+CHECK 17 Habit quantity write failure keeps draft/old history; explicit retry persists exact decimal
+CHECK 18 Two-tab habit conflict retains newer source and older unsaved decimal draft without silent overwrite
+CHECK 19 Same string ID for event and habit remains type-scoped; accessible event action and habit action stay independent
+CHECK 20 Canonical event IDs resembling generated task deadlines keep separate controls, aria IDs and completion scope
+CHECK 21 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 22 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 23 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 24 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 25 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 26 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 27 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 28 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 29 Locales/widths + reduced motion preserve readable supported controls and state
+CHECK 30 Recorded actual touch fill/cancel/completion/IMPACT/undo/reload at normal speed
+CHECK 31 Recorded actual Today/Habits mark/reload/undo and exact quantitative update at normal speed
+PASS 31 desktop Calendar/Habits action groups. /tmp/path-phone-regression/desktop-actions
+
+
+
+Affected calendar/adapter models (69 cases):
+✔ create/edit/reload keep ID and all unknown event/root fields (26.17898ms)
+✔ DST gap is rejected and both fold instants are explicit (Warsaw, New York, half-hour zone) (1.52102ms)
+✔ cross-midnight, deadline zero duration and Upcoming exclusion (3.028981ms)
+✔ Free Time neutral priority/incomplete; protected overlap requires explicit acknowledgement (1.467299ms)
+✔ series, links and unknown enums are read-only and preserve raw bytes (0.979652ms)
+✔ failed persistence leaves original v1 bytes and event draft untouched (0.751767ms)
+✔ legacy non-quarter instants are not rounded on title-only edit (0.374806ms)
+✔ v2 to v5 is lazy and nondestructive, failed write does not migrate disk (1.686791ms)
+✔ delete, reload and Undo restore exact ID, all extensions and relative insertion point (25.557771ms)
+✔ failed delete and failed restore do not partially modify memory, data or undo snapshot (4.032368ms)
+✔ series and linked objects cannot be deleted under the guise of one event (0.876225ms)
+✔ restore refuses ID collision, retains undo, and never overwrites newer records (0.572356ms)
+✔ last deletion replaces only the one-level buffer, not other entities (0.361317ms)
+✔ migration of v1/v2/v3 is idempotent, lazy and preserves all event/root extension fields (2.627524ms)
+✔ future/invalid undo schemas fail closed without overwriting original stored bytes (0.526976ms)
+✔ chronological order is deterministic for equal instants and bare date-only deadlines (1.468381ms)
+✔ explicit end supports midnight and DST elapsed duration without guessing the next day (1.90446ms)
+✔ invalid dates/time strings and non-quarter retiming cannot save (1.475501ms)
+✔ changing to a date-only deadline clears the interval rather than leaving stale instants (0.923637ms)
+✔ metadata-only edits keep pre-existing overlaps without requiring a new reservation override (0.959291ms)
+✔ incoming active/history workout links also protect otherwise standalone-looking events (1.418766ms)
+✔ full active list blocks restoration without discarding the retained record (14.74576ms)
+✔ standalone completion matches actual desktop occurrence operation and changes only done (78.307904ms)
+✔ completion undo sets false without deleting or rewriting any event metadata (18.233444ms)
+✔ repeated event state requests are idempotent including an absent original false flag (15.925994ms)
+✔ linked/recurring/history/free-time/deadline and legacy events stay completion protected (14.951411ms)
+✔ unknown relationship or enum cannot gain completion permission via forged view entries (9.220834ms)
+✔ binary manual mark/undo matches actual desktop dated values/checkIns, retaining false on undo (19.896319ms)
+✔ binary repeated mark/unmark never duplicates or normalizes already absent zero history (50.231624ms)
+✔ manual count stores exact fractional value and zero without changing checkIns (48.863475ms)
+✔ manual duration units are minutes and finite fractions survive unchanged (11.880477ms)
+✔ quantity explicit zero creates only the requested dated value while no-op viewing preserves absence (16.148141ms)
+✔ latest effective rule determines day kind and source, without rewriting old history (10.155067ms)
+✔ out-of-schedule, future, skipped, paused and archived days are rejected without modifying source (33.603818ms)
+✔ explicit empty availability overrides old archived flag just as desktop (9.273294ms)
+✔ weekly, sport-source, missing rules and unknown units remain explicitly unsupported (16.29296ms)
+✔ invalid values, dates, command extras and malformed boolean state fail atomically (26.695131ms)
+✔ test repository completion and habit values persist canonically across reload/resume (196.237205ms)
+✔ UI projection cannot delete history or change a binary check without its matching value (112.933837ms)
+✔ multiple event/habit changes are all-or-nothing on invalid final operation or disk failure (82.933028ms)
+✔ stale tab event/habit changes conflict and retain recoverable older source (45.027374ms)
+✔ same-string IDs for event and habit remain typed and independent (28.900826ms)
+✔ civil history keys and selected weekday remain stable in distant host zones (156.80307ms)
+✔ synthetic plain/pooled exports pass the actual isolated desktop codec and validator (22.620313ms)
+✔ corpus contains all types/priorities/statuses, cancellation/history, units, assets and graph (5.696604ms)
+✔ desktop → frozen mobile view → desktop is exact, repeatable, independent, without default filling (52.796374ms)
+✔ event title only: absent notes/location remain absent, instants/type/priority and unknown data stay exact (6.957972ms)
+✔ time edit uses the existing mobile interval validator and patches only timing fields (16.448024ms)
+✔ midnight, DST fold and date-only fields retain distinct civil/instant semantics (19.061796ms)
+✔ importance changes exactly one property, linked/series/history sources remain read-only (34.350047ms)
+✔ home completion/undo exactly matches desktop operation, retaining zero duration and opaque fields (11.694516ms)
+✔ project completion/undo shares canonical source and leaves event/dependencies/sibling IDs alone (13.160582ms)
+✔ repeated completion is idempotent and never invents a new timestamp or duplicate (18.624115ms)
+✔ supported Markdown edit patches body/updatedAt only; rich attachments/blocks never flattened (24.669833ms)
+✔ pooled assets are opaque and reversible; actual desktop decoder still resolves original content (11.039995ms)
+✔ main selection is an explicit mobile view preference, never an invented desktop field (10.637678ms)
+✔ partial legacy event can change title without adding optional defaults or guessing a timezone (9.444202ms)
+✔ malformed roots/required fields/types produce diagnostics rather than partial projection (24.178024ms)
+✔ duplicate identity in a collection or anywhere among all task scopes is rejected, not remapped (9.036786ms)
+✔ desktop cross-entity ID reuse is retained with entity-kind scope, not globally renamed (11.067417ms)
+✔ live missing references, invalid scopes, dependency cycles and cancelled materialized occurrences are reported (7.553854ms)
+✔ deleted snapshot source is a visible historical warning, not an ID rewrite or discarded workout (3.134671ms)
+✔ unknown enum values stay opaque and cannot be silently replaced or edited (33.258707ms)
+✔ unsupported format/version/codec and missing assets are explained, never partly activated (4.078888ms)
+✔ bad civil dates, mismatched instants, timezone and DST gap are rejected without repairing source (7.872556ms)
+✔ invalid or forged mutations fail without touching the immutable canonical source (53.747031ms)
+✔ file parser rejects corruption, duplicate keys, lossy numbers, unsafe trees and oversized UTF-8 (68.706674ms)
+✔ direct data APIs reject accessors without executing them, non-JSON shapes and sparse arrays (1.405346ms)
+✔ civil dates, IDs and retimed instants remain stable under UTC, New York and Kiritimati host zones (416.539294ms)
+ℹ tests 69
+ℹ suites 0
+ℹ pass 69
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1114.031748
+
+
+Resume9 assertion evidence: resume.json. HTTPS helper15 observed tests: server-helper.json (no listener opened).

@@ -1,0 +1,113 @@
+{
+  "size": "normal",
+  "counts": {
+    "events": 24,
+    "notes": 32
+  },
+  "serializedBytes": 31132,
+  "routes": [
+    {
+      "route": "calendar",
+      "handlerToTwoRAFMs": 63.299999999813735,
+      "intlConstructors": 3
+    },
+    {
+      "route": "notes",
+      "handlerToTwoRAFMs": 44.69999999925494,
+      "intlConstructors": 1
+    },
+    {
+      "route": "calendar",
+      "handlerToTwoRAFMs": 46.09999999962747,
+      "intlConstructors": 2
+    },
+    {
+      "route": "notes",
+      "handlerToTwoRAFMs": 30.700000000186265,
+      "intlConstructors": 1
+    }
+  ],
+  "scroll": {
+    "calendar": {
+      "frames": 74,
+      "duration": 1233.3000000000002,
+      "medianFrameMs": 16.699999999999818,
+      "p95FrameMs": 16.799999999999955,
+      "maxFrameMs": 16.799999999999955,
+      "over50Ms": 0,
+      "scrollY": 1650,
+      "scrollHeight": 4576
+    },
+    "notes": {
+      "frames": 74,
+      "duration": 1233.2999999999997,
+      "medianFrameMs": 16.699999999999818,
+      "p95FrameMs": 16.800000000000182,
+      "maxFrameMs": 16.800000000000182,
+      "over50Ms": 0,
+      "scrollY": 1650,
+      "scrollHeight": 4045
+    }
+  },
+  "panel": [],
+  "before": {
+    "intlConstructors": 19,
+    "pendingRAF": 0,
+    "rafCalls": 178,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 437,
+    "animations": [],
+    "longTasks": []
+  },
+  "afterPanels": {
+    "intlConstructors": 19,
+    "pendingRAF": 0,
+    "rafCalls": 521,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 437,
+    "animations": [],
+    "longTasks": []
+  },
+  "afterNumeric": {
+    "intlConstructors": 34,
+    "pendingRAF": 0,
+    "rafCalls": 538,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 673,
+    "animations": [],
+    "longTasks": []
+  },
+  "duringImpact": {
+    "impact": 5,
+    "layers": 1
+  },
+  "final": {
+    "intlConstructors": 35,
+    "pendingRAF": 0,
+    "rafCalls": 593,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 437,
+    "animations": [],
+    "longTasks": []
+  }
+}

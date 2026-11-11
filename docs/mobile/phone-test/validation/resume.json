@@ -1,0 +1,52 @@
+{
+  "cases": 9,
+  "results": [
+    {
+      "name": "Background-return event across midnight recomputes elapsed/rest from timestamps; pending set input and storage remain unchanged"
+    },
+    {
+      "name": "Explicitly saved incomplete inputs, active workout identity and expired rest restore after reload"
+    },
+    {
+      "name": "Paused session retains remaining rest through background gap; resume excludes paused time and uses a new deadline"
+    },
+    {
+      "name": "Open note editor and unsaved multiline input survive foreground-return/day refresh without a write"
+    },
+    {
+      "name": "Same-day foreground return updates nearest event even when the main content landmark retains focus"
+    },
+    {
+      "name": "Foreground return after emulated timezone change refreshes Today display from 11:00 to 05:00 without rewriting source dates or timezone"
+    },
+    {
+      "name": "No workout interval or one-second timer wake remains while Today is open, even with a stored active session"
+    },
+    {
+      "name": "Repeated route/visibility/page lifecycle changes leave exactly one visible workout interval and remove it when hidden"
+    },
+    {
+      "name": "Paused workout has no ticking interval; resuming restarts one timer without duplicate listeners"
+    }
+  ],
+  "consoleErrors": [],
+  "externalRequests": [],
+  "conditions": "Linux Chromium 390×844, fresh synthetic profiles, controlled browser clock, CDP-emulated timezone and synthetic visibility/focus/page lifecycle events. No physical OS background/keyboard/device test.",
+  "beforeFix": {
+    "idleWorkoutTimerTicks": 2,
+    "windowMs": 2300,
+    "route": "Today",
+    "viewport": "1280x720",
+    "activeWorkout": false,
+    "kind": "demonstration of unnecessary idle wake, not an FPS comparison"
+  },
+  "afterFix": {
+    "idleWorkoutTimerTicks": 0,
+    "windowMs": 2200,
+    "route": "Today",
+    "viewport": "390x844",
+    "activeWorkout": true,
+    "kind": "lifecycle assertion, not a matched CPU/FPS benchmark"
+  },
+  "limitations": "Pending input is retained in a live page; a mobile OS may terminate that page. Explicit Save inputs is required before deliberate reload. No durable unsaved-draft recovery is claimed."
+}

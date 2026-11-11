@@ -1,0 +1,65 @@
+{
+  "cases": 7,
+  "passed": 6,
+  "results": [
+    {
+      "name": "expanded panel touch on shade leaves background fixed; close restores exact page position",
+      "status": "PASS",
+      "scroll": 1912
+    },
+    {
+      "name": "open panel rotates to landscape; last tile and close remain accessible, background retained",
+      "status": "PASS"
+    },
+    {
+      "name": "outside-picker touch scrolls editor only; drag Cancel preserves draft/value/parent scroll and save restores page",
+      "status": "FAIL",
+      "numericScroll": 176,
+      "pageScroll": 1860,
+      "afterSave": 1696,
+      "failure": "metadata save must restore prior calendar scroll"
+    },
+    {
+      "name": "nested selector rotation preserves draft and last confirmation is reachable",
+      "status": "PASS",
+      "viewport": [
+        320,
+        640
+      ],
+      "rotated": [
+        640,
+        320
+      ]
+    },
+    {
+      "name": "nested selector rotation preserves draft and last confirmation is reachable",
+      "status": "PASS",
+      "viewport": [
+        390,
+        844
+      ],
+      "rotated": [
+        844,
+        390
+      ]
+    },
+    {
+      "name": "nested selector rotation preserves draft and last confirmation is reachable",
+      "status": "PASS",
+      "viewport": [
+        844,
+        390
+      ],
+      "rotated": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "real touch scroll during charge cancels hold with no completion, editor or storage mutation",
+      "status": "PASS"
+    }
+  ],
+  "conditions": "Linux Chromium touch emulation/CDP. Existing loopback listener only. 40 synthetic events. No physical phone or OS keyboard claim.",
+  "scope": "navigation/numeric gestures, orientation and parent restoration"
+}

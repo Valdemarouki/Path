@@ -1,0 +1,64 @@
+{
+  "passed": 11,
+  "suites": 11,
+  "results": [
+    {
+      "name": "viewport-model",
+      "cases": 8,
+      "status": "PASS"
+    },
+    {
+      "name": "touch-gestures",
+      "cases": 7,
+      "status": "PASS"
+    },
+    {
+      "name": "foreground-resume",
+      "cases": 9,
+      "status": "PASS"
+    },
+    {
+      "name": "performance-offline",
+      "cases": 7,
+      "status": "PASS"
+    },
+    {
+      "name": "HTTPS-helper-mocked",
+      "cases": 15,
+      "status": "PASS",
+      "networkListenersStarted": false
+    },
+    {
+      "name": "affected-calendar-adapter-models",
+      "cases": 69,
+      "status": "PASS"
+    },
+    {
+      "name": "browser-regression",
+      "cases": 55,
+      "status": "PASS"
+    },
+    {
+      "name": "calendar-editor-regression",
+      "cases": 72,
+      "status": "PASS"
+    },
+    {
+      "name": "numeric-regression",
+      "cases": 27,
+      "status": "PASS"
+    },
+    {
+      "name": "functional-alpha-regression",
+      "cases": 34,
+      "status": "PASS"
+    },
+    {
+      "name": "desktop-actions-regression",
+      "cases": 31,
+      "status": "PASS"
+    }
+  ],
+  "scope": "Linux Chromium with syntheticbrowserprofiles and mockedPythonserver; no physicaliPhone/WindowsTLSworkflow; JSvisualViewportmodelnotOSkeyboard; existingloopbacklistenersonly",
+  "previousChecks": "Only5affectedolderbrowser suites and4affectedcalendar/adaptermodel files repeated becauseimplementationchanged. Prior23suitefullrunnotrepeated."
+}

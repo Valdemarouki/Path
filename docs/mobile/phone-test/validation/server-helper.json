@@ -1,0 +1,8 @@
+{
+  "command": "python3 mobile/tests/phone-server.test.py",
+  "tests": 15,
+  "passed": 15,
+  "failed": 0,
+  "observedExitCode": 0,
+  "scope": "MockedHTTPServer/SSL; realhandlerparser via fakeconnection; no sockets/listeners/certgeneration/OS trust orfirewall actions"
+}

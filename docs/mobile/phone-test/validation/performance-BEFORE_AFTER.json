@@ -1,0 +1,460 @@
+{
+  "conditions": "Same synthetic generator/date/viewport/DPR1/loopback/headless environment; two route observations per screen per stage; host load not isolated; before constructor count not instrumented",
+  "stages": {
+    "before": {
+      "normal": {
+        "counts": {
+          "events": 24,
+          "notes": 32
+        },
+        "serializedBytes": 31132,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 40.299999999813735
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 30.299999999813735
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 31.300000000745058
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 30.799999999813735
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.3,
+            "medianFrameMs": 16.700000000000045,
+            "p95FrameMs": 16.700000000000045,
+            "maxFrameMs": 16.799999999999955,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4576
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.1999999999998,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.799999999999955,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4045
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 437,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": []
+        }
+      },
+      "large": {
+        "counts": {
+          "events": 400,
+          "notes": 400
+        },
+        "serializedBytes": 721591,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 147.3999999994412
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 81.6000000005588
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 249.09999999962747
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 132.5
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.3,
+            "medianFrameMs": 16.700000000000045,
+            "p95FrameMs": 16.800000000000182,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 62397
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.2999999999997,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.800000000000182,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 44893
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 1909,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": [
+            {
+              "start": 244.59999999962747,
+              "duration": 96
+            },
+            {
+              "start": 475.8999999994412,
+              "duration": 185
+            },
+            {
+              "start": 862.2999999998137,
+              "duration": 103
+            },
+            {
+              "start": 4112.0999999996275,
+              "duration": 143
+            },
+            {
+              "start": 14074.099999999627,
+              "duration": 106
+            }
+          ]
+        }
+      }
+    },
+    "appCache": {
+      "normal": {
+        "counts": {
+          "events": 24,
+          "notes": 32
+        },
+        "serializedBytes": 31132,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 59.40000000037253,
+            "intlConstructors": 26
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 31.299999999813735,
+            "intlConstructors": 1
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 47.59999999962747,
+            "intlConstructors": 26
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 30.899999999441206,
+            "intlConstructors": 1
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.3000000000002,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.799999999999955,
+            "maxFrameMs": 16.799999999999955,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4576
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.2,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.700000000000273,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4045
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 437,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": []
+        }
+      },
+      "large": {
+        "counts": {
+          "events": 400,
+          "notes": 400
+        },
+        "serializedBytes": 721591,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 122.70000000018626,
+            "intlConstructors": 402
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 65.19999999925494,
+            "intlConstructors": 1
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 115.20000000018626,
+            "intlConstructors": 402
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 64.90000000037253,
+            "intlConstructors": 1
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.1999999999998,
+            "medianFrameMs": 16.700000000000045,
+            "p95FrameMs": 16.700000000000045,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 62397
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.2999999999997,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.799999999999727,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 44893
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 1909,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": [
+            {
+              "start": 188.5,
+              "duration": 69
+            },
+            {
+              "start": 379.19999999925494,
+              "duration": 62
+            },
+            {
+              "start": 562.7999999998137,
+              "duration": 74
+            },
+            {
+              "start": 3765.199999999255,
+              "duration": 65
+            },
+            {
+              "start": 4348.899999999441,
+              "duration": 53
+            },
+            {
+              "start": 13635.799999999814,
+              "duration": 106
+            }
+          ]
+        }
+      }
+    },
+    "final": {
+      "normal": {
+        "counts": {
+          "events": 24,
+          "notes": 32
+        },
+        "serializedBytes": 31132,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 63.299999999813735,
+            "intlConstructors": 3
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 44.69999999925494,
+            "intlConstructors": 1
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 46.09999999962747,
+            "intlConstructors": 2
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 30.700000000186265,
+            "intlConstructors": 1
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.3000000000002,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.799999999999955,
+            "maxFrameMs": 16.799999999999955,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4576
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.2999999999997,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.800000000000182,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 4045
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 437,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": []
+        }
+      },
+      "large": {
+        "counts": {
+          "events": 400,
+          "notes": 400
+        },
+        "serializedBytes": 721591,
+        "routes": [
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 107.20000000018626,
+            "intlConstructors": 3
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 65.3999999994412,
+            "intlConstructors": 1
+          },
+          {
+            "route": "calendar",
+            "handlerToTwoRAFMs": 99.20000000018626,
+            "intlConstructors": 2
+          },
+          {
+            "route": "notes",
+            "handlerToTwoRAFMs": 64.6000000005588,
+            "intlConstructors": 1
+          }
+        ],
+        "scroll": {
+          "calendar": {
+            "frames": 74,
+            "duration": 1233.4,
+            "medianFrameMs": 16.699999999999932,
+            "p95FrameMs": 16.799999999999955,
+            "maxFrameMs": 16.799999999999955,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 62397
+          },
+          "notes": {
+            "frames": 74,
+            "duration": 1233.2999999999997,
+            "medianFrameMs": 16.699999999999818,
+            "p95FrameMs": 16.700000000000273,
+            "maxFrameMs": 16.800000000000182,
+            "over50Ms": 0,
+            "scrollY": 1650,
+            "scrollHeight": 44893
+          }
+        },
+        "duringImpact": {
+          "impact": 5,
+          "layers": 1
+        },
+        "lifecycle": {
+          "nodes": 1909,
+          "globalListeners": 68,
+          "pendingRAF": 0,
+          "intervals": [
+            30000
+          ],
+          "timeouts": [],
+          "longTasks": [
+            {
+              "start": 198.70000000018626,
+              "duration": 63
+            },
+            {
+              "start": 373.09999999962747,
+              "duration": 55
+            },
+            {
+              "start": 539.7999999998137,
+              "duration": 86
+            },
+            {
+              "start": 3759.399999999441,
+              "duration": 52
+            },
+            {
+              "start": 13681.099999999627,
+              "duration": 61
+            }
+          ]
+        }
+      }
+    }
+  }
+}

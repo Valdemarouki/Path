@@ -1,0 +1,189 @@
+{
+  "size": "large",
+  "counts": {
+    "events": 400,
+    "notes": 400
+  },
+  "serializedBytes": 721591,
+  "routes": [
+    {
+      "route": "calendar",
+      "handlerToTwoRAFMs": 107.20000000018626,
+      "intlConstructors": 3
+    },
+    {
+      "route": "notes",
+      "handlerToTwoRAFMs": 65.3999999994412,
+      "intlConstructors": 1
+    },
+    {
+      "route": "calendar",
+      "handlerToTwoRAFMs": 99.20000000018626,
+      "intlConstructors": 2
+    },
+    {
+      "route": "notes",
+      "handlerToTwoRAFMs": 64.6000000005588,
+      "intlConstructors": 1
+    }
+  ],
+  "scroll": {
+    "calendar": {
+      "frames": 74,
+      "duration": 1233.4,
+      "medianFrameMs": 16.699999999999932,
+      "p95FrameMs": 16.799999999999955,
+      "maxFrameMs": 16.799999999999955,
+      "over50Ms": 0,
+      "scrollY": 1650,
+      "scrollHeight": 62397
+    },
+    "notes": {
+      "frames": 74,
+      "duration": 1233.2999999999997,
+      "medianFrameMs": 16.699999999999818,
+      "p95FrameMs": 16.700000000000273,
+      "maxFrameMs": 16.800000000000182,
+      "over50Ms": 0,
+      "scrollY": 1650,
+      "scrollHeight": 44893
+    }
+  },
+  "panel": [],
+  "before": {
+    "intlConstructors": 19,
+    "pendingRAF": 0,
+    "rafCalls": 179,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 1909,
+    "animations": [],
+    "longTasks": [
+      {
+        "start": 198.70000000018626,
+        "duration": 63
+      },
+      {
+        "start": 373.09999999962747,
+        "duration": 55
+      },
+      {
+        "start": 539.7999999998137,
+        "duration": 86
+      },
+      {
+        "start": 3759.399999999441,
+        "duration": 52
+      }
+    ]
+  },
+  "afterPanels": {
+    "intlConstructors": 19,
+    "pendingRAF": 0,
+    "rafCalls": 516,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 1909,
+    "animations": [],
+    "longTasks": [
+      {
+        "start": 198.70000000018626,
+        "duration": 63
+      },
+      {
+        "start": 373.09999999962747,
+        "duration": 55
+      },
+      {
+        "start": 539.7999999998137,
+        "duration": 86
+      },
+      {
+        "start": 3759.399999999441,
+        "duration": 52
+      }
+    ]
+  },
+  "afterNumeric": {
+    "intlConstructors": 34,
+    "pendingRAF": 0,
+    "rafCalls": 533,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 5937,
+    "animations": [],
+    "longTasks": [
+      {
+        "start": 198.70000000018626,
+        "duration": 63
+      },
+      {
+        "start": 373.09999999962747,
+        "duration": 55
+      },
+      {
+        "start": 539.7999999998137,
+        "duration": 86
+      },
+      {
+        "start": 3759.399999999441,
+        "duration": 52
+      },
+      {
+        "start": 13681.099999999627,
+        "duration": 61
+      }
+    ]
+  },
+  "duringImpact": {
+    "impact": 5,
+    "layers": 1
+  },
+  "final": {
+    "intlConstructors": 35,
+    "pendingRAF": 0,
+    "rafCalls": 588,
+    "intervalCalls": 0,
+    "intervals": [
+      30000
+    ],
+    "timeouts": [],
+    "globalListeners": 68,
+    "nodes": 1909,
+    "animations": [],
+    "longTasks": [
+      {
+        "start": 198.70000000018626,
+        "duration": 63
+      },
+      {
+        "start": 373.09999999962747,
+        "duration": 55
+      },
+      {
+        "start": 539.7999999998137,
+        "duration": 86
+      },
+      {
+        "start": 3759.399999999441,
+        "duration": 52
+      },
+      {
+        "start": 13681.099999999627,
+        "duration": 61
+      }
+    ]
+  }
+}

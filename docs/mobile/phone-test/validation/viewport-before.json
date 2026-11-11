@@ -1,0 +1,8 @@
+{
+  "scope": "JS visualViewport-only model, not physicalOS keyboard",
+  "layoutHeight": 844,
+  "visualHeight": 430,
+  "saveBottom": 818.6865234375,
+  "covered": true,
+  "observation": "Beforephoneviewportfix, at150ms duringexistingopenmotion; evenfullysettledSavebelow430. No physicalphoneclaim."
+}
