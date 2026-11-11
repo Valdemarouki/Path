@@ -38,6 +38,40 @@ export function desktopEventFieldsEditable(event,state){
  const linked=['seriesId','occurrenceDate','seriesException','taskId','projectId','workoutTemplateId','plannedSnapshot','fullWorkoutSnapshot'];
  return EVENT_TYPES.includes(event.type)&&IMPORTANCE.includes(event.importance??'none')&&EVENT_ICONS.includes(event.eventIcon??'calendar')&&!linked.some(k=>own(event,k))&&!array(state.workoutRecords).some(r=>r.sessionId===event.id)&&state.activeWorkout?.sessionId!==event.id;
 }
+// calendar-pulse.js:calendarCanComplete/completeCalendarOccurrence writes only
+// the selected event's done flag. Linked/series records remain deliberately
+// protected here; legacy timing is not stamped with an assumed system zone.
+export function desktopEventCompletionEditable(event,state){
+ return desktopEventFieldsEditable(event,state)&&!['free_time','deadline'].includes(event.type)&&typeof event.tzid==='string'&&!!event.tzid&&!Object.entries(event).some(([key,value])=>/(Id|Ref|Snapshot)$/.test(key)&&value!==undefined&&value!==null&&value!=='');
+}
+const localCivil=(now=new Date())=>`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+// Mirrors modules.js:habitRule/habitValue/logHabitValue, dated availability in
+// habit-history.js, and exceptions/manual-source guards in habit-sources.js.
+// No streak or weekly aggregate is inferred from a per-day value.
+export function desktopHabitState(habit,date,{asOf=localCivil()}={}){
+ const result={supported:false,eligible:false,done:false,value:0,kind:null,goal:null,unit:'',reason:'habitUnsupported'};
+ if(!desktopObject(habit)||!desktopCivil(date)||!desktopCivil(asOf))return {...result,reason:'habitDate'};
+ const schedules=array(habit.schedules),rule=schedules.filter(r=>desktopObject(r)&&r.from<=date).sort((a,b)=>b.from.localeCompare(a.from))[0];
+ if(!rule)return {...result,reason:'habitNotStarted'};
+ const kind=rule.kind,goal=rule.goal,value=habit.values?.[date]??(habit.checkIns?.[date]?1:0),skipped=habit.exceptions?.[date]==='skipped';
+ Object.assign(result,{kind,goal,value,done:!skipped&&finite(value)&&value>=goal,unit:kind==='duration'?'minutes':kind==='count'?'units':''});
+ if(own(rule,'unit')||own(rule,'units')||own(habit,'unit')||own(habit,'units'))return result;
+ if(!['completion','count','duration'].includes(kind)||!finite(goal)||goal<=0||kind==='completion'&&goal!==1||!finite(value)||value<0||!['daily','days','weekly'].includes(rule.frequency)||typeof rule.days!=='string'||!/^([0-6])(,[0-6])*$/.test(rule.days))return result;
+ if(rule.source!==undefined&&rule.source!=='manual')return {...result,reason:rule.source==='sport'?'habitSportSource':'habitUnsupported'};
+ if(rule.frequency==='weekly')return {...result,reason:'habitWeekly'};
+ result.supported=true;
+ // An explicitly present (even empty) availability history overrides the old
+ // archived flag, as desktop habitAvailability does.
+ const versions=array(habit.availability).filter(v=>v.from<=date).sort((a,b)=>b.from.localeCompare(a.from));
+ const availability=versions[0]?.state||(habit.availability?'active':habit.archived?'archived':'active');
+ if(!['active','paused','archived'].includes(availability))return {...result,supported:false};
+ if(availability!=='active')return {...result,reason:availability==='paused'?'habitPaused':'habitArchived'};
+ if(skipped)return {...result,reason:'habitSkipped'};
+ const weekday=new Date(date+'T12:00:00Z').getUTCDay();
+ if(rule.frequency==='days'&&!rule.days.split(',').map(Number).includes(weekday))return {...result,reason:'habitOffSchedule'};
+ if(date>asOf)return {...result,reason:'habitFuture'};
+ return {...result,eligible:true,reason:''};
+}
 export function inspectDesktopDocument(checkpoint){
  const issues=[],totals={error:0,warning:0,info:0},counts={},identities=new Map(),opaque=[];
  const add=(severity,code,path,details='')=>{totals[severity]++;if(issues.length<500)issues.push({severity,code,path,details});};
@@ -163,6 +197,8 @@ export function inspectDesktopDocument(checkpoint){
   const invalid=(v,values)=>v!==undefined&&!values.includes(v);
   const unsupported=kind==='event'?(!EVENT_TYPES.includes(item.type)||invalid(item.importance,IMPORTANCE)||invalid(item.eventIcon,EVENT_ICONS)):kind==='task'?invalid(item.status,['planned','progress','done']):kind==='project'?invalid(item.status,['active','paused','completed']):kind==='note'?!['note','journal'].includes(item.kind):kind==='habit'?array(item.schedules).some(r=>invalid(r.kind,['completion','count','duration'])||invalid(r.frequency,['daily','days','weekly'])||invalid(r.source,['manual','sport'])):false;let mode=unsupported?'opaque':'view',commands=[];
   if(kind==='event'&&desktopEventFieldsEditable(item,state)&&!unsupported){commands=['eventTitle'];if(item.type!=='free_time')commands.push('eventImportance');if(item.type!=='deadline'&&item.tzid&&/^20\d{2}-/.test(item.date)&&Number.isInteger(item.duration)&&item.duration<=10080&&item.title.trim()&&item.title.trim().length<=500&&(item.notes?.length??0)<=10000&&(item.location?.length??0)<=500)commands.push('eventTime');}
+  if(kind==='event'&&!unsupported&&desktopEventCompletionEditable(item,state))commands.push('eventCompletion');
+  if(kind==='habit'&&!unsupported&&array(item.schedules).some(rule=>desktopHabitState(item,rule.from,{asOf:rule.from}).supported))commands=['habitValue'];
   if(kind==='task'&&!unsupported&&(project||!own(item,'status'))&&projectTaskEditable(state,{task:item,project}))commands=['taskCompletion'];
   if(kind==='note'&&!unsupported&&noteEditable(item)&&!item.deletedAt&&item.title?.trim()&&item.title.trim().length<=500)commands=['noteBody'];
   if(commands.length)mode='editable';entries.push({kind,ref:{id:item.id,...(project?{projectId:project.id}:{})},path,mode,commands});

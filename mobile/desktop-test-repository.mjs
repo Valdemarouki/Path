@@ -3,6 +3,7 @@
 import {desktopToMobileView,mobileViewToDesktop,applyDesktopEdit,parseDesktopInput} from './desktop-adapter.mjs';
 import {wallCandidates,EVENT_TYPES} from './calendar-model.mjs';
 import {validDay} from './date-utils.mjs';
+import {desktopHabitState} from './desktop-inspector.mjs';
 export const TEST_STORAGE_KEY='path-mobile-desktop-test-v1';
 const FORMAT='path-mobile-desktop-test',VERSION=1,MAX_COPIES=12;
 const clone=v=>structuredClone(v),object=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
@@ -12,6 +13,7 @@ const owns=(o,k)=>Object.hasOwn(o,k);
 const id=()=>globalThis.crypto.randomUUID();
 const typed=(kind,ref)=>JSON.stringify([kind,ref.projectId??null,ref.id]);
 export function testCommands(state,kind,refId,projectId){return state?.desktopTest?.entries?.find(e=>typed(e.kind,e.ref)===typed(kind,{id:refId,projectId}))?.commands.slice()||[];}
+export function testHabitState(state,habit,date){const status=desktopHabitState(habit,date);return testCommands(state,'habit',habit?.id).includes('habitValue')?status:{...status,supported:false,eligible:false,reason:status.reason||'habitUnsupported'};}
 function cleanPrefs(prefs){
  if(!object(prefs)||!['en','ru','es'].includes(prefs.language)||!['system','off'].includes(prefs.motion)||!object(prefs.mainTasks))fail('desktopTestCorrupt');
  if(Object.keys(prefs).some(k=>!['language','motion','mainTasks'].includes(k)))fail('desktopTestCorrupt');
@@ -71,6 +73,7 @@ function translate(dataset,before,candidate,options){
   const e=candidate.events.find(e=>e.id===old.id);if(!e)fail('desktopTestReadOnly');const ref={id:old.id};
   if(e.title!==old.title)view=applyDesktopEdit(view,{action:'eventTitle',ref,value:e.title},now);
   if(e.importance!==old.importance)view=applyDesktopEdit(view,{action:'eventImportance',ref,value:e.importance},now);
+  if(e.done!==old.done)view=applyDesktopEdit(view,{action:'eventCompletion',ref,value:e.done},now);
   if(['date','hour','duration','fold'].some(k=>!eq(e[k],old[k]))){
    if(!Number.isFinite(e.hour)||e.hour<0||e.hour>=24||Math.abs(e.hour*60-Math.round(e.hour*60))>1e-7)fail('desktopTestValue');
    const minutes=Math.round(e.hour*60),time=String(Math.floor(minutes/60)).padStart(2,'0')+':'+String(minutes%60).padStart(2,'0');
@@ -79,6 +82,17 @@ function translate(dataset,before,candidate,options){
    for(const key of ['start_at','end_at']){if(!eq(e[key],old[key])&&!eq(e[key],next[key]))fail('desktopTestReadOnly');copiedKeys(n,next,[key]);}
    // Missing fold may become explicit 'earlier' as part of a confirmed retime.
    if(!owns(e,'fold'))copiedKeys(n,next,['fold']);
+  }
+ }
+ for(const old of before.habits){
+  const habit=candidate.habits.find(h=>h.id===old.id);if(!habit)fail('desktopTestReadOnly');
+  const dates=new Set([...Object.keys(old.values||{}),...Object.keys(habit.values||{}),...Object.keys(old.checkIns||{}),...Object.keys(habit.checkIns||{})]);
+  for(const date of dates){
+   const oldValue=old.values?.[date],nextValue=habit.values?.[date],oldCheck=old.checkIns?.[date],nextCheck=habit.checkIns?.[date];
+   if(eq(oldValue,nextValue)&&eq(oldCheck,nextCheck)&&owns(old.values||{},date)===owns(habit.values||{},date)&&owns(old.checkIns||{},date)===owns(habit.checkIns||{},date))continue;
+   if(owns(old.values||{},date)&&!owns(habit.values||{},date)||owns(old.checkIns||{},date)&&!owns(habit.checkIns||{},date))fail('desktopTestReadOnly');
+   const value=nextValue??(nextCheck?1:0);
+   view=applyDesktopEdit(view,{action:'habitValue',ref:{id:old.id},date,value},now);
   }
  }
  for(const old of before.notes){

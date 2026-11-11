@@ -1,6 +1,6 @@
 // Staging and isolated projection only. Never installed into mobile storage.
 // Confirmed envelope: privacy-export.js:pathBackupState, storage.js:pathCheckpointEncode/Decode.
-import {inspectDesktopDocument,DESKTOP_FILE_MAX_BYTES,desktopCivil} from './desktop-inspector.mjs';
+import {inspectDesktopDocument,DESKTOP_FILE_MAX_BYTES,desktopCivil,desktopHabitState} from './desktop-inspector.mjs';
 import {saveEvent,wallCandidates,EVENT_TYPES,IMPORTANCE} from './calendar-model.mjs';
 import {toggleTask} from './model.mjs';
 import {saveNote} from './alpha-model.mjs';
@@ -81,14 +81,28 @@ export function mobileViewToDesktop(view){
 }
 export function selectDesktopMainPreview(view,ref){const source=mobileViewToDesktop(view);return desktopToMobileView(source,{...view.context,mainTask:structuredClone(ref)});}
 export function applyDesktopEdit(view,command,now=new Date()){
- safeTree(command);const source=mobileViewToDesktop(view),action=command?.action,allowed={eventTitle:['value'],eventImportance:['value'],eventTime:['date','time','duration','fold','allowOverlap'],taskCompletion:['value'],noteBody:['value']}[action];
+ safeTree(command);const source=mobileViewToDesktop(view),action=command?.action,allowed={eventTitle:['value'],eventImportance:['value'],eventTime:['date','time','duration','fold','allowOverlap'],eventCompletion:['value'],habitValue:['date','value'],taskCompletion:['value'],noteBody:['value']}[action];
  if(!allowed||!object(command.ref)||Object.keys(command).some(k=>!['action','ref',...allowed].includes(k))||Object.keys(command.ref).some(k=>!['id','projectId'].includes(k)))throw problem('desktopCommand');
- const kind=action.startsWith('event')?'event':action==='taskCompletion'?'task':'note';
+ const kind=action.startsWith('event')?'event':action==='habitValue'?'habit':action==='taskCompletion'?'task':'note';
  const entry=inspectDesktopDocument(source).entries.find(e=>e.kind===kind&&e.ref.id===command.ref.id&&(e.ref.projectId??null)===(command.ref.projectId??null));
  if(!entry||!entry.commands.includes(action))throw problem('desktopReadOnly');
  const original=recordFor(source.state,entry);if(!original)throw problem('desktopIdentity');
  if(action==='eventTitle'){if(typeof command.value!=='string'||!command.value.trim()||command.value.trim().length>500)throw problem('desktopValue');original.title=command.value.trim();}
  if(action==='eventImportance'){if(!IMPORTANCE.includes(command.value))throw problem('desktopValue');original.importance=command.value;}
+ if(action==='eventCompletion'){
+  if(typeof command.value!=='boolean')throw problem('desktopValue');
+  if(!!original.done!==command.value)original.done=command.value;
+ }
+ if(action==='habitValue'){
+  const stamp=new Date(now);if(!Number.isFinite(+stamp)||typeof command.value!=='number'||!Number.isFinite(command.value)||command.value<0||!desktopCivil(command.date))throw problem('desktopValue');
+  const asOf=`${stamp.getFullYear()}-${String(stamp.getMonth()+1).padStart(2,'0')}-${String(stamp.getDate()).padStart(2,'0')}`,status=desktopHabitState(original,command.date,{asOf});
+  if(!status.supported||!status.eligible)throw problem(status.reason||'desktopReadOnly');
+  if(status.kind==='completion'){
+   if(![0,1].includes(command.value))throw problem('desktopValue');
+   // Re-applying the same state is a no-op, preserving absent dated fields.
+   if(status.done!==!!command.value){original.values??={};original.values[command.date]=command.value;original.checkIns??={};original.checkIns[command.date]=command.value>0;}
+  }else{original.values??={};original.values[command.date]=command.value;}
+ }
  if(action==='taskCompletion'){
   if(typeof command.value!=='boolean'||!Number.isFinite(+new Date(now)))throw problem('desktopValue');const done=original.status?original.status==='done':!!original.done;if(done!==command.value)toggleTask(source.state,original.id,new Date(now));
  }
