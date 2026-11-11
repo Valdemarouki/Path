@@ -16,21 +16,22 @@ const known={
  events:'id title date hour duration type importance done notes location eventIcon reminderMinutes protected tzid fold start_at end_at seriesId occurrenceDate seriesException taskId projectId taskDeleted workoutTemplateId plannedSnapshot fullWorkoutSnapshot',
  habits:'id name icon startDate done checkIns values schedules availability archived exceptions',
  notes:'id kind title body visibility date journalDate updatedAt deletedAt tags attachments pinned archived',
- workouts:'id name detail duration exercises programId archived type',
- workoutRecords:'id sportVersion templateId sessionId startedAt endedAt durationMs snapshot mode status sets completedDate pausedMs restUntil restRemainingMs restPaused restSetId pausedAt',
+ workouts:'id sportVersion name detail duration exercises programId archived type',
+ programs:'id sportVersion name description archived workoutOrder',
+ workoutRecords:'id sportVersion mobileSessionVersion templateId sessionId startedAt endedAt durationMs snapshot mode status sets completedDate pausedMs restUntil restRemainingMs restPaused restSetId pausedAt restPausedBeforeWorkout currentSetId draftInputs plannedSetCount',
  canvases:'id name nodes edges viewport archived updatedAt',
  nodes:'id kind x y width height title body color url image attachment entityRef collapsed originalNote',
  edges:'from to directed fromSide toSide label color',
  schedules:'from frequency goal kind days weekTarget source',
- exercises:'id name sets target rest unit definitionId category equipment restPresets progressionEvidence',
- sets:'id sessionRef exerciseId definitionId unit name index target rest kind result done actualValue loggedAt',
+ exercises:'id name sets target targetValues rest unit definitionId measurementType assetKey category equipment primaryMuscles secondaryMuscles variant conditions notes restPresets progressionEvidence',
+ sets:'id sessionRef exerciseId definitionId unit measurementType name index target targetValues rest kind result done actual actualValue mobileLoadKg loggedAt',
  series:'id frequency count startDate cancelledDates',
  attachments:'id name type size data',
  availability:'from state',
  milestones:'id title date completedAt',
  entityRef:'type id',
  focusRecords:'id taskId date minutes startedAt confirmedAt',
- root:'homeTasks events habits projects notes workouts workoutRecords activeWorkout canvases programs settings createdAt eventSeries exercisePreferences skillTests focusRecords activeFocus habitHistoryVersion habitHistoryMigratedOn',
+ root:'homeTasks events habits projects notes workouts workoutRecords activeWorkout canvases programs sportsLibrary settings createdAt eventSeries exercisePreferences skillTests focusRecords activeFocus habitHistoryVersion habitHistoryMigratedOn',
  envelope:'format version state revision undo redo imageCodec imageAssets'
 };
 for(const k of Object.keys(known))known[k]=new Set(known[k].split(' '));
@@ -166,10 +167,10 @@ export function inspectDesktopDocument(checkpoint){
  }
  function template(t,path){
   if(!desktopObject(t)){error('template',path,'Object');return;}unknown(t,'workouts',path);requiredString(t,'name',path);if(!finite(t.duration)||t.duration<=0)error('template',path+'/duration');
-  if(t.exercises!==undefined){const ex=collection(t.exercises,path+'/exercises');for(const [i,x]of ex.entries()){const xp=path+'/exercises/'+i;unknown(x,'exercises',xp);requiredString(x,'name',xp);requiredString(x,'target',xp);if(!Number.isInteger(x.sets)||x.sets<1||x.sets>50||!finite(x.rest)||x.rest<0)error('exercise',xp);enumValue(x,'unit',['reps','seconds','kg'],xp);}}
+  if(t.exercises!==undefined){const ex=collection(t.exercises,path+'/exercises');for(const [i,x]of ex.entries()){const xp=path+'/exercises/'+i;unknown(x,'exercises',xp);requiredString(x,'name',xp);requiredString(x,'target',xp);if(!Number.isInteger(x.sets)||x.sets<1||x.sets>50||!finite(x.rest)||x.rest<0)error('exercise',xp);enumValue(x,'unit',x.measurementType==='distance'?['reps','seconds','kg','meters']:['reps','seconds','kg'],xp);}}
  }
  groups.workouts.forEach((t,i)=>{template(t,'/state/workouts/'+i);ref(t.programId,maps.programs,'/state/workouts/'+i+'/programId');});
- groups.programs.forEach((p,i)=>requiredString(p,'name','/state/programs/'+i));
+ groups.programs.forEach((p,i)=>{requiredString(p,'name','/state/programs/'+i);unknown(p,'programs','/state/programs/'+i);});
  const sessions=new Set();for(const [i,r]of [...groups.workoutRecords,...(state.activeWorkout?[state.activeWorkout]:[])].entries()){
   const active=i>=groups.workoutRecords.length,path=active?'/state/activeWorkout':'/state/workoutRecords/'+i;if(!desktopObject(r)){error('workout',path);continue;}unknown(r,'workoutRecords',path);if(typeof r.id!=='string'||!r.id||!instant(r.startedAt)||!active&&(!instant(r.endedAt)||Date.parse(r.endedAt)<Date.parse(r.startedAt)))error('workoutInstant',path);for(const key of ['pausedMs','durationMs','restRemainingMs'])optional(r,key,v=>finite(v)&&v>=0,path,'Nonnegative milliseconds');optional(r,'restUntil',finite,path,'Epoch milliseconds');optional(r,'restPaused',v=>typeof v==='boolean',path,'Boolean');if(r.durationMs!==undefined&&r.endedAt&&r.durationMs>Date.parse(r.endedAt)-Date.parse(r.startedAt))error('workoutDuration',path+'/durationMs');template(r.snapshot,path+'/snapshot');
   if(!active&&r.sessionId){if(sessions.has(r.sessionId))error('duplicateSession',path+'/sessionId');sessions.add(r.sessionId);}ref(r.sessionId,maps.events,path+'/sessionId',{nullable:true,snapshot:true});ref(r.templateId,maps.workouts,path+'/templateId',{snapshot:!!r.snapshot});
@@ -184,6 +185,7 @@ export function inspectDesktopDocument(checkpoint){
   for(const [j,n]of nodes.entries()){const np=path+'/nodes/'+j;unknown(n,'nodes',np);if(!finite(n.x)||!finite(n.y))error('canvasPosition',np);for(const [key,min]of [['width',160],['height',100]])optional(n,key,v=>finite(v)&&v>=min&&v<=1600,np,'Valid desktop dimensions');enumValue(n,'kind',['note','task','project','link','image','file','group'],np);if(n.collapsed!==undefined&&(typeof n.collapsed!=='boolean'||n.kind!=='group'))error('canvasGroup',np+'/collapsed');if(n.entityRef){const target={task:taskMap,note:maps.notes,project:maps.projects}[n.entityRef.type];if(target)ref(n.entityRef.id,target,np+'/entityRef/id');else warn('unsupportedReference',np+'/entityRef',String(n.entityRef.type));}if(n.attachment)attachment(n.attachment,np+'/attachment',{canvas:true});}
   for(const [j,e]of array(c.edges).entries()){if(!desktopObject(e)){error('canvasEdge',path+'/edges/'+j);continue;}const ep=path+'/edges/'+j;unknown(e,'edges',ep);ref(e.from,byId,ep+'/from');ref(e.to,byId,ep+'/to');optional(e,'directed',v=>typeof v==='boolean',ep,'Boolean');for(const key of ['fromSide','toSide'])enumValue(e,key,['left','right','top','bottom'],ep);}
  }
+ try{globalThis.PathSportCore.validate(state);}catch(e){error('sportContract','/state',e.message);}
  for(const [i,r]of groups.focusRecords.entries()){const path='/state/focusRecords/'+i;civil(r,'date',path,true);if(!finite(r.minutes)||r.minutes<=0||r.minutes>1440||!instant(r.confirmedAt))error('focusRecord',path);ref(r.taskId,taskMap,path+'/taskId',{nullable:true,snapshot:true});}
  if(checkpoint.imageCodec!==undefined&&(![1,2].includes(checkpoint.imageCodec)||!Array.isArray(checkpoint.imageAssets)))error('assetCodec','/imageCodec','Only desktop codecs 1/2 are recognized.');
  const assets=array(checkpoint.imageAssets);let references=0;
@@ -201,9 +203,10 @@ export function inspectDesktopDocument(checkpoint){
   if(kind==='habit'&&!unsupported&&array(item.schedules).some(rule=>desktopHabitState(item,rule.from,{asOf:rule.from}).supported))commands=['habitValue'];
   if(kind==='task'&&!unsupported&&(project||!own(item,'status'))&&projectTaskEditable(state,{task:item,project}))commands=['taskCompletion'];
   if(kind==='note'&&!unsupported&&noteEditable(item)&&!item.deletedAt&&item.title?.trim()&&item.title.trim().length<=500)commands=['noteBody'];
+  if(['template','program'].includes(kind)&&!unsupported)commands=['sport'];
   if(commands.length)mode='editable';entries.push({kind,ref:{id:item.id,...(project?{projectId:project.id}:{})},path,mode,commands});
  }
  // Malformed roots are still reportable. Only a valid document is projected or edited.
- if(!totals.error){groups.homeTasks.forEach((t,i)=>addEntry('task',t,'/state/homeTasks/'+i));groups.projects.forEach((p,i)=>array(p.tasks).forEach((t,j)=>addEntry('task',t,`/state/projects/${i}/tasks/${j}`,p)));for(const [key,kind]of [['events','event'],['habits','habit'],['projects','project'],['workouts','template'],['workoutRecords','workout'],['notes','note'],['canvases','canvas']])groups[key].forEach((item,i)=>addEntry(kind,item,'/state/'+key+'/'+i));}
+ if(!totals.error){groups.homeTasks.forEach((t,i)=>addEntry('task',t,'/state/homeTasks/'+i));groups.projects.forEach((p,i)=>array(p.tasks).forEach((t,j)=>addEntry('task',t,`/state/projects/${i}/tasks/${j}`,p)));for(const [key,kind]of [['events','event'],['habits','habit'],['projects','project'],['workouts','template'],['workoutRecords','workout'],['programs','program'],['notes','note'],['canvases','canvas']])groups[key].forEach((item,i)=>addEntry(kind,item,'/state/'+key+'/'+i));}
  return {ok:totals.error===0,format:checkpoint.format,version:checkpoint.version,counts,issues,totals,truncated:Object.values(totals).reduce((a,b)=>a+b,0)>issues.length,opaqueFields:opaque,entries,validationScope:'Mapped entity shapes, references, intervals, recurrence, IDs and assets. Not a replacement for every desktop validator rule.',opaqueScopes:['activeFocus','exercisePreferences','skillTests','program scheduleConfig','envelope history'],lossPolicy:'Full canonical source retained; unknown fields are opaque, never dropped. This is not live import or sync.'};
 }

@@ -1,6 +1,6 @@
 // Synthetic-only integration boundary. Full desktop checkpoints remain canonical;
 // screen projections are disposable and are never serialized as desktop state.
-import {desktopToMobileView,mobileViewToDesktop,applyDesktopEdit,parseDesktopInput} from './desktop-adapter.mjs';
+import {desktopToMobileView,mobileViewToDesktop,applyDesktopEdit,applyDesktopSport,parseDesktopInput} from './desktop-adapter.mjs';
 import {wallCandidates,EVENT_TYPES} from './calendar-model.mjs';
 import {validDay} from './date-utils.mjs';
 import {desktopHabitState} from './desktop-inspector.mjs';
@@ -65,6 +65,17 @@ function translate(dataset,before,candidate,options){
  let view=desktopToMobileView(dataset.current);const now=options.now===undefined?new Date():new Date(options.now);if(!Number.isFinite(+now))fail('desktopTestValue');
  const normalized=clone(candidate),prefs=cleanPrefs({language:candidate.language,motion:candidate.mobilePreferences?.motion,mainTasks:candidate.mainTasks});
  if(!eq(candidate.desktopTest,before.desktopTest))fail('desktopTestReadOnly');
+ if(options.sportCommand){
+  view=applyDesktopSport(view,options.sportCommand);
+  const current=mobileViewToDesktop(view),nextDataset={...dataset,current,prefs};
+  const expected=project(nextDataset,before.revision);
+  normalized.desktopTest=expected.desktopTest;
+  // A newly created Calendar row acquires this disposable projection flag;
+  // it is never written to the canonical desktop event by the Sport command.
+  for(const event of normalized.events){if(!before.events.some(old=>old.id===event.id)){const projected=expected.events.find(e=>e.id===event.id);if(projected){if(event.readOnly!==undefined&&event.readOnly!==projected.readOnly)fail('desktopTestReadOnly');event.readOnly=projected.readOnly;}}}
+  if(!eq(normalized,expected))fail('desktopTestReadOnly');
+  return nextDataset;
+ }
  for(const {task:old,ref}of taskRows(before)){
   const task=taskFor(candidate,ref);if(!task)fail('desktopTestReadOnly');const previousDone=ref.projectId?old.status==='done':old.done,newDone=ref.projectId?task.status==='done':task.done;
   if(previousDone!==newDone){const at=newDone&&typeof task.completedAt==='string'?new Date(task.completedAt):now;view=applyDesktopEdit(view,{action:'taskCompletion',ref,value:newDone},at);}

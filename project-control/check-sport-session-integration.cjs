@@ -5,6 +5,8 @@ const html=fs.readFileSync(path.resolve(__dirname,'../path2-beta-standalone.html
 function open(saved={}){
  const dom=new JSDOM(html.replace(/<script>[\s\S]*?<\/script>/g,''),{url:'https://path.test',runScripts:'outside-only'}),w=dom.window;
  w.matchMedia=()=>({matches:true,addEventListener(){},removeEventListener(){}});w.requestAnimationFrame=()=>0;w.cancelAnimationFrame=()=>{};w.HTMLCanvasElement.prototype.getContext=()=>null;w.HTMLElement.prototype.scrollIntoView=()=>{};
+ // jsdom lacks the browser CSS.escape helper used for quoted control selectors.
+ w.CSS={escape:value=>String(value).replace(/[^a-zA-Z0-9_-]/g,c=>'\\'+c)};
  const errors=[];w.addEventListener('error',e=>errors.push(e.error));
  const run=s=>vm.runInContext(s,dom.getInternalVMContext());for(const [k,v]of Object.entries(saved))w.localStorage.setItem(k,v);
  for(const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g))run(m[1]);
@@ -17,7 +19,7 @@ a.click('[data-session-start="event"]');a.click('[data-smart-log]');assert.equal
 a.input('[data-smart-result]','8');a.click('[data-smart-log]');
 a.input('[data-smart-result]:not(:disabled)','7');a.click('[data-workout-save-draft]');
 assert.equal(a.run('progressSnapshot().workouts'),0);const elapsed=a.run('workoutElapsedMs(data.activeWorkout)');let disk=a.snapshot();a.close();a=open(disk);
-assert.equal(a.run('data.activeWorkout.sets[0].result'),'8');assert.equal(a.run('data.activeWorkout.sets[1].result'),'7');assert.equal(a.run('data.activeWorkout.sets[1].done'),false);assert.equal(a.run('workoutElapsedMs(data.activeWorkout)'),elapsed);
+assert.equal(a.run('data.activeWorkout.sets[0].result'),'8');assert.equal(a.run('data.activeWorkout.sportVersion===4?data.activeWorkout.draftInputs[data.activeWorkout.sets[1].id].reps:data.activeWorkout.sets[1].result'),'7');assert.equal(a.run('data.activeWorkout.sets[1].done'),false);assert.equal(a.run('workoutElapsedMs(data.activeWorkout)'),elapsed);
 a.run("view='sport';render()");a.click('[data-workout-pause]');a.click('[data-smart-log]:not(:disabled)');a.input('[data-smart-result]:not(:disabled)','12.5');a.click('[data-smart-log]:not(:disabled)');
 a.click('[data-sport-finish]');assert.equal(a.run('sportFinishReview'),true);a.w.document.activeElement.dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert.equal(a.run('sportFinishReview'),false);a.click('[data-sport-finish]');
 const beforeFailure=a.snapshot(),write=a.w.Storage.prototype.setItem;a.w.Storage.prototype.setItem=()=>{throw Error('quota');};a.click('[data-sport-review-save]');assert.equal(a.run('data.workoutRecords?.length||0'),0);assert.equal(a.run('data.events[0].done'),false);assert(a.run('!!data.activeWorkout'));assert.equal(a.run('sportFinishReview'),true);assert.deepEqual(a.snapshot(),beforeFailure);

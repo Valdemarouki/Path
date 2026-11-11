@@ -35,10 +35,10 @@ console.log('PASS full Sport flow: review, unlogged results, pause/resume restor
 
 run(`workoutDraft={id:'empty-new',name:'Mobility',duration:45,exercises:[]};workoutDraftOriginal='{}';const exitBefore=JSON.stringify(data);localStorage.setItem('path2-workout-editor-draft',JSON.stringify(workoutDraft));`);
 c.localStorage.removeItem=key=>memory.delete(key);
-assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('workoutDraft'),null);assert.equal(run('JSON.stringify(data)'),run('exitBefore'));assert.equal(memory.has('path2-workout-editor-draft'),false);
-run(`workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);workoutDraft.exercises=[];`);
-assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('JSON.stringify(data)'),run('exitBefore'));
-console.log('PASS Back abandons incomplete new/existing workout edits without mutation, validation toast or recovery resurrection.');
+assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('workoutDraft'),null);assert.equal(run("data.workouts.find(w=>w.id==='empty-new').exercises.length"),0);assert.equal(run("startWorkout('empty-new')"),false);assert.equal(run('!!data.activeWorkout'),false);assert.equal(memory.has('path2-workout-editor-draft'),false);
+run(`const savedEmptyBefore=JSON.stringify(data);workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);workoutDraft.name='';`);
+assert.equal(run('leaveWorkoutBuilder()'),true);assert.equal(run('JSON.stringify(data)'),run('savedEmptyBefore'));
+console.log('PASS named empty templates save but cannot start; Back abandons invalid-name edits without mutation or recovery resurrection.');
 
 run(`workoutDraft=pathClone(data.workouts[0]);workoutDraftOriginal=JSON.stringify(workoutDraft);const removedId=workoutDraft.exercises[0].id;const removedName=workoutDraft.exercises[0].name;`);
 assert.equal(run('sportRemoveExercise(removedId)'),true);assert.equal(run('workoutDraft.exercises.length'),1);assert(run('workoutBuilderPage()').includes('data-sport-restore-exercise'));

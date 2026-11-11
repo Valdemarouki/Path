@@ -1,10 +1,20 @@
 from pathlib import Path
-import json,re,base64
+import json,re,base64,shutil
 p=Path(__file__).parent
 src=(p/'original.html').read_text()
+# Sport's pure model is shared by both surfaces. Package verified SVGs once as
+# data URLs for the desktop renderer's existing CSP, without widening it.
+sport_catalog=json.loads((p/'assets/sport/catalogue.json').read_text())
+sport_images={}
+for entry in sport_catalog['entries']:
+    resource=(p/entry['path']).resolve()
+    assert (p/'assets/sport/svg').resolve() in resource.parents, entry['path']
+    sport_images[entry['assetKey']]='data:image/svg+xml;base64,'+base64.b64encode(resource.read_bytes()).decode()
+sport_runtime='globalThis.PATH_SPORT_ASSET_DATA='+json.dumps(sport_images)+';\n'
+sport_runtime+='\n'.join((p/'domain'/name).read_text() for name in ('sport-catalog.js','sport-body-map.js','sport-core.js'))+'\n'
 # Install the repository before any initial save/render or migration can run.
 src=src.replace("let data;try{const raw=localStorage.getItem(STORE);data=raw?JSON.parse(raw):demo()}catch{data=demo()}",
- (p/'timezone.js').read_text()+'\n'+(p/'storage.js').read_text()+"\nlet data=pathRepository.load();for(const e of data.events||[])if(!e.tzid)e.tzid='Europe/Warsaw';")
+ sport_runtime+(p/'timezone.js').read_text()+'\n'+(p/'storage.js').read_text()+"\nlet data=pathRepository.load();for(const e of data.events||[])if(!e.tzid)e.tzid='Europe/Warsaw';")
 start=src.index('let storageWarningShown=false;');end=src.index('function toast(',start)
 src=src[:start]+'''function save(){
  try{if(typeof reconcileTaskCompletion==='function')reconcileTaskCompletion();}catch(e){pathRestore(data,pathRepository.state);toast('Could not save: '+e.message);return false;}
@@ -81,7 +91,11 @@ js=js.replace("toLocaleDateString('en-US'",'toLocaleDateString(pathLocale()')
 js+='\n'+(p/'clipboard-images.js').read_text()+'\n'+(p/'notes-rich.js').read_text()+'\n'+(p/'i18n/ui.js').read_text()+'\n'+(p/'date-picker.js').read_text()
 src=src.replace("timeZone:'Europe/Warsaw'","timeZone:pathSystemTimeZone()")
 src=src.replace('</head>','<style>'+(p/'i18n/layout.css').read_text()+'\n'+(p/'notes-rich.css').read_text()+'\n'+(p/'interface-polish.css').read_text()+'\n'+(p/'date-picker.css').read_text()+'</style></head>')
+# Register the existing locally licensed font; only Sport opts into this family.
+sport_font=base64.b64encode((p/'mobile/typography-preview/fonts/Manrope-Variable.ttf').read_bytes()).decode()
+src=src.replace('</head>',"<style>@font-face{font-family:'SportManrope';src:url('data:font/ttf;base64,"+sport_font+"') format('truetype');font-weight:200 800;font-style:normal;font-display:swap}</style></head>")
 src=src.replace('</body>','<script>'+js+'</script></body>')
 (p/'path2-beta-standalone.html').write_text(src)
 (p/'preview/dist/index.html').write_text(src)
+shutil.copytree(p/'assets/sport',p/'preview/dist/assets/sport',dirs_exist_ok=True)
 for i,s in enumerate(re.findall(r'<script>(.*?)</script>',src,re.S)):(p/f'check{i}.js').write_text(s)

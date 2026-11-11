@@ -28,11 +28,12 @@ const rows={
 export const testModeText=(key,lang='en')=>rows[key]?.[{en:0,ru:1,es:2}[lang]??0]??key;
 const escape=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function downloadTestJSON(value,name){const url=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-export function createDesktopTestControls({repo,getLanguage,onState,onFailure}){
+export function createDesktopTestControls({repo,getLanguage,onState,onFailure,beforeChange}){
  const host=document.createElement('aside');host.id='desktop-test-banner';host.className='desktop-test-banner';document.querySelector('.topbar').after(host);
- const text=key=>testModeText(key,getLanguage());let loading=false,message='';
+ const text=key=>testModeText(key,getLanguage());let loading=false,preparing=false,message='';
  async function operation(change){
-  if(loading)return;if(document.documentElement.hasAttribute('data-saving')){message=text('close');render();return;}if(document.querySelector('dialog[open]')){message=text('close');render();return;}
+  if(loading||preparing)return;if(document.documentElement.hasAttribute('data-saving')){message=text('close');render();return;}if(document.querySelector('dialog[open]')){message=text('close');render();return;}
+  preparing=true;try{if(beforeChange&&!await beforeChange()){message=text('close');render();return;}}finally{preparing=false;}
   loading=true;render();try{if(!navigator.locks)throw Error('lockUnavailable');await navigator.locks.request(TEST_STORAGE_KEY,change);message=text('updated');onState();}catch(e){message=text(e.message==='conflict'?'conflict':'failed')+' ('+e.message+')';onFailure?.(e);}finally{loading=false;render();}
  }
  function render(){

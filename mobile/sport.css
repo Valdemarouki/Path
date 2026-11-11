@@ -1,0 +1,113 @@
+/* Sport consumes the existing theme, controls and glass navigation unchanged. */
+.sport-page{min-width:0;--sp-gap:14px;padding-bottom:12px;}
+.sport-page h1{font-family:'Manrope Preview',sans-serif;font-size:36px;font-weight:200;line-height:1.2;letter-spacing:-1.1px;margin:14px 0;overflow-wrap:anywhere;}
+.sport-page h2{font-size:23px;font-weight:300;line-height:1.35;margin:6px 0 14px;overflow-wrap:anywhere;}
+.sport-page p,.sport-page strong,.sport-page small{overflow-wrap:anywhere;}
+.sport-page button,.sport-page input,.sport-page select,.sport-page textarea{font-family:'Manrope Preview',sans-serif;font-weight:400;}
+.sport-page .primary,.sport-page .action-button--create{font-weight:500;}
+.sp-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:18px;}
+.sp-head h1{flex:1 1 100%;min-width:0;order:2;}
+.sp-head>.action-button{font-size:13px;}
+.sp-card{position:relative;display:block;min-width:0;width:100%;margin:14px 0;padding:20px;background:linear-gradient(145deg,#252527,#1d1d1f 52%,#171719);border:1px solid #080809;border-radius:28px;box-shadow:inset 0 0 0 1px #ffffff09,inset 0 2px 0 #ffffff06,0 5px 18px #0002;text-align:left;}
+.sp-card-open{display:block;text-align:left;width:100%;padding:0;min-width:0;}
+button.sp-card-open{padding:20px;}
+.sp-card>.sp-card-open{padding:0;}
+.sp-card-open p{margin:7px 0;}
+.sp-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:10px 0 16px;}
+.sp-toolbar .action-button{font-size:13px;padding:10px 12px;margin:0;}
+.sp-status{min-height:28px;font-size:13px;font-weight:400;color:#ceced1;margin:8px 0;}
+.sp-saved{display:inline-block;animation:sp-saved .4s ease-out;}
+.sp-exercise-list{margin:0 0 24px;}
+.sp-exercise-row{display:flex;align-items:center;gap:10px;width:100%;min-width:0;text-align:left;padding:12px 0;border-bottom:1px solid #ffffff12;}
+.sp-exercise-row>span:not(.sp-art),.sp-slot-open>span:not(.sp-art){min-width:0;flex:1;}
+.sp-exercise-row strong,.sp-slot-open strong{display:block;font-size:15px;font-weight:400;line-height:1.4;}
+.sp-exercise-row small,.sp-slot-open small{display:block;font-size:12px;color:var(--muted);margin-top:6px;line-height:1.45;}
+.sp-art{display:flex;align-items:center;justify-content:center;position:relative;width:64px;height:72px;flex:0 0 64px;min-width:0;}
+.sp-art img{display:block;width:100%;height:100%;object-fit:contain;}
+.sp-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;width:100%;text-align:center;color:var(--muted);}
+.sp-placeholder svg{width:32px;height:40px;fill:none;stroke:currentColor;stroke-width:1.3;}
+.sp-placeholder small{font-size:9px;line-height:1.3;}
+.sp-art--large{width:100%;height:clamp(160px,25vh,230px);flex-basis:auto;margin:6px auto 16px;}
+.sp-art--large .sp-placeholder svg{width:86px;height:108px;}
+.sp-art--large .sp-placeholder small{font-size:13px;}
+.sp-week{display:flex;gap:3px;margin:18px 0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;}
+.sp-week button{display:flex;align-items:center;flex-direction:column;justify-content:center;flex:1 0 44px;min-width:44px;min-height:64px;gap:5px;border-radius:18px;font-size:12px;}
+.sp-week strong{font-weight:400;}
+.sp-week button[aria-pressed=true]{background:#eeeeea;color:#141416;}
+.sp-week i{height:4px;width:4px;border-radius:50%;background:transparent;}
+.sp-week .has-workout{background:currentColor;}
+.sp-template-tabs,.sp-segmented,.sp-preset-list{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0;}
+.sp-template-tabs button,.sp-segmented button,.sp-preset-list button{min-width:44px;min-height:44px;padding:10px 14px;border-radius:14px;border:1px solid #ffffff24;font-size:13px;line-height:1.35;white-space:normal;overflow-wrap:anywhere;}
+.sp-template-tabs button[aria-current=page],.sp-segmented button[aria-pressed=true],.sp-preset-list button[aria-pressed=true]{background:#eeeeea;color:#141416;border-color:#eeeeea;}
+.sp-editor-slot{margin:12px 0;padding:2px 12px;border:1px solid #ffffff12;border-radius:24px;background:#1a1a1d;}
+.sp-editor-slot.is-open{background:linear-gradient(145deg,#252527,#1d1d1f 60%,#171719);border-color:#ffffff20;box-shadow:inset 0 0 0 1px #080809,inset 0 2px 0 #ffffff08;}
+.sp-editor-slot>.sp-exercise-row{border:0;gap:2px;}
+.sp-slot-open{display:flex;align-items:center;text-align:left;min-width:0;flex:1;gap:10px;padding:0;}
+.sp-drag-handle{display:grid;place-items:center;min-width:44px;width:44px;height:64px;padding:0;touch-action:none;color:#98989e;}
+.sp-drag-handle svg{width:22px;height:24px;stroke-linecap:round;stroke-width:3;}
+.sp-drop-target{outline:1px solid #e6e6e0;outline-offset:3px;}
+.sp-slot-settings{padding:4px 0 14px;border-top:1px solid #ffffff12;}
+.sp-value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));gap:12px;}
+.sp-value-grid>label{margin-bottom:0;}
+.sp-value-grid>label+.sp-number-field{margin-top:0;}
+.sp-value-grid{display:block;}
+.sp-number-field{display:flex;align-items:stretch;gap:8px;width:100%;min-width:0;}
+.sp-number-field input{min-width:0;flex:1;width:0;font-size:16px;padding:12px;}
+.sp-adjust{flex:0 0 48px;width:48px;height:48px;padding:0;font-size:16px;border-radius:14px;border:1px solid #ffffff25;}
+.sp-adjust svg{width:23px;height:23px;}
+.sport-page textarea{width:100%;max-width:100%;min-height:100px;resize:vertical;background:#252527;border:1px solid #ffffff30;color:var(--ink);border-radius:14px;padding:12px 14px;font-size:16px;}
+.sport-page label{font-size:13px;font-weight:400;}
+.sp-catalog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.7rem),1fr));gap:12px;align-items:stretch;margin:18px 0;}
+.sp-catalog-card{display:flex;flex-direction:column;min-width:0;border:1px solid #080809;border-radius:24px;padding:10px 12px 12px;background:linear-gradient(145deg,#252527,#1d1d1f 55%,#171719);box-shadow:inset 0 0 0 1px #ffffff12,inset 0 2px 0 #ffffff06;}
+.sp-catalog-detail{display:flex;flex-direction:column;width:100%;min-width:0;text-align:left;padding:0;flex:1;align-items:stretch;}
+.sp-catalog-detail .sp-art{height:126px;width:100%;flex-basis:auto;margin-bottom:8px;}
+.sp-catalog-detail strong{font-size:15px;font-weight:400;line-height:1.4;}
+.sp-catalog-detail>small{font-size:12px;color:var(--muted);margin-top:5px;}
+.sp-catalog-controls{display:flex;flex-wrap:wrap;gap:4px;align-items:center;justify-content:space-between;margin-top:10px;}
+.sp-select,.sp-favorite{min-height:44px;min-width:44px;border:1px solid #ffffff30;border-radius:14px;padding:8px 12px;font-size:18px;}
+.sp-select[aria-pressed=true]{background:#eeeeea;color:#151517;}
+.sp-select:disabled{font-size:11px;flex:1;padding:8px;}
+.sp-favorite{padding:10px;}
+.sp-favorite svg{width:20px;height:20px;}
+.sp-favorite[aria-pressed=true] svg{fill:#eeeee6;}
+.sp-catalog-footer,.sp-workout-actions{position:sticky;bottom:calc(max(130px + var(--mobile-safe-bottom),var(--phone-visual-bottom,0px) + 8px));z-index:3;background:linear-gradient(#0b0b0c00,#0b0b0cf0 18px);padding-top:16px;}
+.sp-catalog-footer>.primary{margin-top:0;}
+.sp-catalog-footer .action-button{margin-top:8px;}
+.sp-filters{padding:18px;}
+.sp-muscle-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,8rem),1fr));gap:8px;margin:16px 0;}
+.sp-muscle-list button{padding:10px;min-height:48px;border:1px solid #ffffff22;border-radius:14px;min-width:0;text-align:left;}
+.sp-muscle-list button[aria-pressed=true]{background:#eeeee8;color:#151517;}
+.sp-muscle-list small{display:block;line-height:1.35;font-size:10px;margin-top:5px;}
+.sp-muscle-map{max-width:240px;width:100%;margin:8px auto;}
+.sp-muscle-map .sport-body-map{display:block;width:100%;height:250px;fill:none;stroke:none;}
+.sp-muscle-map--compact{display:flex;max-width:220px;justify-content:center;gap:8px;}
+.sp-muscle-map--compact .sport-body-map{width:calc(50% - 4px);height:180px;}
+.sport-body-muscle{cursor:pointer;}
+.sport-body-muscle:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+.sp-details{display:grid;grid-template-columns:1fr;gap:8px;margin:14px 0;}
+.sp-details dt{color:var(--muted);font-size:12px;margin-top:10px;}.sp-details dd{margin:0;font-size:15px;overflow-wrap:anywhere;}
+.sp-workout-clock{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:13px;}
+.sp-workout-clock output,.sp-rest-card output{font-variant-numeric:tabular-nums;}
+.sp-workout-progress{display:flex;gap:4px;margin:10px 0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;}
+.sp-workout-progress button{flex:1 0 44px;min-width:44px;padding:0;min-height:44px;background:none;}
+.sp-workout-progress button span{display:block;height:4px;background:#333338;border-radius:4px;}
+.sp-workout-progress button[aria-current=step] span,.sp-workout-progress .is-complete{background:#eeeeea;}
+.sp-step-label{font-size:11px;letter-spacing:1.6px;text-align:center;color:var(--muted);margin:8px 0 14px;}
+.sp-current-name{text-align:center;font-size:30px!important;font-weight:300!important;letter-spacing:-.7px;}
+.sp-result-entry{padding:18px 20px;margin:12px 0;}
+.sp-result-entry>p:first-child{margin-top:0;}
+.sp-result-entry fieldset{border:0;padding:0;margin:0;min-width:0;}
+.sp-result-entry fieldset label:first-child{margin-top:6px;}
+.sp-previous{text-align:center;color:var(--muted);font-size:12px;min-height:36px;line-height:1.45;margin-bottom:0;}
+.sp-logged-result{font-size:23px;font-weight:400;text-align:center;}
+.sp-rest-card{background:#18181b;border:1px solid #ffffff1a;border-radius:22px;padding:14px 16px;margin:12px 0;}
+.sp-rest-card>p{margin:0 0 8px;}
+.sp-rest-card .sp-toolbar{margin:0;}
+.sp-draft-note{font-size:12px;}
+.sp-history-set{display:flex;flex-wrap:wrap;align-items:center;gap:7px 16px;padding:13px 0;border-bottom:1px solid #ffffff13;font-size:14px;}
+.sp-history-set strong{font-weight:400;flex:1 1 150px;}.sp-history-set small{flex:1 1 100%;color:var(--muted);}
+.sp-empty{grid-column:1/-1;color:var(--muted);font-size:14px;padding:16px 0;}
+@keyframes sp-saved{0%{opacity:.4;transform:scale(.97)}55%{opacity:1;transform:scale(1.015)}100%{transform:scale(1)}}
+@media(max-width:350px){.sp-card{padding:18px;}.sp-editor-slot{padding-left:4px;padding-right:9px;}.sp-art{width:56px;flex-basis:56px;}.sp-current-name{font-size:26px!important;}.sp-drag-handle{width:44px;min-width:44px;}.sp-catalog-card .sp-art{width:100%;flex-basis:auto;}.sp-week button{font-size:11px;}}
+@media(prefers-reduced-motion:reduce){.sport-page *{animation:none!important;transition:none!important;scroll-behavior:auto!important;}}
+html[data-motion=off] .sport-page *{animation:none!important;transition:none!important;}

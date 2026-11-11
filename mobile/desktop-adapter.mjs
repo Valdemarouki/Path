@@ -4,6 +4,7 @@ import {inspectDesktopDocument,DESKTOP_FILE_MAX_BYTES,desktopCivil,desktopHabitS
 import {saveEvent,wallCandidates,EVENT_TYPES,IMPORTANCE} from './calendar-model.mjs';
 import {toggleTask} from './model.mjs';
 import {saveNote} from './alpha-model.mjs';
+import {applySportCommand} from './sport-model.mjs';
 export {DESKTOP_FILE_MAX_BYTES};
 const object=v=>!!v&&typeof v==='object'&&!Array.isArray(v);
 function safeTree(value){
@@ -61,7 +62,7 @@ export function inspectDesktopCheckpoint(value){
 const present=(value,keys)=>Object.fromEntries(keys.filter(k=>Object.hasOwn(value,k)).map(k=>[k,value[k]]));
 function recordFor(state,entry){
  const ref=entry.ref;if(entry.kind==='task')return ref.projectId?state.projects.find(p=>p.id===ref.projectId)?.tasks.find(t=>t.id===ref.id):state.homeTasks.find(t=>t.id===ref.id);
- const key={event:'events',habit:'habits',project:'projects',template:'workouts',workout:'workoutRecords',note:'notes',canvas:'canvases'}[entry.kind];return state[key]?.find(v=>v.id===ref.id);
+ const key={event:'events',habit:'habits',project:'projects',template:'workouts',workout:'workoutRecords',program:'programs',note:'notes',canvas:'canvases'}[entry.kind];return state[key]?.find(v=>v.id===ref.id);
 }
 function freeze(value,seen=new Set()){if(value&&typeof value==='object'&&!seen.has(value)){seen.add(value);Object.values(value).forEach(v=>freeze(v,seen));Object.freeze(value);}return value;}
 export function desktopToMobileView(checkpoint,context={}){
@@ -70,7 +71,7 @@ export function desktopToMobileView(checkpoint,context={}){
  const report=inspectDesktopCheckpoint(checkpoint);if(!report.ok)throw problem('desktopValidation',report);
  const staged=stageDesktopCheckpoint(checkpoint),state=staged.document,entities={};
  const fields={task:['id','title','date','duration','done','status','progress','completedAt','deadline','estimate','dependencies','subtasks','sourceNoteId'],event:['id','title','date','hour','duration','type','importance','done','start_at','end_at','tzid','fold','taskId','projectId','seriesId','occurrenceDate','seriesException'],habit:['id','name','startDate','schedules','values','checkIns','availability','exceptions'],project:['id','name','description','status','tasks','noteIds','milestones'],template:['id','name','duration','exercises','programId'],workout:['id','templateId','sessionId','snapshot','sets','startedAt','endedAt','durationMs'],note:['id','kind','title','body','updatedAt','tags','attachments','deletedAt'],canvas:['id','name','nodes','edges','viewport','archived']};
- for(const entry of report.entries){const data=recordFor(state,entry);(entities[entry.kind]??=[]).push({...entry,data:present(data,fields[entry.kind]),...(entry.kind==='task'?{completed:data.status?data.status==='done':!!data.done}:{})});}
+ for(const entry of report.entries){const data=recordFor(state,entry);(entities[entry.kind]??=[]).push({...entry,data:present(data,fields[entry.kind]||['id','name','description','archived','workoutOrder']),...(entry.kind==='task'?{completed:data.status?data.status==='done':!!data.done}:{})});}
  if(context.mainTask&&!report.entries.some(e=>e.kind==='task'&&e.ref.id===context.mainTask.id&&(e.ref.projectId??null)===(context.mainTask.projectId??null)))throw problem('desktopMainReference');
  const progress={completedTasks:(entities.task||[]).filter(e=>e.completed&&typeof e.data.completedAt==='string').map(e=>({ref:e.ref,completedAt:e.data.completedAt})),workoutRecords:(entities.workout||[]).map(e=>({id:e.ref.id,...present(e.data,['endedAt'])})),confirmedFocus:structuredClone(state.focusRecords||[]),note:'Derived evidence only. No synthetic completion dates, habit percentage, or new Progress collection.'};
  return freeze({format:'path-mobile-desktop-view',version:1,staged,context:structuredClone(context),report,entities,progress});
@@ -80,6 +81,11 @@ export function mobileViewToDesktop(view){
  const checkpoint=restoreDesktopCheckpoint(view.staged),report=inspectDesktopCheckpoint(checkpoint);if(!report.ok)throw problem('desktopValidation',report);return checkpoint;
 }
 export function selectDesktopMainPreview(view,ref){const source=mobileViewToDesktop(view);return desktopToMobileView(source,{...view.context,mainTask:structuredClone(ref)});}
+// Only an explicit prepared Sport command crosses the canonical boundary.
+export function applyDesktopSport(view,command){
+ safeTree(command);const source=mobileViewToDesktop(view);
+ applySportCommand(source.state,command);return desktopToMobileView(source,view.context);
+}
 export function applyDesktopEdit(view,command,now=new Date()){
  safeTree(command);const source=mobileViewToDesktop(view),action=command?.action,allowed={eventTitle:['value'],eventImportance:['value'],eventTime:['date','time','duration','fold','allowOverlap'],eventCompletion:['value'],habitValue:['date','value'],taskCompletion:['value'],noteBody:['value']}[action];
  if(!allowed||!object(command.ref)||Object.keys(command).some(k=>!['action','ref',...allowed].includes(k))||Object.keys(command.ref).some(k=>!['id','projectId'].includes(k)))throw problem('desktopCommand');

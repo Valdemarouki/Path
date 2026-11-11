@@ -118,7 +118,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
   <label class="event-check"><input id="event-overlap" type="checkbox">${tr('eventAllowOverlap')}</label>
   </details></fieldset>
   <p class="muted">${tr('eventReminder')}: ${esc(event?.reminderMinutes??0)} ${tr('minutes')}</p>
-  ${event?.type==='workout'&&openWorkout&&(templateEditable(event.plannedSnapshot)||state.activeWorkout?.sessionId===event.id||(Array.isArray(state.workoutRecords)?state.workoutRecords:[]).some(r=>r.sessionId===event.id))?`<button type="button" id="event-open-workout" class="action-button action-button--secondary">${tr('openInSport')}</button>`:''}
+  ${event?.type==='workout'&&openWorkout&&(event.workoutTemplateId||templateEditable(event.plannedSnapshot)||state.activeWorkout?.sessionId===event.id||(Array.isArray(state.workoutRecords)?state.workoutRecords:[]).some(r=>r.sessionId===event.id))?`<button type="button" id="event-open-workout" class="action-button action-button--secondary">${tr('openInSport')}</button>`:''}
   ${event?`<details><summary>${tr('eventLinks')}</summary><pre class="event-preserved">${esc(JSON.stringify(preserved,null,2))}</pre></details>`:''}
   <p class="muted">${tr('eventPreview')}</p><p id="event-error" class="error" role="alert" hidden></p><button type="button" id="event-refresh" class="action-button action-button--secondary" hidden>${tr('refreshData')}</button>
   <section id="event-latest" hidden><h3>${tr('eventLatest')}</h3><p class="muted">${tr('eventReviewDraft')}</p><pre id="event-latest-values" class="event-preserved"></pre></section>

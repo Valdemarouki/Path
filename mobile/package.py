@@ -1,4 +1,4 @@
-"""Export committed mobile source/docs and the local branch; never contacts remotes."""
+"""Export mobile source with its Sport dependencies and local history; no remotes."""
 from pathlib import Path
 import argparse
 import hashlib
@@ -23,7 +23,7 @@ if out == root or root in out.parents:
 out.mkdir(parents=True, exist_ok=True)
 source = out / 'path-mobile-alpha-source.tar.gz'
 bundle = out / 'path-mobile-alpha.bundle'
-subprocess.run(['git', 'archive', '--format=tar.gz', '--prefix=path-mobile-alpha/', '--output=' + str(source), 'HEAD', 'mobile', 'docs/mobile'], cwd=root, check=True)
+subprocess.run(['git', 'archive', '--format=tar.gz', '--prefix=path-mobile-alpha/', '--output=' + str(source), 'HEAD', 'mobile', 'docs/mobile', 'domain', 'assets/sport', 'docs/sport'], cwd=root, check=True)
 subprocess.run(['git', 'bundle', 'create', str(bundle), branch], cwd=root, check=True)
 subprocess.run(['git', 'bundle', 'verify', str(bundle)], cwd=root, check=True)
 manifest = ''.join(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.name + '\n' for p in (source, bundle))

@@ -1,5 +1,6 @@
 // Pure local entity operations. No desktop runtime, network, or storage access.
 import {dayKey,validDay,shiftDay} from './date-utils.mjs';
+import '../domain/sport-core.js';
 import {list,taskEntries,projectTaskEditable,projectPercent} from './task-selectors.mjs';
 const fail=key=>{throw Error(key);};
 const copy=value=>structuredClone(value);
@@ -123,7 +124,8 @@ export function validateActiveSession(session){
  if(session.pausedMs!==undefined&&(!Number.isFinite(session.pausedMs)||session.pausedMs<0)||session.restUntil!==undefined&&!Number.isFinite(session.restUntil)||session.pausedAt!==undefined&&!Number.isFinite(session.pausedAt))fail('invalid');return session;
 }
 export function validateAlphaExtensions(state){
- if(state.activeWorkout?.mobileSessionVersion===1)validateActiveSession(state.activeWorkout);
+ if(state.activeWorkout?.mobileSessionVersion===1&&state.activeWorkout.sportVersion!==4)validateActiveSession(state.activeWorkout);
+ globalThis.PathSportCore.validate(state);
  if(state.mobileProjectUndo!==undefined){const u=state.mobileProjectUndo;if(!u||u.version!==1||typeof u.projectId!=='string'||!Number.isInteger(u.index)||u.index<0||u.index>5000||!u.task||typeof u.task.id!=='string'||typeof u.task.title!=='string'||!Array.isArray(u.main)||u.main.some(pair=>!Array.isArray(pair)||pair.length!==2||!validDay(pair[0])||pair[1]!==u.task.id))fail('invalid');}
 }
 function sessionFor(state){const s=state.activeWorkout;if(s?.mobileSessionVersion!==1)fail('alphaReadOnly');return validateActiveSession(s);}

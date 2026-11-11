@@ -3,6 +3,7 @@ import {t, label as nativeLabel, LOCALES} from './i18n.mjs';
 import {createNavigation} from './navigation.mjs';
 import {createEventEditor} from './event-editor.mjs';
 import {createAlphaUI} from './alpha-ui.mjs';
+import {createSportUI} from './sport-ui.mjs';
 import {tasksForDate,projectDeadlines,taskEntry,projectTaskEditable} from './task-selectors.mjs';
 import {mobileBackup} from './desktop-adapter.mjs';
 import {HABITS_ICON_PATH} from './habit-icon.mjs';
@@ -45,13 +46,14 @@ const tr = key => t(key,lang);
 const navigation = createNavigation($('navigation'));
 const numericPicker=installNumericFields({navigation,tr});
 const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
-const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:()=>navigate('sport'),getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
+const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:id=>{sport.openEvent(id);navigate('sport');},getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
 const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing||!!testControls?.isBusy(),isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
 const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd,getHabitDate:()=>desktopMode?(desktopHabitDate||today):dayKey(),setHabitDate:date=>{desktopHabitDate=date;render();}});
+const sport=createSportUI({getState:()=>state,commit,language:()=>lang,navigation,navigate,refreshView:render,getError:getSaveError,isStale:()=>blocked||fatal,numericPicker,openCalendar:date=>{selected=date;navigate('calendar');}});
 try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):createRepository(localStorage);repo=navigator.locks?await navigator.locks.request(storageKey,make):make(); state=repo.state; lang=state?.language||'en';if(desktopMode&&state){today=state.desktopTest.date;selected=today;desktopHabitDate=today;} }
 catch { fatal=true; }
 const testText=key=>testModeText(key,lang);
-if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId){selected=today;desktopHabitDate=today;}}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
+if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,beforeChange:()=>sport.flushDrafts(),onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId){selected=today;desktopHabitDate=today;}}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
 const dateText = date => !/^\d{4}-\d{2}-\d{2}$/.test(date)?'—':dateFormatter('date').format(new Date(`${date}T12:00:00`));
 const time = instant => dateFormatter('time').format(new Date(instant));
 function eventTime(event) {
@@ -79,10 +81,10 @@ async function commit(change,focusId,options={}) {
   writing=true;document.documentElement.setAttribute('data-saving','true');
   try {
     // A gesture may be cancelled while waiting for another tab's storage lock.
-    const result=await navigator.locks.request(storageKey,()=>{if(desktopMode&&repo.state?.desktopTest?.datasetId!==datasetAtStart)throw Error('conflict');return options.guard&&!options.guard()?null:repo.commit(change,desktopMode?{allowOverlap:options.desktopAllowOverlap}:undefined);});
+    const result=await navigator.locks.request(storageKey,()=>{if(desktopMode&&repo.state?.desktopTest?.datasetId!==datasetAtStart)throw Error('conflict');return options.guard&&!options.guard()?null:repo.commit(change,desktopMode?{allowOverlap:options.desktopAllowOverlap,sportCommand:options.sportCommand}:undefined);});
     if(!result)return false;state=result;lang=state.language;lastSaveError='';
     // The gesture updates its reserved status slot in place: no reflow or lost scroll.
-    clearStorageError(!!options.calendarCompletion);if(!options.calendarCompletion){render();if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});announce(tr('saved'));}return true;
+    clearStorageError(!!(options.calendarCompletion||options.sportDraft));if(!options.calendarCompletion&&!options.sportDraft){render();if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});announce(tr('saved'));}return true;
   }catch(error){
     if(error.message==='conflict'){blocked=true;if(!options.calendarCompletion){$('conflict-actions').hidden=false;$('reload-in-editor').hidden=false;}}
     const key=error.message==='conflict'?'conflict':'saveError';lastSaveError=tr(key);if(!options.calendarCompletion)showError(key);
@@ -153,8 +155,9 @@ function render() {
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
   if(desktopMode&&!state){$('content').innerHTML=`<p class="desktop-test-empty">${testText('empty')}</p>`;document.querySelectorAll('nav [data-add]').forEach(b=>b.disabled=true);return;}
   const motion=state.mobilePreferences?.motion==='off'?'off':'system';if(document.documentElement.dataset.motion!==motion){document.documentElement.dataset.motion=motion;window.dispatchEvent(new Event('path-motion-change'));}
-  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='settings'?settingsView():alpha.view(route)??unavailableView(route))+`<p class="local-tag">${tr('demo')}</p>`;
+  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='sport'?sport.view():route==='settings'?settingsView():alpha.view(route)??unavailableView(route))+`<p class="local-tag">${tr('demo')}</p>`;
   alpha.mount();
+  sport.mount();
   if(desktopMode)document.querySelectorAll('nav [data-add]').forEach(b=>{b.disabled=true;b.setAttribute('title',testText('readonly'));});
   for(const [id,key] of Object.entries({'add-eyebrow':'quick','add-title':'add','task-label':'title','date-label':'date','add-note':'addNote','save-task':'save'}))$(id).textContent=tr(key);
   $('close-add').setAttribute('aria-label',tr('close'));
@@ -169,9 +172,13 @@ function render() {
 function updateTaskProtection(){if(desktopMode){$('task-fields').disabled=true;$('task-readonly').hidden=false;$('task-readonly').textContent=testText('task');$('save-task').hidden=true;$('edit-actions').hidden=true;return true;}const entry=editing?taskEntry(state,editing):null,readOnly=!!entry&&!projectTaskEditable(state,entry),copy=readOnly&&$('quick-add').open&&formValue()!==baseline;$('task-fields').disabled=readOnly;$('task-readonly').hidden=!readOnly;$('task-readonly').textContent=tr('taskReadOnly');$('save-task').hidden=readOnly;$('edit-actions').hidden=!editing||readOnly;$('task-protected-copy').hidden=!copy;if(copy){$('task-copy-note').textContent=tr('taskDraftProtected');$('task-protected-draft').setAttribute('aria-label',tr('taskDraftProtected'));$('task-protected-draft').value=JSON.stringify({title:$('task-title').value,date:$('task-date').value,duration:$('task-duration').value,note:$('task-note').value},null,2);}return readOnly;}
 function updateTaskUndo(){const undo=state?.mobileTaskUndo,el=$('undo-bar'),obscured=$('navigation').hidden||$('navigation').dataset.state==='expanded'||!!document.querySelector('dialog[open]');el.hidden=!undo;el.inert=obscured;el.classList.toggle('task-undo-obscured',obscured);el.setAttribute('aria-hidden',String(obscured));$('deleted-task-title').textContent=undo?label(undo.task,lang):'';$('deleted-task-date').textContent=undo?dateText(undo.task.date):'';$('task-undo-retention').textContent=tr('taskUndoRetention');$('undo-delete').setAttribute('aria-label',tr('undoDelete')+(undo?': '+label(undo.task,lang):''));}
 new MutationObserver(updateTaskUndo).observe($('navigation'),{attributes:true,attributeFilter:['data-state','hidden']});
-function navigate(destination) {
+let routeSerial=0;
+async function navigate(destination) {
+  const serial=++routeSerial;
   const root=String(destination).replace(/^\//,'').split(/[/?#]/)[0];
   if(!['today','calendar','sport','more','projects','habits','notes','canvas','progress','profile','settings','sync'].includes(root))return;
+  if(route==='sport'&&root!=='sport'&&!await sport.leave())return;
+  if(serial!==routeSerial)return;
   route=root==='more'?'settings':root;render();$('content').classList.remove('page-enter');void $('content').offsetWidth;$('content').classList.add('page-enter');$('content').focus({preventScroll:true});window.scrollTo(0,0);
 }
 function formValue(){return JSON.stringify(['task-title','task-date','task-duration','task-note'].map(id=>$(id).value));}

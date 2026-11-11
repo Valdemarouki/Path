@@ -9,8 +9,8 @@ const integration=readFileSync(new URL('integration.js',root),'utf8');
 const operations=['taskRecords','findTask','taskComplete','setTaskComplete'].map(name=>{
  const line=integration.split('\n').find(l=>l.startsWith('function '+name+'('));if(!line)throw Error('Desktop task contract changed: '+name);return line;
 }).join('\n');
-const context=vm.createContext({});
-vm.runInContext(storage.slice(0,boundary)+'\n'+readFileSync(new URL('timezone.js',root),'utf8')+'\n'+operations+'\nconst DesktopNativeDate=Date;',context,{timeout:1000});
+const context=vm.createContext({structuredClone});
+vm.runInContext(readFileSync(new URL('domain/sport-core.js',root),'utf8')+'\n'+storage.slice(0,boundary)+'\n'+readFileSync(new URL('timezone.js',root),'utf8')+'\n'+operations+'\nconst DesktopNativeDate=Date;',context,{timeout:1000});
 function run(value,code,at='2026-11-11T12:00:00.000Z'){
  context.input=JSON.stringify(value);context.fixedStamp=at;
  return JSON.parse(vm.runInContext(`Date = class extends DesktopNativeDate { constructor(...args){super(...(args.length?args:[fixedStamp]));} static now(){return new DesktopNativeDate(fixedStamp).getTime();} };\n{`+code+'}',context,{timeout:2000}));

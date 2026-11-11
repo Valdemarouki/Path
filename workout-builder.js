@@ -4,7 +4,7 @@ function workoutDraftChanged(){return !!workoutDraft&&JSON.stringify(workoutDraf
 function validWorkoutDraft(w){
  if(!w?.name?.trim())return 'Enter a workout name.';
  if(!Number.isInteger(Number(w.duration))||Number(w.duration)<15||Number(w.duration)>720)return 'Planned time must be 15–720 minutes.';
- if(!Array.isArray(w.exercises)||!w.exercises.length)return 'Add at least one exercise.';
+ if(!Array.isArray(w.exercises))return 'Add an exercise list.';
  const ids=new Set();for(const x of w.exercises){
   if(!x.id||ids.has(x.id))return 'Exercise IDs must be unique.';ids.add(x.id);
   if(!x.name?.trim())return 'Enter a name for every exercise.';
@@ -41,7 +41,7 @@ function leaveWorkoutBuilder(){
  return true;
 }
 function updateWorkoutOutline(){const el=document.querySelector('#workout-outline');if(el&&workoutDraft)el.textContent=workoutDraft.exercises.length+' exercises · '+workoutDraft.exercises.reduce((n,x)=>n+(Number(x.sets)||0),0)+' sets';}
-document.addEventListener('input',e=>{if(!workoutDraft)return;if(e.target.dataset.workoutField)workoutDraft[e.target.dataset.workoutField]=e.target.value;if(e.target.dataset.exerciseId){const x=workoutDraft.exercises.find(x=>x.id===e.target.dataset.exerciseId);if(x)x[e.target.dataset.exerciseField]=e.target.value;}updateWorkoutOutline();});
+document.addEventListener('input',e=>{if(!workoutDraft)return;if(e.target.dataset.workoutField)workoutDraft[e.target.dataset.workoutField]=e.target.value;if(e.target.dataset.exerciseId&&e.target.dataset.exerciseField){const x=workoutDraft.exercises.find(x=>x.id===e.target.dataset.exerciseId);if(x){x[e.target.dataset.exerciseField]=e.target.value;if(e.target.dataset.exerciseField==='rest')x.restPresets={...(x.restPresets||{}),working:Number(e.target.value)};}}updateWorkoutOutline();});
 document.addEventListener('change',e=>{if(workoutDraft&&e.target.dataset.workoutField)workoutDraft[e.target.dataset.workoutField]=e.target.value;});
 document.addEventListener('click',e=>{
  const el=e.target.closest('[data-workout-builder-save],[data-workout-builder-close],[data-exercise-add],[data-exercise-up],[data-exercise-down],[data-exercise-copy],[data-exercise-remove]');if(!el||!workoutDraft)return;const d=el.dataset;
@@ -56,8 +56,13 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('click',e=>{if(!workoutDraft||!e.target.closest('[data-nav]'))return;if(!leaveWorkoutBuilder()){e.preventDefault();e.stopImmediatePropagation();return;}},true);
 window.addEventListener('beforeunload',e=>{if(workoutDraftChanged()){e.preventDefault();e.returnValue='';}});
-const paintStorageBeforeBuilder=paintStorage;paintStorage=function(){paintStorageBeforeBuilder();if(workoutDraft)document.querySelectorAll('[data-history]').forEach(b=>b.disabled=true);};
-const applyHistoryBeforeBuilder=applyHistory;applyHistory=function(direction){if(workoutDraft)return;applyHistoryBeforeBuilder(direction);};
+const paintStorageBeforeBuilder=paintStorage;paintStorage=function(){paintStorageBeforeBuilder();if(workoutDraftChanged())document.querySelectorAll('[data-history]').forEach(b=>b.disabled=true);};
+const applyHistoryBeforeBuilder=applyHistory;applyHistory=function(direction){
+ if(!workoutDraft)return applyHistoryBeforeBuilder(direction);
+ if(workoutDraftChanged()||pathRepository.error||editor)return;
+ const id=workoutDraft.id;workoutDraft=null;workoutDraftOriginal=null;applyHistoryBeforeBuilder(direction);
+ const saved=data.workouts.find(w=>w.id===id);if(saved){workoutDraft=pathClone(saved);workoutDraftOriginal=JSON.stringify(workoutDraft);}if(typeof sportAddedCheckpoint!=='undefined')sportAddedCheckpoint=null;render();
+};
 function restSeconds(until,now=Date.now()){return Number.isFinite(until)?Math.max(0,Math.ceil((until-now)/1000)):0;}
 function restLabel(until,now=Date.now()){const seconds=restSeconds(until,now);return seconds?String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0'):'Rest complete';}
 function workoutRestRemaining(a,now=Date.now()){return a.restRemainingMs??Math.max(0,(a.restUntil||now)-now);}

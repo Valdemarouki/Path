@@ -1258,3 +1258,67 @@ minutes	минуты	minuty	minutos
 {date}: {value} % · daily schedules	{date}: {value} % · ежедневные привычки	{date}: {value} % · codzienne nawyki	{date}: {value} % · hábitos diarios
 Complete this field.	Заполни это поле.	Uzupełnij to pole.	Completa este campo.
 Choose date	Выбрать дату	Wybierz datę	Elegir fecha
+Exercise library	Библиотека упражнений	Biblioteka ćwiczeń	Biblioteca de ejercicios
+Search exercises	Поиск упражнений	Szukaj ćwiczeń	Buscar ejercicios
+Favorites	Избранное	Ulubione	Favoritos
+Recent	Недавние	Ostatnie	Recientes
+Custom exercises	Свои упражнения	Własne ćwiczenia	Ejercicios propios
+Muscles	Мышцы	Mięśnie	Músculos
+Category	Категория	Kategoria	Categoría
+All equipment	Любое оборудование	Dowolny sprzęt	Cualquier equipo
+All categories	Все категории	Wszystkie kategorie	Todas las categorías
+Want to train	Хочу тренировать	Chcę trenować	Quiero entrenar
+In this workout	В этой тренировке	W tym treningu	En este entrenamiento
+Front	Спереди	Przód	Frente
+Front view	Спереди	Widok z przodu	Vista frontal
+Back view	Сзади	Widok z tyłu	Vista posterior
+Reset selection	Сбросить выбор	Wyczyść wybór	Restablecer selección
+Available in the list; no separate body-map region	Доступно в списке; отдельной области на карте нет	Dostępne na liście; brak osobnego obszaru na mapie	Disponible en la lista; sin zona propia en el mapa
+No exercises match these filters.	По этим фильтрам упражнений нет.	Brak ćwiczeń pasujących do filtrów.	No hay ejercicios con estos filtros.
+Create exercise	Создать упражнение	Utwórz ćwiczenie	Crear ejercicio
+Already added	Уже добавлено	Już dodano	Ya añadido
+Exercise details	Об упражнении	Szczegóły ćwiczenia	Detalles del ejercicio
+Rest seconds	Отдых, секунды	Odpoczynek w sekundach	Descanso en segundos
+Variant	Вариант	Wariant	Variante
+Weight · kg	Вес · кг	Ciężar · kg	Peso · kg
+Repetitions	Повторения	Powtórzenia	Repeticiones
+Seconds	Секунды	Sekundy	Segundos
+Distance · meters	Дистанция · м	Dystans · m	Distancia · m
+Move up	Выше	Przesuń wyżej	Subir
+Move down	Ниже	Przesuń niżej	Bajar
+Drag to reorder	Перетащите для изменения порядка	Przeciągnij, aby zmienić kolejność	Arrastrar para reordenar
+Add exercises to build this workout.	Добавьте упражнения в тренировку.	Dodaj ćwiczenia do treningu.	Añade ejercicios al entrenamiento.
+Select an exercise to edit its settings.	Выберите упражнение для настройки.	Wybierz ćwiczenie, aby zmienić ustawienia.	Selecciona un ejercicio para editar sus ajustes.
+Confirm schedule	Подтвердить расписание	Potwierdź harmonogram	Confirmar horario
+Move	Перенести	Przenieś	Mover
+Choose a valid day and time.	Укажите корректные дату и время.	Podaj prawidłową datę i godzinę.	Indica una fecha y hora válidas.
+Targets are plans. Only logged actual sets enter history.	Цели — это план. В историю попадают только записанные фактические подходы.	Cele są planem. Historia zawiera tylko zapisane wykonane serie.	Los objetivos son planes. El historial guarda solo las series registradas.
+Illustration unavailable	Иллюстрация недоступна	Ilustracja niedostępna	Ilustración no disponible
+Muscles not specified	Мышцы не указаны	Nie określono mięśni	Músculos sin especificar
+Measurement	Тип измерения	Typ pomiaru	Tipo de medición
+Log set	Записать подход	Zapisz serię	Registrar serie
+Previous comparable result	Прошлый сопоставимый результат	Poprzedni porównywalny wynik	Resultado anterior comparable
+No comparable previous result	Сопоставимого прошлого результата нет	Brak porównywalnego wcześniejszego wyniku	Sin resultado anterior comparable
+Review results	Проверить результаты	Sprawdź wyniki	Revisar resultados
++30 seconds	+30 секунд	+30 sekund	+30 segundos
+Logged	Записано	Zapisano	Registrado
+Duplicate program	Дублировать программу	Duplikuj program	Duplicar programa
+Archive program	Архивировать программу	Archiwizuj program	Archivar programa
+Archive workout	Архивировать тренировку	Archiwizuj trening	Archivar entrenamiento
+Duplicate workout	Дублировать тренировку	Duplikuj trening	Duplicar entrenamiento
+Not saved. Your input remains available. Retry.	Не сохранено. Введённые данные сохранены в форме. Повторите попытку.	Nie zapisano. Wpisane dane pozostały w formularzu. Spróbuj ponownie.	No se guardó. Los datos siguen en el formulario. Reintenta.
+Custom exercise	Своё упражнение	Własne ćwiczenie	Ejercicio propio
+Check the workout details and try again.	Проверьте данные тренировки и повторите попытку.	Sprawdź dane treningu i spróbuj ponownie.	Revisa los datos del entrenamiento e inténtalo de nuevo.
+Enter valid non-negative numbers; repetitions must be whole numbers.	Введите корректные неотрицательные числа; повторы должны быть целыми.	Wpisz prawidłowe liczby nieujemne; powtórzenia muszą być całkowite.	Introduce números válidos no negativos; las repeticiones deben ser enteras.
+This item has an invalid identity. Reopen it and retry.	Некорректный идентификатор. Откройте элемент заново.	Nieprawidłowy identyfikator. Otwórz element ponownie.	El identificador no es válido. Abre el elemento de nuevo.
+This workout format is preserved but cannot be edited here.	Формат тренировки сохранён, но здесь его нельзя редактировать.	Format treningu został zachowany, lecz nie można go tutaj edytować.	El formato del entrenamiento se conserva, pero no se puede editar aquí.
+This action is unavailable. Reopen the workout and retry.	Действие недоступно. Откройте тренировку заново.	Działanie niedostępne. Otwórz trening ponownie.	Esta acción no está disponible. Abre el entrenamiento de nuevo.
+Restore this archived item before editing or starting it.	Сначала восстановите элемент из архива.	Najpierw przywróć element z archiwum.	Restaura el elemento archivado antes de editarlo o iniciarlo.
+This item is no longer available. Reopen Sport and retry.	Элемент больше недоступен. Откройте Sport заново.	Element nie jest już dostępny. Otwórz Sport ponownie.	Este elemento ya no está disponible. Vuelve a abrir Sport.
+Add an exercise or log an actual set before continuing.	Добавьте упражнение или запишите фактический подход.	Dodaj ćwiczenie lub zapisz wykonaną serię.	Añade un ejercicio o registra una serie antes de continuar.
+Another workout is active. Resume or finish it first.	Уже начата другая тренировка. Продолжите или завершите её.	Inny trening jest aktywny. Najpierw go wznów lub zakończ.	Hay otro entrenamiento activo. Continúalo o finalízalo primero.
+Resume the workout before logging a set.	Продолжите тренировку перед записью подхода.	Wznów trening przed zapisaniem serii.	Reanuda el entrenamiento antes de registrar una serie.
+meters	метры	metry	metros
+Exercise added	Упражнение добавлено	Dodano ćwiczenie	Ejercicio añadido
+Set kind	Тип подхода	Rodzaj serii	Tipo de serie
+Add an exercise list.	Добавьте список упражнений.	Dodaj listę ćwiczeń.	Añade una lista de ejercicios.

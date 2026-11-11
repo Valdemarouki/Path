@@ -1,11 +1,11 @@
 /* Sport v3: additive fields; templates, active snapshots and records stay separate. */
-const SPORT_UNITS=['reps','seconds','kg'];
+const SPORT_UNITS=['reps','seconds','kg','meters'];
 const SPORT_KINDS=['warmup','working','heavy'];
 const SPORT_STAGES={frontLever:['Tuck','Advanced tuck','Straddle','Full'],planche:['Lean','Tuck','Advanced tuck','Full']};
-function sportUnit(ex){if(SPORT_UNITS.includes(ex.unit))return ex.unit;const target=String(ex.target||'').trim();return /(?:seconds?|secs?|s)$/i.test(target)&&! /reps?$/i.test(target)?'seconds':/kg$/i.test(target)?'kg':'reps';}
+function sportUnit(ex){if(ex.measurementType&&globalThis.PathSportCore)return PathSportCore.unitFor(ex.measurementType);if(SPORT_UNITS.includes(ex.unit))return ex.unit;const target=String(ex.target||'').trim();return /(?:seconds?|secs?|s)$/i.test(target)&&! /reps?$/i.test(target)?'seconds':/kg$/i.test(target)?'kg':'reps';}
 function sportTargetLabel(ex){const target=String(ex.target);return /(?:reps?|seconds?|secs?|s|kg)$/i.test(target)?target:target+' '+sportUnit(ex);}
 function sportDefinitionId(ex){return ex.definitionId||'exercise:'+ex.id;}
-function sportRestProfile(ex){const p=data.exercisePreferences?.[sportDefinitionId(ex)]?.restPresets||ex.restPresets||{};const working=Math.min(1200,Math.max(0,Number(ex.rest)||0));return {warmup:p.warmup??Math.min(60,working),working:p.working??working,heavy:p.heavy??Math.min(1200,working+60)};}
+function sportRestProfile(ex){const p=ex.measurementType?(ex.restPresets||data.exercisePreferences?.[sportDefinitionId(ex)]?.restPresets||{}):(data.exercisePreferences?.[sportDefinitionId(ex)]?.restPresets||ex.restPresets||{});const working=ex.measurementType?Math.min(1200,Math.max(0,Number(ex.rest)||0)):Math.max(0,Number(ex.rest)||0);return {warmup:p.warmup??Math.min(60,working),working:p.working??working,heavy:p.heavy??Math.min(1200,working+60)};}
 function sportNormalizeExercise(ex){return {...pathClone(ex),definitionId:sportDefinitionId(ex),unit:sportUnit(ex),category:ex.category||'custom',equipment:ex.equipment||'',rest:sportRestProfile(ex).working,restPresets:sportRestProfile(ex)};}
 function sportActual(value){if(typeof value!=='string'&&typeof value!=='number')return null;if(String(value).trim()==='')return null;const n=Number(value);return Number.isFinite(n)&&n>=0?n:null;}
 function sportTargetNumber(ex){const m=String(ex.target).trim().match(/^(\d+(?:\.\d+)?)(?:\s*[-–]\s*\d+(?:\.\d+)?)?(?:\s*(?:reps?|seconds?|secs?|s|kg))?$/i);return m?Number(m[1]):null;}
@@ -15,11 +15,13 @@ function sportSession(template,calendarId=null,mode='full',now=Date.now()){
  return {sportVersion:3,id,templateId:template.id,sessionId:calendarId,startedAt:new Date(now).toISOString(),snapshot,mode,status:'draft',sets:snapshot.exercises.flatMap(ex=>sportSets(ex,id))};
 }
 function sportExercise(active,id){return active?.snapshot.exercises.find(ex=>ex.id===id);}
-function sportPrevious(active,ex,records=data.workoutRecords||[]){
+function sportPrevious(active,ex,records=data.workoutRecords||[]){if(active?.sportVersion===4)return PathSportCore.previous(active,ex,records);
  const definition=sportDefinitionId(ex),unit=sportUnit(ex);
  return records.filter(r=>r.id!==active.id&&Number.isFinite(Date.parse(r.endedAt))&&Date.parse(r.endedAt)<=Date.parse(active.startedAt)).sort((a,b)=>Date.parse(b.endedAt)-Date.parse(a.endedAt)).map(record=>{const matching=record.sets.filter(s=>s.done&&(s.definitionId||'exercise:'+s.exerciseId)===definition&&s.unit===unit&&sportActual(s.actualValue??s.result)!==null),step=matching.some(s=>s.exerciseId===ex.id)?ex.id:matching[0]?.exerciseId;return {record,sets:matching.filter(s=>s.exerciseId===step)};}).find(x=>x.sets.length)||null;
 }
 function sportLogSet(active,id,value,kind,now=Date.now()){
+ if(active?.sportVersion===4){const set=active.sets.find(s=>s.id===id),type=set?.measurementType,key={reps:'reps',weightReps:'reps',seconds:'seconds',duration:'seconds',distance:'distanceMeters',weight:'weightKg'}[type];const actual=value&&typeof value==='object'?value:{[key]:value};const state={activeWorkout:active,workouts:[],workoutRecords:[]};return PathSportCore.apply(state,PathSportCore.prepare(state,{type:'logSet',setId:id,actual,kind},{now,id:uid}),{prepared:true}).changed;}
+
  if(!active||Number.isFinite(active.pausedAt))throw Error('Resume the workout first.');
  const s=active.sets.find(x=>x.id===id);if(!s)throw Error('Set no longer exists.');if(s.done)return false;
  const actual=sportActual(value);if(actual===null)throw Error('Enter a number of zero or more.');
@@ -30,12 +32,14 @@ function sportLogSet(active,id,value,kind,now=Date.now()){
  const rest=sportRestProfile(ex)[kind];s.rest=rest;if(rest>0){active.restUntil=now+rest*1000;active.restSetId=s.id;}
  return true;
 }
-function sportUndoSet(active,id){const s=active?.sets.find(x=>x.id===id);if(!s?.done)return false;s.done=false;delete s.loggedAt;delete s.actualValue;if(active.restSetId===id)changeWorkoutRest(active,'skip');return true;}
+function sportUndoSet(active,id){if(active?.sportVersion===4){const set=active.sets.find(s=>s.id===id);if(!set?.done)return false;const state={activeWorkout:active,workouts:[],workoutRecords:[]};PathSportCore.apply(state,PathSportCore.prepare(state,{type:'undoSet',setId:id},{id:uid}),{prepared:true});return true;}const s=active?.sets.find(x=>x.id===id);if(!s?.done)return false;s.done=false;delete s.loggedAt;delete s.actualValue;if(active.restSetId===id)changeWorkoutRest(active,'skip');return true;}
 function sportAdjustRest(active,seconds,now=Date.now()){
  if(!active||(active.restUntil===undefined&&active.restRemainingMs===undefined))return false;
  const ms=Math.max(0,Math.min(1200000,workoutRestRemaining(active,now)+seconds*1000));if(active.restRemainingMs!==undefined)active.restRemainingMs=ms;else active.restUntil=now+ms;return true;
 }
 function sportSwapExercise(active,stepId,replacement){
+ if(active?.sportVersion===4){const state={activeWorkout:active,workouts:[],workoutRecords:[]};PathSportCore.apply(state,PathSportCore.prepare(state,{type:'swapExercise',activeId:active.id,slotId:stepId,replacement:sportNormalizeExercise(replacement)},{id:uid}),{prepared:true});return true;}
+
  if(!active||Number.isFinite(active.pausedAt))throw Error('Resume the workout before swapping.');
  if(active.sets.some(s=>s.exerciseId===stepId&&s.done))throw Error('Undo the logged sets before swapping this exercise.');
  const index=active.snapshot.exercises.findIndex(x=>x.id===stepId);if(index<0||!replacement)throw Error('Choose an available exercise.');
@@ -65,6 +69,7 @@ function sportAvailableWindows(date,excludedId=null,now=Date.now()){
  return pathOpenSlots(data.events.filter(e=>e.id!==excludedId),date,15).map(g=>({...g,start:Math.max(g.start,Math.ceil(now/900000)*900000)})).map(g=>({...g,minutes:(g.end-g.start)/60000})).filter(g=>g.minutes>=15);
 }
 function sportProgression(template,ex,records=data.workoutRecords||[]){
+ if(ex.measurementType&&!['reps','seconds'].includes(ex.measurementType))return null;
  const threshold=sportTargetNumber(ex);if(threshold===null||!['reps','seconds'].includes(sportUnit(ex)))return null;
  const used=new Set(ex.progressionEvidence||[]),definition=sportDefinitionId(ex),unit=sportUnit(ex);
  const eligible=records.filter(r=>r.templateId===template.id&&r.mode!=='short'&&r.endedAt&&!used.has(r.id)).sort((a,b)=>Date.parse(b.endedAt)-Date.parse(a.endedAt)).filter(r=>{
@@ -79,3 +84,9 @@ function sportSkillTest(skill,stage,value,now=Date.now()){
 }
 
 function sportTypeIcon(category='custom'){const paths={pull:'M4 3h16 M7 3v6l5 4 5-4V3 M12 13v5 M8 22l4-4 4 4',push:'M3 17h18 M6 17l3-7h6l4 7 M9 10l-3-3 M15 10l3-3',base:'M5 5h14 M7 5v8l5 3 5-3V5 M12 16v5',hold:'M4 4v16 M20 4v16 M4 10h6l4 4h6',custom:'M3 8v8 M7 5v14 M7 12h10 M17 5v14 M21 8v8'};return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[category]||paths.custom}"/></svg>`;}
+
+function sportNumber(value){const number=Number(value);return Number.isFinite(number)?number.toLocaleString(typeof pathLocale==='function'?pathLocale():'en-US',{maximumFractionDigits:3}):String(value??'');}
+function sportResultText(set){
+ if(set.actual){const a=set.actual;if(set.measurementType==='weightReps')return sportNumber(a.reps)+' '+pathT('reps')+' · '+sportNumber(a.weightKg)+' '+pathT('kg');if(set.measurementType==='distance')return sportNumber(a.distanceMeters)+' '+pathT('meters');if(['seconds','duration'].includes(set.measurementType))return sportNumber(a.seconds)+' '+pathT('seconds');if(set.measurementType==='weight')return sportNumber(a.weightKg)+' '+pathT('kg');return sportNumber(a.reps)+' '+pathT('reps');}
+ return String(set.actualValue??set.result??'')+(set.unit?' '+pathT(set.unit):'');
+}

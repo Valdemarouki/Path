@@ -143,6 +143,10 @@ if(!n||typeof n.id!=='string'||!n.id||ids.has(n.id)||!['note','journal'].include
  if(state.exercisePreferences!==undefined){if(!state.exercisePreferences||typeof state.exercisePreferences!=='object'||Array.isArray(state.exercisePreferences))throw Error('Invalid exercise preferences.');for(const p of Object.values(state.exercisePreferences)){if(typeof p.techniqueNote!=='string'||!p.restPresets||['warmup','working','heavy'].some(k=>!Number.isInteger(p.restPresets[k])||p.restPresets[k]<0||p.restPresets[k]>1200))throw Error('Invalid exercise rest profile.');}}
  if(state.skillTests!==undefined){uniqueItems(state.skillTests,'skill tests');const stages={frontLever:['Tuck','Advanced tuck','Straddle','Full'],planche:['Lean','Tuck','Advanced tuck','Full']};for(const t of state.skillTests)if(!stages[t.skillType]?.includes(t.stage)||!Number.isFinite(t.holdSeconds)||t.holdSeconds<0||!Number.isFinite(Date.parse(t.occurredAt)))throw Error('Invalid skill test.');}
  for(const r of [state.activeWorkout,...(state.workoutRecords||[])].filter(Boolean)){if(r.sportVersion!==3)continue;for(const s of r.sets){if(typeof s.definitionId!=='string'||!s.definitionId||!['reps','seconds','kg'].includes(s.unit)||!['warmup','working','heavy'].includes(s.kind)||s.sessionRef!==r.id)throw Error('Invalid Sport set identity.');if(s.done&&(!Number.isFinite(s.actualValue)||s.actualValue<0||!Number.isFinite(Date.parse(s.loggedAt))||s.unit==='reps'&&!Number.isInteger(s.actualValue)))throw Error('Invalid logged Sport result.');}}
+ if(state.sportsLibrary!==undefined||[state.activeWorkout,...(state.workoutRecords||[]),...(state.workouts||[]),...(state.programs||[])].some(value=>value?.sportVersion===4)){
+  if(typeof PathSportCore==='undefined')throw Error('Sport v4 contract is unavailable.');
+  PathSportCore.validate(state);
+ }
  return state;
 }
 /* Preserve object references held by open editors when a write is rolled back. */

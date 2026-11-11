@@ -7,9 +7,17 @@ const settled=p=>p.waitForFunction(()=>!document.documentElement.hasAttribute('d
 const stored=p=>p.evaluate(k=>JSON.parse(localStorage.getItem(k)),key);
 async function main(){
  await fs.mkdir(out,{recursive:true});
- const m=await import('../model.mjs'),a=await import('../alpha-model.mjs');
+ const m=await import('../model.mjs'),a=await import('../alpha-model.mjs'),sport=await import('../sport-model.mjs');
  const now=new Date('2026-11-11T23:59:40+01:00'),results=[],errors=[],external=[];
- const fixture=()=>{const s=m.migrate(m.seed(now));s.events=[];a.saveTemplate(s,'phone-template',{name:'Synthetic phone training',detail:'Resume checks only',duration:30,exercises:[{id:'phone-exercise',name:'Squat',sets:2,target:'8',unit:'reps',rest:60}]});a.startWorkout(s,'phone-template','phone-session',null,now);a.logWorkoutSet(s,s.activeWorkout.sets[0].id,{result:'8',load:'24.5'},now,true);a.saveNote(s,'phone-note',{title:'Synthetic draft',body:'Original body'},now);return s;};
+ const fixture=()=>{
+  const s=m.migrate(m.seed(now));s.events=[];
+  const slot=sport.slotFromDefinition({id:'custom:phone-weighted-squat',names:{en:'Synthetic weighted squat',ru:'Тестовое приседание с весом',es:'Sentadilla sintética con peso'},measurementType:'weightReps',equipment:['dumbbell'],primaryMuscles:[]},'phone-exercise');slot.sets=2;slot.rest=60;
+  const apply=command=>sport.applySportCommand(s,sport.prepareSportCommand(s,command,{now:+now}));
+  apply({type:'saveTemplate',id:'phone-template',fields:{name:'Synthetic phone training',detail:'Resume checks only',duration:30,exercises:[slot]}});
+  apply({type:'start',templateId:'phone-template',activeId:'phone-session'});
+  apply({type:'logSet',activeId:'phone-session',setId:s.activeWorkout.sets[0].id,actual:{reps:8,weightKg:24.5},kind:'working'});
+  a.saveNote(s,'phone-note',{title:'Synthetic draft',body:'Original body'},now);m.validate(s);return s;
+ };
  const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
  async function context({clock=true,route='sport',seed=fixture(),at=now,zone='Europe/Warsaw',cdpZone=null}={}){
   const c=await browser.newContext({viewport:{width:390,height:844},...(zone?{timezoneId:zone}:{}),hasTouch:true,isMobile:true,reducedMotion:'reduce'});
@@ -21,41 +29,44 @@ async function main(){
    Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>window.syntheticHidden?'hidden':'visible'});
    const set=window.setInterval,clear=window.clearInterval;
    window.phoneWorkoutTimers=new Set();window.phoneWorkoutTicks=0;
-   window.setInterval=function(fn,delay,...args){let timer;timer=set.call(this,function(...received){if(fn.name==='updateTimers')window.phoneWorkoutTicks++;return fn(...received);},delay,...args);if(fn.name==='updateTimers')window.phoneWorkoutTimers.add(timer);return timer;};
+   window.setInterval=function(fn,delay,...args){let timer;timer=set.call(this,function(...received){if(delay===1000&&['updateTimers','tick'].includes(fn.name))window.phoneWorkoutTicks++;return fn(...received);},delay,...args);if(delay===1000&&['updateTimers','tick'].includes(fn.name))window.phoneWorkoutTimers.add(timer);return timer;};
    window.clearInterval=function(timer){window.phoneWorkoutTimers.delete(timer);return clear.call(this,timer);};
   },{key,seed});
   const p=await c.newPage();p.on('pageerror',e=>errors.push(e.message));p.on('console',message=>{if(['error','warning'].includes(message.type()))errors.push(message.text());});
   let cdp;if(cdpZone){cdp=await c.newCDPSession(p);await cdp.send('Emulation.setTimezoneOverride',{timezoneId:cdpZone});}
   if(clock)await p.clock.setFixedTime(at);
-  await p.goto(origin+'/#'+route);await p.locator('#content h1').waitFor({timeout:10000});await p.evaluate(()=>document.fonts.ready);
+  await p.goto(origin+'/#'+route);try{await p.locator('#content h1').waitFor({timeout:10000});}catch(error){console.log('Synthetic resume context diagnostics',JSON.stringify({errors,storage:await p.locator('#storage-error').textContent(),content:await p.locator('#content').textContent()}));throw error;}await p.evaluate(()=>document.fonts.ready);
+  if(route==='sport')await enterWorkout(p);
   return {c,p,cdp};
  }
+ async function enterWorkout(p){if(!await p.locator('.sp-workout').count()){await p.locator('[data-sp=resume]').first().click();await p.locator('.sp-workout').waitFor();}}
  async function visibility(p,hidden){await p.evaluate(hidden=>{window.syntheticHidden=hidden;document.dispatchEvent(new Event('visibilitychange'));},hidden);}
  async function focus(p){await p.evaluate(()=>window.dispatchEvent(new Event('focus')));}
- async function go(p,route){await p.evaluate(route=>{location.hash=route;},route);await p.waitForFunction(route=>document.querySelector('nav [aria-current="page"]')?.dataset.route===route,route);await settled(p);}
+ async function go(p,route){await p.evaluate(route=>{location.hash=route;},route);await p.waitForFunction(route=>document.querySelector('nav [aria-current="page"]')?.dataset.route===route,route);await settled(p);if(route==='sport')await enterWorkout(p);}
  const pass=name=>{results.push({name});console.log('CHECK '+results.length+' '+name);};
  try{
   {
    const {c,p}=await context();
-   const row=p.locator('[data-workout-set]').nth(1);await row.locator('[data-set-result]').fill('7');await row.locator('[data-set-load]').fill('24.75');
-   const before=await stored(p);assert.equal(await p.locator('[data-workout-rest]').textContent(),'01:00');
+   await p.locator('#sp-actual-reps').fill('7');await p.locator('#sp-actual-weightKg').fill('24.75');
+   await p.waitForFunction(k=>{const a=JSON.parse(localStorage.getItem(k)).activeWorkout,values=a.draftInputs?.[a.sets[1].id];return values?.reps==='7'&&values?.weightKg==='24.75';},key);await settled(p);
+   const before=await stored(p);assert.equal(await p.locator('[data-sp-rest]').textContent(),'01:00');
    await visibility(p,true);await p.clock.setFixedTime(new Date(+now+75000));await visibility(p,false);
-   assert.equal(await p.locator('[data-workout-rest]').textContent(),'00:00');assert.equal(await p.locator('[data-workout-elapsed]').textContent(),'01:15');
-   assert.equal(await p.locator('[data-set-result]').nth(1).inputValue(),'7');assert.equal(await p.locator('[data-set-load]').nth(1).inputValue(),'24.75');assert.deepEqual(await stored(p),before);
-   pass('Background-return event across midnight recomputes elapsed/rest from timestamps; pending set input and storage remain unchanged');
+   assert.equal(await p.locator('[data-sp-rest]').textContent(),'00:00');assert.equal(await p.locator('[data-sp-elapsed]').textContent(),'01:15');
+   assert.equal(await p.locator('#sp-actual-reps').inputValue(),'7');assert.equal(await p.locator('#sp-actual-weightKg').inputValue(),'24.75');assert.deepEqual(await stored(p),before);
+   pass('Background-return event across midnight recomputes elapsed/rest from timestamps; auto-saved typed draft and storage remain unchanged');
    await p.screenshot({path:path.join(out,'active-workout-return.png'),animations:'disabled'});
-   await p.locator('[data-alpha="save-workout-inputs"]').click();await settled(p);await p.reload();await p.locator('.active-workout').waitFor();
-   assert.equal((await stored(p)).activeWorkout.id,'phone-session');assert.equal(await p.locator('[data-set-result]').nth(1).inputValue(),'7');assert.equal(await p.locator('[data-set-load]').nth(1).inputValue(),'24.75');assert.equal(await p.locator('[data-workout-rest]').textContent(),'00:00');assert.equal(await p.locator('[data-workout-elapsed]').textContent(),'01:15');
-   pass('Explicitly saved incomplete inputs, active workout identity and expired rest restore after reload');
+   await p.reload();await enterWorkout(p);
+   assert.equal((await stored(p)).activeWorkout.id,'phone-session');assert.equal(await p.locator('#sp-actual-reps').inputValue(),'7');assert.equal(await p.locator('#sp-actual-weightKg').inputValue(),'24.75');assert.equal(await p.locator('[data-sp-rest]').textContent(),'00:00');assert.equal(await p.locator('[data-sp-elapsed]').textContent(),'01:15');
+   pass('Automatically saved typed incomplete inputs, active workout identity and expired rest restore after reload');
    await c.close();
   }
   {
    const {c,p}=await context();await p.clock.setFixedTime(new Date(+now+10000));await focus(p);
-   assert.equal(await p.locator('[data-workout-rest]').textContent(),'00:50');await p.locator('[data-alpha="pause-workout"]').click();await settled(p);
+   assert.equal(await p.locator('[data-sp-rest]').textContent(),'00:50');await p.locator('[data-sp=pause]').click();await settled(p);
    const paused=await stored(p);await visibility(p,true);await p.clock.setFixedTime(new Date(+now+70000));await visibility(p,false);
-   assert.equal(await p.locator('[data-workout-rest]').textContent(),'00:50');assert.equal(await p.locator('[data-workout-elapsed]').textContent(),'00:10');assert.deepEqual(await stored(p),paused);
-   await p.locator('[data-alpha="pause-workout"]').click();await settled(p);await p.clock.setFixedTime(new Date(+now+80000));await focus(p);
-   assert.equal(await p.locator('[data-workout-rest]').textContent(),'00:40');assert.equal(await p.locator('[data-workout-elapsed]').textContent(),'00:20');
+   assert.equal(await p.locator('[data-sp-rest]').textContent(),'00:50');assert.equal(await p.locator('[data-sp-elapsed]').textContent(),'00:10');assert.deepEqual(await stored(p),paused);
+   await p.locator('[data-sp=pause]').click();await settled(p);await p.clock.setFixedTime(new Date(+now+80000));await focus(p);
+   assert.equal(await p.locator('[data-sp-rest]').textContent(),'00:40');assert.equal(await p.locator('[data-sp-elapsed]').textContent(),'00:20');
    pass('Paused session retains remaining rest through background gap; resume excludes paused time and uses a new deadline');await c.close();
   }
   {
@@ -90,11 +101,11 @@ async function main(){
    await go(p,'sport');assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),1);await visibility(p,true);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),0);await visibility(p,false);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),1);
    await p.evaluate(()=>window.dispatchEvent(new Event('pagehide')));assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),0);await p.evaluate(()=>window.dispatchEvent(new Event('pageshow')));assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),1);
    pass('Repeated route/visibility/page lifecycle changes leave exactly one visible workout interval and remove it when hidden');
-   await p.locator('[data-alpha="pause-workout"]').click();await settled(p);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),0);await p.locator('[data-alpha="pause-workout"]').click();await settled(p);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),1);
+   await p.locator('[data-sp=pause]').click();await settled(p);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),0);await p.locator('[data-sp=pause]').click();await settled(p);assert.equal(await p.evaluate(()=>window.phoneWorkoutTimers.size),1);
    pass('Paused workout has no ticking interval; resuming restarts one timer without duplicate listeners');await c.close();
   }
   assert.deepEqual(errors,[]);assert.deepEqual(external,[]);
-  await fs.writeFile(path.join(out,'verification.json'),JSON.stringify({cases:results.length,results,consoleErrors:errors,externalRequests:external,conditions:'Linux Chromium 390×844, fresh synthetic profiles, controlled browser clock, CDP-emulated timezone and synthetic visibility/focus/page lifecycle events. No physical OS background/keyboard/device test.',beforeFix:{idleWorkoutTimerTicks:2,windowMs:2300,route:'Today',viewport:'1280x720',activeWorkout:false,kind:'demonstration of unnecessary idle wake, not an FPS comparison'},afterFix:{idleWorkoutTimerTicks:0,windowMs:2200,route:'Today',viewport:'390x844',activeWorkout:true,kind:'lifecycle assertion, not a matched CPU/FPS benchmark'},limitations:'Pending input is retained in a live page; a mobile OS may terminate that page. Explicit Save inputs is required before deliberate reload. No durable unsaved-draft recovery is claimed.'},null,2)+'\n');
+  await fs.writeFile(path.join(out,'verification.json'),JSON.stringify({cases:results.length,results,consoleErrors:errors,externalRequests:external,conditions:'Linux Chromium 390×844, fresh synthetic profiles, controlled browser clock, CDP-emulated timezone and synthetic visibility/focus/page lifecycle events. No physical OS background/keyboard/device test.',beforeFix:{idleWorkoutTimerTicks:2,windowMs:2300,route:'Today',viewport:'1280x720',activeWorkout:false,kind:'demonstration of unnecessary idle wake, not an FPS comparison'},afterFix:{idleWorkoutTimerTicks:0,windowMs:2200,route:'Today',viewport:'390x844',activeWorkout:true,kind:'lifecycle assertion, not a matched CPU/FPS benchmark'},limitations:'Typed draft inputs are asserted durable before deliberate reload; foreground events do not rewrite them. Synthetic lifecycle events cannot establish actual iOS suspension, abrupt process termination, OS keyboard or background sound behavior.'},null,2)+'\n');
   console.log('PASS '+results.length+' phone resume checks. '+out);
  }finally{await browser.close();}
 }
