@@ -10,12 +10,19 @@ import {canSetEventCompletion,zoneParts} from './calendar-model.mjs';
 import {createCalendarCompletion} from './calendar-completion.mjs';
 import {actionButton,setActionIcon} from './actions.mjs';
 import {installNumericFields} from './numeric-fields.mjs';
+import {installPhoneViewport} from './phone-viewport.mjs';
+import {BUILD_ID,BUILD_LABEL} from './build-info.mjs';
+installPhoneViewport();
+const buildBadge=document.querySelector('.alpha');buildBadge.textContent=BUILD_LABEL;buildBadge.title=BUILD_ID;buildBadge.setAttribute('aria-label',BUILD_ID);
 import {createDesktopTestRepository,TEST_STORAGE_KEY,testCommands,testHabitState} from './desktop-test-repository.mjs';
 import {createDesktopTestControls,testModeText,downloadTestJSON} from './desktop-test-controls.mjs';
 const desktopMode=new URLSearchParams(location.search).get('desktop-test')==='1';
 const label=(entity,language)=>desktopMode?(typeof entity?.title==='string'?entity.title:typeof entity?.name==='string'?entity.name:''):nativeLabel(entity,language);
 const storageKey=desktopMode?TEST_STORAGE_KEY:STORAGE_KEY;
-let testControls,desktopHabitDate=null;
+let testControls,desktopHabitDate=null,lastTodayClock='';
+let formatterZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
+const formatCache=new Map();
+function dateFormatter(kind,zone=formatterZone){const key=[lang,kind,zone].join('|');if(!formatCache.has(key)){if(formatCache.size>=32)formatCache.clear();formatCache.set(key,new Intl.DateTimeFormat(LOCALES[lang],{timeZone:zone,...(kind==='time'?{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}:{weekday:'long',day:'numeric',month:'long'})}));}return formatCache.get(key);}
 
 const $ = id => document.getElementById(id);
 const escape = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -45,12 +52,12 @@ try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):creat
 catch { fatal=true; }
 const testText=key=>testModeText(key,lang);
 if(desktopMode)testControls=createDesktopTestControls({repo,getLanguage:()=>lang,onState:(language)=>{const previous=state?.desktopTest?.datasetId;state=repo?.state??null;lang=state?.language||language||lang;if(state){today=state.desktopTest.date;if(previous!==state.desktopTest.datasetId){selected=today;desktopHabitDate=today;}}fatal=false;blocked=false;clearStorageError();$('conflict-actions').hidden=true;render();},onFailure:error=>{if(error.message==='conflict'){blocked=true;showError('conflict');$('conflict-actions').hidden=false;}}});
-const dateText = date => !/^\d{4}-\d{2}-\d{2}$/.test(date)?'—':new Intl.DateTimeFormat(LOCALES[lang],{weekday:'long',day:'numeric',month:'long'}).format(new Date(`${date}T12:00:00`));
-const time = instant => new Intl.DateTimeFormat(LOCALES[lang],{hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(instant));
+const dateText = date => !/^\d{4}-\d{2}-\d{2}$/.test(date)?'—':dateFormatter('date').format(new Date(`${date}T12:00:00`));
+const time = instant => dateFormatter('time').format(new Date(instant));
 function eventTime(event) {
   if(desktopMode&&!event.tzid&&event.type!=='deadline')return `${event.date} · ${String(Math.floor(event.hour)).padStart(2,'0')}:${String(Math.round(event.hour%1*60)).padStart(2,'0')} · ${event.duration} min · ${testText('legacy')}`;
   if(event.type==='deadline')return tr('eventTypeDeadline')+' · '+dateText(event.date);
-  if(desktopMode){const formatter=new Intl.DateTimeFormat(LOCALES[lang],{timeZone:event.tzid,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}),end=zoneParts(Date.parse(event.end_at),event.tzid).date;return `${formatter.format(new Date(event.start_at))} – ${formatter.format(new Date(event.end_at))}${end!==event.date?' · '+dateText(end):''} · ${event.tzid}`;}
+  if(desktopMode){const formatter=dateFormatter('time',event.tzid),end=zoneParts(Date.parse(event.end_at),event.tzid).date;return `${formatter.format(new Date(event.start_at))} – ${formatter.format(new Date(event.end_at))}${end!==event.date?' · '+dateText(end):''} · ${event.tzid}`;}
   const start=dayKey(new Date(event.start_at)),end=dayKey(new Date(event.end_at));
   return `${time(event.start_at)} – ${time(event.end_at)}${start!==end?' · '+dateText(end):''}`;
 }
@@ -93,6 +100,7 @@ function intro(title) {return `<div class="intro ${title==='today'?'today-intro'
 function testMainSelector(){const items=tasksForDate(state,today);return `<div class="desktop-test-main"><label for="desktop-test-main">${testText('main')}</label><select id="desktop-test-main"><option value="">${testText('none')}</option>${items.map(task=>`<option value="${escape(task.id)}" ${state.mainTasks?.[today]===task.id?'selected':''}>${escape(label(task,lang))}</option>`).join('')}</select></div>`;}
 function todayView() {
   const tasks=tasksForDate(state,today),main=mainTaskOnDay(state,today),otherTasks=tasks.filter(t=>t.id!==main?.id),overdue=overdueTasks(state,today),habits=state.habits.filter(h=>!desktopMode&&eligible(h,today)),next=nextEvent(state);
+  lastTodayClock=todayClockKey(next);
   return `${intro('today','subtitle')}${desktopMode?testMainSelector():''}<p class="date-line">${escape(dateText(today))}</p>
     ${main?taskRow(main,true):`<section class="focus-card"><span class="eyebrow">${tr('mainTask')}</span><p class="empty">${tr('noMain')}</p>${desktopMode?'':actionButton(tr('add'),{kind:'create',attrs:'data-add'})}</section>`}
     ${otherTasks.length?`<section class="extra-tasks"><div class="section-head"><span class="eyebrow">${tr('otherTasks')}</span><span class="counter">${otherTasks.filter(t=>t.done).length} / ${otherTasks.length}</span></div>${otherTasks.map(task=>taskRow(task)).join('')}</section>`:''}
@@ -126,7 +134,7 @@ function calendarView() {
   <div class="list-title eyebrow">${tr('allDayTasks')}</div>${tasks.map(task=>taskRow(task)).join('')||`<p class="empty">${tr('noTasks')}</p>`}${desktopMode?'':`<button class="action-button action-button--secondary" data-add>${tr('add')}</button>`}`;
 }
 function settingsView() {
-  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="action-button action-button--secondary" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p>${desktopMode?'':`<a class="action-button action-button--secondary" id="desktop-test-open" href="?desktop-test=1">${testText('open')}</a>`}`;
+  return `${intro('settings')}<label for="language">${tr('language')}</label><select id="language">${LANGUAGES.map(l=>`<option value="${l}" ${l===lang?'selected':''}>${{en:'English',ru:'Русский',es:'Español'}[l]}</option>`).join('')}</select><label for="motion">${tr('motion')}</label><select id="motion"><option value="system">${tr('motionSystem')}</option><option value="off" ${state.mobilePreferences?.motion==='off'?'selected':''}>${tr('motionOff')}</option></select><p class="muted">${tr('localNote')}</p><button class="action-button action-button--secondary" id="export">${tr('backup')}</button><p class="muted">${tr('backupNote')}</p><p class="muted" id="build-identity">${escape(BUILD_ID)}</p>${desktopMode?'':`<a class="action-button action-button--secondary" id="desktop-test-open" href="?desktop-test=1">${testText('open')}</a>`}`;
 }
 function habitsView() {
   const habits=state.habits.filter(h=>!desktopMode&&eligible(h,today));
@@ -136,6 +144,7 @@ function unavailableView(key) {
   return `${intro(key)}<section class="notice">${icon(key)}<h2>${tr('unavailable')}</h2><p>${tr(key==='sync'?'syncDetail':key==='sport'?'sportNote':'unavailableDetail')}</p></section>`;
 }
 function render() {
+  formatterZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
   completion.beforeRender();
   testControls?.render();
   if($('storage-error').dataset.resolved)clearStorageError();
@@ -250,7 +259,17 @@ $('task-form').addEventListener('submit',async event=>{
 $('task-form').addEventListener('input',()=>{if($('form-error').textContent===tr('invalid'))$('form-error').hidden=true;});
 $('task-form').addEventListener('invalid',event=>{event.preventDefault();$('form-error').textContent=tr('invalid');$('form-error').hidden=false;event.target.focus();},true);
 // Local-day refresh never closes the editor or discards its draft.
-function refreshClock(){if(desktopMode)return;const current=dayKey();if(current!==today){today=current;render();}else if(route==='today'&&!$('quick-add').open&&!alpha.isOpen()&&!eventEditor.isOpen()&&!$('content').contains(document.activeElement))render();}
+function todayClockKey(next=nextEvent(state)){return [today,Intl.DateTimeFormat().resolvedOptions().timeZone,next?.id||'',next&&Date.parse(next.start_at)<=Date.now()?'ongoing':'next'].join('|');}
+function refreshClock(){
+  if(desktopMode||!state)return;
+  const current=dayKey(),changed=current!==today;today=current;
+  const focused=document.activeElement,typing=$('content').contains(focused)&&focused?.matches('input,textarea,select,[contenteditable=true]');
+  if(typing)return;
+  // Sport/Notes do not need a midnight DOM rebuild; preserve their live inputs.
+  const update=()=>{const focusId=focused?.id;render();if(focusId&&focusId!=='content')document.getElementById(focusId)?.focus({preventScroll:true});};
+  if(changed&&['today','habits','progress'].includes(route)){update();return;}
+  if(route==='today'&&!$('quick-add').open&&!alpha.isOpen()&&!eventEditor.isOpen()&&lastTodayClock!==todayClockKey())update();
+}
 setInterval(refreshClock,30000);window.addEventListener('focus',refreshClock);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshClock();});
 window.addEventListener('storage',event=>{if(event.key===storageKey||event.key===null){blocked=true;lastSaveError=tr('conflict');if(desktopMode)testControls?.setMessage('conflict');if(!completion.storageChanged()){showError('conflict');$('conflict-actions').hidden=false;$('reload-in-editor').hidden=false;}}});
 window.addEventListener('hashchange',()=>navigate(location.hash.slice(1)));

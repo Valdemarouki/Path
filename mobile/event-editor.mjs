@@ -148,7 +148,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
    e.preventDefault();if(busy||readOnly)return;
    if(editing&&!getState().events.some(e=>e.id===editing)){error('eventMissing');return;}
    let values;try{values=fields();}catch(e){error(e.message);return;}
-   const idToSave=editing||crypto.randomUUID(),allowOverlap=$('event-overlap').checked,wasDone=!!getState().events.find(e=>e.id===editing)?.done;
+   const idToSave=editing||crypto.randomUUID(),allowOverlap=$('event-overlap').checked,wasDone=!!getState().events.find(e=>e.id===editing)?.done,preservePosition=!!editing;
    setBusy(true);let problem;
    try{if(await commit(s=>{try{if(testing()){
       const target=s.events.find(e=>e.id===idToSave);if(!target)throw Error('eventMissing');
@@ -156,7 +156,7 @@ export function createEventEditor({getState,commit,tr,label,date,getError,naviga
       if(capabilities.includes('eventImportance'))target.importance=values.importance;
       if(capabilities.includes('eventCompletion'))target.done=values.done;
       if(capabilities.includes('eventTime')){const [h,m]=values.time.split(':').map(Number);Object.assign(target,{date:values.date,hour:h+m/60,duration:Number(values.duration),fold:values.fold});}
-     }else saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}},undefined,{desktopAllowOverlap:allowOverlap})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
+     }else saveEvent(s,idToSave,values,{allowOverlap});}catch(e){problem=e.message;throw e;}},undefined,{desktopAllowOverlap:allowOverlap})){const done=!!getState().events.find(e=>e.id===idToSave)?.done;afterClose=()=>{focusEvent(idToSave,preservePosition||done!==wasDone);if(done!==wasDone)onCompletion(idToSave,done);};dialog.close();}else failure(problem);}finally{setBusy(false);}
   };
  }
  dialog.addEventListener('cancel',e=>{e.preventDefault();close();});

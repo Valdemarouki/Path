@@ -24,3 +24,8 @@ dialog{position:fixed;top:auto;bottom:0;margin:0 auto;width:min(100%,540px);max-
 .task-row{background:none;border-radius:0;box-shadow:none;}
 #quick-add h2{font:500 30px/1.2 Arial,Helvetica,sans-serif;letter-spacing:-.7px;}
 @media(max-width:350px){.intro.today-intro h1{font-size:68px;}.intro h1{font-size:30px;}}
+
+/* Phone visual viewport: keep the existing sheet geometry above an on-screen keyboard. */
+dialog{bottom:var(--phone-visual-bottom,0px);max-height:calc(min(100dvh,var(--phone-visual-height,100dvh)) - 24px);overscroll-behavior:contain;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.shell{padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+html[data-keyboard-open] #navigation,html[data-keyboard-open] #navigation *{visibility:hidden!important;pointer-events:none!important}

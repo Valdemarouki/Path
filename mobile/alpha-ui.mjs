@@ -182,8 +182,20 @@ export function createAlphaUI({getState,commit,tr,label,language,icon,navigation
   if(!camera||camera.board!==b.id)fitBoard();else paintCamera();
   viewport.onpointerdown=e=>{if(e.target.closest('button')||e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,base:{...camera}};viewport.setPointerCapture(e.pointerId);};viewport.onpointermove=e=>{if(!drag||drag.id!==e.pointerId)return;camera.x=drag.base.x+e.clientX-drag.x;camera.y=drag.base.y+e.clientY-drag.y;paintCamera();};viewport.onpointerup=viewport.onpointercancel=()=>{drag=null;};viewport.onkeydown=e=>{if(e.target!==viewport)return;const delta={ArrowLeft:[30,0],ArrowRight:[-30,0],ArrowUp:[0,30],ArrowDown:[0,-30]}[e.key];if(delta){e.preventDefault();camera.x+=delta[0];camera.y+=delta[1];paintCamera();}else if(e.key==='+'||e.key==='-'){e.preventDefault();zoomBy(e.key==='+'?1.2:1/1.2);}};
  }
- function updateTimers(){if(document.hidden)return;const s=getState()?.activeWorkout;if(s?.mobileSessionVersion!==1)return;for(const el of document.querySelectorAll('[data-workout-elapsed]'))el.textContent=duration(model.workoutElapsed(s));for(const el of document.querySelectorAll('[data-workout-rest]'))el.textContent=duration(model.restRemaining(s));}
- setInterval(updateTimers,1000);document.addEventListener('visibilitychange',updateTimers);
+ let workoutTimer=null;
+ function stopWorkoutTimer(){if(workoutTimer!==null){clearInterval(workoutTimer);workoutTimer=null;}}
+ function updateTimers(){
+  // A timestamp supplies elapsed time; an idle/hidden screen needs no timer.
+  const outputs=document.querySelectorAll('[data-workout-elapsed],[data-workout-rest]');
+  if(document.hidden||!outputs.length){stopWorkoutTimer();return;}
+  const s=getState()?.activeWorkout;if(s?.mobileSessionVersion!==1){stopWorkoutTimer();return;}
+  const elapsed=duration(model.workoutElapsed(s)),rest=duration(model.restRemaining(s));
+  for(const el of outputs){const value=el.hasAttribute('data-workout-elapsed')?elapsed:rest;if(el.textContent!==value)el.textContent=value;}
+  if(s.pausedAt){stopWorkoutTimer();return;}
+  if(workoutTimer===null)workoutTimer=setInterval(updateTimers,1000);
+ }
+ document.addEventListener('visibilitychange',updateTimers);
+ window.addEventListener('focus',updateTimers);window.addEventListener('pageshow',updateTimers);window.addEventListener('pagehide',stopWorkoutTimer);
  function workoutError(key){const el=$('workout-error');if(el){el.textContent=tr(key)||getError();el.hidden=false;}}
  async function workoutWrite(change,success){let problem;const ok=await write(s=>{try{change(s);}catch(e){problem=e.message;throw e;}},success);if(!ok&&!dialog.open)workoutError(problem||'saveError');}
  document.addEventListener('input',e=>{

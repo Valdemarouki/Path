@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Path Mobile — проверка телефона</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="typography.css">
+<link rel="stylesheet" href="alpha.css">
+<link rel="stylesheet" href="actions.css">
+<script type="module" src="phone-check.mjs"></script>
+<main class="shell">
+ <h1>Проверка телефона</h1>
+ <p id="phone-build"></p>
+ <p>Этот экран проверяет возможности браузера. Проверка записи использует отдельный временный ключ и удаляет его. Записи Path не читаются. Диагностика никуда не отправляется.</p>
+ <dl id="phone-capabilities"></dl>
+ <button type="button" class="action-button action-button--create" id="phone-probe">Проверить тестовую запись</button>
+ <p id="phone-probe-result" role="status"></p>
+ <label for="phone-report">Сведения для отчёта об ошибке — можно выделить и скопировать</label>
+ <textarea id="phone-report" rows="10" readonly></textarea>
+ <p>Модель iPhone и точную версию iOS укажите отдельно. Локальное сохранение не подтверждает запуск страницы без сети.</p>
+ <p><a class="action-button action-button--secondary" href="./">Обычный режим</a></p>
+ <p><a class="action-button action-button--secondary" href="./?desktop-test=1">Синтетическая desktop-копия</a></p>
+</main>
+</html>

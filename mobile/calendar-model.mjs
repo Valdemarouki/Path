@@ -5,8 +5,10 @@ export const EVENT_TYPES=['busy','workout','routine','deadline','focus','free_ti
 export const IMPORTANCE=['none','low','medium','high'];
 export const EVENT_ICONS=['calendar','book','focus','sport','sun'];
 export const systemZone=()=>Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC';
+const zoneFormatters=new Map();
+function zoneFormatter(tzid){if(!zoneFormatters.has(tzid)){const formatter=new Intl.DateTimeFormat('en-GB',{timeZone:tzid,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});if(zoneFormatters.size>=32)zoneFormatters.clear();zoneFormatters.set(tzid,formatter);}return zoneFormatters.get(tzid);}
 export function zoneParts(instant,tzid=systemZone()){
- const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:tzid,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(instant)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+ const p=Object.fromEntries(zoneFormatter(tzid).formatToParts(new Date(instant)).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
  return {date:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`,hour:Number(p.hour)+Number(p.minute)/60};
 }
 export function wallCandidates(date,hour,tzid=systemZone()){
