@@ -13,7 +13,7 @@
 #navigation::before,#navigation::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;}
 #navigation::before{background:url('assets/panel-noise.svg') repeat;opacity:.009;}
 #navigation::after{border:1px solid #ffffff38;border-bottom:0;background:linear-gradient(180deg,#ffffff04,transparent 48px);-webkit-mask-image:linear-gradient(#000,transparent 96px);mask-image:linear-gradient(#000,transparent 96px);}
-.nav-shade{position:fixed;inset:0;background:#0004;z-index:14;}
+.nav-shade{position:fixed;inset:0;background:#0004;z-index:14;transform-origin:top;}
 #navigation button{position:relative;display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:#e0dfe2;background:none;border:0;box-shadow:none;border-radius:15px;font:12px/1.25 Arial,Helvetica,sans-serif;text-shadow:0 1px 4px #000c;user-select:none;}
 #navigation button:focus-visible{outline:2px solid #fff;outline-offset:-4px;}
 #navigation svg,.nav-flight svg{width:27px;height:27px;stroke:currentColor;stroke-width:1.25;fill:none;flex-shrink:0;}

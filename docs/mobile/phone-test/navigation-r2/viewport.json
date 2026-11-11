@@ -1,0 +1,71 @@
+{
+  "cases": 8,
+  "results": [
+    {
+      "name": "capability probe shows build identity, touches only one temporary key, removes it and leaves both app stores unchanged",
+      "build": "phone-preflight-2026-11-11-r2",
+      "storageCalls": [
+        "setItem",
+        "getItem",
+        "removeItem"
+      ]
+    },
+    {
+      "name": "missing Web Locks is explicitly blocked without an unsafe storage fallback or writes"
+    },
+    {
+      "name": "Quick Add long textarea and Save fit a 430px visual viewport while layout stays844; restore preserves draft and page",
+      "layoutHeight": 844,
+      "visualHeight": 430,
+      "dialogBottom": 430,
+      "saveBottom": 401.5,
+      "textareaFontSize": 16,
+      "pageScroll": 200
+    },
+    {
+      "name": "Calendar sheet accounts for visual viewport offsetTop32 and keeps textarea/Save accessible without clearing draft",
+      "visualTop": 32,
+      "visualHeight": 400,
+      "dialogBottom": 432,
+      "saveBottom": 353.5,
+      "textareaFontSize": 16
+    },
+    {
+      "name": "Notes long Markdown draft remains exact and confirmation reachable; viewport changes do not auto-save or lose it",
+      "dialogBottom": 430,
+      "saveBottom": 406,
+      "textareaFontSize": 16
+    },
+    {
+      "name": "nested numeric manual keyboard model Cancel restores exact parent draft and original duration"
+    },
+    {
+      "name": "100 visual resize events coalesce, no idle RAF remains, navigation children hide and pinch zoom is not counter-panned",
+      "resizeBurst": 100,
+      "requested": 1,
+      "pending": 0,
+      "keyboard": true,
+      "nav": "hidden",
+      "buttons": 0,
+      "pinchScale": 1.7
+    },
+    {
+      "name": "landscape confirmation reachable without horizontal overflow; safe-area support recorded rather than assumed",
+      "viewport": [
+        844,
+        390
+      ],
+      "safeAreaCommand": "unavailable: cdpSession.send: Protocol error (Emulation.setSafeAreaInsets): 'Emulation.setSafeAreaInsets' wasn't found",
+      "resolvedInsets": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "physicalSafeAreaTested": false
+    }
+  ],
+  "conditions": "Linux Chromium, fresh synthetic profiles, existing loopback8010. visualViewport is an injected EventTarget model; no OS keyboard/device claim. Safe-area CDP capability recorded separately.",
+  "physicalPhoneTested": false,
+  "osKeyboardTested": false
+}

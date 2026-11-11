@@ -1,0 +1,21 @@
+{
+  "cases": 13,
+  "checks": [
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / en",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / ru",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 320px / es",
+    "Compact retains rightmost Habits and expands directly into the same grid",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / en",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / ru",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 390px / es",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / en",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / ru",
+    "DOM, visual, keyboard order; target geometry; glyph; no overflow or data writes: 430px / es",
+    "Habits stays in the right column; reversal is continuous; glyph never scales or rotates; original node and endpoints retained",
+    "Reduced motion bypasses flights, springs and stagger: os",
+    "Reduced motion bypasses flights, springs and stagger: saved"
+  ],
+  "engine": "Chromium/Linux",
+  "externalRequests": [],
+  "pageErrors": []
+}

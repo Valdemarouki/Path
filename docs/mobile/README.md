@@ -1,3 +1,5 @@
+Точечное обновление PHONE R2: [скрытие полос прокрутки, оптимизация перехода навигации и замеры](phone-test/NAVIGATION_R2.md).
+
 Текущий этап: [подготовка iPhone 12 Pro / Safari](phone-test/REPORT.md), [пошаговый доступ Windows → iPhone](phone-test/ACCESS.md), [чеклист](phone-test/PHONE_CHECKLIST.md).
 
 > Текущий этап: [завершение Calendar и отметки Habits в синтетических desktop-копиях](desktop-actions/REPORT.md), [подтверждённая desktop-семантика](desktop-actions/DESKTOP_SEMANTICS.md). Предыдущие этапы сохранены ниже.

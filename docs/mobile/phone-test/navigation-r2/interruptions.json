@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "name": "Expanded shade stays exactly above glass when viewport grows without grid-size change",
+      "geometry": {
+        "top": 468,
+        "bottom": 468
+      }
+    },
+    {
+      "name": "Reduced motion enabled during actual touch drag cancels capture/queued paint and leaves no flights or animations"
+    },
+    {
+      "name": "Viewport resize mid-drag cancels stale endpoints and settles within viewport",
+      "panel": {
+        "x": 0,
+        "y": 16,
+        "width": 844,
+        "height": 374
+      }
+    }
+  ],
+  "errors": [],
+  "physicalPhoneTested": false
+}
