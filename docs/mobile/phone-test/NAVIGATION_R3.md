@@ -4,9 +4,8 @@
 `feature/path-mobile-alpha`, starting clean at
 `3b4bee560ee2547ba0a27fc89733c6e11155cae2` (PHONE R2).
 
-The user clarified that the iPhone screenshot came from the earlier R1 package;
-R2 had not been installed. The same overlap was reproduced in R2's navigation.
-The R3 update therefore includes the four runtime files needed for updating
+The same overlap shown in the iPhone screenshot was reproduced in R2's
+navigation. The R3 update includes the four runtime files needed for updating
 either R1 or R2 directly, including R2's hidden scrollbars and motion work.
 
 ## Reproduction and fix
@@ -43,6 +42,10 @@ saved scroll position, storage keys and models were not changed. Hidden grid
 controls remain inert/aria-hidden; Quick Add returns after closing.
 
 Build identity: `PHONE R3`, `phone-preflight-2026-11-11-r3`.
+
+Comparable browser screenshots at 260 ms of closing, 390×844 CSS px:
+[before](navigation-r3/before-panel-390.png),
+[after](navigation-r3/after-panel-390.png).
 
 ## Verification
 

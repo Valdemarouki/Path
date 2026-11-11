@@ -1,0 +1,56 @@
+{
+  "conditions": "Chromium/Linux, actual app, synthetic data, 390x844 CSSpx, current asset files intercepted locally; no server or external request. Root/card/icon animations paused at 260ms of closing for comparable screenshots; not an iPhone recording.",
+  "baseline": "3b4bee560ee2547ba0a27fc89733c6e11155cae2",
+  "shots": [
+    {
+      "variant": "before",
+      "file": "before-panel-390.png",
+      "metrics": {
+        "title": "Your space",
+        "phase": "true",
+        "navHeight": 117.53125,
+        "extraOpacity": "1",
+        "extraClip": {
+          "top": 770.46875,
+          "bottom": 836
+        },
+        "heading": {
+          "top": 770.46875,
+          "bottom": 798.46875
+        },
+        "row": {
+          "top": 770,
+          "bottom": 836
+        },
+        "overlapVisible": true
+      },
+      "errors": [],
+      "external": []
+    },
+    {
+      "variant": "after",
+      "file": "after-panel-390.png",
+      "metrics": {
+        "title": "Your space",
+        "phase": "closing",
+        "navHeight": 117.53125,
+        "extraOpacity": "0",
+        "extraClip": {
+          "top": 770.46875,
+          "bottom": 770.46875
+        },
+        "heading": {
+          "top": 770.46875,
+          "bottom": 798.46875
+        },
+        "row": {
+          "top": 770,
+          "bottom": 836
+        },
+        "overlapVisible": false
+      },
+      "errors": [],
+      "external": []
+    }
+  ]
+}
