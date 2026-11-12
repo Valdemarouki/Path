@@ -1,4 +1,5 @@
 Today	Сегодня	Dzisiaj	Hoy
+Due	Срок	Termin	Vence
 Calendar	Календарь	Kalendarz	Calendario
 Sport	Спорт	Sport	Deporte
 Projects	Проекты	Projekty	Proyectos
@@ -1258,3 +1259,23 @@ minutes	минуты	minuty	minutos
 {date}: {value} % · daily schedules	{date}: {value} % · ежедневные привычки	{date}: {value} % · codzienne nawyki	{date}: {value} % · hábitos diarios
 Complete this field.	Заполни это поле.	Uzupełnij to pole.	Completa este campo.
 Choose date	Выбрать дату	Wybierz datę	Elegir fecha
+Untitled event	Событие без названия	Wydarzenie bez tytułu	Evento sin título
+High importance	Высокая важность	Wysoka ważność	Importancia alta
+Medium importance	Средняя важность	Średnia ważność	Importancia media
+Low importance	Низкая важность	Niska ważność	Importancia baja
+No importance	Без важности	Bez ważności	Sin importancia
+Date marker	Отметка даты	Znacznik daty	Marca de fecha
+Date only	Только дата	Tylko data	Solo fecha
+Repeats daily	Повторяется ежедневно	Powtarza się codziennie	Se repite a diario
+Repeats weekly	Повторяется еженедельно	Powtarza się co tydzień	Se repite cada semana
+Check time	Проверьте время	Sprawdź godzinę	Revisa la hora
+Go to events	Перейти к событиям	Przejdź do wydarzeń	Ir a los eventos
+{startDate}, {startTime} – {endDate}, {endTime}	{startDate}, {startTime} – {endDate}, {endTime}	{startDate}, {startTime} – {endDate}, {endTime}	{startDate}, {startTime} – {endDate}, {endTime}
+Times shown in {zone}	Время в часовом поясе {zone}	Godziny w strefie {zone}	Horas en {zone}
+{systemZone}; original time zone: {originalZone}	{systemZone}; исходный часовой пояс: {originalZone}	{systemZone}; oryginalna strefa czasowa: {originalZone}	{systemZone}; zona horaria original: {originalZone}
+{date} · Check time	{date} · Проверьте время	{date} · Sprawdź godzinę	{date} · Revisa la hora
+{type} · {duration} · {status}	{type} · {duration} · {status}	{type} · {duration} · {status}	{type} · {duration} · {status}
+{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}	{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}	{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}	{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}
+Add event: {date}, {time}. Nearby events: {count}. Use arrows to navigate; Enter to create.	Добавить событие: {date}, {time}. Событий рядом: {count}. Стрелки — навигация, Enter — создание.	Dodaj wydarzenie: {date}, {time}. Wydarzenia w pobliżu: {count}. Strzałki — nawigacja, Enter — tworzenie.	Añadir evento: {date}, {time}. Eventos cercanos: {count}. Usa las flechas para navegar y Enter para crear.
+Events: {count} · {zone}	Событий: {count} · {zone}	Wydarzenia: {count} · {zone}	Eventos: {count} · {zone}
+Clock repeats	Повторяющееся время	Powtórzona godzina	Hora repetida
