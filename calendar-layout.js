@@ -1,7 +1,9 @@
 /* Calendar composition uses the existing scheduling and conflict commands. */
 let calendarContextVisible=true;
 function calendarDayAgenda(){
- const entries=calendarEvents(homeDate).sort((a,b)=>((a.type==='deadline'?0:1)-(b.type==='deadline'?0:1)||a.hour-b.hour));
+ // Resolve source instants once: clipped wall-clock positions repeat at a fall-back.
+ const entries=calendarEvents(homeDate).map(event=>{let start=Infinity;try{if(event.type!=='deadline')start=pathEventTiming(calendarSourceEvent(event)).start;}catch{}return {event,start};})
+  .sort((a,b)=>(Number(a.event.type!=='deadline')-Number(b.event.type!=='deadline')||a.start-b.start||(String(a.event.id)<String(b.event.id)?-1:String(a.event.id)>String(b.event.id)?1:0))).map(item=>item.event);
  return `<section class="calendar-agenda" id="calendar-day-events" aria-labelledby="calendar-agenda-title"><div class="panel-head"><div><span class="eyebrow">Day overview</span><h2 id="calendar-agenda-title" tabindex="-1">${pretty(homeDate)}</h2></div><button class="btn ghost small" data-calendar-mode="day">Open day</button></div><p class="muted" data-no-translate>${esc(calendarMessage('Events: {count} · {zone}',{count:entries.length,zone:pathSystemTimeZone()}))}</p>${entries.map(e=>{const p=calendarEventPresentation(e);return `<button class="calendar-agenda-item" data-no-translate data-event="${esc(e.id)}" aria-label="${esc(p.name)}" ${calendarCanComplete(e)?'aria-keyshortcuts="Shift+Enter"':''}><time>${e.type==='deadline'?esc(pathT('Due')):clockTime(e.hour)}</time><span><strong>${esc(p.title)}</strong><small>${e.type==='deadline'?'':esc(p.range)+' · '}${esc(p.summary)}</small></span>${icon('chevron',12)}</button>`;}).join('')||'<p class="calendar-agenda-empty">A little room to breathe.<br>No events planned for this day.</p>'}</section>`;
 }
 const calendarPageBeforeLayout=calendarPage;

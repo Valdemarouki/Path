@@ -30,6 +30,10 @@ const calendarDateFormatters=new Map();
 function calendarMessage(message,values={}){return pathT(message).replace(/\{(\w+)\}/g,(_,key)=>String(values[key]??''));}
 function calendarFullDate(date){const locale=pathLocale();if(!calendarDateFormatters.has(locale))calendarDateFormatters.set(locale,new Intl.DateTimeFormat(locale,{dateStyle:'full'}));return calendarDateFormatters.get(locale).format(new Date(date+'T12:00:00'));}
 function calendarSourceEvent(event){return data.events.find(e=>e.id===event.id)||event;}
+function calendarClockLabel(instant,zone=pathSystemTimeZone()){
+ const part=pathZoneParts(instant,zone),choices=pathWallCandidates(part.date,part.hour,zone),time=clockTime(part.hour);
+ return choices.length>1?calendarMessage('{time} ({occurrence})',{time,occurrence:pathT(instant===choices.at(-1)?'Second occurrence':'First occurrence')}):time;
+}
 function calendarEventPresentation(event){
  const e=calendarSourceEvent(event),type=pathT(({free_time:'Free Time',workout:'Workout',focus:'Focus session',routine:'Routine',deadline:'Deadline'})[e.type]||'Event');
  const title=e.title?.trim()?e.title:pathT('Untitled event'),importance=pathT(({high:'High importance',medium:'Medium importance',low:'Low importance'})[typeof calendarImportance==='function'?calendarImportance(e):e.importance]||'No importance');
@@ -39,8 +43,9 @@ function calendarEventPresentation(event){
  if(e.type!=='deadline'){
   try{
    const timing=pathEventTiming(e),start=pathZoneParts(timing.start),end=pathZoneParts(timing.end);
-   range=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(start.date),startTime:clockTime(start.hour),endDate:calendarFullDate(end.date),endTime:clockTime(end.hour)});
-   timeRange=clockTime(start.hour)+'–'+clockTime(end.hour);
+   const startLabel=calendarClockLabel(timing.start),endLabel=calendarClockLabel(timing.end);
+   range=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(start.date),startTime:startLabel,endDate:calendarFullDate(end.date),endTime:endLabel});
+   timeRange=startLabel+'–'+endLabel;
    precise=Math.round(start.hour*60)%15!==0||e.duration%15!==0;
    const civil=calendarMinute(end.date,end.hour)-calendarMinute(start.date,start.hour);
    duration=new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long',maximumFractionDigits:2}).format((timing.end-timing.start)/60000);

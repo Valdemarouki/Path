@@ -42,8 +42,12 @@ function calendarPrepareValues(values){
  const end=values.contextEnd!==undefined?calendarResolveInput(values.contextEndDate,values.contextEnd,values.contextEndFold,state.zone,'contextEnd'):start+Number(values.duration)*60000;
  const duration=(end-start)/60000;
  const preciseMove=editor.calendarMoveDuration===duration&&duration>0;
- if(!Number.isFinite(duration)||Number(values.time.slice(3))%15||(!preciseMove&&(duration<15||duration%15||(values.contextEnd!==undefined&&Number(values.contextEnd.slice(3))%15))))throw calendarTimingError('Use 15-minute time steps.','contextEnd');
- if(duration>10080)throw calendarTimingError('An event can last up to 7 days.','contextEndDate');
+ const endField=values.contextEnd!==undefined?'contextEnd':'duration';
+ if(Number(values.time.slice(3))%15)throw calendarTimingError('Start time must use 15-minute steps.','time');
+ if(!preciseMove&&values.contextEnd!==undefined&&Number(values.contextEnd.slice(3))%15)throw calendarTimingError('End time must use 15-minute steps.','contextEnd');
+ if(!Number.isFinite(duration)||duration<=0)throw calendarTimingError('End must be after start.',endField);
+ if(duration>10080)throw calendarTimingError('An event can last up to 7 days.',values.contextEnd!==undefined?'contextEndDate':'duration');
+ if(!preciseMove&&(duration<15||duration%15))throw calendarTimingError('Duration must be a positive multiple of 15 minutes.',endField);
  const original=pathZoneParts(start,state.source?.tzid||state.zone);
  return {...values,date:original.date,time:clockTime(original.hour),duration:String(duration),fold:calendarFoldAt(start,state.source?.tzid||state.zone)||'earlier'};
 }
@@ -118,15 +122,17 @@ function calendarTimeEditorUI(form){
  if(!note){note=document.createElement('p');note.dataset.calendarTimeContext='';note.dataset.noTranslate='';note.className='calendar-time-context muted small-text';form.querySelector('.context-time-row').before(note);}
  note.hidden=deadline;
  const parts=[calendarMessage('Times shown in {zone}',{zone:state.zone})];
- let duration='';
- const presentation=state.source&&state.source.type!=='deadline'?calendarEventPresentation(state.source):null;
- if(presentation)duration=presentation.duration;
- try{const values=Object.fromEntries(new FormData(form).entries()),start=calendarResolveInput(values.date,values.time,values.fold,state.zone,'time'),end=calendarResolveInput(values.contextEndDate,values.contextEnd,values.contextEndFold,state.zone,'contextEnd');if(end>start)duration=new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long',maximumFractionDigits:2}).format((end-start)/60000);}catch{}
- if(duration)parts.push(duration);
- if(presentation){
-  if(presentation.precise)parts.push(pathT('Existing precise time'));
-  if(state.source.tzid&&state.source.tzid!==state.zone){const original=calendarDisplayTiming(state.source,state.source.tzid);parts.push(calendarMessage('Original: {date}, {time} ({zone})',{date:calendarFullDate(original.date),time:original.time+' – '+calendarFullDate(original.contextEndDate)+', '+original.contextEnd,zone:state.source.tzid}));}
- }
+ // The source snapshot preserves legacy fields; presentation follows only valid live input.
+ try{
+  const values=Object.fromEntries(new FormData(form).entries());calendarPrepareValues(values);
+  const start=calendarResolveInput(values.date,values.time,values.fold,state.zone,'time'),end=calendarResolveInput(values.contextEndDate,values.contextEnd,values.contextEndFold,state.zone,'contextEnd');
+  if(end>start){
+   parts.push(new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long',maximumFractionDigits:2}).format((end-start)/60000));
+   if(calendarSchedulingUnchanged(values,state)&&calendarEventPresentation(state.source).precise)parts.push(pathT('Existing precise time'));
+   const zone=state.source?.tzid;
+   if(zone&&zone!==state.zone){const a=pathZoneParts(start,zone),b=pathZoneParts(end,zone);parts.push(calendarMessage('Original: {date}, {time} ({zone})',{date:calendarFullDate(a.date),time:calendarClockLabel(start,zone)+' – '+calendarFullDate(b.date)+', '+calendarClockLabel(end,zone),zone}));}
+  }
+ }catch{}
  note.textContent=parts.join(' · ');
  let review=form.querySelector('[data-calendar-zone-review]');
  if(pathSystemTimeZone()!==state.zone){

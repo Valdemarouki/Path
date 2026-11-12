@@ -15,6 +15,60 @@ function open(saved={}){
 }
 // Synthetic DOM regression for exact timing; native rendering is a separate review.
 const timing=e=>Object.fromEntries(['date','hour','duration','tzid','fold','start_at','end_at'].filter(k=>Object.hasOwn(e,k)).map(k=>[k,e[k]]));
+function reviewRegressions(){
+ const b=open(),q=name=>b.w.document.querySelector(`[name="${name}"]`),change=(name,value)=>b.input(`[name="${name}"]`,value);
+ const note=()=>b.w.document.querySelector('[data-calendar-time-context]').textContent;
+ const flush=()=>b.run('pathContextFlush()'),discard=()=>b.run('editor.contextDirty=false;closeEditor()');
+ const expectError=(field,message)=>{
+  assert.equal(flush(),false);assert.equal(b.w.document.activeElement,q(field));assert.equal(q(field).getAttribute('aria-invalid'),'true');
+  const ids=(q(field).getAttribute('aria-describedby')||'').split(/\s+/),hint=ids.map(id=>b.w.document.getElementById(id)).find(el=>el?.classList.contains('context-field-error'));
+  assert(hint,'Field must reference its inline error');assert.equal(hint.textContent,message);return hint.id;
+ };
+ try{
+  b.run(`data=pathEmpty();pathSystemTimeZone=()=> 'Europe/Warsaw';view='calendar';homeDate='2026-10-25';calendarMode='day';
+   data.events=[
+    pathStampEvent({id:'second',title:'Same appointment',date:homeDate,hour:2.25,duration:15,tzid:'Europe/Warsaw',fold:'later',type:'busy'}),
+    pathStampEvent({id:'first',title:'Same appointment',date:homeDate,hour:2.25,duration:15,tzid:'Europe/Warsaw',fold:'earlier',type:'busy'}),
+    pathStampEvent({id:'cross',title:'Across fold',date:homeDate,hour:2.5,duration:60,tzid:'Europe/Warsaw',fold:'earlier',type:'busy'}),
+    {id:'deadline',title:'Deadline',type:'deadline',date:homeDate,hour:0,duration:0}];save();render();`);
+  for(const [locale,first,second] of [['en','First occurrence','Second occurrence'],['ru','Первое вхождение','Второе вхождение'],['es','Primera aparición','Segunda aparición']]){
+   b.run(`pathSetLanguage('${locale}');render()`);
+   const row=id=>b.w.document.querySelector(`.calendar-agenda-item[data-event="${id}"]`);
+   for(const [id,label] of [['first',first],['second',second]]){assert(row(id).textContent.includes(label));assert(row(id).getAttribute('aria-label').includes(label));}
+   assert.notEqual(row('first').textContent,row('second').textContent);assert.notEqual(row('first').getAttribute('aria-label'),row('second').getAttribute('aria-label'));
+   assert(row('cross').textContent.includes(first));assert(row('cross').textContent.includes(second));assert(row('cross').textContent.includes('60'));
+   const grid=b.w.document.querySelector('.cal-entry[data-event="cross"]');assert(grid.textContent.includes(first));assert(grid.textContent.includes(second));
+  }
+  b.run(`data.events.find(e=>e.id==='first').hour=2.75;pathStampEvent(data.events.find(e=>e.id==='first'));render()`);
+  const order=()=>[...b.w.document.querySelectorAll('.calendar-agenda-item')].map(el=>el.dataset.event);
+  assert.deepEqual(order(),['deadline','cross','first','second'],'Agenda follows source instants through the fold');
+  b.run(`data.events.push(pathStampEvent({...data.events.find(e=>e.id==='first'),id:'aaa-tie'}));data.events.reverse();render()`);
+  assert.deepEqual(order(),['deadline','cross','aaa-tie','first','second'],'Equal instants use stable identity, independent of storage order');
+  for(const locale of ['en','ru','es']){
+   b.run(`pathSetLanguage('${locale}');pathSystemTimeZone=()=> 'America/Los_Angeles';data.events=[pathStampEvent({id:'summary',title:'Draft summary',date:'2026-11-03',hour:9,duration:60,tzid:'Europe/Warsaw',type:'busy'})];save();modalEvent('summary')`);
+   const snapshot=b.run('JSON.stringify(editor.calendarTime.source)');
+   change('time','01:00');assert(!note().includes('60'));assert(!note().includes('09:00'),'Invalid range withholds old original-zone summary');
+   change('contextEnd','02:00');assert.match(note(),/10:00.*11:00/);assert(note().includes('60'));
+   assert.equal(flush(),true);assert.match(note(),/10:00.*11:00/);assert.equal(b.run('data.events[0].hour'),10);assert.equal(b.run('JSON.stringify(editor.calendarTime.source)'),snapshot,'Presentation must not mutate the precision snapshot');
+   change('contextEnd','');assert(!note().includes('60'));change('contextEnd','02:00');assert.match(note(),/10:00.*11:00/);discard();
+   b.run(`pathSystemTimeZone=()=> 'Europe/Warsaw';data.events=[pathStampEvent({id:'errors',title:'Field errors',date:'2026-11-03',hour:9,duration:60,tzid:'Europe/Warsaw',type:'busy'})];save();modalEvent('errors')`);
+   const t=key=>b.run(`pathT(${JSON.stringify(key)})`);
+   const description=b.w.document.createElement('span');description.id='existing-time-help';description.textContent='Time help';q('time').after(description);q('time').setAttribute('aria-describedby',description.id);
+   change('time','09:07');const startId=expectError('time',t('Start time must use 15-minute steps.'));assert.equal(q('contextEnd').hasAttribute('aria-invalid'),false);assert.equal(q('time').value,'09:07');
+   assert.equal(expectError('time',t('Start time must use 15-minute steps.')),startId,'Repeated validation uses a stable error ID');
+   change('time','09:00');change('contextEnd','10:07');expectError('contextEnd',t('End time must use 15-minute steps.'));assert.equal(q('time').getAttribute('aria-describedby'),'existing-time-help');assert(!b.w.document.getElementById(startId));
+   change('contextEnd','10:00');change('time','11:00');expectError('contextEnd',t('End must be after start.'));assert(!note().includes('60'));assert.equal(q('time').value,'11:00');
+   change('time','09:00');change('contextEndDate','2026-11-11');expectError('contextEndDate',t('An event can last up to 7 days.'));assert(!note().includes('60'));
+   change('contextEndDate','2026-11-03');assert.equal(flush(),true);assert.equal(q('time').getAttribute('aria-describedby'),'existing-time-help');assert(!q('contextEndDate').hasAttribute('aria-describedby'));assert.equal(b.w.document.querySelectorAll('.context-field-error').length,0);assert(note().includes('60'));
+   change('date','2026-03-29');change('time','02:30');expectError('time',b.run("calendarMessage('This time does not exist in {zone}. Choose another time.',{zone:'Europe/Warsaw'})"));assert(!note().includes('60'));assert.equal(q('time').value,'02:30');
+   change('date','2026-10-25');change('time','02:15');expectError('fold',t('Choose the first or second occurrence of a repeated clock time.'));assert(!q('time').hasAttribute('aria-invalid'));assert.equal(q('time').getAttribute('aria-describedby'),'existing-time-help');
+   change('fold','earlier');change('contextEnd','02:30');expectError('contextEndFold',t('Choose the first or second occurrence of a repeated clock time.'));
+   change('contextEndFold','later');assert.equal(flush(),true);assert(note().includes('75'));assert(!q('fold').hasAttribute('aria-describedby'));assert(!q('contextEndFold').hasAttribute('aria-describedby'));discard();
+  }
+  console.log('PASS review R1–R3: EN/RU/ES fold endpoint meaning, instant agenda order and stable ties; live original-zone summary; invalid summary suppression/recovery; field-specific step/range/limit/gap/fold errors and ARIA association cleanup.');
+ }finally{b.close();}
+}
+reviewRegressions();
 let a=open();
 const event=id=>JSON.parse(a.run(`JSON.stringify(data.events.find(e=>e.id===${JSON.stringify(id)}))`));
 const q=name=>a.w.document.querySelector(`[name="${name}"]`);
