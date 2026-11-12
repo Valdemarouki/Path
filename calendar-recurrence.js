@@ -20,7 +20,7 @@ modalEvent=function(id=null,date=homeDate,minute=600){
   if(prior?.seriesId&&!['one','following','series'].includes(scope)){toast('Choose a valid repeat scope.');return false;}
   const oldIds=new Set(data.events.map(e=>e.id));if(original(v)===false)return false;
   if(existing?.seriesId){
-   existing.seriesException=true;existing.fold=v.fold||'earlier';existing.protected=existing.type==='free_time'&&v.protected==='yes';
+   existing.seriesException=true;existing.protected=existing.type==='free_time'&&v.protected==='yes';
    if(scope!=='one'){
     const keys=['title','hour','duration','location','type','notes','importance','fold','protected'];
     const changed=keys.filter(k=>existing[k]!==prior[k]);
