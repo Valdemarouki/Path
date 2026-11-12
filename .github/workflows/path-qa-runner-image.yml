@@ -1,0 +1,48 @@
+name: Build Path QA Runner Image
+
+on:
+  push:
+    branches:
+      - qa-image-build
+    paths:
+      - "infra/path-qa/**"
+      - ".github/workflows/path-qa-runner-image.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+          docker login ghcr.io \
+            -u "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Build Path QA image
+        run: |
+          docker build \
+            --pull \
+            --platform linux/amd64 \
+            -f infra/path-qa/Dockerfile \
+            -t ghcr.io/valdemarouki/path-qa-runner:v2 \
+            infra/path-qa
+
+      - name: Push Path QA image
+        run: |
+          docker push ghcr.io/valdemarouki/path-qa-runner:v2
+
+      - name: Summary
+        run: |
+          echo "Published:"
+          echo "ghcr.io/valdemarouki/path-qa-runner:v2"
