@@ -6,7 +6,10 @@ const element=()=>({dataset:{},style:{setProperty:()=>{}},classList:{add:()=>{},
 const doc={body:element(),documentElement:element(),hidden:false,hasFocus:()=>true,querySelector:sel=>['#app','#toast'].includes(sel)?app:null,querySelectorAll:()=>[],getElementById:()=>null,createElement:element,addEventListener:()=>{}};
 const motionListeners={};doc.addEventListener=(type,fn)=>{(motionListeners[type]??=[]).push(fn);};
 const memory=new Map();
-const c={console,Date,Intl,URL,Blob,Map,Set,Uint8Array,crypto:require('crypto').webcrypto,performance:{now:()=>0},document:doc,window:{addEventListener:()=>{},innerHeight:1000,matchMedia:()=>({matches:true,addEventListener:()=>{}})},matchMedia:()=>({matches:true,addEventListener:()=>{}}),localStorage:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value)},setTimeout:()=>{},clearTimeout:()=>{},setInterval:()=>{},clearInterval:()=>{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{},confirm:()=>false};vm.createContext(c);
+const c={console,Date,Intl,URL,Blob,Map,Set,Uint8Array,crypto:require('crypto').webcrypto,performance:{now:()=>0},document:doc,window:{addEventListener:()=>{},innerHeight:1000,matchMedia:()=>({matches:true,addEventListener:()=>{}})},matchMedia:()=>({matches:true,addEventListener:()=>{}}),localStorage:{getItem:key=>memory.get(key)??null,setItem:(key,value)=>memory.set(key,value)},setTimeout:()=>{},clearTimeout:()=>{},setInterval:()=>{},clearInterval:()=>{},requestAnimationFrame:()=>0,cancelAnimationFrame:()=>{},confirm:()=>false};
+// The VM global and window are separate objects; share the inert timer stubs.
+Object.assign(c.window,{setTimeout:c.setTimeout,clearTimeout:c.clearTimeout,setInterval:c.setInterval,clearInterval:c.clearInterval});
+vm.createContext(c);
 let base=fs.readFileSync(path.join(root,'check0.js'),'utf8');base=base.replace(/save\(\);render\(\);\s*$/,'');vm.runInContext(base,c);vm.runInContext('render=function(){};renderEditor=function(){};',c);
 let extension=fs.readFileSync(path.join(root,'check1.js'),'utf8').replace(/^render\(\);$/gm,'');vm.runInContext(extension,c);vm.runInContext('render=function(){};renderEditor=function(){};',c);
 for(const name of ['todayPage','calendarPage','projectLibrary','canvasPage','sportPage','habitsPage','notesPage','progressPage','settingsPage']){const html=vm.runInContext(`${name}()`,c);assert.equal(typeof html,'string',name);assert(html.length>20,name);assert(!html.includes('undefined'),name+' leaked undefined');}
@@ -251,9 +254,10 @@ assert.equal(c.calendarEdgeVelocity(99,100,500),0);
 assert.equal(c.calendarEdgeVelocity(100,100,500),-480);
 assert.equal(c.calendarEdgeVelocity(500,100,500),480);
 assert(c.calendarEdgeVelocity(490,100,500)>c.calendarEdgeVelocity(460,100,500));
-assert.equal(c.calendarDragDelta(100,124,288,336),90);
-assert.equal(c.calendarDragDelta(100,100,336,288),-60);
-assert.equal(c.calendarDragDelta(100,100,288,288),0);
+// At 60 px/hour, 30 px pointer movement plus 60 px scroll is 90 minutes.
+assert.equal(c.calendarDragDelta(100,130,360,420),90);
+assert.equal(c.calendarDragDelta(100,100,420,360),-60);
+assert.equal(c.calendarDragDelta(100,100,360,360),0);
 console.log('PASS bounded edge velocity and drag/resize projection with scroll compensation.');
 // v5 adapter must observe the real durable boundary, including the existing Retry path.
 vm.runInContext(`data.homeTasks=[{id:'motion-commit',title:'Motion test',date:homeDate,done:false}];data.settings.particleWave={amplitudePx:7,durationMs:1800};save();PathMotion.pending=[];setTaskComplete('motion-commit',true);const motionSetItem=localStorage.setItem;localStorage.setItem=()=>{throw Error('motion quota')};`,c);
@@ -697,19 +701,18 @@ assert.equal(vm.runInContext('commitEditor(contextEdge)',c),true);c.contextEdge.
 assert(!/\b(?:window\.)?(?:confirm|prompt|alert)\s*\(/.test(fs.readFileSync(path.join(root,'check0.js'),'utf8')),'No native dialogs in base actions');
 assert(!/\b(?:window\.)?(?:confirm|prompt|alert)\s*\(/.test(fs.readFileSync(path.join(root,'check1.js'),'utf8')),'No native dialogs in extension actions');
 console.log('PASS Smart Save repeated create keeps IDs/count, quota rollback and retry, Project/Task idempotence, repeated connection edits and no native dialogs.');
-// Verify the form's wall-clock conversion, including the repeated Warsaw hour.
-const contextQuery=doc.querySelector;
-let contextEnd='11:30',contextEndDate='2026-10-29';
-doc.querySelector=selector=>selector==='[name="contextEnd"]'?{value:contextEnd}:selector==='[name="contextEndDate"]'?{value:contextEndDate}:contextQuery(selector);
-vm.runInContext(`editor={fields:[{key:'time'},{key:'duration'}]};`,c);
-assert.equal(vm.runInContext(`pathContextCalendarValues({date:'2026-10-29',time:'10:00',fold:'earlier'}).duration`,c),'90');
-contextEnd='02:30';contextEndDate='2026-10-25';
-assert.equal(vm.runInContext(`pathContextCalendarValues({date:'2026-10-25',time:'02:30',fold:'earlier',contextEndFold:'later'}).duration`,c),'60');
-contextEnd='03:30';contextEndDate='2026-03-29';
-assert.throws(()=>vm.runInContext(`pathContextCalendarValues({date:'2026-03-29',time:'02:30'})`,c),/does not exist/);
-contextEnd='10:07';contextEndDate='2026-10-29';
-assert.throws(()=>vm.runInContext(`pathContextCalendarValues({date:'2026-10-29',time:'10:00'})`,c),/15-minute/);
-doc.querySelector=contextQuery;
+// Context validation preserves display values; conversion belongs to the save boundary.
+vm.runInContext(`editor=null;modalEvent(null,'2026-10-29',600);`,c);
+c.wallValues={date:'2026-10-29',time:'10:00',fold:'earlier',contextEnd:'11:30',contextEndDate:'2026-10-29',contextEndFold:'earlier'};
+assert.strictEqual(vm.runInContext('pathContextCalendarValues(wallValues)',c),c.wallValues);
+assert.equal(vm.runInContext('calendarPrepareValues(wallValues).duration',c),'90');
+c.wallValues={date:'2026-10-25',time:'02:30',fold:'earlier',contextEnd:'02:30',contextEndDate:'2026-10-25',contextEndFold:'later'};
+assert.strictEqual(vm.runInContext('pathContextCalendarValues(wallValues)',c),c.wallValues);
+assert.equal(vm.runInContext('calendarPrepareValues(wallValues).duration',c),'60');
+c.wallValues={date:'2026-03-29',time:'02:30',contextEnd:'03:30',contextEndDate:'2026-03-29'};
+assert.throws(()=>vm.runInContext('pathContextCalendarValues(wallValues)',c),/does not exist/);
+c.wallValues={date:'2026-10-29',time:'10:00',contextEnd:'10:07',contextEndDate:'2026-10-29'};
+assert.throws(()=>vm.runInContext('pathContextCalendarValues(wallValues)',c),/15-minute/);
 console.log('PASS compact Calendar end-time calculation, independent DST folds, missing local time rejection and 15-minute validation.');
 vm.runInContext(`editor=null;data.events=[];data.eventSeries=[];save();modalEvent(null,'2026-10-29',600);`,c);
 c.contextEvent={...contextEvent,repeat:'daily',repeatCount:'3'};
@@ -769,12 +772,12 @@ assert.equal(calendarDateField.dataset.contextDate,'2026-10-29');
 calendarDateField.value='2026-10-30';vm.runInContext('pathContextChanged(calendarDateEvent)',c);
 assert.equal(calendarDateField.dataset.contextDate,'2026-10-30');
 console.log('PASS Calendar date clearing retains valid baseline, same-day and overnight end dates move together.');
-const dateValidationQuery=doc.querySelector;
-doc.querySelector=selector=>selector==='[name="contextEnd"]'?{value:'11:00'}:selector==='[name="contextEndDate"]'?{value:''}:dateValidationQuery(selector);
-vm.runInContext(`editor={fields:[{key:'time'},{key:'duration'}]}`,c);
-assert.throws(()=>vm.runInContext(`pathContextCalendarValues({date:'2026-10-30',time:'10:00',type:'busy'})`,c),error=>error.field==='contextEndDate');
-assert.equal(vm.runInContext(`pathContextCalendarValues({date:'2026-10-30',type:'deadline'}).duration`,c),'0');
-doc.querySelector=dateValidationQuery;
+vm.runInContext(`editor=null;modalEvent(null,'2026-10-30',600);`,c);
+assert.throws(()=>vm.runInContext(`pathContextCalendarValues({date:'2026-10-30',time:'10:00',type:'busy',contextEnd:'11:00',contextEndDate:''})`,c),error=>error.field==='contextEndDate');
+c.deadlineWithoutTime={...c.deadlineValues,date:'2026-10-30'};
+assert.strictEqual(vm.runInContext('pathContextCalendarValues(deadlineWithoutTime)',c),c.deadlineWithoutTime);
+assert.equal(vm.runInContext('commitEditor(deadlineWithoutTime)',c),true);
+assert.equal(vm.runInContext('data.events.at(-1).duration',c),0);
 console.log('PASS empty end date rejected at its own field; deadline ignores timed fields.');
 // The dependency picker replaces its checkbox: autosave must not rely on closest(form) afterward.
 vm.runInContext(`editor=null;data=pathEmpty();data.projects=[{id:'dep-save',name:'Dependencies',status:'active',tasks:[{id:'first',title:'First',status:'planned',dependencies:[]},{id:'second',title:'Second',status:'planned',dependencies:[]}],milestones:[]}];projectId='dep-save';save();modalTask('planned','second');const dependencyTimeout=setTimeout;let dependencyQueued=false;setTimeout=()=>{dependencyQueued=true;};`,c);
@@ -793,13 +796,15 @@ assert.equal(vm.runInContext('commitEditor(dependencySaveValues)',c),true);
 assert.equal(vm.runInContext('pathRepository.state.projects[0].tasks[1].dependencies.length',c),0);
 vm.runInContext('setTimeout=dependencyTimeout;',c);
 console.log('PASS dependency selection/removal schedules autosave and retains recovery after checkbox replacement.');
-const linkedTypeQuery=doc.querySelector;
-doc.querySelector=selector=>selector==='[name="type"]'?{value:'deadline',disabled:true}:linkedTypeQuery(selector);
-vm.runInContext(`editor={fields:[{key:'time'},{key:'duration'}]}`,c);
-assert.equal(vm.runInContext(`pathContextCalendarValues({date:'2026-10-31'}).duration`,c),'0');
-assert.equal(vm.runInContext(`pathContextCalendarValues({date:'2026-10-31'}).type`,c),'deadline');
-doc.querySelector=linkedTypeQuery;
-console.log('PASS linked Project deadline uses fixed disabled type when omitted by FormData.');
+// The linked deadline command owns its fixed type even when FormData omits it.
+vm.runInContext(`editor=null;modalEvent('task-deadline:second');const linkedEventsBefore=JSON.stringify(data.events);`,c);
+c.linkedDeadlineDate={date:'2026-10-31'};
+assert.equal(vm.runInContext('pathContextCalendarValues(linkedDeadlineDate).type',c),'deadline');
+assert.equal(vm.runInContext('pathContextCalendarValues(linkedDeadlineDate).duration',c),'0');
+assert.equal(vm.runInContext('commitEditor(linkedDeadlineDate)',c),true);
+assert.equal(vm.runInContext("findTask('second').task.deadline",c),'2026-10-31');
+assert.equal(vm.runInContext('JSON.stringify(data.events)',c),vm.runInContext('linkedEventsBefore',c));
+console.log('PASS linked Project deadline saves without a type field and without creating an event.');
 const subtaskValidationQuery=doc.querySelector;
 const whitespaceSubtask={value:'   ',name:'subtask-qa'};
 doc.querySelector=selector=>selector==='#editor-form'?{querySelectorAll:s=>s==='[data-subtask-title]'?[whitespaceSubtask]:[],elements:[]}:subtaskValidationQuery(selector);
