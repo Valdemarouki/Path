@@ -1295,3 +1295,10 @@ End time must use 15-minute steps.	Укажите время окончания 
 End must be after start.	Окончание должно быть позже начала.	Koniec musi być po początku.	El fin debe ser posterior al inicio.
 An event can last up to 7 days.	Событие может длиться не более 7 дней.	Wydarzenie może trwać maksymalnie 7 dni.	Un evento puede durar hasta 7 días.
 Duration must be a positive multiple of 15 minutes.	Продолжительность должна быть положительной и кратной 15 минутам.	Czas trwania musi być dodatnią wielokrotnością 15 minut.	La duración debe ser un múltiplo positivo de 15 minutos.
+Plan a task	Запланировать задачу	Zaplanuj zadanie	Planificar una tarea
+Day details	События дня	Szczegóły dnia	Detalles del día
+Selected day view	Вид выбранного дня	Widok wybranego dnia	Vista del día seleccionado
+Find open time	Найти свободное время	Znajdź wolny czas	Buscar tiempo libre
+Help	Помощь	Pomoc	Ayuda
+Current time	Текущее время	Bieżący czas	Hora actual
+Deadlines	Сроки	Terminy	Fechas límite

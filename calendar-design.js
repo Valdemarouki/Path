@@ -24,14 +24,15 @@ function calendarRestoreFocus(identity){
 
 const calendarPageBeforeDesign=calendarPage;
 calendarPage=function(){let html=calendarPageBeforeDesign();html=html.replace(/<strong>(.*?)<\/strong>/,`<button class="calendar-range" data-calendar-picker aria-expanded="${calendarPickerOpen}" aria-label="Choose calendar date">$1 ${icon('chevron',12)}</button>`);if(calendarPickerOpen)html=html.replace('</div><p class="calendar-help">','</div>'+calendarMiniPicker()+'<p class="calendar-help">');return html;};
+function calendarScrollKey(){return calendarMode+':'+calendarDates()[0]+(calendarMode==='week'&&calendarNarrow?':'+homeDate+':'+calendarNarrowView:'');}
 function calendarNowPosition(now=Date.now()){const parts=pathZoneParts(now);return {date:parts.date,minute:parts.hour*60};}
 function updateCalendarNow(){
  document.querySelectorAll('.calendar-now').forEach(el=>el.remove());if(view!=='calendar'||calendarMode==='month')return;
  const now=calendarNowPosition(),day=[...document.querySelectorAll('[data-grid-date]')].find(el=>el.dataset.gridDate===now.date);if(!day)return;
- const line=document.createElement('div');line.className='calendar-now';line.style.top=now.minute*.8+'px';line.setAttribute('aria-label','Current time '+clockTime(now.minute/60));line.innerHTML=`<span>${clockTime(now.minute/60)}</span>`;day.appendChild(line);
+ const line=document.createElement('div');line.className='calendar-now';line.style.top=calendarMinutePixels(now.minute)+'px';line.setAttribute('aria-label',pathT('Current time')+' '+clockTime(now.minute/60));line.innerHTML=`<span>${clockTime(now.minute/60)}</span>`;day.appendChild(line);
 }
 const renderBeforeCalendarDesign=render;
-render=function(){const focus=calendarFocusIdentity(document.activeElement);const old=document.querySelector('.calendar-scroll');if(old?.dataset.scrollKey)calendarViewScroll.set(old.dataset.scrollKey,{top:old.scrollTop,left:old.scrollLeft});renderBeforeCalendarDesign();if(view!=='calendar'){calendarPickerOpen=false;return;}const scroller=document.querySelector('.calendar-scroll');if(scroller){const key=calendarMode+':'+calendarDates()[0],saved=calendarViewScroll.get(key);scroller.dataset.scrollKey=key;scroller.scrollTop=saved?.top??288;scroller.scrollLeft=saved?.left??0;}updateCalendarNow();calendarRestoreFocus(focus);};
+render=function(){const focus=calendarFocusIdentity(document.activeElement);const old=document.querySelector('.calendar-scroll');if(old?.dataset.scrollKey)calendarViewScroll.set(old.dataset.scrollKey,{top:old.scrollTop,left:old.scrollLeft});renderBeforeCalendarDesign();if(view!=='calendar'){calendarPickerOpen=false;return;}const scroller=document.querySelector('.calendar-scroll');if(scroller){const key=calendarScrollKey(),saved=calendarViewScroll.get(key);scroller.dataset.scrollKey=key;scroller.scrollTop=saved?.top??(calendarNarrow&&calendarNarrowView==='list'?0:360);scroller.scrollLeft=saved?.left??0;}updateCalendarNow();calendarRestoreFocus(focus);};
 const renderEditorBeforeCalendarDesign=renderEditor;
 renderEditor=function(){renderEditorBeforeCalendarDesign();if(view==='calendar'&&editor?.fields.some(f=>f.key==='duration')&&editor.fields.some(f=>f.key==='time'))document.querySelector('#editor-overlay')?.classList.add('calendar-inspector');};
 document.addEventListener('click',e=>{
@@ -74,6 +75,7 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-calendar-go-events]'))return;
+ if(calendarNarrow&&calendarMode==='week')calendarNarrowView='list';
  calendarContextVisible=true;render();(document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title'))?.focus();
 });
 render();
