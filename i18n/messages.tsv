@@ -1279,3 +1279,19 @@ Times shown in {zone}	Время в часовом поясе {zone}	Godziny w s
 Add event: {date}, {time}. Nearby events: {count}. Use arrows to navigate; Enter to create.	Добавить событие: {date}, {time}. Событий рядом: {count}. Стрелки — навигация, Enter — создание.	Dodaj wydarzenie: {date}, {time}. Wydarzenia w pobliżu: {count}. Strzałki — nawigacja, Enter — tworzenie.	Añadir evento: {date}, {time}. Eventos cercanos: {count}. Usa las flechas para navegar y Enter para crear.
 Events: {count} · {zone}	Событий: {count} · {zone}	Wydarzenia: {count} · {zone}	Eventos: {count} · {zone}
 Clock repeats	Повторяющееся время	Powtórzona godzina	Hora repetida
+Existing precise time	Сохранённое точное время	Zapisany dokładny czas	Hora exacta guardada
+Clock change · {duration} elapsed	Перевод часов · длительность {duration}	Zmiana czasu · czas trwania: {duration}	Cambio de hora · duración real: {duration}
+Continues from {date}	Продолжение с {date}	Kontynuacja z {date}	Continúa desde {date}
+Continues to {date}	Продолжается до {date}	Kontynuacja do {date}	Continúa hasta {date}
+Original: {date}, {time} ({zone})	Исходное время: {date}, {time} ({zone})	Oryginalnie: {date}, {time} ({zone})	Original: {date}, {time} ({zone})
+This time does not exist in {zone}. Choose another time.	Этого времени нет в часовом поясе {zone}. Выберите другое время.	Ten czas nie istnieje w strefie {zone}. Wybierz inny.	Esta hora no existe en {zone}. Elige otra hora.
+Choose occurrence	Выберите повторение	Wybierz wystąpienie	Elige una ocurrencia
+Start when clocks repeat	Начало при переводе часов назад	Początek przy powtórzeniu godziny	Inicio cuando se repite la hora
+System time zone changed. Review the time zone before saving.	Системный часовой пояс изменился. Проверьте его перед сохранением.	Zmieniono systemową strefę czasową. Sprawdź ją przed zapisem.	Cambió la zona horaria del sistema. Revísala antes de guardar.
+Review time zone change: {zone}	Проверить смену часового пояса: {zone}	Sprawdź zmianę strefy: {zone}	Revisar cambio de zona horaria: {zone}
+{time} ({occurrence})	{time} ({occurrence})	{time} ({occurrence})	{time} ({occurrence})
+Start time must use 15-minute steps.	Укажите время начала с шагом 15 минут.	Podaj godzinę rozpoczęcia w odstępach 15 minut.	La hora de inicio debe usar intervalos de 15 minutos.
+End time must use 15-minute steps.	Укажите время окончания с шагом 15 минут.	Podaj godzinę zakończenia w odstępach 15 minut.	La hora de fin debe usar intervalos de 15 minutos.
+End must be after start.	Окончание должно быть позже начала.	Koniec musi być po początku.	El fin debe ser posterior al inicio.
+An event can last up to 7 days.	Событие может длиться не более 7 дней.	Wydarzenie może trwać maksymalnie 7 dni.	Un evento puede durar hasta 7 días.
+Duration must be a positive multiple of 15 minutes.	Продолжительность должна быть положительной и кратной 15 минутам.	Czas trwania musi być dodatnią wielokrotnością 15 minut.	La duración debe ser un múltiplo positivo de 15 minutos.

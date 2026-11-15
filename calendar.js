@@ -12,16 +12,16 @@ function calendarMove(date,mode,step){
 }
 // Civil-minute coordinates preserve local wall-clock placement; they are not elapsed UTC time.
 function calendarMinute(date,hour=0){return Date.parse(date+'T00:00:00Z')/60000+hour*60;}
-function calendarInterval(e){const start=calendarMinute(e.date,e.hour);return {start,end:start+(e.duration||60)};}
+function calendarInterval(e){const start=calendarMinute(e.date,e.hour);return {start,end:start+(e.duration??60)};}
 function calendarSegment(e,date){const {start,end}=calendarInterval(e),day=calendarMinute(date),from=Math.max(start,day),to=Math.min(end,day+1440);return to>from?{...e,hour:(from-day)/60,duration:to-from,sourceDate:e.date,sourceHour:e.hour,sourceDuration:e.duration,continuesBefore:start<day,continuesAfter:end>day+1440}:null;}
 function calendarEvents(date){return data.events.map(e=>calendarSegment(e,date)).filter(Boolean).sort((a,b)=>a.hour-b.hour);}
 function calendarConflicts(event){const interval=calendarInterval(event);return data.events.filter(e=>{const other=calendarInterval(e);return e.id!==event.id&&other.start<interval.end&&other.end>interval.start;});}
-function calendarEndLabel(e){const total=Math.round(e.hour*60+(e.duration||60)),days=Math.floor(total/1440);return clockTime((total%1440)/60)+(days?' (+'+days+'d)':'');}
+function calendarEndLabel(e){const total=Math.round(e.hour*60+(e.duration??60)),days=Math.floor(total/1440);return clockTime((total%1440)/60)+(days?' (+'+days+'d)':'');}
 function calendarLanes(events){
  events=events.filter(e=>e.type!=='deadline');
  const result=[];let group=[],end=-1;
  const flush=()=>{const n=Math.max(1,...group.map(x=>x.lane+1));group.forEach(x=>result.push({...x,columns:n}));group=[];};
- for(const event of events){if(event.hour>=end){flush();end=-1;}let lane=0;while(group.some(x=>x.lane===lane&&x.event.hour+(x.event.duration||60)/60>event.hour))lane++;group.push({event,lane});end=Math.max(end,event.hour+(event.duration||60)/60);}
+ for(const event of events){if(event.hour>=end){flush();end=-1;}let lane=0;while(group.some(x=>x.lane===lane&&x.event.hour+(x.event.duration??60)/60>event.hour))lane++;group.push({event,lane});end=Math.max(end,event.hour+(event.duration??60)/60);}
  flush();return result;
 }
 // Presentation helpers resolve source records so clipped segments never change time meaning.
@@ -30,32 +30,44 @@ const calendarDateFormatters=new Map();
 function calendarMessage(message,values={}){return pathT(message).replace(/\{(\w+)\}/g,(_,key)=>String(values[key]??''));}
 function calendarFullDate(date){const locale=pathLocale();if(!calendarDateFormatters.has(locale))calendarDateFormatters.set(locale,new Intl.DateTimeFormat(locale,{dateStyle:'full'}));return calendarDateFormatters.get(locale).format(new Date(date+'T12:00:00'));}
 function calendarSourceEvent(event){return data.events.find(e=>e.id===event.id)||event;}
+function calendarClockLabel(instant,zone=pathSystemTimeZone()){
+ const part=pathZoneParts(instant,zone),choices=pathWallCandidates(part.date,part.hour,zone),time=clockTime(part.hour);
+ return choices.length>1?calendarMessage('{time} ({occurrence})',{time,occurrence:pathT(instant===choices.at(-1)?'Second occurrence':'First occurrence')}):time;
+}
 function calendarEventPresentation(event){
  const e=calendarSourceEvent(event),type=pathT(({free_time:'Free Time',workout:'Workout',focus:'Focus session',routine:'Routine',deadline:'Deadline'})[e.type]||'Event');
  const title=e.title?.trim()?e.title:pathT('Untitled event'),importance=pathT(({high:'High importance',medium:'Medium importance',low:'Low importance'})[typeof calendarImportance==='function'?calendarImportance(e):e.importance]||'No importance');
  const status=pathT(e.type==='free_time'?(e.protected?'Protected rest':'Rest'):e.type==='deadline'?'Date marker':e.done?'Completed':'Planned');
  const series=data.eventSeries?.find(s=>s.id===e.seriesId),recurrence=pathT(e.seriesId?(series?.frequency==='daily'?'Repeats daily':series?.frequency==='weekly'?'Repeats weekly':'Repeating event'):'Does not repeat');
- let range=calendarFullDate(e.date),duration=pathT('Date marker'),zone='';
+ let range=calendarFullDate(e.date),duration=pathT('Date marker'),zone='',timeRange='',precise=false;const metadata=[];
  if(e.type!=='deadline'){
   try{
    const timing=pathEventTiming(e),start=pathZoneParts(timing.start),end=pathZoneParts(timing.end);
-   range=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(start.date),startTime:clockTime(start.hour),endDate:calendarFullDate(end.date),endTime:clockTime(end.hour)});
+   const startLabel=calendarClockLabel(timing.start),endLabel=calendarClockLabel(timing.end);
+   range=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(start.date),startTime:startLabel,endDate:calendarFullDate(end.date),endTime:endLabel});
+   timeRange=startLabel+'–'+endLabel;
+   precise=Math.round(start.hour*60)%15!==0||e.duration%15!==0;
+   const civil=calendarMinute(end.date,end.hour)-calendarMinute(start.date,start.hour);
    duration=new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long',maximumFractionDigits:2}).format((timing.end-timing.start)/60000);
+   if(Math.abs(civil-(timing.end-timing.start)/60000)>0.01)metadata.push(calendarMessage('Clock change · {duration} elapsed',{duration}));
+   if(event.continuesBefore)metadata.push(calendarMessage('Continues from {date}',{date:calendarFullDate(start.date)}));
+   if(event.continuesAfter)metadata.push(calendarMessage('Continues to {date}',{date:calendarFullDate(end.date)}));
+   if(precise)metadata.push(pathT('Existing precise time'));
    zone=calendarMessage('Times shown in {zone}',{zone:pathSystemTimeZone()});
    if(e.tzid&&e.tzid!==pathSystemTimeZone())zone=calendarMessage('{systemZone}; original time zone: {originalZone}',{systemZone:zone,originalZone:e.tzid});
   }catch{range=calendarMessage('{date} · Check time',{date:calendarFullDate(e.date)});duration=pathT('Check time');}
  }
- const summary=calendarMessage('{type} · {duration} · {status}',{type,duration,status});
+ const summary=[calendarMessage('{type} · {duration} · {status}',{type,duration,status}),...metadata].join(' · ');
  const name=calendarMessage('{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}',{title,range,zone:zone||pathT('Date only'),type,duration,importance,status,recurrence});
- return {title,summary,name,range};
+ return {title,summary,name:[name,...metadata].join('; '),range,timeRange,duration,precise,metadata};
 }
-function calendarSlotLabel(date,minute,events){const count=events.filter(e=>e.type!=='deadline'&&e.hour*60<minute+15&&e.hour*60+(e.duration||60)>minute).length;return calendarMessage('Add event: {date}, {time}. Nearby events: {count}. Use arrows to navigate; Enter to create.',{date:calendarFullDate(date),time:clockTime(minute/60),count});}
-function calendarEventButton(e,style=''){const presentation=calendarEventPresentation(e);if(e.type==='deadline')return `<button class="cal-entry calendar-deadline ${e.done?'completed':''}" data-event="${esc(e.id)}" aria-label="${esc(presentation.name)}" title="${esc(presentation.name)}"><strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 21V3h14l-3 5 3 5H5"/></svg>${esc(presentation.title)}</strong><small>${e.done?'Completed · Deadline':'Deadline'}</small></button>`;return `<button class="cal-entry ${e.done?'completed':''} ${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" title="${esc(presentation.name)}" aria-label="${esc(presentation.name)}"><strong>${e.type==='routine'&&!e.seriesId?'<span aria-label="Routine">↻ </span>':''}${e.done?'✓ ':''}${esc(presentation.title)}</strong><small>${e.continuesBefore?'← ':''}${clockTime(e.hour)}${e.continuesAfter?' → '+esc(pathT('Next day')):''}${e.location?' · '+esc(e.location):''}</small>${style&&!e.continuesBefore?'<span class="calendar-resize" title="Drag to change duration"></span>':''}</button>`}
+function calendarSlotLabel(date,minute,events){const count=events.filter(e=>e.type!=='deadline'&&e.hour*60<minute+15&&e.hour*60+(e.duration??60)>minute).length;return calendarMessage('Add event: {date}, {time}. Nearby events: {count}. Use arrows to navigate; Enter to create.',{date:calendarFullDate(date),time:clockTime(minute/60),count});}
+function calendarEventButton(e,style=''){const presentation=calendarEventPresentation(e);if(e.type==='deadline')return `<button class="cal-entry calendar-deadline ${e.done?'completed':''}" data-event="${esc(e.id)}" aria-label="${esc(presentation.name)}" title="${esc(presentation.name)}"><strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 21V3h14l-3 5 3 5H5"/></svg>${esc(presentation.title)}</strong><small>${e.done?'Completed · Deadline':'Deadline'}</small></button>`;return `<button class="cal-entry ${e.done?'completed':''} ${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" title="${esc(presentation.name)}" aria-label="${esc(presentation.name)}"><strong>${e.type==='routine'&&!e.seriesId?'<span aria-label="Routine">↻ </span>':''}${e.done?'✓ ':''}${esc(presentation.title)}</strong><small>${esc(presentation.timeRange)} · ${esc(presentation.duration)}${presentation.metadata.length?' · '+esc(presentation.metadata.join(' · ')):''}${e.location?' · '+esc(e.location):''}</small>${style&&!e.continuesBefore?'<span class="calendar-resize" title="Drag to change duration"></span>':''}</button>`}
 function calendarPage(){
  const dates=calendarDates(),month=calendarMode==='month',eventsByDate=new Map(dates.map(date=>[date,calendarEvents(date)]));
  if(!calendarSlotFocus||!dates.includes(calendarSlotFocus.date))calendarSlotFocus={date:dates.includes(homeDate)?homeDate:dates[0],minute:600};
  const range=month?new Date(homeDate+'T12:00:00').toLocaleDateString('en-US',{month:'long',year:'numeric'}):calendarMode==='day'?pretty(homeDate):pretty(dates[0])+' — '+pretty(dates[6]);
- return `${pageTitle('Calendar','Make room for what matters.',`<button class="btn primary" data-new-event>${icon('plus')} New event</button>`)}<section class="calendar-v2"><div class="calendar-toolbar"><div class="row"><button class="btn icon-only" data-calendar-step="-1" aria-label="Previous period">${icon('left')}</button><button class="btn" data-calendar-today>Today</button><button class="btn icon-only" data-calendar-step="1" aria-label="Next period">${icon('chevron')}</button><strong>${range}</strong></div><div class="tabs" aria-label="Calendar views">${['day','week','month'].map(m=>`<button class="tab ${calendarMode===m?'active':''}" data-calendar-mode="${m}" aria-pressed="${calendarMode===m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join('')}</div></div><p class="calendar-help">${pathSystemTimeZone()} · Click a time to add an event. Drag an event to move it. Open it to edit its duration or mark it complete.</p>${month?`<div class="calendar-month">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="month-weekday">${d}</div>`).join('')}${dates.map(date=>`<div class="month-day ${date.slice(0,7)!==homeDate.slice(0,7)?'outside':''} ${date===pathToday()?'current':''}"><button class="month-date" data-calendar-date="${date}" aria-label="Open ${date}">${Number(date.slice(-2))}</button>${eventsByDate.get(date).map(e=>calendarEventButton(e)).join('')}</div>`).join('')}</div>`:`<div class="calendar-scroll"><div class="calendar-timegrid" style="--days:${dates.length};min-width:${calendarMode==='day'?300:800}px"><div class="timegrid-head"><span>TIME</span>${dates.map(date=>`<button data-calendar-date="${date}" class="${date===pathToday()?'current':''}">${new Date(date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',day:'numeric'})}</button>`).join('')}</div>${dates.some(date=>eventsByDate.get(date).some(e=>e.type==='deadline'))?`<div class="calendar-deadline-strip"><span>DEADLINES</span>${dates.map(date=>`<div>${eventsByDate.get(date).filter(e=>e.type==='deadline').map(e=>calendarEventButton(e)).join('')}</div>`).join('')}</div>`:''}<div class="timegrid-body"><div class="calendar-hours">${Array.from({length:24},(_,h)=>`<span style="top:${h*48}px">${clockTime(h)}</span>`).join('')}</div>${dates.map(date=>`<div class="calendar-day" data-grid-date="${date}">${Array.from({length:96},(_,i)=>`<button class="calendar-slot" data-calendar-slot="${date}" data-minute="${i*15}" tabindex="${date===calendarSlotFocus.date&&i*15===calendarSlotFocus.minute?0:-1}" aria-label="${esc(calendarSlotLabel(date,i*15,eventsByDate.get(date)))}"></button>`).join('')}${calendarLanes(eventsByDate.get(date)).map(({event:e,lane,columns})=>calendarEventButton(e,`top:${e.hour*48}px;height:${Math.max(12,Math.min(e.duration||60,1440-e.hour*60)*.8)}px;left:calc(${lane*100/columns}% + 2px);width:calc(${100/columns}% - 4px)`)).join('')}</div>`).join('')}</div></div></div>`}</section>`;
+ return `${pageTitle('Calendar','Make room for what matters.',`<button class="btn primary" data-new-event>${icon('plus')} New event</button>`)}<section class="calendar-v2"><div class="calendar-toolbar"><div class="row"><button class="btn icon-only" data-calendar-step="-1" aria-label="Previous period">${icon('left')}</button><button class="btn" data-calendar-today>Today</button><button class="btn icon-only" data-calendar-step="1" aria-label="Next period">${icon('chevron')}</button><strong>${range}</strong></div><div class="tabs" aria-label="Calendar views">${['day','week','month'].map(m=>`<button class="tab ${calendarMode===m?'active':''}" data-calendar-mode="${m}" aria-pressed="${calendarMode===m}">${m[0].toUpperCase()+m.slice(1)}</button>`).join('')}</div></div><p class="calendar-help">${pathSystemTimeZone()} · Click a time to add an event. Drag an event to move it. Open it to edit its duration or mark it complete.</p>${month?`<div class="calendar-month">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="month-weekday">${d}</div>`).join('')}${dates.map(date=>`<div class="month-day ${date.slice(0,7)!==homeDate.slice(0,7)?'outside':''} ${date===pathToday()?'current':''}"><button class="month-date" data-calendar-date="${date}" aria-label="Open ${date}">${Number(date.slice(-2))}</button>${eventsByDate.get(date).map(e=>calendarEventButton(e)).join('')}</div>`).join('')}</div>`:`<div class="calendar-scroll"><div class="calendar-timegrid" style="--days:${dates.length};min-width:${calendarMode==='day'?300:800}px"><div class="timegrid-head"><span>TIME</span>${dates.map(date=>`<button data-calendar-date="${date}" class="${date===pathToday()?'current':''}">${new Date(date+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',day:'numeric'})}</button>`).join('')}</div>${dates.some(date=>eventsByDate.get(date).some(e=>e.type==='deadline'))?`<div class="calendar-deadline-strip"><span>DEADLINES</span>${dates.map(date=>`<div>${eventsByDate.get(date).filter(e=>e.type==='deadline').map(e=>calendarEventButton(e)).join('')}</div>`).join('')}</div>`:''}<div class="timegrid-body"><div class="calendar-hours">${Array.from({length:24},(_,h)=>`<span style="top:${h*48}px">${clockTime(h)}</span>`).join('')}</div>${dates.map(date=>`<div class="calendar-day" data-grid-date="${date}">${Array.from({length:96},(_,i)=>`<button class="calendar-slot" data-calendar-slot="${date}" data-minute="${i*15}" tabindex="${date===calendarSlotFocus.date&&i*15===calendarSlotFocus.minute?0:-1}" aria-label="${esc(calendarSlotLabel(date,i*15,eventsByDate.get(date)))}"></button>`).join('')}${calendarLanes(eventsByDate.get(date)).map(({event:e,lane,columns})=>calendarEventButton(e,`top:${e.hour*48}px;height:${Math.max(12,Math.min(e.duration??60,1440-e.hour*60)*.8)}px;left:calc(${lane*100/columns}% + 2px);width:calc(${100/columns}% - 4px)`)).join('')}</div>`).join('')}</div></div></div>`}</section>`;
 }
 function validCalendarEvent(values){
  if(!values.title?.trim())return 'Enter an event title.';
@@ -85,7 +97,7 @@ modalEvent=function(id=null,date=homeDate,minute=600){
  ],v=>{
  if(v.type==='deadline')v={...v,time:'00:00',duration:0,status:'planned'};
  if(v.importance&&!['none','low','medium','high'].includes(v.importance)){toast('Choose a valid importance.');return false;}const error=validCalendarEvent(v);if(error){toast(error);return false;}
- const [h,m]=v.time.split(':').map(Number);const x={id:e?.id||uid(),title:v.title.trim(),date:v.date,hour:h+m/60,duration:Number(v.duration),location:v.location.trim(),type:v.type,done:v.status==='done',notes:v.notes,eventIcon:v.eventIcon||'calendar',reminderMinutes:Number(v.reminderMinutes)||0,importance:v.type==='free_time'?'none':v.importance||'none'};
+ const [h,m]=v.time.split(':').map(Number);const x={id:e?.id||uid(),title:v.title.trim(),date:v.date,hour:h+m/60,duration:Number(v.duration),...(v.fold?{fold:v.fold}:{}),location:v.location.trim(),type:v.type,done:v.status==='done',notes:v.notes,eventIcon:v.eventIcon||'calendar',reminderMinutes:Number(v.reminderMinutes)||0,importance:v.type==='free_time'?'none':v.importance||'none'};
  if(e)Object.assign(e,x);else data.events.push(x);
  const linked=e?.taskId?findTask(e.taskId)?.task:null;if(linked&&v.type!=='free_time')linked.importance=x.importance;
 
@@ -105,7 +117,7 @@ document.addEventListener('pointerdown',e=>{
  const b=e.target.closest('[data-calendar-drag]');if(!b||e.button!==0||calendarMode==='month'||calendarPointer)return;
  const event=data.events.find(x=>x.id===b.dataset.calendarDrag);if(!event)return;
  const scroller=document.querySelector('.calendar-scroll');
- calendarPointer={scrollTop:scroller?.scrollTop||0,scrollLeft:scroller?.scrollLeft||0,event,el:b,x:e.clientX,y:e.clientY,date:event.date,hour:event.hour,duration:event.duration||60,pointerId:e.pointerId,resize:!!e.target.closest('.calendar-resize'),moved:false};
+ calendarPointer={scrollTop:scroller?.scrollTop||0,scrollLeft:scroller?.scrollLeft||0,event,el:b,x:e.clientX,y:e.clientY,date:pathZoneParts(pathEventTiming(event).start).date,hour:pathZoneParts(pathEventTiming(event).start).hour,duration:event.duration??60,pointerId:e.pointerId,resize:!!e.target.closest('.calendar-resize'),moved:false};
  b.setPointerCapture(e.pointerId);e.preventDefault();
  if(typeof startCalendarHold==='function')startCalendarHold(calendarPointer);
 });
@@ -118,8 +130,8 @@ document.addEventListener('pointermove',e=>{
 function calendarDragDelta(startY,currentY,startScroll,currentScroll){return Math.round((currentY-startY+currentScroll-startScroll)/12)*15;}
 function updateCalendarPointer(op,x,y){
  const scroller=document.querySelector('.calendar-scroll'),delta=calendarDragDelta(op.y,y,op.scrollTop,scroller?.scrollTop||0);
- if(op.resize){op.nextDuration=Math.min(10080,Math.max(15,op.duration+delta));op.el.style.height=Math.min(op.nextDuration,1440-op.hour*60)*.8+'px';}
- else {const day=[...document.querySelectorAll('[data-grid-date]')].find(d=>{const r=d.getBoundingClientRect();return x>=r.left&&x<r.right});op.nextDate=day?.dataset.gridDate||op.date;op.nextMinute=Math.min(1425,Math.max(0,op.hour*60+delta));op.el.style.transform=`translate(${x-op.x+(scroller?.scrollLeft||0)-op.scrollLeft}px,${(op.nextMinute-op.hour*60)*.8}px)`;}
+ if(op.resize){op.nextDuration=Math.min(10080,Math.max(15,Math.round((op.duration+delta)/15)*15));op.el.style.height=Math.min(op.nextDuration,1440-op.hour*60)*.8+'px';}
+ else {const day=[...document.querySelectorAll('[data-grid-date]')].find(d=>{const r=d.getBoundingClientRect();return x>=r.left&&x<r.right});op.nextDate=day?.dataset.gridDate||op.date;op.nextMinute=Math.min(1425,Math.max(0,Math.round((op.hour*60+delta)/15)*15));op.el.style.transform=`translate(${x-op.x+(scroller?.scrollLeft||0)-op.scrollLeft}px,${(op.nextMinute-op.hour*60)*.8}px)`;}
 }
 document.addEventListener('pointerup',e=>{
  if(calendarPointer&&calendarPointer.pointerId!==e.pointerId)return;
