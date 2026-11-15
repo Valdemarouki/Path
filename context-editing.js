@@ -17,6 +17,8 @@ function pathContextClearErrors(form){
  hints.forEach(el=>el.remove());
 }
 function pathContextCalendarValues(values){
+ // Linked task deadlines have a disabled type field, omitted by FormData.
+ if(editor?.linkedDeadlineId)return {...values,type:'deadline',duration:'0'};
  if(!editor?.calendarTime)return values;
  // Validate here for field-specific errors; the save command performs conversion.
  calendarPrepareValues(values);return values;

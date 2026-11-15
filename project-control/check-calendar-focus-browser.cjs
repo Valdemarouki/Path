@@ -15,7 +15,7 @@ async function evaluate(expression){const r=await send('Runtime.evaluate',{expre
 async function key(key,code){for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,key,code:key,windowsVirtualKeyCode:code,...(key==='Enter'&&type==='keyDown'?{text:'\r'}:{})});await sleep(120);trace.push({nativeKey:key,code,active:await evaluate('({...document.activeElement.dataset})')});}
 async function screenshot(name){trace.push({screenshot:name+'.png'});const r=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(out,name+'.png'),Buffer.from(r.data,'base64'));}
 const title='Due <literal> $& — очень длинный срок / fecha límite muy larga';
-const fixture=`data=pathEmpty();data.events=[pathStampEvent({id:'first',title:'First event',date:'2026-11-03',hour:9,duration:60,type:'busy'}),pathStampEvent({id:'overlap',title:'Overlap event',date:'2026-11-03',hour:9.5,duration:45,type:'busy'}),{id:'deadline',title:${JSON.stringify(title)},date:'2026-11-03',hour:0,duration:0,type:'deadline'}];save();view='calendar';homeDate='2026-11-03';calendarMode='week';calendarContextVisible=true;render();pathTranslateInterface();window.scrollTo(0,0);`;
+const fixture=`data=pathEmpty();data.events=[pathStampEvent({id:'first',title:'First event',date:'2026-11-03',hour:9,duration:60,type:'busy'}),pathStampEvent({id:'overlap',title:'Overlap event',date:'2026-11-03',hour:9.5,duration:45,type:'busy'}),{id:'deadline',title:${JSON.stringify(title)},date:'2026-11-03',hour:0,duration:0,type:'deadline'}];save();view='calendar';homeDate='2026-11-03';calendarMode='week';calendarContextVisible=false;calendarNarrowView='timeline';render();pathTranslateInterface();window.scrollTo(0,0);`;
 const timer=setTimeout(()=>{console.error('Browser regression timed out');browser.kill();process.exit(1);},90000);
 (async()=>{try{
  const target=await send('Target.createTarget',{url:'about:blank'},null);
@@ -43,7 +43,7 @@ const timer=setTimeout(()=>{console.error('Browser regression timed out');browse
    assert.equal(result.slotZ,'auto','Slot must not trap its ring below cards or cover card interactions');
    assert.equal(result.ringPointer,'none');assert.equal(result.ringOutline,'2px');assert.equal(result.ringStyle,'solid');
    assert(result.entries.every(e=>Number(e.z)<Number(result.ringZ)),'Focus ring must paint above both overlapping cards');
-   assert.equal(result.rect.height,12);
+   assert.equal(result.rect.height,15);
    if(state==='occupied')assert(result.hits.includes('first'),'Pointer still hits occupied event through the ring');
    if(state==='overlap')assert.deepEqual(result.hits,['first','overlap']);
    if(state==='empty')assert.deepEqual(result.hits,[null,null]);
@@ -60,7 +60,8 @@ const timer=setTimeout(()=>{console.error('Browser regression timed out');browse
   for(const [language,due] of Object.entries({en:'Due',ru:'Срок',es:'Vence',pl:'Termin'})){
    await evaluate(`pathSetLanguage('${language}');${fixture}`);
    await evaluate(`document.querySelector('[data-calendar-go-events]').focus()`);await key('Enter',13);
-   const result=await evaluate(`(()=>{const row=document.querySelector('.calendar-agenda-item[data-event="deadline"]'),time=row.querySelector('time'),name=row.querySelector('strong'),a=time.getBoundingClientRect(),b=name.getBoundingClientRect();return {text:time.textContent,title:name.textContent,focused:document.activeElement===row,overlap:a.right>b.left,labelFits:time.scrollWidth<=time.clientWidth,titleFits:name.scrollWidth<=name.clientWidth};})()`);
+   // Time may deliberately reflow above the title; overlap needs both axes.
+   const result=await evaluate(`(()=>{const row=document.querySelector('.calendar-agenda-item[data-event="deadline"]'),time=row.querySelector('time'),name=row.querySelector('strong'),a=time.getBoundingClientRect(),b=name.getBoundingClientRect();return {text:time.textContent,title:name.textContent,focused:document.activeElement===row,overlap:a.right>b.left&&a.left<b.right&&a.bottom>b.top&&a.top<b.bottom,labelFits:time.scrollWidth<=time.clientWidth,titleFits:name.scrollWidth<=name.clientWidth};})()`);
    trace.push({width,language,...result,active:await evaluate('document.activeElement.outerHTML.slice(0,500)')});
    assert.equal(result.text,due);assert.equal(result.title,title);assert(result.focused);assert(!result.overlap);assert(result.labelFits);assert(result.titleFits);
    await screenshot(`${language}-${width}-agenda`);

@@ -25,7 +25,7 @@ function reviewRegressions(){
   assert(hint,'Field must reference its inline error');assert.equal(hint.textContent,message);return hint.id;
  };
  try{
-  b.run(`data=pathEmpty();pathSystemTimeZone=()=> 'Europe/Warsaw';view='calendar';homeDate='2026-10-25';calendarMode='day';
+  b.run(`data=pathEmpty();pathSystemTimeZone=()=> 'Europe/Warsaw';view='calendar';calendarContextVisible=true;homeDate='2026-10-25';calendarMode='day';
    data.events=[
     pathStampEvent({id:'second',title:'Same appointment',date:homeDate,hour:2.25,duration:15,tzid:'Europe/Warsaw',fold:'later',type:'busy'}),
     pathStampEvent({id:'first',title:'Same appointment',date:homeDate,hour:2.25,duration:15,tzid:'Europe/Warsaw',fold:'earlier',type:'busy'}),
@@ -84,7 +84,7 @@ const discard=()=>a.run('editor.contextDirty=false;closeEditor()');
   pathStampEvent({id:'overnight',title:'Overnight',date:'2026-11-04',hour:23.5,duration:120,tzid:'America/Los_Angeles',type:'busy'}),
   pathStampEvent({id:'fold',title:'Repeated',date:'2026-10-25',hour:2.5,duration:60,tzid:'Europe/Warsaw',fold:'earlier',type:'busy'})];
   data.events[0].start_at=data.events[0].start_at.replace('.000Z','Z');
-  save();view='calendar';homeDate='2026-11-03';calendarMode='day';render();`);
+  save();view='calendar';calendarContextVisible=true;homeDate='2026-11-03';calendarMode='day';render();`);
  const original=timing(event('five'));
  assert.equal(a.run("calendarSegment(data.events[0],'2026-11-03').duration"),5);
  assert.match(a.run("calendarEventPresentation(data.events[0]).summary"),/5 minutes.*Existing precise time/);
