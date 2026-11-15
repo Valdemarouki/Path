@@ -33,16 +33,50 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(!e.defaultPrevented&&e.key==='Escape'&&!editor&&(calendarContextVisible||calendarPlanningOpen)){const planning=calendarPlanningOpen;calendarContextVisible=false;calendarPlanningOpen=false;render();document.querySelector(planning?'[data-calendar-plan]':'[data-calendar-context-toggle]')?.focus({preventScroll:true});}});
 // Observe the work region, not the viewport. A threshold crossing rerenders the
 // calendar while the existing render guard retains the exact live editor node.
-let calendarLayoutObserver=null,calendarLayoutFrame=null,calendarLayoutScrollRestore=null;
+let calendarLayoutObserver=null,calendarLayoutFrame=null;
+// Reparent the live controls instead of rendering English source labels again.
+// Translation can change their wrapping across the short-height threshold.
+function calendarSetCombinedScroll(scroll,combined){
+ const focused=document.activeElement,left=scroll.scrollLeft;
+ const content=combined?scroll:scroll.querySelector('.calendar-scroll-content');
+ const anchor=content.firstElementChild,before=anchor.getBoundingClientRect().top;
+ if(combined){
+  const wrapper=document.createElement('div');wrapper.className='calendar-scroll calendar-combined-scroll';
+  wrapper.dataset.scrollKey=scroll.dataset.scrollKey;
+  scroll.parentElement.prepend(wrapper);
+  for(const child of [...wrapper.parentElement.children])if(child!==wrapper)wrapper.appendChild(child);
+  content.classList.replace('calendar-scroll','calendar-scroll-content');content.style.height='';
+  scroll=wrapper;
+ }else{
+  for(const child of [...scroll.children])scroll.before(child);
+  scroll.remove();content.classList.replace('calendar-scroll-content','calendar-scroll');
+  content.dataset.scrollKey=scroll.dataset.scrollKey;scroll=content;
+ }
+ calendarCombinedScroll=combined;
+ scroll.style.height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24)+'px';
+ scroll.scrollTop+=anchor.getBoundingClientRect().top-before;
+ scroll.scrollLeft=left;
+ if(focused?.isConnected&&document.activeElement!==focused)focused.focus({preventScroll:true});
+ return scroll;
+}
+function calendarRevealAgendaFocus(){
+ const target=document.activeElement;
+ if(!target?.matches('.calendar-agenda-item,#calendar-agenda-title'))return;
+ const scroll=target.closest('.calendar-scroll,.calendar-day-context');if(!scroll)return;
+ const box=scroll.getBoundingClientRect(),rect=target.getBoundingClientRect();
+ const sticky=scroll.classList.contains('calendar-combined-scroll')?scroll.querySelector('.calendar-week-overview')?.getBoundingClientRect().height||0:0;
+ const top=box.top+sticky+4,bottom=box.bottom-4;
+ if(rect.top<top||rect.bottom>bottom){
+  scroll.scrollTop+=rect.height>bottom-top?rect.top-top:(rect.top+rect.bottom-top-bottom)/2;
+ }
+}
 function calendarMeasureLayout(){
- const region=document.querySelector('.calendar-main-region'),scroll=document.querySelector('.calendar-scroll');
+ const region=document.querySelector('.calendar-main-region');let scroll=document.querySelector('.calendar-scroll');
  if(view!=='calendar'||!region||!scroll)return;
  const controls=[...region.querySelectorAll('.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading')].reduce((height,el)=>height+el.getBoundingClientRect().height,0);
  const remaining=window.innerHeight-region.getBoundingClientRect().top-controls-24;
  if(calendarCombinedScroll!==(remaining<160)){
-  const next=remaining<160;
-  calendarLayoutScrollRestore=Math.max(0,scroll.scrollTop+(next?controls:-controls));
-  calendarCombinedScroll=next;render();return;
+  scroll=calendarSetCombinedScroll(scroll,remaining<160);
  }
  const width=scroll.clientWidth; // Usable C excludes the reserved scrollbar gutter.
  if(width>0&&calendarNarrow!==(width<1008)){
@@ -55,7 +89,7 @@ function calendarMeasureLayout(){
  }
  const height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24);
  scroll.style.height=height+'px';
- if(calendarLayoutScrollRestore!==null){scroll.scrollTop=calendarLayoutScrollRestore;calendarLayoutScrollRestore=null;}
+ calendarRevealAgendaFocus();
  const head=document.querySelector('.timegrid-head');if(head)document.querySelector('.calendar-timegrid')?.style.setProperty('--calendar-head-height',head.offsetHeight+'px');
 }
 function calendarObserveLayout(){
@@ -63,7 +97,7 @@ function calendarObserveLayout(){
  if(view!=='calendar')return;
  if(typeof ResizeObserver!=='undefined'){
   calendarLayoutObserver=new ResizeObserver(()=>{if(calendarLayoutFrame!==null)return;calendarLayoutFrame=requestAnimationFrame(()=>{calendarLayoutFrame=null;calendarMeasureLayout();});});
-  for(const el of document.querySelectorAll('.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head'))calendarLayoutObserver.observe(el);
+  for(const el of document.querySelectorAll('.page-intro,.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head'))calendarLayoutObserver.observe(el);
  }
  calendarMeasureLayout();
 }

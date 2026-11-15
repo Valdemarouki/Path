@@ -8,6 +8,7 @@ function calendarMiniPicker(){
 function calendarFocusPicker(){document.querySelector('.calendar-mini-grid [tabindex="0"]')?.focus({preventScroll:true});}
 function calendarFocusIdentity(element){
  if(!element?.dataset||view!=='calendar')return null;
+ if(element.id==='calendar-agenda-title')return {agendaTitle:true};
  if(element.dataset.event)return {event:element.dataset.event,agenda:element.classList.contains('calendar-agenda-item')};
  if(element.dataset.calendarSlot)return {date:element.dataset.calendarSlot,minute:Number(element.dataset.minute)};
  if(element.dataset.calendarContextDate)return {day:element.dataset.calendarContextDate};
@@ -76,6 +77,6 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-calendar-go-events]'))return;
  if(calendarNarrow&&calendarMode==='week')calendarNarrowView='list';
- calendarContextVisible=true;render();const target=document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title');target?.focus({preventScroll:true});target?.scrollIntoView({block:'center',inline:'nearest'});
+ calendarContextVisible=true;render();const target=document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title');target?.focus({preventScroll:true});target?.scrollIntoView({block:'center',inline:'nearest'});calendarRevealAgendaFocus();
 });
 render();

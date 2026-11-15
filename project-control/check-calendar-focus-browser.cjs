@@ -60,7 +60,8 @@ const timer=setTimeout(()=>{console.error('Browser regression timed out');browse
   for(const [language,due] of Object.entries({en:'Due',ru:'Срок',es:'Vence',pl:'Termin'})){
    await evaluate(`pathSetLanguage('${language}');${fixture}`);
    await evaluate(`document.querySelector('[data-calendar-go-events]').focus()`);await key('Enter',13);
-   const result=await evaluate(`(()=>{const row=document.querySelector('.calendar-agenda-item[data-event="deadline"]'),time=row.querySelector('time'),name=row.querySelector('strong'),a=time.getBoundingClientRect(),b=name.getBoundingClientRect();return {text:time.textContent,title:name.textContent,focused:document.activeElement===row,overlap:a.right>b.left,labelFits:time.scrollWidth<=time.clientWidth,titleFits:name.scrollWidth<=name.clientWidth};})()`);
+   // Time may deliberately reflow above the title; overlap needs both axes.
+   const result=await evaluate(`(()=>{const row=document.querySelector('.calendar-agenda-item[data-event="deadline"]'),time=row.querySelector('time'),name=row.querySelector('strong'),a=time.getBoundingClientRect(),b=name.getBoundingClientRect();return {text:time.textContent,title:name.textContent,focused:document.activeElement===row,overlap:a.right>b.left&&a.left<b.right&&a.bottom>b.top&&a.top<b.bottom,labelFits:time.scrollWidth<=time.clientWidth,titleFits:name.scrollWidth<=name.clientWidth};})()`);
    trace.push({width,language,...result,active:await evaluate('document.activeElement.outerHTML.slice(0,500)')});
    assert.equal(result.text,due);assert.equal(result.title,title);assert(result.focused);assert(!result.overlap);assert(result.labelFits);assert(result.titleFits);
    await screenshot(`${language}-${width}-agenda`);

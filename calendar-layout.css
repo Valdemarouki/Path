@@ -85,9 +85,10 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-narrow .calendar-deadline-strip{top:0}
 .calendar-list-scroll .calendar-agenda{padding:0 12px}
 .calendar-list-scroll .calendar-agenda .panel-head{display:none}
-.calendar-agenda-item{min-height:48px;padding:12px 0;gap:12px}
-.calendar-agenda-item time{font-size:12px;color:#b3b5b9;min-width:72px}
-.calendar-agenda-item strong{font-size:13px;line-height:18px}
+.calendar-agenda-item{min-height:48px;padding:12px 0;gap:12px;flex-wrap:wrap;font-size:13px;line-height:1.4}
+.calendar-agenda-item time{font-size:12px;color:#b3b5b9;min-width:8em}
+.calendar-agenda-item>span{flex:1 1 min(22em,calc(100% - 17px - 12px))}
+.calendar-agenda-item strong{font-size:13px;line-height:1.3846153846}
 .calendar-agenda-item small,.calendar-agenda>.muted,.calendar-agenda-empty{font-size:12px;color:#b3b5b9}
 .calendar-open-slots{padding:12px;font-size:12px;color:#b3b5b9}
 .calendar-open-slots summary{cursor:pointer;min-height:36px}
