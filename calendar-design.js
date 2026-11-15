@@ -76,6 +76,6 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('click',e=>{
  if(!e.target.closest('[data-calendar-go-events]'))return;
  if(calendarNarrow&&calendarMode==='week')calendarNarrowView='list';
- calendarContextVisible=true;render();(document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title'))?.focus();
+ calendarContextVisible=true;render();const target=document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title');target?.focus({preventScroll:true});target?.scrollIntoView({block:'center',inline:'nearest'});
 });
 render();

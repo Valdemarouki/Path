@@ -33,14 +33,21 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(!e.defaultPrevented&&e.key==='Escape'&&!editor&&(calendarContextVisible||calendarPlanningOpen)){const planning=calendarPlanningOpen;calendarContextVisible=false;calendarPlanningOpen=false;render();document.querySelector(planning?'[data-calendar-plan]':'[data-calendar-context-toggle]')?.focus({preventScroll:true});}});
 // Observe the work region, not the viewport. A threshold crossing rerenders the
 // calendar while the existing render guard retains the exact live editor node.
-let calendarLayoutObserver=null,calendarLayoutFrame=null;
+let calendarLayoutObserver=null,calendarLayoutFrame=null,calendarLayoutScrollRestore=null;
 function calendarMeasureLayout(){
  const region=document.querySelector('.calendar-main-region'),scroll=document.querySelector('.calendar-scroll');
  if(view!=='calendar'||!region||!scroll)return;
+ const controls=[...region.querySelectorAll('.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading')].reduce((height,el)=>height+el.getBoundingClientRect().height,0);
+ const remaining=window.innerHeight-region.getBoundingClientRect().top-controls-24;
+ if(calendarCombinedScroll!==(remaining<160)){
+  const next=remaining<160;
+  calendarLayoutScrollRestore=Math.max(0,scroll.scrollTop+(next?controls:-controls));
+  calendarCombinedScroll=next;render();return;
+ }
  const width=scroll.clientWidth; // Usable C excludes the reserved scrollbar gutter.
  if(width>0&&calendarNarrow!==(width<1008)){
   const next=width<1008;
-  if(calendarMode==='week'&&!scroll.classList.contains('calendar-list-scroll')){
+  if(calendarMode==='week'&&!region.querySelector('.calendar-list-scroll')){
    const key=calendarMode+':'+calendarDates()[0]+(next?':'+homeDate+':timeline':'');
    calendarViewScroll.set(key,{top:scroll.scrollTop,left:0});
   }
@@ -48,6 +55,7 @@ function calendarMeasureLayout(){
  }
  const height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24);
  scroll.style.height=height+'px';
+ if(calendarLayoutScrollRestore!==null){scroll.scrollTop=calendarLayoutScrollRestore;calendarLayoutScrollRestore=null;}
  const head=document.querySelector('.timegrid-head');if(head)document.querySelector('.calendar-timegrid')?.style.setProperty('--calendar-head-height',head.offsetHeight+'px');
 }
 function calendarObserveLayout(){

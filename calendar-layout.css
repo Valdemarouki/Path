@@ -108,3 +108,7 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-layout .calendar-scroll{overflow-anchor:none}
 .timegrid-head button span,.calendar-week-overview button span{line-height:1.5}
 .timegrid-head button b,.calendar-week-overview button b{line-height:1.43;min-width:1.85em}
+
+/* At short heights / enlarged text, let controls scroll out of the work area. */
+.calendar-combined-scroll .calendar-scroll-content{overflow:visible}
+.calendar-combined-scroll .calendar-week-overview{position:sticky;top:0;z-index:6;background:#151719}
