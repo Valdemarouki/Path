@@ -162,8 +162,7 @@ saveCanvasNoteDraft=function(){if(canvasNoteDraft?.dirty)pathKeepTextDraft('path
 document.addEventListener('input',e=>{if(e.target.closest('.note-document')&&noteDraft)pathKeepTextDraft('path2-note-editor-draft',noteDraft);if(e.target.closest('.canvas-inline-editor')&&canvasNoteDraft)pathKeepTextDraft('path2-canvas-text-draft',canvasNoteDraft);});
 function pathTextRecovery(){for(const [key,label] of [['path2-note-editor-draft','Resume note'],['path2-canvas-text-draft','Resume Canvas text']]){let saved;try{saved=JSON.parse(localStorage.getItem(key));}catch{}if(!saved)continue;const button=document.createElement('button');button.className='btn context-text-recovery';button.textContent=label;button.onclick=()=>{if(editor&&!closeEditor())return;if(key==='path2-note-editor-draft'){view='notes';noteDraft=saved;noteDirty=true;selectedNote=saved.id;noteKind=saved.kind;}else{view='canvas';canvasId=saved.boardId;canvasNoteDraft=saved;}render();button.remove();};document.body.appendChild(button);}}
 pathTextRecovery();
-const pathContextEventButtonBefore=calendarEventButton;
-calendarEventButton=function(event,...args){let html=pathContextEventButtonBefore(event,...args);if(event.eventIcon)html=html.replace('<strong>',`<strong><span class="context-event-icon">${icon(event.eventIcon,12)}</span> `);return html;};
+// Custom eventIcon stays in the editor; calendar cards use the semantic type icon.
 // Reminders are local, in-app notifications; no browser permission is requested.
 const pathContextReminded=new Set();
 setInterval(()=>{for(const event of data.events){if(!event.reminderMinutes||event.done||event.type==='deadline'||pathContextReminded.has(event.id))continue;try{const ms=pathEventTiming(event).start-Date.now();if(ms>=0&&ms<=event.reminderMinutes*60000){pathContextReminded.add(event.id);toast('Upcoming: '+event.title+' · '+clockTime(event.hour));}}catch{}}},30000);

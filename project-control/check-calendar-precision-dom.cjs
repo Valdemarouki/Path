@@ -37,7 +37,7 @@ function reviewRegressions(){
    for(const [id,label] of [['first',first],['second',second]]){assert(row(id).textContent.includes(label));assert(row(id).getAttribute('aria-label').includes(label));}
    assert.notEqual(row('first').textContent,row('second').textContent);assert.notEqual(row('first').getAttribute('aria-label'),row('second').getAttribute('aria-label'));
    assert(row('cross').textContent.includes(first));assert(row('cross').textContent.includes(second));assert(row('cross').textContent.includes('60'));
-   const grid=b.w.document.querySelector('.cal-entry[data-event="cross"]');assert(grid.textContent.includes(first));assert(grid.textContent.includes(second));
+   const grid=b.w.document.querySelector('[data-calendar-disclosure*="cross"]');assert(grid,'Repeated-clock projection uses disclosure');grid.click();const disclosed=b.w.document.querySelector('#calendar-density-list [data-event="cross"]');assert(disclosed.textContent.includes(first));assert(disclosed.textContent.includes(second));b.run('calendarCloseDisclosure(false)');
   }
   b.run(`data.events.find(e=>e.id==='first').hour=2.75;pathStampEvent(data.events.find(e=>e.id==='first'));render()`);
   const order=()=>[...b.w.document.querySelectorAll('.calendar-agenda-item')].map(el=>el.dataset.event);

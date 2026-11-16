@@ -39,8 +39,7 @@ modalEvent=function(id=null,date=homeDate,minute=600){
  if(existing)editor.deleteFn=()=>cancelCalendarOccurrence(data,id);
  renderEditor();
 };
-const calendarEventBeforeRecurrence=calendarEventButton;
-calendarEventButton=function(e,style=''){const html=calendarEventBeforeRecurrence(e,style);return e.seriesId?html.replace('<strong>','<strong><span aria-label="Repeating event">↻ </span>'):html;};
+// Card recurrence marks are rendered beside completion in calendarEventButton.
 function markCalendarExceptions(state,previous){if(!previous)return;const before=new Map(previous.events.map(e=>[e.id,e]));for(const event of state.events){const old=before.get(event.id);if(!event.seriesId||!old)continue;if(['date','hour','duration','title','location','notes','type'].some(k=>event[k]!==old[k]))event.seriesException=true;}}
 const reconcileBeforeRecurrence=reconcileTaskCompletion;
 reconcileTaskCompletion=function(){reconcileBeforeRecurrence();markCalendarExceptions(data,pathRepository.state);};

@@ -26,6 +26,7 @@ const snapshot=()=>run('JSON.stringify(data)');
  pathStampEvent({id:'rest',title:'Rest title',date:'2026-11-03',hour:12,duration:30,type:'free_time',protected:true}),
  {id:'deadline',title:'Due <literal> $& — очень длинный срок / fecha límite muy larga',date:'2026-11-03',hour:0,duration:0,type:'deadline'},
  pathStampEvent({id:'next',title:'Next day',date:'2026-11-04',hour:10,duration:60,type:'busy'})];save();view='calendar';homeDate='2026-11-03';calendarMode='week';render();`);
+ run('calendarGridWidth=1280;render()');
  const original=snapshot();
  assert.equal(doc.querySelectorAll('[data-calendar-slot]').length,672);
  assert.equal(doc.querySelectorAll('[data-calendar-slot][tabindex="0"]').length,1);
@@ -66,8 +67,8 @@ const snapshot=()=>run('JSON.stringify(data)');
  run(`data.events.push(pathStampEvent({id:'foreign',title:'Event <literal> $&',date:'2026-11-03',hour:9,duration:5,type:'busy',tzid:'Asia/Tokyo',importance:'medium',seriesId:'series'}));data.eventSeries=[{id:'series',frequency:'weekly'}];`);
  for(const language of ['en','ru','es','pl']){
   run(`pathSetLanguage('${language}');homeDate='2026-11-03';render();pathTranslateInterface();`);
-  const card=q('.cal-entry[data-event="foreign"]'),label=card.getAttribute('aria-label'),summary=q('.calendar-agenda-item[data-event="foreign"] small').textContent;
-  assert.equal(card.title,label,'Localized tooltip shares the complete semantic label');assert(label.includes('Event <literal> $&'));assert(label.includes('01:00'));assert(label.includes('01:05'));assert(label.includes('Asia/Tokyo'));assert(label.includes('Europe/Warsaw'));assert(summary.includes(run("new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long'}).format(5)")));
+  const card=q('[data-calendar-disclosure*="foreign"]'),label=card.getAttribute('aria-label'),summary=q('.calendar-agenda-item[data-event="foreign"] small').textContent;
+  card.focus();assert(doc.querySelector('#calendar-title-preview').textContent.includes('Event <literal> $&'),'Focus preview reveals literal full title');assert(label.includes('Event <literal> $&'));assert(label.includes('01:00'));assert(label.includes('01:05'));assert(label.includes('Asia/Tokyo'));assert(label.includes('Europe/Warsaw'));assert(summary.includes(run("new Intl.NumberFormat(pathLocale(),{style:'unit',unit:'minute',unitDisplay:'long'}).format(5)")));
   assert(label.includes(run("pathT('Medium importance')")));assert(label.includes(run("pathT('Repeats weekly')")));
   if(language!=='en'){assert(!summary.includes('Planned'));assert(!/\bEvent\b/.test(summary));assert(!label.includes('Does not repeat'));}
   const rest=q('.calendar-agenda-item[data-event="rest"]').getAttribute('aria-label');assert(!rest.includes(run("pathT('Completed')")));assert(rest.includes(run("pathT('Protected rest')")));

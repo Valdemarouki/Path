@@ -30,7 +30,7 @@ assert.equal(run("findTask('flow-task').task.status"),'progress','session comple
 assert.equal(run('progressSnapshot().tasks'),0);
 run(`setTaskComplete('flow-task',true);save();`);
 assert.equal(run('progressSnapshot().tasks'),1);assert(run('homeTasks()[0].done'));
-assert(run('calendarProjectDeadlines(homeDate)[0].done'),'Calendar deadline must reflect completed task');assert(run('calendarEventButton(calendarProjectDeadlines(homeDate)[0]).includes("Completed · Deadline")'));assert(run('calendarEventButton(calendarProjectDeadlines(homeDate)[0]).includes("completed")'));
+assert(run('calendarProjectDeadlines(homeDate)[0].done'),'Calendar deadline must reflect completed task');assert(run('calendarEventButton(calendarProjectDeadlines(homeDate)[0]).includes("; Completed;")'));assert(run('calendarEventButton(calendarProjectDeadlines(homeDate)[0]).includes("completed")'));
 run(`applyHistory('undo');`);assert.equal(run('progressSnapshot().tasks'),0);assert(!run('calendarProjectDeadlines(homeDate)[0].done'));assert(run('data.events[0].done'));
 run(`applyHistory('redo');`);assert.equal(run('progressSnapshot().tasks'),1);
 run(`const savedWrite=localStorage.setItem;localStorage.setItem=()=>{throw Error('quota');};`);
