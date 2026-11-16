@@ -97,9 +97,10 @@ function pathContextScopeUI(){
  if(!apply){apply=document.createElement('button');apply.type='button';apply.className='btn primary';apply.dataset.contextApply='';apply.dataset.noTranslate='';actions.prepend(apply);}
  const scope=form.elements.editScope?.value,source=editor.calendarTime?.source;
  const count=source?.seriesId?data.events.filter(e=>e.seriesId===source.seriesId&&(scope!=='following'||e.occurrenceDate>=source.occurrenceDate)).length:Number(form.elements.repeatCount?.value||1);
+ const applyLabel=calendarMessage(count===1?'Apply to {count} event':'Apply to {count} events',{count});
  summary.hidden=!source?.seriesId&&!review;
- summary.textContent=review?calendarMessage('Apply to {count} events',{count}):pathT('Only this event');
- apply.textContent=calendarMessage('Apply to {count} events',{count});apply.hidden=!review;
+ summary.textContent=review?applyLabel:pathT('Only this event');
+ apply.textContent=applyLabel;apply.hidden=!review;
  editor.contextScopeSnapshot=pathContextScopeSnapshot();
  actions.querySelector('[data-context-done]')?.toggleAttribute('hidden',review);
  actions.querySelector('[data-context-discard]')?.toggleAttribute('hidden',!review&&form.querySelector('[data-context-state]')?.getAttribute('role')!=='alert');
