@@ -128,6 +128,11 @@ function calendarLeavePreview(){clearTimeout(calendarPreviewTimer);calendarPrevi
  document.addEventListener('focusin',e=>{const target=e.target.closest(calendarPreviewSelector);if(target)calendarShowPreview(target);});
  document.addEventListener('focusout',e=>{if(e.target.closest(calendarPreviewSelector+',#calendar-title-preview'))calendarLeavePreview();});
  document.addEventListener('pointerdown',()=>calendarHidePreview(),true);
+ // Element scroll events do not bubble. Capture the owning grid/document scroll,
+ // leaving the preview's own overflow and explicit disclosure list usable.
+ document.addEventListener('scroll',e=>{
+  if(e.target===document||e.target.matches?.('.calendar-scroll'))calendarHidePreview();
+ },true);
  document.addEventListener('click',e=>{
   const target=e.target.closest('[data-calendar-disclosure]');
   if(target){calendarHidePreview();calendarDisclosureState={ids:JSON.parse(target.dataset.calendarDisclosure),date:target.dataset.disclosureDate,key:target.dataset.calendarDisclosure};calendarRefreshDisclosure();document.querySelector('#calendar-density-list .calendar-agenda-item')?.focus({preventScroll:true});}
