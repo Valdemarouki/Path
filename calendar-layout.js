@@ -4,7 +4,7 @@ function calendarDayAgenda(){
  // Resolve source instants once: clipped wall-clock positions repeat at a fall-back.
  const entries=calendarEvents(homeDate).map(event=>{let start=Infinity;try{if(event.type!=='deadline')start=pathEventTiming(calendarSourceEvent(event)).start;}catch{}return {event,start};})
   .sort((a,b)=>(Number(a.event.type!=='deadline')-Number(b.event.type!=='deadline')||a.start-b.start||(String(a.event.id)<String(b.event.id)?-1:String(a.event.id)>String(b.event.id)?1:0))).map(item=>item.event);
- return `<section class="calendar-agenda" id="calendar-day-events" aria-labelledby="calendar-agenda-title">${calendarMode==='week'&&calendarNarrow?'':`<div class="panel-head"><h2 id="calendar-agenda-title" tabindex="-1">${pretty(homeDate)}</h2></div>`}<p class="muted" data-no-translate>${esc(calendarMessage('Events: {count} · {zone}',{count:entries.length,zone:pathSystemTimeZone()}))}</p>${entries.map(e=>{const p=calendarEventPresentation(e);return `<button class="calendar-agenda-item" data-no-translate data-event="${esc(e.id)}" aria-label="${esc(p.name)}" ${calendarCanComplete(e)?'aria-keyshortcuts="Shift+Enter"':''}><time>${e.type==='deadline'?esc(pathT('Due')):clockTime(e.hour)}</time><span><strong>${esc(p.title)}</strong><small>${e.type==='deadline'?'':esc(p.range)+' · '}${esc(p.summary)}</small></span>${icon('chevron',12)}</button>`;}).join('')||'<p class="calendar-agenda-empty">No events planned for this day.</p><button class="btn" data-new-event>Add event</button>'}</section>`;
+ return `<section class="calendar-agenda" id="calendar-day-events" aria-labelledby="calendar-agenda-title">${calendarMode==='week'&&calendarNarrow?'':`<div class="panel-head"><h2 id="calendar-agenda-title" tabindex="-1">${pretty(homeDate)}</h2></div>`}<p class="muted" data-no-translate>${esc(calendarMessage('Events: {count} · {zone}',{count:entries.length,zone:pathSystemTimeZone()}))}</p>${entries.map(e=>{const p=calendarEventPresentation(e);return `<button class="calendar-agenda-item" data-no-translate data-event="${esc(e.id)}" aria-label="${esc(p.name)}" ${calendarCanComplete(e)?'aria-keyshortcuts="Shift+Enter"':''}><time>${e.type==='deadline'?esc(pathT('Due')):clockTime(e.hour)}</time><span><strong>${calendarSemanticIcon(e)}${calendarImportanceMark(e)}${esc(p.title)}</strong><small>${e.type==='deadline'?'':esc(p.range)+' · '}${esc(p.summary)}${e.type==='free_time'?'':' · '+esc(p.importance)}${e.seriesId?' · '+esc(p.recurrence):''}</small></span>${icon('chevron',12)}</button>`;}).join('')||'<p class="calendar-agenda-empty">No events planned for this day.</p><button class="btn" data-new-event>Add event</button>'}</section>`;
 }
 function calendarOpenSlots(){return `<details class="calendar-open-slots"><summary>${esc(pathT('Find open time'))}</summary>${openSlotsPanel()}</details>`;}
 const calendarPageBeforeLayout=calendarPage;
@@ -78,7 +78,9 @@ function calendarMeasureLayout(){
  if(calendarCombinedScroll!==(remaining<160)){
   scroll=calendarSetCombinedScroll(scroll,remaining<160);
  }
+ scroll.style.height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24)+'px';
  const width=scroll.clientWidth; // Usable C excludes the reserved scrollbar gutter.
+ if(width<=0)return; // Hidden/unmeasured regions cannot supply density geometry.
  if(width>0&&calendarNarrow!==(width<1008)){
   const next=width<1008;
   if(calendarMode==='week'&&!region.querySelector('.calendar-list-scroll')){
@@ -87,17 +89,28 @@ function calendarMeasureLayout(){
   }
   calendarNarrow=next;render();return;
  }
+ // Density follows measured column width and actual text metrics (including text zoom).
+ const sample=region.querySelector('.calendar-density-metrics .calendar-event-title');
+ const meta=region.querySelector('.calendar-density-metrics small');
+ const content=Math.max(44,(sample?parseFloat(getComputedStyle(sample).lineHeight)||18:18)+(meta?parseFloat(getComputedStyle(meta).lineHeight)||16:16)+10);
+ if(Math.abs(calendarGridWidth-width)>.5||Math.abs(calendarContentHeight-content)>.5){
+  calendarGridWidth=width;calendarContentHeight=content;calendarTargetHeight=content;render();return;
+ }
  const height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24);
  scroll.style.height=height+'px';
  calendarRevealAgendaFocus();
  const head=document.querySelector('.timegrid-head');if(head)document.querySelector('.calendar-timegrid')?.style.setProperty('--calendar-head-height',head.offsetHeight+'px');
+ // Native focus/scrollIntoView must expose midnight targets below sticky bands.
+ const band=scroll.querySelector('.calendar-deadline-strip'),overview=scroll.querySelector('.calendar-week-overview');
+ scroll.style.scrollPaddingTop=((head?.offsetHeight||0)+(band?.offsetHeight||0)+(calendarCombinedScroll?(overview?.offsetHeight||0):0)+4)+'px';
+ scroll.style.scrollPaddingBottom='4px';
 }
 function calendarObserveLayout(){
  calendarLayoutObserver?.disconnect();
  if(view!=='calendar')return;
  if(typeof ResizeObserver!=='undefined'){
   calendarLayoutObserver=new ResizeObserver(()=>{if(calendarLayoutFrame!==null)return;calendarLayoutFrame=requestAnimationFrame(()=>{calendarLayoutFrame=null;calendarMeasureLayout();});});
-  for(const el of document.querySelectorAll('.page-intro,.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head'))calendarLayoutObserver.observe(el);
+  for(const el of document.querySelectorAll('.page-intro,.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head,.calendar-deadline-strip,.calendar-density-metrics .calendar-event-title'))calendarLayoutObserver.observe(el);
  }
  calendarMeasureLayout();
 }

@@ -1,4 +1,5 @@
 /* Calendar presentation keeps existing scheduling and timezone contracts. */
+let calendarDisclosureState=null,calendarPreviewTimer=null,calendarPreviewTarget=null;
 let calendarPickerOpen=false,calendarPickerMonth=null,calendarPickerFocus=null,calendarPickerPreferredDay=null,calendarViewScroll=new Map();
 function calendarMiniDates(month){return calendarDates(month+'-01','month');}
 function calendarMiniPicker(){
@@ -9,6 +10,7 @@ function calendarFocusPicker(){document.querySelector('.calendar-mini-grid [tabi
 function calendarFocusIdentity(element){
  if(!element?.dataset||view!=='calendar')return null;
  if(element.id==='calendar-agenda-title')return {agendaTitle:true};
+ if(element.dataset.calendarDisclosure)return {disclosure:element.dataset.calendarDisclosure,date:element.dataset.disclosureDate};
  if(element.dataset.event)return {event:element.dataset.event,agenda:element.classList.contains('calendar-agenda-item')};
  if(element.dataset.calendarSlot)return {date:element.dataset.calendarSlot,minute:Number(element.dataset.minute)};
  if(element.dataset.calendarContextDate)return {day:element.dataset.calendarContextDate};
@@ -18,9 +20,10 @@ function calendarRestoreFocus(identity){
  if(!identity||view!=='calendar'||editor)return;
  let target;
  if(identity.event){const matches=[...document.querySelectorAll('[data-event]')].filter(el=>el.dataset.event===identity.event);target=matches.find(el=>identity.agenda?el.classList.contains('calendar-agenda-item'):el.classList.contains('cal-entry'))||matches[0];}
+ else if(identity.disclosure)target=[...document.querySelectorAll('[data-calendar-disclosure]')].find(el=>el.dataset.calendarDisclosure===identity.disclosure&&el.dataset.disclosureDate===identity.date);
  else if(identity.date)target=[...document.querySelectorAll('[data-calendar-slot]')].find(el=>el.dataset.calendarSlot===identity.date&&Number(el.dataset.minute)===identity.minute);
  else if(identity.day)target=[...document.querySelectorAll('[data-calendar-context-date]')].find(el=>el.dataset.calendarContextDate===identity.day);
- (target||document.querySelector('#calendar-agenda-title')||document.querySelector('[data-calendar-go-events]'))?.focus({preventScroll:true});
+ (target||(identity.event?[...document.querySelectorAll('[data-calendar-disclosure]')].find(el=>JSON.parse(el.dataset.calendarDisclosure).includes(identity.event)):null)||document.querySelector('#calendar-agenda-title')||document.querySelector('[data-calendar-go-events]'))?.focus({preventScroll:true});
 }
 
 const calendarPageBeforeDesign=calendarPage;
@@ -33,7 +36,7 @@ function updateCalendarNow(){
  const line=document.createElement('div');line.className='calendar-now';line.style.top=calendarMinutePixels(now.minute)+'px';line.setAttribute('aria-label',pathT('Current time')+' '+clockTime(now.minute/60));line.innerHTML=`<span>${clockTime(now.minute/60)}</span>`;day.appendChild(line);
 }
 const renderBeforeCalendarDesign=render;
-render=function(){const focus=calendarFocusIdentity(document.activeElement);const old=document.querySelector('.calendar-scroll');if(old?.dataset.scrollKey)calendarViewScroll.set(old.dataset.scrollKey,{top:old.scrollTop,left:old.scrollLeft});renderBeforeCalendarDesign();if(view!=='calendar'){calendarPickerOpen=false;return;}const scroller=document.querySelector('.calendar-scroll');if(scroller){const key=calendarScrollKey(),saved=calendarViewScroll.get(key);scroller.dataset.scrollKey=key;scroller.scrollTop=saved?.top??(calendarNarrow&&calendarNarrowView==='list'?0:360);scroller.scrollLeft=saved?.left??0;}updateCalendarNow();calendarRestoreFocus(focus);};
+render=function(){const focus=calendarFocusIdentity(document.activeElement);calendarHidePreview();const old=document.querySelector('.calendar-scroll');if(old?.dataset.scrollKey)calendarViewScroll.set(old.dataset.scrollKey,{top:old.scrollTop,left:old.scrollLeft});renderBeforeCalendarDesign();if(view!=='calendar'){calendarPickerOpen=false;calendarCloseDisclosure(false);return;}const scroller=document.querySelector('.calendar-scroll');if(scroller){const key=calendarScrollKey(),saved=calendarViewScroll.get(key);scroller.dataset.scrollKey=key;scroller.scrollTop=saved?.top??(calendarNarrow&&calendarNarrowView==='list'?0:360);scroller.scrollLeft=saved?.left??0;}updateCalendarNow();calendarRefreshDisclosure();calendarRestoreFocus(focus);};
 const renderEditorBeforeCalendarDesign=renderEditor;
 renderEditor=function(){renderEditorBeforeCalendarDesign();if(view==='calendar'&&editor?.fields.some(f=>f.key==='duration')&&editor.fields.some(f=>f.key==='time'))document.querySelector('#editor-overlay')?.classList.add('calendar-inspector');};
 document.addEventListener('click',e=>{
@@ -80,3 +83,69 @@ document.addEventListener('click',e=>{
  calendarContextVisible=true;render();const target=document.querySelector('.calendar-agenda-item')||document.querySelector('#calendar-agenda-title');target?.focus({preventScroll:true});target?.scrollIntoView({block:'center',inline:'nearest'});calendarRevealAgendaFocus();
 });
 render();
+
+/* Read-only density disclosure delegates individual records to existing commands. */
+function calendarCloseDisclosure(restore=true){
+ const state=calendarDisclosureState;calendarDisclosureState=null;
+ document.querySelector('#calendar-density-list')?.remove();
+ if(restore&&state)calendarRestoreFocus({disclosure:state.key,date:state.date});
+}
+function calendarRefreshDisclosure(){
+ if(!calendarDisclosureState)return;
+ if(view!=='calendar'){calendarCloseDisclosure(false);return;}
+ const state=calendarDisclosureState,events=calendarEvents(state.date).filter(e=>state.ids.includes(e.id));
+ events.sort((a,b)=>{try{return pathEventTiming(calendarSourceEvent(a)).start-pathEventTiming(calendarSourceEvent(b)).start||calendarDisplayOrder(a,b);}catch{return calendarDisplayOrder(a,b);}});
+ let panel=document.querySelector('#calendar-density-list');
+ if(!panel){panel=document.createElement('section');panel.id='calendar-density-list';panel.className='calendar-density-list';panel.setAttribute('role','dialog');panel.setAttribute('aria-labelledby','calendar-density-heading');document.body.appendChild(panel);}
+ panel.innerHTML=`<header><h2 id="calendar-density-heading">${esc(calendarFullDate(state.date))} · ${esc(calendarMessage('Events: {count}',{count:events.length}))}</h2><button class="btn" data-calendar-disclosure-close>${esc(pathT('Close'))}</button></header><div class="calendar-density-rows">${events.map(e=>{
+  const p=calendarEventPresentation(e);
+  return `<button data-no-translate class="calendar-agenda-item" data-event="${esc(e.id)}" aria-label="${esc(p.name)}" ${calendarCanComplete(e)?'aria-keyshortcuts="Shift+Enter"':''}><span><strong>${calendarSemanticIcon(e)}${calendarImportanceMark(e)}${esc(p.title)}</strong><small>${e.type==='deadline'?esc(pathT('Date only'))+' · ':esc(p.range)+' · '}${esc(p.summary)}${e.type==='free_time'?'':' · '+esc(p.importance)}${e.seriesId?' · '+esc(p.recurrence):''}</small>${e.eventIcon?`<span class="calendar-custom-art" aria-hidden="true">${icon(e.eventIcon,20)}</span>`:''}</span>${icon('chevron',12)}</button>`;
+ }).join('')}</div>`;
+}
+function calendarHidePreview(){
+ clearTimeout(calendarPreviewTimer);calendarPreviewTimer=null;calendarPreviewTarget=null;
+ document.querySelector('#calendar-title-preview')?.remove();
+}
+function calendarShowPreview(target){
+ calendarHidePreview();if(!target?.isConnected||calendarPointer||editor)return;
+ const ids=target.dataset.calendarDisclosure?JSON.parse(target.dataset.calendarDisclosure):[target.dataset.event];
+ const entries=ids.map(id=>data.events.find(e=>e.id===id)||(id.startsWith('task-deadline:')?calendarProjectDeadlines(findTask(id.slice(14))?.task.deadline).find(e=>e.id===id):null)).filter(Boolean);
+ if(!entries.length)return;
+ const preview=document.createElement('div');preview.id='calendar-title-preview';preview.className='calendar-title-preview';preview.setAttribute('role','tooltip');preview.tabIndex=0;
+ preview.innerHTML=entries.map(e=>{const p=calendarEventPresentation(e);return `<p><strong>${esc(p.title)}</strong><br>${esc(p.range)} · ${esc(p.summary)}${e.type==='free_time'?'':' · '+esc(p.importance)}${e.seriesId?' · '+esc(p.recurrence):''}</p>`;}).join('');
+ document.body.appendChild(preview);calendarPreviewTarget=target;
+ const rect=target.getBoundingClientRect(),box=preview.getBoundingClientRect();
+ // Place beside the target. If neither side fits, use space above or below.
+ let left=rect.right+8,top=rect.top;
+ if(left+box.width>innerWidth-8){left=rect.left-box.width-8;if(left<8){left=Math.max(8,Math.min(rect.left,innerWidth-box.width-8));const below=innerHeight-rect.bottom-16,above=rect.top-16;preview.style.maxHeight=Math.max(0,Math.max(above,below))+'px';top=below>=above?rect.bottom+8:rect.top-Math.min(box.height,above)-8;}}
+ preview.style.left=left+'px';preview.style.top=Math.max(8,Math.min(top,innerHeight-preview.getBoundingClientRect().height-8))+'px';
+}
+const calendarPreviewSelector='.cal-entry[data-event],[data-calendar-disclosure]';
+function calendarQueuePreview(target,delay){clearTimeout(calendarPreviewTimer);calendarPreviewTimer=setTimeout(()=>calendarShowPreview(target),delay);}
+function calendarLeavePreview(){clearTimeout(calendarPreviewTimer);calendarPreviewTimer=setTimeout(()=>{const panel=document.querySelector('#calendar-title-preview');if(panel?.matches(':hover')||panel?.contains(document.activeElement)||calendarPreviewTarget?.matches(':hover')||calendarPreviewTarget===document.activeElement)return;calendarHidePreview();},150);}
+ document.addEventListener('pointerover',e=>{const target=e.target.closest(calendarPreviewSelector);if(target&&!target.contains(e.relatedTarget))calendarQueuePreview(target,350);});
+ document.addEventListener('pointerout',e=>{if(e.target.closest(calendarPreviewSelector+',#calendar-title-preview'))calendarLeavePreview();});
+ document.addEventListener('focusin',e=>{
+  const target=e.target.closest(calendarPreviewSelector);
+  if(target)calendarShowPreview(target);
+  // Keyboard navigation owns the new focus even if the pointer stayed on the
+  // previous card. Cancel its pending hover too; keep the preview focusable.
+  else if(!e.target.closest('#calendar-title-preview'))calendarHidePreview();
+ });
+ document.addEventListener('focusout',e=>{if(e.target.closest(calendarPreviewSelector+',#calendar-title-preview'))calendarLeavePreview();});
+ document.addEventListener('pointerdown',()=>calendarHidePreview(),true);
+ // Element scroll events do not bubble. Capture the owning grid/document scroll,
+ // leaving the preview's own overflow and explicit disclosure list usable.
+ document.addEventListener('scroll',e=>{
+  if(e.target===document||e.target.matches?.('.calendar-scroll'))calendarHidePreview();
+ },true);
+ document.addEventListener('click',e=>{
+  const target=e.target.closest('[data-calendar-disclosure]');
+  if(target){calendarHidePreview();calendarDisclosureState={ids:JSON.parse(target.dataset.calendarDisclosure),date:target.dataset.disclosureDate,key:target.dataset.calendarDisclosure};calendarRefreshDisclosure();document.querySelector('#calendar-density-list .calendar-agenda-item')?.focus({preventScroll:true});}
+  if(e.target.closest('[data-calendar-disclosure-close]'))calendarCloseDisclosure();
+ });
+ document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape'||editor)return;
+  if(document.querySelector('#calendar-title-preview')){e.preventDefault();e.stopImmediatePropagation();calendarHidePreview();}
+  else if(calendarDisclosureState){e.preventDefault();e.stopImmediatePropagation();calendarCloseDisclosure();}
+ },true);

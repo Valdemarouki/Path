@@ -2,6 +2,7 @@
 let calendarMode=data.settings.calendarMode||'week';
 // Presentation state only: resizing never writes settings or changes the route.
 let calendarNarrow=false,calendarNarrowView='list',calendarCombinedScroll=false;
+let calendarGridWidth=0,calendarContentHeight=44,calendarTargetHeight=44;
 const CALENDAR_HOUR_PX=60;
 function calendarMinutePixels(minutes){return minutes*CALENDAR_HOUR_PX/60;}
 function calendarMonday(date){const d=new Date(date+'T12:00:00');return addDays(date,-((d.getDay()+6)%7))}
@@ -21,13 +22,6 @@ function calendarSegment(e,date){const {start,end}=calendarInterval(e),day=calen
 function calendarEvents(date){return data.events.map(e=>calendarSegment(e,date)).filter(Boolean).sort((a,b)=>a.hour-b.hour);}
 function calendarConflicts(event){const interval=calendarInterval(event);return data.events.filter(e=>{const other=calendarInterval(e);return e.id!==event.id&&other.start<interval.end&&other.end>interval.start;});}
 function calendarEndLabel(e){const total=Math.round(e.hour*60+(e.duration??60)),days=Math.floor(total/1440);return clockTime((total%1440)/60)+(days?' (+'+days+'d)':'');}
-function calendarLanes(events){
- events=events.filter(e=>e.type!=='deadline');
- const result=[];let group=[],end=-1;
- const flush=()=>{const n=Math.max(1,...group.map(x=>x.lane+1));group.forEach(x=>result.push({...x,columns:n}));group=[];};
- for(const event of events){if(event.hour>=end){flush();end=-1;}let lane=0;while(group.some(x=>x.lane===lane&&x.event.hour+(x.event.duration??60)/60>event.hour))lane++;group.push({event,lane});end=Math.max(end,event.hour+(event.duration??60)/60);}
- flush();return result;
-}
 // Presentation helpers resolve source records so clipped segments never change time meaning.
 let calendarSlotFocus=null;
 const calendarDateFormatters=new Map();
@@ -41,7 +35,7 @@ function calendarClockLabel(instant,zone=pathSystemTimeZone()){
 function calendarEventPresentation(event){
  const e=calendarSourceEvent(event),type=pathT(({free_time:'Free Time',workout:'Workout',focus:'Focus session',routine:'Routine',deadline:'Deadline'})[e.type]||'Event');
  const title=e.title?.trim()?e.title:pathT('Untitled event'),importance=pathT(({high:'High importance',medium:'Medium importance',low:'Low importance'})[typeof calendarImportance==='function'?calendarImportance(e):e.importance]||'No importance');
- const status=pathT(e.type==='free_time'?(e.protected?'Protected rest':'Rest'):e.type==='deadline'?'Date marker':e.done?'Completed':'Planned');
+ const status=pathT(e.type==='free_time'?(e.protected?'Protected rest':'Rest'):e.done?'Completed':e.type==='deadline'?'Date marker':'Planned');
  const series=data.eventSeries?.find(s=>s.id===e.seriesId),recurrence=pathT(e.seriesId?(series?.frequency==='daily'?'Repeats daily':series?.frequency==='weekly'?'Repeats weekly':'Repeating event'):'Does not repeat');
  let range=calendarFullDate(e.date),duration=pathT('Date marker'),zone='',timeRange='',precise=false;const metadata=[];
  if(e.type!=='deadline'){
@@ -63,16 +57,57 @@ function calendarEventPresentation(event){
  }
  const summary=[calendarMessage('{type} · {duration} · {status}',{type,duration,status}),...metadata].join(' · ');
  const name=calendarMessage('{title}; {range}; {zone}; {type}; {duration}; {importance}; {status}; {recurrence}',{title,range,zone:zone||pathT('Date only'),type,duration,importance,status,recurrence});
- return {title,summary,name:[name,...metadata].join('; '),range,timeRange,duration,precise,metadata};
+ return {title,type,importance,status,recurrence,summary,name:[name,...metadata].join('; '),range,timeRange,duration,precise,metadata};
 }
 function calendarSlotLabel(date,minute,events){const count=events.filter(e=>e.type!=='deadline'&&e.hour*60<minute+15&&e.hour*60+(e.duration??60)>minute).length;return calendarMessage('Add event: {date}, {time}. Nearby events: {count}. Use arrows to navigate; Enter to create.',{date:calendarFullDate(date),time:clockTime(minute/60),count});}
-function calendarEventButton(e,style=''){const presentation=calendarEventPresentation(e);if(e.type==='deadline')return `<button class="cal-entry calendar-deadline ${e.done?'completed':''}" data-event="${esc(e.id)}" aria-label="${esc(presentation.name)}" title="${esc(presentation.name)}"><strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M5 21V3h14l-3 5 3 5H5"/></svg>${esc(presentation.title)}</strong><small>${e.done?'Completed · Deadline':'Deadline'}</small></button>`;return `<button class="cal-entry ${e.done?'completed':''} ${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" title="${esc(presentation.name)}" aria-label="${esc(presentation.name)}"><strong>${e.type==='routine'&&!e.seriesId?'<span aria-label="Routine">↻ </span>':''}${e.done?'✓ ':''}${esc(presentation.title)}</strong><small>${esc(presentation.timeRange)} · ${esc(presentation.duration)}${presentation.metadata.length?' · '+esc(presentation.metadata.join(' · ')):''}${e.location?' · '+esc(e.location):''}</small>${style&&!e.continuesBefore?'<span class="calendar-resize" title="Drag to change duration"></span>':''}</button>`}
+function calendarSemanticIcon(e){
+ const name=({busy:'calendar',workout:'sport',deadline:'flag',focus:'focus'})[e.type]||(!['routine','free_time'].includes(e.type)?'calendar':null);
+ if(name)return icon(name,14).replace('class="icon"','class="icon calendar-type-icon"');
+ const path=e.type==='routine'?'M4 10a8 8 0 0 1 14-4 M18 2v4h-4 M20 14a8 8 0 0 1-14 4 M6 22v-4h4':'M4 7h13v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z M17 8h3v5h-3';
+ return `<svg class="calendar-type-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="${path}"/></svg>`;
+}
+function calendarImportanceMark(e){
+ if(e.type==='free_time')return '';
+ const level=typeof calendarImportance==='function'?calendarImportance(e):e.importance||'none';
+ return `<span class="calendar-importance-glyph" aria-hidden="true">${({high:'◆',medium:'○',low:'–'})[level]||''}</span>`;
+}
+function calendarEventButton(e,style=''){
+ const p=calendarEventPresentation(e),deadline=e.type==='deadline';
+ const height=Number(/(?:^|;)height:([\d.]+)px/.exec(style)?.[1]||0);
+ return `<button data-no-translate class="cal-entry ${deadline?'calendar-deadline ':''}${e.done&&e.type!=='free_time'?'completed ':''}${height>=62?'calendar-two-lines ':''}${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${deadline||e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" aria-label="${esc(p.name)}"><strong>${calendarSemanticIcon(e)}${calendarImportanceMark(e)}<span class="calendar-event-title">${esc(p.title)}</span>${e.seriesId?'<span aria-hidden="true">↻</span>':''}${e.done&&e.type!=='free_time'?'<span aria-hidden="true">✓</span>':''}</strong><small>${deadline?esc(pathT('Date only')):esc(p.timeRange)}</small>${style&&height>=48&&!deadline&&!e.continuesBefore?`<span class="calendar-resize" title="${esc(pathT('Drag to change duration'))}"></span>`:''}</button>`;
+}
+function calendarDisclosureButton(events,date,style='',tick=''){
+ const ids=events.map(e=>e.id),single=events.length===1,p=calendarEventPresentation(events[0]);
+ const label=single?p.title:calendarMessage('Events: {count}',{count:events.length});
+ const range=calendarDisclosureRange(events);
+ return `${tick}<button data-no-translate class="calendar-disclosure" data-calendar-disclosure="${esc(JSON.stringify(ids))}" data-disclosure-date="${esc(date)}" style="${style}" aria-haspopup="dialog" aria-label="${esc(single?p.name:label+' · '+range)}"><strong>${esc(label)}</strong><small>${esc(range)}</small></button>`;
+}
+function calendarDisclosureRange(events){
+ if(events.every(e=>e.type==='deadline'))return pathT('Date only');
+ try{
+  const times=events.map(e=>pathEventTiming(calendarSourceEvent(e))),start=Math.min(...times.map(t=>t.start)),end=Math.max(...times.map(t=>t.end));
+  const a=pathZoneParts(start),b=pathZoneParts(end);
+  return a.date!==b.date?calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(a.date),startTime:calendarClockLabel(start),endDate:calendarFullDate(b.date),endTime:calendarClockLabel(end)}):calendarClockLabel(start)+'–'+calendarClockLabel(end);
+ }catch{return pathT('Check time');}
+}
+function calendarTimedEntries(events,date,width){
+ return calendarDensityLayout(events,width,{scale:CALENDAR_HOUR_PX/60,contentHeight:calendarContentHeight,targetHeight:calendarTargetHeight}).map(t=>{
+  const style=`top:${t.top}px;height:${t.height}px;left:${t.left}px;width:${t.width}px`;
+  if(!t.disclosure)return calendarEventButton(t.events[0],style);
+  const tick=`<span class="calendar-exact-tick" aria-hidden="true" style="top:${t.start}px;height:${Math.max(1,t.end-t.start)}px"></span>`;
+  return calendarDisclosureButton(t.events,date,style,tick);
+ }).join('');
+}
+function calendarDeadlineBand(events,date){
+ const entries=events.filter(e=>e.type==='deadline').slice().sort(calendarDisplayOrder);
+ return entries.slice(0,2).map(e=>calendarEventButton(e)).join('')+(entries.length>2?`<button class="calendar-deadline-more" data-calendar-disclosure="${esc(JSON.stringify(entries.map(e=>e.id)))}" data-disclosure-date="${date}" aria-haspopup="dialog">${esc(calendarMessage('{count} more',{count:entries.length-2}))}</button>`:'');
+}
 function calendarDayHeader(date){
  const d=new Date(date+'T12:00:00');
  return `<button data-calendar-date="${date}" class="${date===pathToday()?'current':''}" aria-label="${esc(calendarFullDate(date))}" ${date===pathToday()?'aria-current="date"':''}><span>${d.toLocaleDateString(pathLocale(),{weekday:'short'})}</span><b>${d.getDate()}</b></button>`;
 }
 function calendarTimeGrid(dates,eventsByDate){
- return `<div class="calendar-timegrid" style="--days:${dates.length}"><div class="timegrid-head"><span>${esc(pathT('Time'))}</span>${dates.map(calendarDayHeader).join('')}</div>${dates.some(date=>eventsByDate.get(date).some(e=>e.type==='deadline'))?`<div class="calendar-deadline-strip"><span>${esc(pathT('Deadlines'))}</span>${dates.map(date=>`<div>${eventsByDate.get(date).filter(e=>e.type==='deadline').map(e=>calendarEventButton(e)).join('')}</div>`).join('')}</div>`:''}<div class="timegrid-body"><div class="calendar-hours">${Array.from({length:24},(_,h)=>`<span style="top:${h*CALENDAR_HOUR_PX}px">${clockTime(h)}</span>`).join('')}</div>${dates.map(date=>`<div class="calendar-day" data-grid-date="${date}">${Array.from({length:96},(_,i)=>`<button class="calendar-slot" data-calendar-slot="${date}" data-minute="${i*15}" tabindex="${date===calendarSlotFocus.date&&i*15===calendarSlotFocus.minute?0:-1}" aria-label="${esc(calendarSlotLabel(date,i*15,eventsByDate.get(date)))}"></button>`).join('')}${calendarLanes(eventsByDate.get(date)).map(({event:e,lane,columns})=>calendarEventButton(e,`top:${calendarMinutePixels(e.hour*60)}px;height:${Math.max(12,calendarMinutePixels(Math.min(e.duration??60,1440-e.hour*60)))}px;left:calc(${lane*100/columns}% + 2px);width:calc(${100/columns}% - 4px)`)).join('')}</div>`).join('')}</div></div>`;
+ return `<div class="calendar-timegrid" style="--days:${dates.length}"><div class="timegrid-head"><span>${esc(pathT('Time'))}</span>${dates.map(calendarDayHeader).join('')}</div>${dates.some(date=>eventsByDate.get(date).some(e=>e.type==='deadline'))?`<div class="calendar-deadline-strip"><span>${esc(pathT('Deadlines'))}</span>${dates.map(date=>`<div>${calendarDeadlineBand(eventsByDate.get(date),date)}</div>`).join('')}</div>`:''}<div class="timegrid-body"><div class="calendar-density-metrics" aria-hidden="true"><span class="calendar-event-title">M</span><small>M</small></div><div class="calendar-hours">${Array.from({length:24},(_,h)=>`<span style="top:${h*CALENDAR_HOUR_PX}px">${clockTime(h)}</span>`).join('')}</div>${dates.map(date=>`<div class="calendar-day" data-grid-date="${date}">${Array.from({length:96},(_,i)=>`<button class="calendar-slot" data-calendar-slot="${date}" data-minute="${i*15}" tabindex="${date===calendarSlotFocus.date&&i*15===calendarSlotFocus.minute?0:-1}" aria-label="${esc(calendarSlotLabel(date,i*15,eventsByDate.get(date)))}"></button>`).join('')}${calendarTimedEntries(eventsByDate.get(date),date,Math.max(0,(calendarGridWidth-56)/dates.length))}</div>`).join('')}</div></div>`;
 }
 function calendarPage(){
  const dates=calendarDates(),month=calendarMode==='month',narrow=calendarMode==='week'&&calendarNarrow,eventsByDate=new Map(dates.map(date=>[date,calendarEvents(date)]));

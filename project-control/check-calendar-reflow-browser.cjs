@@ -18,9 +18,23 @@ const fixture=(density='busy')=>`data=pathEmpty();data.settings.calendarMode='we
 async function click(selector){const point=await evaluate(`(()=>{const e=document.querySelector(${JSON.stringify(selector)});if(!e)throw Error('Missing '+${JSON.stringify(selector)});e.scrollIntoView({block:'nearest',inline:'nearest'});const r=e.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()`);for(const type of ['mousePressed','mouseReleased'])await send('Input.dispatchMouseEvent',{type,...point,button:'left',clickCount:1});await sleep(100);}
 async function resize(width,height=900){await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await sleep(180);}
 async function geometry(){return evaluate(`(()=>{const region=document.querySelector('.calendar-main-region'),s=document.querySelector('.calendar-scroll');return {C:s.clientWidth,narrow:calendarNarrow,mode:calendarMode,stored:data.settings.calendarMode,overview:document.querySelectorAll('.calendar-week-overview button').length,columns:[...document.querySelectorAll('.calendar-day')].map(e=>{const r=e.getBoundingClientRect();return {x:r.x,width:r.width,height:r.height}}),outer:document.documentElement.scrollWidth>innerWidth,vertical:document.documentElement.scrollHeight>innerHeight+1,scroll:{top:s.scrollTop,bottom:s.getBoundingClientRect().bottom,height:s.clientHeight},slot:document.querySelector('.calendar-slot')?.getBoundingClientRect().height}})()`);}
-// Glyph rectangles detect overlap even when a row's outer box looks valid.
-async function textGeometry(){return evaluate(`(()=>[...document.querySelectorAll('.calendar-agenda-item')].map(row=>{const title=row.querySelector('strong'),range=document.createRange();range.selectNodeContents(title);return {title:title.textContent,font:parseFloat(getComputedStyle(title).fontSize),lines:[...range.getClientRects()].map(r=>({top:r.top,bottom:r.bottom})),metadata:row.querySelector('small').getBoundingClientRect().top,rowBottom:row.getBoundingClientRect().bottom,time:row.querySelector('time').getBoundingClientRect().toJSON(),titleBox:title.getBoundingClientRect().toJSON()}}))()`);}
-async function assertReadable(){const rows=await textGeometry();assert(rows.some(r=>r.lines.length>2),'Exercise wrapped long titles');for(const row of rows){assert.equal(row.font,26);for(let i=1;i<row.lines.length;i++)assert(row.lines[i].top>=row.lines[i-1].bottom-.5,'Title glyph lines must not overlap');assert(row.metadata>=row.lines.at(-1).bottom,'Metadata below all title lines');assert(row.rowBottom>row.metadata,'Row grows with title');assert(row.time.right<=row.titleBox.left||row.time.bottom<=row.titleBox.top,'Time beside or above title');}return rows;}
+// Measure title text only: a Range over the whole strong also returns the
+// semantic icon/importance boxes. Inline text fragments can share one line;
+// deduplicate matching line bounds, without merging genuinely overlapping lines.
+async function textGeometry(){return evaluate(`(()=>[...document.querySelectorAll('.calendar-agenda-item')].map(row=>{
+ const title=row.querySelector('strong'),walker=document.createTreeWalker(title,NodeFilter.SHOW_TEXT),lines=[];
+ let node;
+ while(node=walker.nextNode()){
+  if(!node.textContent.trim()||node.parentElement.closest('svg,[aria-hidden="true"]'))continue;
+  const range=document.createRange();range.selectNodeContents(node);
+  for(const rect of range.getClientRects()){
+   if(rect.width&&rect.height&&!lines.some(line=>Math.abs(line.top-rect.top)<.5&&Math.abs(line.bottom-rect.bottom)<.5))lines.push({top:rect.top,bottom:rect.bottom});
+  }
+ }
+ lines.sort((a,b)=>a.top-b.top||a.bottom-b.bottom);
+ return {title:title.textContent,font:parseFloat(getComputedStyle(title).fontSize),lines,metadata:row.querySelector('small').getBoundingClientRect().top,rowBottom:row.getBoundingClientRect().bottom,time:row.querySelector('time').getBoundingClientRect().toJSON(),titleBox:title.getBoundingClientRect().toJSON()};
+}))()`);}
+async function assertReadable(){const rows=await textGeometry();assert(rows.some(r=>r.lines.length>2),'Exercise wrapped long titles');for(const row of rows){assert.equal(row.font,26);assert(row.lines.length,'Every title has measured text');for(let i=1;i<row.lines.length;i++)assert(row.lines[i].top>=row.lines[i-1].bottom-.5,'Title glyph lines must not overlap');assert(row.metadata>=row.lines.at(-1).bottom,'Metadata below all title lines');assert(row.rowBottom>row.metadata,'Row grows with title');assert(row.time.right<=row.titleBox.left||row.time.bottom<=row.titleBox.top,'Time beside or above title');}return rows;}
 async function assertFocused(empty=false){const state=await evaluate(`(()=>{const e=document.activeElement,s=document.querySelector('.calendar-scroll'),r=e.getBoundingClientRect(),b=s.getBoundingClientRect(),sticky=calendarCombinedScroll?document.querySelector('.calendar-week-overview').getBoundingClientRect().height:0;return {id:e.id,event:e.dataset.event,active:e.tagName,top:r.top,bottom:r.bottom,visibleTop:s.contains(e)?b.top+sticky:0,visibleBottom:s.contains(e)?b.bottom:innerHeight,combined:calendarCombinedScroll,date:homeDate,stored:data.settings.calendarMode}})()`);assert(empty?state.id==='calendar-agenda-title':state.event==='due','Focus remains on event/empty heading');assert(state.top>=state.visibleTop-1&&state.bottom<=state.visibleBottom+1,'Focused target visible below sticky strip '+JSON.stringify(state));const g=await geometry();assert(!g.vertical&&!g.outer,'No outer page scroll');assert(g.scroll.bottom<=await evaluate('innerHeight'),'Work area fits viewport');assert.equal(state.date,'2026-11-10');assert.equal(state.stored,'week');return state;}
 async function enlarge(){await evaluate(`window.textStress=document.createElement('style');textStress.textContent=[...document.querySelectorAll('.app-main *')].filter(e=>!e.closest('svg')).map(e=>'.app-main '+e.tagName.toLowerCase()+[...e.classList].map(c=>'.'+CSS.escape(c)).join('')+'{font-size:'+parseFloat(getComputedStyle(e).fontSize)*2+'px!important}').join('');document.head.appendChild(textStress);`);await sleep(250);}
 const timer=setTimeout(()=>{browser.kill();process.exit(1);},180000);
@@ -37,6 +51,14 @@ const timer=setTimeout(()=>{browser.kill();process.exit(1);},180000);
   for(const height of [768,820]){
    await resize(1024,height);await click('[data-calendar-go-events]');await sleep(350);
    const focus=await assertFocused(),rows=await assertReadable();
+   if(font==='default'&&locale==='en'&&height===768){
+    await evaluate(`{const title=document.querySelector('[data-event="layout-1"] strong'),node=[...title.childNodes].find(n=>n.nodeType===Node.TEXT_NODE&&n.textContent.trim());const fragment=document.createElement('span');fragment.textContent=node.textContent.slice(0,12);node.textContent=node.textContent.slice(12);title.insertBefore(fragment,node)}`);
+    assert.deepEqual((await assertReadable()).map(r=>r.lines),rows.map(r=>r.lines),'Inline text fragments share the same measured line');
+    await evaluate(`window.overlapStyle=document.createElement('style');overlapStyle.textContent='.calendar-agenda-item[data-event="layout-1"] strong{line-height:10px!important}';document.head.appendChild(overlapStyle)`);
+    await assert.rejects(assertReadable,/Title glyph lines must not overlap/,'Measurement still rejects actual overlapping text');
+    await evaluate('overlapStyle.remove()');await assertReadable();
+    trace.push({measurementControls:'inline fragments PASS; real overlapping text rejected'});
+   }
    await evaluate('window.focusedRecord=document.activeElement;calendarMeasureLayout()');await sleep(350);assert(await evaluate('document.activeElement===focusedRecord'),'Remeasurement preserves exact focus node');await assertFocused();
    trace.push({locale,font,height,focus,rows});await screenshot(`${locale}-${font}-${height}-list`);
    await resize(1024,1200);await assertFocused();await resize(1024,height);await assertFocused();

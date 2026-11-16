@@ -47,7 +47,7 @@ assert old in src, 'Workflow pointer handler changed'
 src=src.replace(old,"const start=op.type==='move'?addDays(op.oldStart,days):op.oldStart;const end=op.type==='move'?addDays(op.oldEnd,days):addDays(op.oldEnd,Math.max(-diffDays(op.oldStart,op.oldEnd),days));proposeWorkflowDates(op.p,op.t,start,end)")
 ref=base64.b64encode((p/'Monochrome Path Productivity Dashboard(1).png').read_bytes()).decode()
 svg=(p/'assets/Path_2_0_Marcus_Aurelius_Particles.svg').read_text().split('?>')[-1].strip()
-js=((p/'habits.js').read_text()+'\n'+(p/'home.js').read_text()+'\n'+(p/'column.js').read_text()+'\n'+(p/'calendar.js').read_text()+'\n'+(p/'projects.js').read_text()+'\n'+(p/'portrait.js').read_text()+'\n'+(p/'storage-ui.js').read_text()).replace('__MARCUS__',json.dumps(svg)).replace('__COLUMN_ART__',json.dumps('data:image/png;base64,'+ref))
+js=((p/'habits.js').read_text()+'\n'+(p/'home.js').read_text()+'\n'+(p/'column.js').read_text()+'\n'+(p/'calendar-density.js').read_text()+'\n'+(p/'calendar.js').read_text()+'\n'+(p/'projects.js').read_text()+'\n'+(p/'portrait.js').read_text()+'\n'+(p/'storage-ui.js').read_text()).replace('__MARCUS__',json.dumps(svg)).replace('__COLUMN_ART__',json.dumps('data:image/png;base64,'+ref))
 src=src.replace('Export test data', 'Export backup').replace('Download projects, boards and events as JSON.', 'Includes all local data, including private Journal entries.').replace('Import test data', 'Import backup')
 src=src.replace('data=demo();projectId=null;', 'data=pathEmpty();projectId=null;')
 src=src.replace('settings:settingsPage}[view]', "settings:settingsPage,habits:typeof habitsPage==='function'?habitsPage:todayPage,notes:typeof notesPage==='function'?notesPage:todayPage}[view]")
