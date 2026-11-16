@@ -1304,3 +1304,21 @@ Current time	Текущее время	Bieżący czas	Hora actual
 Deadlines	Сроки	Terminy	Fechas límite
 Events: {count}	Событий: {count}	Wydarzenia: {count}	Eventos: {count}
 {count} more	Ещё {count}	Jeszcze {count}	{count} más
+Open full editor	Открыть полный редактор	Otwórz pełny edytor	Abrir editor completo
+Compact editor	Компактный редактор	Edytor kompaktowy	Editor compacto
+Continue editing	Продолжить редактирование	Kontynuuj edycję	Seguir editando
+Discard unsaved changes	Отменить несохранённые изменения	Odrzuć niezapisane zmiany	Descartar cambios sin guardar
+Discard unsaved changes? Earlier saved changes will remain.	Отменить несохранённые изменения? Ранее сохранённые изменения останутся.	Odrzucić niezapisane zmiany? Wcześniej zapisane zmiany pozostaną.	¿Descartar los cambios sin guardar? Se conservarán los cambios ya guardados.
+Review the affected events, then apply or discard.	Проверьте затронутые события, затем примените или отмените изменения.	Sprawdź objęte wydarzenia, następnie zastosuj lub odrzuć zmiany.	Revisa los eventos afectados y aplica o descarta los cambios.
+Apply to {count} events	Применить к событиям: {count}	Zastosuj do wydarzeń: {count}	Aplicar a {count} eventos
+Shared with linked task	Общая с привязанной задачей	Wspólna z powiązanym zadaniem	Compartida con la tarea vinculada
+Remove task deadline	Убрать срок задачи	Usuń termin zadania	Quitar fecha límite de la tarea
+Delete this occurrence	Удалить это повторение	Usuń to wystąpienie	Eliminar esta repetición
+Could not save. Your changes are still here.	Не удалось сохранить. Ваши изменения сохранены в форме.	Nie udało się zapisać. Twoje zmiany nadal są w formularzu.	No se pudo guardar. Tus cambios siguen en el formulario.
+This event is no longer available. Discard the draft to close.	Событие больше недоступно. Отмените черновик, чтобы закрыть редактор.	To wydarzenie jest już niedostępne. Odrzuć szkic, aby zamknąć edytor.	Este evento ya no está disponible. Descarta el borrador para cerrar.
+Saved timing changed. Reopen this event to review it.	Сохранённое время изменилось. Откройте событие заново для проверки.	Zapisany czas się zmienił. Otwórz wydarzenie ponownie, aby je sprawdzić.	El horario guardado ha cambiado. Vuelve a abrir el evento para revisarlo.
+This event changed while you were editing. Review your changes.	Событие изменилось во время редактирования. Проверьте изменения.	Wydarzenie zmieniło się podczas edycji. Sprawdź swoje zmiany.	Este evento cambió mientras lo editabas. Revisa tus cambios.
+Use my changes	Использовать мои изменения	Użyj moich zmian	Usar mis cambios
+Reload saved values	Загрузить сохранённые значения	Wczytaj zapisane wartości	Recargar valores guardados
+Actions for {title}	Действия для события «{title}»	Działania dla „{title}”	Acciones para «{title}»
+The series changed. Review the affected events before applying.	Серия изменилась. Проверьте затронутые события перед применением.	Seria się zmieniła. Sprawdź objęte wydarzenia przed zastosowaniem.	La serie ha cambiado. Revisa los eventos afectados antes de aplicar.
