@@ -125,7 +125,13 @@ function calendarQueuePreview(target,delay){clearTimeout(calendarPreviewTimer);c
 function calendarLeavePreview(){clearTimeout(calendarPreviewTimer);calendarPreviewTimer=setTimeout(()=>{const panel=document.querySelector('#calendar-title-preview');if(panel?.matches(':hover')||panel?.contains(document.activeElement)||calendarPreviewTarget?.matches(':hover')||calendarPreviewTarget===document.activeElement)return;calendarHidePreview();},150);}
  document.addEventListener('pointerover',e=>{const target=e.target.closest(calendarPreviewSelector);if(target&&!target.contains(e.relatedTarget))calendarQueuePreview(target,350);});
  document.addEventListener('pointerout',e=>{if(e.target.closest(calendarPreviewSelector+',#calendar-title-preview'))calendarLeavePreview();});
- document.addEventListener('focusin',e=>{const target=e.target.closest(calendarPreviewSelector);if(target)calendarShowPreview(target);});
+ document.addEventListener('focusin',e=>{
+  const target=e.target.closest(calendarPreviewSelector);
+  if(target)calendarShowPreview(target);
+  // Keyboard navigation owns the new focus even if the pointer stayed on the
+  // previous card. Cancel its pending hover too; keep the preview focusable.
+  else if(!e.target.closest('#calendar-title-preview'))calendarHidePreview();
+ });
  document.addEventListener('focusout',e=>{if(e.target.closest(calendarPreviewSelector+',#calendar-title-preview'))calendarLeavePreview();});
  document.addEventListener('pointerdown',()=>calendarHidePreview(),true);
  // Element scroll events do not bubble. Capture the owning grid/document scroll,

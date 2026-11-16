@@ -49,6 +49,27 @@ const timer=setTimeout(()=>{console.error('Browser regression timed out');browse
    if(state==='empty')assert.deepEqual(result.hits,[null,null]);
    trace.push({width,state,...result});await screenshot(`en-${width}-${state}`);
   }
+  // A stationary pointer must not keep the old card preview alive when focus
+  // moves into the grid, nor allow a pending hover timer to recreate it later.
+  for(const delay of [100,450]){
+   await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:0,y:0});
+   await evaluate(`document.querySelector('.cal-entry[data-event="first"]').scrollIntoView({block:'nearest'})`);await sleep(180);
+   const point=await evaluate(`(()=>{const r=document.querySelector('.cal-entry[data-event="first"]').getBoundingClientRect();return {x:r.x+12,y:r.y+12}})()`);
+   await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});await sleep(delay);
+   assert.equal(await evaluate(`!!document.querySelector('#calendar-title-preview')`),delay===450,'Exercise both pending and visible hover');
+   await evaluate(`document.querySelector('[data-calendar-slot="2026-11-03"][data-minute="570"]').focus()`);await key('ArrowDown',40);
+   for(const wait of [0,600]){
+    await sleep(wait);
+    assert.equal(await evaluate(`!!document.querySelector('#calendar-title-preview')`),false,'Grid focus dismisses/cancels stale hover despite stationary pointer');
+    assert.deepEqual(await evaluate(`(()=>{const r=document.activeElement.getBoundingClientRect();return [.25,.75].map(f=>document.elementFromPoint(r.x+r.width*f,r.y+1)?.closest('[data-event]')?.dataset.event||null)})()`),['first','overlap']);
+   }
+   trace.push({width,hoverDelay:delay,gridFocus:'585',immediateAndDelayedHits:['first','overlap']});
+  }
+  await screenshot(`en-${width}-hover-to-grid`);
+  // Moving keyboard focus into the preview itself must retain its scrollable content.
+  await evaluate(`document.querySelector('.cal-entry[data-event="first"]').focus();document.querySelector('#calendar-title-preview').focus()`);
+  await sleep(200);assert(await evaluate(`document.activeElement.id==='calendar-title-preview'`));
+  await key('Escape',27);assert.equal(await evaluate(`!!document.querySelector('#calendar-title-preview')`),false);
   assert.equal(await evaluate('JSON.stringify(data)'),before,'Arrow navigation must not mutate events');
   // A real pointer click on the ring itself must open the event, not a new slot.
   await evaluate(`document.querySelector('[data-calendar-slot="2026-11-03"][data-minute="570"]').focus()`);await key('ArrowDown',40);
