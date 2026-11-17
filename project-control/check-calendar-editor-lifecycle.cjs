@@ -22,6 +22,21 @@ assert(a.w.document.querySelector('[name=eventIcon]').closest('.context-more'),'
 assert(!a.w.document.querySelector('[name=title]').closest('.context-more'));
 a.input('[name=title]','Autosaved title');await sleep(720);assert.equal(a.run('data.events[0].title'),'Autosaved title');
 const revision=a.run('pathRepository.revision');a.click('[data-context-done]');assert.equal(a.run('pathRepository.revision'),revision,'Done after autosave does not duplicate a write');
+// Blur/change repeats input's value after validation, failure or success. It
+// must preserve recovery and must not schedule a second transaction.
+a.run("modalEvent('e')");a.input('[name=title]','');await sleep(720);
+const title=a.w.document.querySelector('[name=title]'),errorText=a.w.document.querySelector('[data-context-state]').textContent;
+title.dispatchEvent(new a.w.Event('change',{bubbles:true}));
+assert.equal(a.w.document.querySelector('[data-context-state]').textContent,errorText);
+assert.equal(a.w.document.querySelector('[data-context-continue]').hidden,false);
+await sleep(720);assert.equal(a.run('pathRepository.revision'),revision);
+// A change-only update is still real input, including a return to a prior value.
+title.value='Change-only title';title.dispatchEvent(new a.w.Event('change',{bubbles:true}));await sleep(720);
+assert.equal(a.run('data.events[0].title'),'Change-only title');
+const changedRevision=a.run('pathRepository.revision');
+title.dispatchEvent(new a.w.Event('change',{bubbles:true}));await sleep(720);
+assert.equal(a.run('pathRepository.revision'),changedRevision);
+a.input('[name=title]','Autosaved title');await sleep(720);a.click('[data-context-done]');
 a.run("modalEvent('e')");a.input('[name=notes]','Unsaved note');a.run("pathContextError('Could not save. Your changes are still here.')");a.click('[data-context-discard]');assert(a.w.document.querySelector('.path-confirm-dialog'));a.click('[data-answer=yes]');await sleep(0);assert.equal(a.run('editor'),null);assert.equal(a.run('data.events[0].title'),'Autosaved title');assert.equal(a.run('data.events[0].notes'),'Saved note');
 // Series scope must never share the ordinary idle/outside/Escape commit path.
 a.run(`const series=createCalendarSeries({...data.events[0],id:'r'},'daily',4,(()=>{let i=0;return ()=> 'r'+(++i)})());data.eventSeries=[series.series];data.events=series.events;save();modalEvent('r');`);

@@ -48,7 +48,7 @@ async function quickOpen(mode='keyboard'){
  }else await click('.calendar-agenda-more');
  await sleep(150);
 }
-const timer=setTimeout(()=>{browser.kill();process.exit(1);},600000);
+const timer=setTimeout(()=>{browser.kill();process.exit(1);},1200000);
 const fixture=`pathSystemTimeZone=()=> 'UTC';data=pathEmpty();data.events=[pathStampEvent({id:'event',title:'Planning / Планирование / Planificación',date:'2026-11-10',hour:10,duration:60,type:'busy',importance:'high',notes:'A long note for full-editor continuity',eventIcon:'book'})];save();view='calendar';homeDate='2026-11-10';calendarMode='week';calendarContextVisible=false;calendarNarrowView='list';render();pathTranslateInterface();`;
 async function bounds(){return evaluate(`(()=>{const box=document.querySelector('#editor-overlay .editor'),r=box.getBoundingClientRect(),f=document.querySelector('#editor-form'),actions=f.querySelector('.editor-actions').getBoundingClientRect();return {style:box.getAttribute("style"),transform:getComputedStyle(box).transform,offsetHeight:box.offsetHeight,x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom,overflow:f.scrollWidth-f.clientWidth,actionsBottom:actions.bottom,inline:f.classList.contains('context-actions-inline'),vw:innerWidth,vh:innerHeight}})()`);}
 function fits(b){assert(b.x>=11&&b.y>=11&&b.right<=b.vw-11&&b.bottom<=b.vh-11,JSON.stringify(b));assert(b.overflow<=2,'Horizontal form overflow: '+JSON.stringify(b));if(!b.inline)assert(b.actionsBottom<=b.bottom+1,'Sticky footer remains visible');}
@@ -56,7 +56,16 @@ function fits(b){assert(b.x>=11&&b.y>=11&&b.right<=b.vw-11&&b.bottom<=b.vh-11,JS
  try{
  const target=await send('Target.createTarget',{url:'about:blank'},null);session=(await send('Target.attachToTarget',{targetId:target.targetId,flatten:true},null)).sessionId;
  await send('Page.enable');await send('Runtime.enable');await send('Network.enable');await send('Network.setBlockedURLs',{urls:['http://*','https://*','ws://*','wss://*']});
+ // Install before application capture handlers can stop propagation.
+ await send('Page.addScriptToEvaluateOnNewDocument',{source:`
+  for(const type of ['mousedown','mouseup','click','change'])window.addEventListener(type,e=>{
+   if(window.recoveryEvents)recoveryEvents.push({type,tag:e.target.tagName,name:e.target.name,
+    action:e.target.closest('[data-context-continue],[data-context-retry],[data-context-discard]')?.outerHTML,
+    status:document.querySelector('[data-context-state]')?.textContent});
+  },true);`});
  await send('Page.navigate',{url:pathToFileURL(path.resolve(__dirname,'../path2-beta-standalone.html')).href});await sleep(1000);
+ if(!process.argv.includes('--layout-only'))await require('./check-calendar-editor-recovery.cjs')({evaluate,send,sleep,click,clearTitle,resize,screenshot,visibleFocus,fixture,trace});
+ if(process.argv.includes('--recovery-only'))return;
  for(const locale of ['en','ru','es'])for(const width of [800,1024,1440,1920]){
   await resize(width,width===1024?768:width===1920?1080:900);await evaluate(`pathSetLanguage('${locale}');${fixture}`);await sleep(250);
   await evaluate(`window.gridBefore=[...document.querySelectorAll('.calendar-day')].map(e=>e.getBoundingClientRect().x);var trigger=document.querySelector('[data-event="event"]');trigger.scrollIntoView({block:'center'});trigger.focus();`);
