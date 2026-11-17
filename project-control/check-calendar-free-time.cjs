@@ -20,11 +20,38 @@ const reset=()=>a.run(`if(editor){editor.contextDirty=false;pathContextClearPend
 const value=name=>a.w.document.querySelector('[name='+name+']')?.value;
 const change=(name,v)=>{const el=a.w.document.querySelector('[name='+name+']');el.value=v;el.dispatchEvent(new a.w.Event('change',{bubbles:true}));};
 const noRestActions=()=>{for(const name of ['importance','status'])assert(a.w.document.querySelector('[name='+name+']').closest('.field').hidden);assert(!a.w.document.querySelector('[name=protected]').closest('.context-more'));};
+const draftUI=()=>{
+ assert.equal(a.w.document.querySelector('[data-context-state]').textContent,a.run("pathT('Draft — not added. Edit a field to add it.')"));
+ const action=a.w.document.querySelector('[data-context-done]');
+ assert.equal(action.textContent,a.run("pathT('Close')"));
+ for(const attr of ['title','aria-label'])assert.equal(action.getAttribute(attr),a.run("pathT('Close without adding')"));
+};
+const savedUI=()=>{
+ assert.equal(a.w.document.querySelector('[data-context-state]').textContent,a.run("pathT('Saved locally')"));
+ assert.equal(a.w.document.querySelector('[data-context-done]').textContent,a.run("pathT('Done')"));
+ assert.equal(a.w.document.querySelector('[data-context-done]').title,a.run("pathT('Apply and close')"));
+ assert(!a.w.document.querySelector('[data-context-done]').hasAttribute('aria-label'));
+};
+// All four entry routes share the same truthful, no-write initial state.
+for(const locale of ['en','ru','es'])for(const entry of ['toolbar','context','template','suggestion']){
+ reset();a.run(`pathSetLanguage('${locale}');render();pathTranslateInterface()`);
+ if(entry==='toolbar')a.click('[data-calendar-free-time]');
+ if(entry==='context'){
+  a.w.document.querySelector('[data-calendar-slot="2026-11-04"][data-minute="825"]').dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'F10',shiftKey:true,bubbles:true}));
+  a.click('.path-quick-actions button');
+ }
+ if(entry==='template'){a.click('[data-calendar-plan]');a.click('[data-calendar-template="free_time"]');}
+ if(entry==='suggestion'){a.w.document.querySelector('.calendar-open-slots').open=true;a.click('[data-open-slot]');}
+ draftUI();const revision=a.run('pathRepository.revision');
+ // Opening the full editor does not count as editing or change the draft copy.
+ a.click('[data-context-full]');draftUI();a.click('[data-context-full]');
+ a.click('[data-context-done]');assert.equal(a.run('data.events.length'),0);assert.equal(a.run('pathRepository.revision'),revision);
+}
 reset();
 for(const locale of ['en','ru','es']){
  a.run(`pathSetLanguage('${locale}');render();pathTranslateInterface()`);
  const rev=a.run('pathRepository.revision');a.click('[data-calendar-free-time]');
- assert.equal(value('date'),'2026-11-03');assert.equal(value('time'),'10:00');assert.equal(value('contextEnd'),'10:30');assert.equal(value('protected'),'no');assert.equal(value('title'),a.run("pathT('Free Time')"));noRestActions();
+ assert.equal(value('date'),'2026-11-03');assert.equal(value('time'),'10:00');assert.equal(value('contextEnd'),'10:30');assert.equal(value('protected'),'no');assert.equal(value('title'),a.run("pathT('Free Time')"));noRestActions();draftUI();
  assert(a.w.document.querySelector('[data-calendar-time-context]').textContent.includes('30'));
  a.click('[data-context-done]');assert.equal(a.run('data.events.length'),0);assert.equal(a.run('pathRepository.revision'),rev);
 }
@@ -36,8 +63,8 @@ slot.dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'F10',shiftKey:true,bubb
 const source=a.w.document.querySelector('[data-calendar-template="free_time"]');source.setPointerCapture=()=>{};
 a.w.document.elementFromPoint=()=>slot;
 for(const type of ['pointerdown','pointermove','pointerup'])source.dispatchEvent(new a.w.MouseEvent(type,{bubbles:true,button:0,clientX:type==='pointerdown'?0:40,clientY:40}));
-const draft=a.run('editor');source.click();assert.equal(a.run('editor'),draft);assert.equal(value('time'),'13:45');assert.equal(value('date'),'2026-11-04');assert.equal(a.run('data.events.length'),0);
-a.input('[name=title]','Synthetic rest');await sleep(720);assert.equal(a.run('data.events.length'),1);const id=a.run('data.events[0].id');const rev=a.run('pathRepository.revision');a.click('[data-context-done]');assert.equal(a.run('pathRepository.revision'),rev);
+draftUI();const draft=a.run('editor');source.click();assert.equal(a.run('editor'),draft);assert.equal(value('time'),'13:45');assert.equal(value('date'),'2026-11-04');assert.equal(a.run('data.events.length'),0);
+a.input('[name=title]','Synthetic rest');await sleep(720);savedUI();assert.equal(a.run('data.events.length'),1);const id=a.run('data.events[0].id');const rev=a.run('pathRepository.revision');a.click('[data-context-done]');assert.equal(a.run('pathRepository.revision'),rev);
 a.run("applyHistory('undo')");assert.equal(a.run('data.events.length'),0);a.run("applyHistory('redo')");assert.equal(a.run('data.events[0].id'),id);
 let saved=a.snapshot();a.close();a=open(saved);assert.equal(a.run('data.events[0].id'),id);assert(a.run(`pathBackupState().state.events.some(e=>e.id==='${id}'&&e.type==='free_time'&&!e.done&&!e.protected)`));
 reset();
@@ -52,7 +79,7 @@ function changeSlot(n){const el=a.w.document.querySelector('[data-slot-duration]
 a.run(`data.events=[pathStampEvent({id:'full',title:'Full',date:homeDate,hour:8,duration:840,type:'busy'})];save();render()`);a.w.document.querySelector('.calendar-open-slots').open=true;changeSlot(15);assert(!a.w.document.querySelector('[data-open-slot]'));assert(a.w.document.querySelector('.open-slots').textContent.includes(a.run("pathT('No interval fits this duration.')")));assert(a.w.document.querySelector('[data-slot-duration]'));
 reset();a.click('[data-calendar-free-time]');
 const write=a.w.Storage.prototype.setItem;a.w.Storage.prototype.setItem=function(k,v){if(k.includes('checkpoints'))throw Error('Synthetic quota');return write.call(this,k,v);};
-a.input('[name=title]','Retained rest');await sleep(720);assert.equal(a.run('data.events.length'),0);assert.equal(value('title'),'Retained rest');assert.equal(a.run('closeEditor()'),false);a.w.Storage.prototype.setItem=write;a.click('[data-context-retry]');assert.equal(a.run('data.events.length'),1);a.click('[data-context-done]');
+a.input('[name=title]','Retained rest');await sleep(720);assert.equal(a.w.document.querySelector('[data-context-state]').getAttribute('role'),'alert');assert(!a.w.document.querySelector('[data-context-state]').textContent.includes('Draft —'));assert.equal(a.w.document.querySelector('[data-context-done]').textContent,a.run("pathT('Close')"));assert.equal(a.run('data.events.length'),0);assert.equal(value('title'),'Retained rest');assert.equal(a.run('closeEditor()'),false);a.w.Storage.prototype.setItem=write;a.click('[data-context-retry]');savedUI();assert.equal(a.run('data.events.length'),1);a.click('[data-context-done]');
 a.run(`modalEvent(data.events[0].id)`);change('protected','yes');await sleep(720);assert(a.run('data.events[0].protected'),a.run('JSON.stringify({e:data.events[0],values:pathContextValues(),status:document.querySelector("[data-context-state]").textContent})'));a.click('[data-context-done]');a.run(`modalEvent(data.events[0].id)`);assert.equal(value('protected'),'yes');noRestActions();a.click('[data-context-done]');
 assert.equal(a.run('calendarCanComplete(data.events[0])'),false);assert.equal(a.run('progressSnapshot(homeDate,1).plannedMinutes'),0);
 a.run(`data.events.push(pathStampEvent({id:'busy',title:'Work',type:'busy',date:homeDate,hour:14,duration:60}));save();modalEvent(data.events[0].id)`);
