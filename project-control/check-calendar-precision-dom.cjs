@@ -49,7 +49,8 @@ function reviewRegressions(){
    const snapshot=b.run('JSON.stringify(editor.calendarTime.source)');
    change('time','01:00');assert(!note().includes('60'));assert(!note().includes('09:00'),'Invalid range withholds old original-zone summary');
    change('contextEnd','02:00');assert.match(note(),/10:00.*11:00/);assert(note().includes('60'));
-   assert.equal(flush(),true);assert.match(note(),/10:00.*11:00/);assert.equal(b.run('data.events[0].hour'),10);assert.equal(b.run('JSON.stringify(editor.calendarTime.source)'),snapshot,'Presentation must not mutate the precision snapshot');
+   assert.equal(b.run('JSON.stringify(editor.calendarTime.source)'),snapshot,'Presentation must not mutate the precision snapshot before commit');
+   assert.equal(flush(),true);assert.match(note(),/10:00.*11:00/);assert.equal(b.run('data.events[0].hour'),10);assert.equal(b.run('JSON.stringify(editor.calendarTime.source)'),b.run('JSON.stringify(data.events[0])'),'A successful commit advances the precision snapshot for the next edit');
    change('contextEnd','');assert(!note().includes('60'));change('contextEnd','02:00');assert.match(note(),/10:00.*11:00/);discard();
    b.run(`pathSystemTimeZone=()=> 'Europe/Warsaw';data.events=[pathStampEvent({id:'errors',title:'Field errors',date:'2026-11-03',hour:9,duration:60,tzid:'Europe/Warsaw',type:'busy'})];save();modalEvent('errors')`);
    const t=key=>b.run(`pathT(${JSON.stringify(key)})`);
@@ -146,8 +147,8 @@ const discard=()=>a.run('editor.contextDirty=false;closeEditor()');
  // Existing recurrence/linked identity and unknown fields survive an unrelated scope edit.
  a.run(`data.homeTasks=[{id:'task',title:'Linked',done:false}];const base=pathStampEvent({id:'r1',title:'Series precise',date:'2026-11-10',hour:9+7/60,duration:5,tzid:'Europe/Warsaw',type:'busy',taskId:'task',extra:{stable:1}});const series=createCalendarSeries(base,'daily',3);data.eventSeries=[series.series];data.events.push(...series.events.map(e=>pathStampEvent(e)));save();`);
  const seriesBefore=JSON.parse(a.run('JSON.stringify(data.events.filter(e=>e.seriesId))'));
- edit('r1');change('notes','Series note');change('editScope','series');done();
- const seriesAfter=JSON.parse(a.run('JSON.stringify(data.events.filter(e=>e.seriesId))'));
+ edit('r1');change('notes','Series note');change('editScope','series');assert.equal(flush(),false,'Series edits require explicit Apply');a.click('[data-context-apply]');assert.equal(a.run('editor'),null);
+ const seriesAfter=JSON.parse(a.run('JSON.stringify(data.events.filter(e=>e.seriesId))'));assert(seriesAfter.every(e=>e.notes==='Series note'));
  assert.deepEqual(seriesAfter.map(timing),seriesBefore.map(timing));assert.deepEqual(seriesAfter.map(e=>[e.id,e.seriesId,e.occurrenceDate,e.taskId,e.extra]),seriesBefore.map(e=>[e.id,e.seriesId,e.occurrenceDate,e.taskId,e.extra]));assert.equal(a.run('data.homeTasks[0].done'),false);
  // A recovered precise draft retains the zone in which its wall values were entered.
  a.run("pathSystemTimeZone=()=> 'Europe/Warsaw'");edit('legacy');change('notes','Recovered exact notes');a.run('clearTimeout(pathContextTimer);pathContextRemember()');
