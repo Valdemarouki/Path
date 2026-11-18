@@ -33,7 +33,17 @@ function calendarPulse(id){
   }
  }
 }
-function completeCalendarOccurrence(id){const event=data.events.find(e=>e.id===id);if(!calendarCanComplete(event))return false;event.done=true;if(!save()){render();return false;}render();toast('Event completed');return true;}
+function completeCalendarOccurrence(id){
+ const event=data.events.find(e=>e.id===id);if(!calendarCanComplete(event))return false;
+ event.done=true;
+ if(!save()){
+  render();
+  // Supersede an earlier occurrence's success while retaining repository recovery.
+  toast('Could not complete event. Please retry.');pathTranslateInterface($('#toast'));
+  return false;
+ }
+ render();toast('Event completed');return true;
+}
 function cancelCalendarHold(){document.querySelector('.calendar-hold-status')?.remove();if(!calendarHold)return;clearTimeout(calendarHold.timer);calendarHold.el.classList.remove('calendar-charging','calendar-charge-static');calendarHold=null;}
 function startCalendarHold(op){
  cancelCalendarHold();calendarStopMotion();if(op.resize||!calendarCanComplete(op.event))return;

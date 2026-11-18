@@ -43,6 +43,17 @@ try{
  el=fixture();pointer('pointerdown',el);pointer('pointercancel',el,120,120,2);assert(run('!!calendarHold'),'unrelated pointer must not cancel owner');pointer('pointerup',el,120,120,2);assert(run('!!calendarPointer'));pointer('pointercancel',el);
  el=fixture();const handle=el.querySelector('.calendar-resize');pointer('pointerdown',handle);assert(run('calendarPointer.resize&&!calendarHold'));advance(1000);assert(!run('data.events[0].done'));pointer('pointermove',handle,120,150);assert.equal(run('calendarPointer.nextDuration'),90);pointer('pointerup',handle,120,150);assert.equal(run('data.events[0].duration'),90);assert.equal(run('data.events[0].hour'),10);
  el=fixture();before=state();const write=w.Storage.prototype.setItem;w.Storage.prototype.setItem=()=>{throw Error('Synthetic quota');};pointer('pointerdown',el);advance(800);assert.equal(state(),before);assert.equal(run('calendarMotion.animations.size'),0);w.Storage.prototype.setItem=write;
+ // A second occurrence's failed completion must supersede the still-visible first success.
+ for(const language of ['en','ru','es'])for(const mode of ['subtle','reduce','off'])for(const input of ['keyboard','hold']){
+  fixture();run(`pathSetLanguage('${language}');data.settings.motion='${mode==='off'?'off':'subtle'}';data.events[1].date=data.events[0].date;data.events[1].hour=11.5;pathStampEvent(data.events[1]);save();render();`);reduced=mode==='reduce';
+  const complete=id=>{const card=q('.cal-entry[data-event="'+id+'"]');card.focus();if(input==='keyboard')card.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Enter',shiftKey:true,bubbles:true}));else{pointer('pointerdown',card);advance(800);pointer('pointerup',card);}};
+  complete('one');run('pathTranslateInterface()');assert.equal(q('#toast.show').textContent,run("pathT('Event completed')"));
+  const saved=state();w.Storage.prototype.setItem=function(k,v){if(k.includes('checkpoints'))throw Error('Synthetic quota');return write.call(this,k,v);};
+  try{complete('sibling');assert.equal(state(),saved);assert.equal(q('#toast.show').textContent,run("pathT('Could not complete event. Please retry.')"));assert.equal(doc.activeElement.dataset.event,'sibling');assert.equal(run('calendarMotion.animations.size'),0);assert(!q('.cal-entry[data-event="sibling"]').querySelector('.pulse-calendar-check'));assert(q('[data-save-retry]'));assert(run('pathRepository.pending.state.events[1].done'));}
+  finally{w.Storage.prototype.setItem=write;reduced=false;}
+  q('[data-save-retry]').click();assert(run('data.events[0].done&&data.events[1].done&&!pathRepository.error&&!pathRepository.pending'));
+ }
+ run("pathSetLanguage('en')");
  // Precise imported start survives resize; the end, rather than elapsed duration, snaps.
  el=fixture();run("data.events[0].hour=10+7/60;pathStampEvent(data.events[0]);save();render()");el=q('.cal-entry[data-event="one"]');pointer('pointerdown',el.querySelector('.calendar-resize'));pointer('pointermove',el,120,127);assert.equal(run('calendarPointer.nextDuration'),68);pointer('pointerup',el,120,127);assert.equal(run('data.events[0].hour'),10+7/60);assert.equal(run('pathZoneParts(pathEventTiming(data.events[0]).end).hour'),11.25);
  // Completion and Reopen stay on one occurrence, preserving linked records and export/history.

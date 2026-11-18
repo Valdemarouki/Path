@@ -6,7 +6,7 @@ const {pathToFileURL}=require('node:url');
 const binary=process.env.CHROMIUM_PATH;
 assert(binary,'Set CHROMIUM_PATH to a sandboxed Chromium binary');
 const out=path.resolve(process.argv[2]||'calendar-editor-evidence');fs.mkdirSync(out,{recursive:true});
-const browser=spawn(binary,['--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--disable-background-networking','--remote-debugging-pipe','--user-data-dir='+fs.mkdtempSync(path.join(process.env.HOME,'calendar-editor-')),'about:blank'],{stdio:['ignore','ignore',fs.openSync(path.join(out,'browser.log'),'w'),'pipe','pipe']});
+const browser=spawn(binary,['--lang='+(process.env.CALENDAR_NATIVE_LOCALE||'en-US'),'--accept-lang='+(process.env.CALENDAR_NATIVE_LOCALE||'en-US'),'--headless','--no-sandbox','--disable-gpu','--disable-dev-shm-usage','--no-first-run','--disable-background-networking','--remote-debugging-pipe','--user-data-dir='+fs.mkdtempSync(path.join(process.env.HOME,'calendar-editor-')),'about:blank'],{stdio:['ignore','ignore',fs.openSync(path.join(out,'browser.log'),'w'),'pipe','pipe']});
 let seq=0,buffer='',session;const pending=new Map(),trace=[];
 browser.stdio[4].on('data',chunk=>{buffer+=chunk;let end;while((end=buffer.indexOf('\0'))>=0){const msg=JSON.parse(buffer.slice(0,end));buffer=buffer.slice(end+1);if(!msg.id&&msg.method==='Page.screencastFrame')captureFrame(msg.params);if(msg.id){const p=pending.get(msg.id);pending.delete(msg.id);if(p)msg.error?p.reject(msg.error):p.resolve(msg.result);}}});
 const send=(method,params={},sessionId=session)=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});browser.stdio[3].write(JSON.stringify({id,method,params,...(sessionId?{sessionId}:{})})+'\0');});
@@ -37,6 +37,7 @@ async function snapshot(){return evaluate('JSON.stringify(data)');}
  await send('Page.enable');await send('Runtime.enable');await send('Network.enable');await send('Network.setBlockedURLs',{urls:['http://*','https://*','ws://*','wss://*']});
  await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.fetch=()=>Promise.reject(Error('Offline fixture'));window.XMLHttpRequest=window.WebSocket=function(){throw Error('Offline fixture')};navigator.sendBeacon=()=>false;window.testErrors=[];addEventListener('error',e=>testErrors.push(e.message));`});
  await send('Page.navigate',{url:pathToFileURL(path.resolve(__dirname,'../path2-beta-standalone.html')).href});await sleep(1000);
+ if(process.argv.includes('--fidelity-only')){await require('./check-calendar-fidelity-browser.cjs')({send,evaluate,key,screenshot,click,resize,reset,point,mouse,sleep,trace});return;}
  if(!process.argv.includes('--gestures-only'))for(const locale of ['en','ru','es'])for(const busy of [true,false])for(const variant of (process.argv.includes('--text-only')?['text200']:[800,1024,1440,1920,'text200','reduced'])){
   const width=typeof variant==='number'?variant:variant==='text200'?800:1440;
   await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:variant==='reduced'?'reduce':'no-preference'}]});
