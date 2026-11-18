@@ -73,19 +73,28 @@ module.exports=async function({send,evaluate,key,screenshot,click,resize,reset,p
   }
  }
  // Rapid success/failure using real keyboard and pointer input; Retry uses the original pending checkpoint.
- for(const locale of ['en','ru','es'])for(const mode of ['default','reduce','off'])for(const input of ['keyboard','hold']){
+ for(const locale of ['en','ru','es'])for(const mode of ['default','reduce','off'])for(const input of ['keyboard','hold','pointer']){
   await reset();await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:mode==='reduce'?'reduce':'no-preference'}]});
   await evaluate(`pathSetLanguage('${locale}');data.settings.motion='${mode==='off'?'off':'subtle'}';save();render();window.fidelityAnimations=[];window.fidelityAnimate=Element.prototype.animate;Element.prototype.animate=function(frames,options){fidelityAnimations.push({event:this.closest('[data-event]')?.dataset.event,options});return fidelityAnimate.call(this,frames,options);}`);
-  const complete=async id=>{const sel='.calendar-timegrid .cal-entry[data-event="'+id+'"]';if(input==='hold'){const p=await point(sel);await mouse('mousePressed',p,1);await sleep(850);await mouse('mouseReleased',p);}else{await evaluate(`document.querySelector(${JSON.stringify(sel)}).focus()`);for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,key:'Enter',code:'Enter',windowsVirtualKeyCode:13,modifiers:8});}};
+  const complete=async id=>{const sel='.calendar-timegrid .cal-entry[data-event="'+id+'"]';if(input==='hold'){const p=await point(sel);await mouse('mousePressed',p,1);await sleep(850);await mouse('mouseReleased',p);}else if(input==='pointer'){const p=await point(sel);for(const type of ['mousePressed','mouseReleased'])await send('Input.dispatchMouseEvent',{type,...p,button:'right',clickCount:1});await click('.path-quick-actions button:nth-child(2)');}else{await evaluate(`document.querySelector(${JSON.stringify(sel)}).focus()`);for(const type of ['keyDown','keyUp'])await send('Input.dispatchKeyEvent',{type,key:'Enter',code:'Enter',windowsVirtualKeyCode:13,modifiers:8});}};
   await complete('source');assert(await evaluate(`document.querySelector('#toast.show').textContent===pathT('Event completed')`));
   await evaluate(`window.fidelityWrite=Storage.prototype.setItem;Storage.prototype.setItem=function(k,v){if(k.includes('checkpoints'))throw Error('Synthetic quota');return fidelityWrite.call(this,k,v);};fidelityAnimations=[];`);
   await complete('neighbor');await sleep(100);
-  const result=await evaluate(`({source:data.events[0].done,neighbor:!!data.events[1].done,focus:document.activeElement.dataset.event,toast:document.querySelector('#toast.show')?.textContent,expected:pathT('Could not complete event. Please retry.'),motion:calendarMotion.animations.size,animations:fidelityAnimations,check:!!document.querySelector('[data-event="neighbor"] .pulse-calendar-check'),retry:!!document.querySelector('[data-save-retry]'),pending:!!pathRepository.pending?.state.events[1].done})`);
-  assert(result.source&&!result.neighbor&&!result.check&&result.retry&&result.pending);assert.equal(result.focus,'neighbor');assert.equal(result.toast,result.expected);assert.equal(result.motion,0);assert(!result.animations.some(a=>[565,600,850].includes(a.options.duration)));
+  const result=await evaluate(`({source:data.events[0].done,neighbor:!!data.events[1].done,focus:document.activeElement.dataset.event,recovery:document.querySelector('#path-storage [role=alert]')?.textContent,toast:document.querySelector('#toast.show')?.textContent,expected:pathT('Could not complete event. Please retry.'),motion:calendarMotion.animations.size,animations:fidelityAnimations,check:!!document.querySelector('[data-event="neighbor"] .pulse-calendar-check'),retry:!!document.querySelector('[data-save-retry]'),pending:!!pathRepository.pending?.state.events[1].done})`);
+  assert(result.source&&!result.neighbor&&!result.check&&result.retry&&result.pending);assert.equal(result.focus,'neighbor');assert.equal(result.toast,result.expected);assert.equal(result.recovery,({en:'Not saved.',ru:'Не сохранено.',es:'No guardado.'}[locale])+' Synthetic quota');assert.equal(result.motion,0);assert(!result.animations.some(a=>[565,600,850].includes(a.options.duration)));
   trace.push({failure:{locale,mode,input,...result}});await screenshot(`failure-${locale}-${mode}-${input}`);
+  if(mode==='default'&&input==='pointer'){
+   const pending=await evaluate('JSON.stringify({pending:pathRepository.pending,error:pathRepository.error,data,revision:pathRepository.revision})');
+   for(const [language,prefix] of [['ru','Не сохранено.'],['es','No guardado.'],['pl','Nie zapisano.'],['en','Not saved.']]){
+    await evaluate(`pathSetLanguage('${language}');pathTranslateInterface()`);
+    assert.equal(await evaluate("document.querySelector('#path-storage [role=alert]').textContent"),prefix+' Synthetic quota');
+    assert.equal(await evaluate('JSON.stringify({pending:pathRepository.pending,error:pathRepository.error,data,revision:pathRepository.revision})'),pending);
+   }
+   await evaluate(`pathSetLanguage('${locale}');pathTranslateInterface()`);
+  }
   await evaluate('Storage.prototype.setItem=fidelityWrite;Element.prototype.animate=fidelityAnimate');await click('[data-save-retry]');assert(await evaluate('data.events[0].done&&data.events[1].done&&!pathRepository.error&&!pathRepository.pending'));
  }
  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
  assert.deepEqual(await evaluate('testErrors'),[]);
- console.log('PASS '+(process.argv.includes('--fidelity-feedback')?'':'D1 native time-fit/text/keyboard, ')+'D2 composed contrast/picker focus, D3 localized rapid success/failure/retry across input and motion modes.');
+ console.log('PASS '+(process.argv.includes('--fidelity-feedback')?'':'D1 native time-fit/text/keyboard, ')+'D2 composed contrast/picker focus, D3/Q1 localized toast and persistent recovery alert, rapid success/failure/retry across keyboard/hold/pointer and motion modes.');
 };

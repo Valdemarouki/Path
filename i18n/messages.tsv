@@ -38,6 +38,8 @@ Unsaved editor changes	Несохранённые изменения редак�
 Undo	Отменить	Cofnij	Deshacer
 Redo	Повторить	Ponów	Rehacer
 Retry	Повторить	Spróbuj ponownie	Reintentar
+Not saved.	Не сохранено.	Nie zapisano.	No guardado.
+Not saved. {reason}	Не сохранено. {reason}	Nie zapisano. {reason}	No guardado. {reason}
 Retry save	Повторить сохранение	Ponów zapis	Reintentar guardado
 Export recovery	Экспорт для восстановления	Eksport odzyskiwania	Exportar recuperación
 Reload saved data	Загрузить сохранённые данные	Wczytaj zapisane dane	Cargar datos guardados
