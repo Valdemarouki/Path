@@ -61,7 +61,7 @@ const renderBeforePulse360=render;
 render=function(){PathPulse360.stop();PathPulse360.cancelCharge();renderBeforePulse360();};
 const cancelCalendarHoldBefore360=cancelCalendarHold;
 cancelCalendarHold=function(){PathPulse360.cancelCharge();cancelCalendarHoldBefore360();};
-calendarPulse=function(id){const source=[...document.querySelectorAll('.cal-entry')].find(el=>el.dataset.event===id);PathMotion.check(source?.querySelector('.pulse-calendar-check'),true);PathPulse360.pulse(source);};
+// Calendar owns its bounded completion effect in calendar-pulse.js.
 const calendarButtonBefore360=calendarEventButton;
 calendarEventButton=function(e,...args){return calendarButtonBefore360(e,...args).replace('<strong>✓ ',`<strong><span class="pulse-calendar-check">${icon('check',12)}</span> `);};
 for(const type of ['resize','blur','pagehide'])window.addEventListener(type,()=>{PathPulse360.stop();PathPulse360.cancelCharge();PathMotion.cancelHold();cancelCalendarHold();});

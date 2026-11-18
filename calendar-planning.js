@@ -29,24 +29,19 @@ modalEvent=function(id=null,date=homeDate,minute=600){modalBeforePlanning(id,dat
 function commitCalendarMove(op){
  let candidate,problem='';
  try{
-  if(op.resize)candidate=pathStampEvent({...op.event,duration:op.nextDuration});
-  else{
-   // A pointer supplies system wall time; resolve once, then retain the stored zone.
-   const choices=pathWallCandidates(op.nextDate,op.nextMinute/60);
-   if(choices.length!==1)throw Error(choices.length?'Choose the first or second occurrence of a repeated clock time.':'This local time does not exist in the event time zone.');
-   candidate=pathSlotEvent(op.event,choices[0]);
-  }
-  if(calendarConflicts(candidate).length)problem='Review overlapping move';
+  candidate=calendarMoveCandidate(op);
+  if(op.event.taskId&&!findTask(op.event.taskId))throw Error(pathT('This task is no longer available.'));
+  if(calendarConflicts(candidate).length)problem=pathT('Review time change');
  }catch(e){problem=e.message;}
  if(problem){
-  modalEvent(op.event.id);editor.title='Review calendar move';
-  let values=candidate?calendarDisplayTiming(candidate):{date:op.nextDate,time:clockTime(op.nextMinute/60),fold:''};
+  modalEvent(op.event.id);editor.title='Review time change';
+  let values=candidate?calendarDisplayTiming(candidate):op.resize?{...calendarDisplayTiming(op.event),contextEndDate:op.nextEnd.date,contextEnd:clockTime(op.nextEnd.minute/60),contextEndFold:''}:{date:op.nextDate,time:clockTime(op.nextMinute/60),fold:''};
   if(!op.resize){editor.calendarMoveDuration=op.event.duration;const choices=pathWallCandidates(op.nextDate,op.nextMinute/60);if(!candidate&&choices.length)values={...calendarDisplayTiming(pathSlotEvent(op.event,choices[0])),fold:''};}
   for(const f of editor.fields)if(values[f.key]!==undefined)f.value=values[f.key];
   // The original baseline remains unchanged; the candidate must be explicitly validated.
   render();renderEditor();
   const form=document.querySelector('#editor-form');
-  if(form){for(const [key,value] of Object.entries(values)){const input=form.querySelector(`[name="${key}"]`);if(input)input.value=value;}calendarTimeEditorUI(form);}
+  if(form){for(const [key,value] of Object.entries(values)){const input=form.querySelector(`[name="${key}"]`);if(input)input.value=value;}calendarTimeEditorUI(form);if(candidate){const conflicts=calendarConflicts(candidate);if(conflicts.length){const list=document.createElement('ul');list.className='calendar-move-conflicts';list.setAttribute('aria-label',pathT('Review time change'));for(const conflict of conflicts){const row=document.createElement('li'),p=calendarEventPresentation(conflict);row.textContent=p.title+' · '+p.range+' · '+p.status;list.appendChild(row);}form.prepend(list);}}}
   editor.contextDirty=true;editor.calendarDirty=true;toast(problem);return;
  }
  Object.assign(op.event,candidate);if(save()){render();toast('Event updated');}else render();

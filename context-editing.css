@@ -20,7 +20,8 @@ body .path-context-overlay{position:fixed!important;inset:0!important;z-index:15
 .path-context-overlay .context-icon-picker button{width:36px;height:36px;border-color:#828489}
 .path-context-overlay [data-context-selection]{display:block;font-size:.8125rem;color:#b3b5b9;margin-top:4px}
 .path-context-overlay .context-scope,.path-context-overlay .context-relation{font-size:.8125rem;line-height:1.5;color:#b3b5b9;overflow-wrap:anywhere}
-.path-context-overlay .context-time-row{grid-template-columns:repeat(auto-fit,minmax(min(100%,8.75rem),1fr));gap:12px}
+/* Follow enlarged text as well as root zoom; leave room for native AM/PM and clock. */
+.path-context-overlay .context-time-row{font-size:.875rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,10em),1fr));gap:12px}
 .path-context-overlay.context-full .editor{width:min(640px,calc(100vw - 32px))!important;max-height:calc(100dvh - 32px)!important;padding:20px!important}
 .path-context-overlay :is(input,textarea,select,button,summary):focus-visible{outline:2px solid #f3f3f3;outline-offset:2px}
 .path-context-overlay .calendar-time-context{font-size:.8125rem;color:#b3b5b9}
