@@ -74,7 +74,7 @@ function calendarImportanceMark(e){
 function calendarEventButton(e,style=''){
  const p=calendarEventPresentation(e),deadline=e.type==='deadline';
  const height=Number(/(?:^|;)height:([\d.]+)px/.exec(style)?.[1]||0);
- return `<button data-no-translate class="cal-entry ${deadline?'calendar-deadline ':''}${e.done&&e.type!=='free_time'?'completed ':''}${height>=62?'calendar-two-lines ':''}${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${deadline||e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" aria-label="${esc(p.name)}"><strong>${calendarSemanticIcon(e)}${calendarImportanceMark(e)}<span class="calendar-event-title">${esc(p.title)}</span>${e.seriesId?'<span aria-hidden="true">↻</span>':''}${e.done&&e.type!=='free_time'?'<span aria-hidden="true">✓</span>':''}</strong><small>${deadline?esc(pathT('Date only')):esc(p.timeRange)}</small>${style&&height>=48&&!deadline&&!e.continuesBefore?`<span class="calendar-resize" title="${esc(pathT('Drag to change duration'))}"></span>`:''}</button>`;
+ return `<button data-no-translate class="cal-entry ${deadline?'calendar-deadline ':''}${e.done&&e.type!=='free_time'?'completed ':''}${height>=62?'calendar-two-lines ':''}${e.type==='workout'?'training':''}" data-event="${esc(e.id)}" draggable="false" ${deadline||e.continuesBefore?'':`data-calendar-drag="${esc(e.id)}"`} style="${style}" aria-label="${esc(p.name)}"><strong>${calendarSemanticIcon(e)}${calendarImportanceMark(e)}<span class="calendar-event-title">${esc(p.title)}</span>${e.seriesId?'<span aria-hidden="true">↻</span>':''}${e.done&&e.type!=='free_time'?`<span class="pulse-calendar-check" aria-hidden="true">${icon('check',12)}</span>`:''}</strong><small>${deadline?esc(pathT('Date only')):esc(p.timeRange)}</small>${style&&height>=48&&!deadline&&!e.continuesBefore?`<span class="calendar-resize" title="${esc(pathT('Change duration'))}"></span>`:''}</button>`;
 }
 function calendarDisclosureButton(events,date,style='',tick=''){
  const ids=events.map(e=>e.id),single=events.length===1,p=calendarEventPresentation(events[0]);
@@ -161,12 +161,25 @@ document.addEventListener('click',e=>{
  render();
 });
 let calendarPointer=null,calendarSuppressClick=false;
+function calendarReleasePointer(op){try{if(op?.el.hasPointerCapture?.(op.pointerId))op.el.releasePointerCapture(op.pointerId);}catch{}}
+function calendarClearGhost(op){op?.el.classList.remove('calendar-gesture-source');document.querySelectorAll('.calendar-gesture-ghost,.calendar-gesture-label').forEach(el=>el.remove());}
+function cancelCalendarPointer(){
+ const op=calendarPointer;calendarPointer=null;
+ if(typeof cancelCalendarHold==='function')cancelCalendarHold();
+ if(!op)return;
+ if(typeof stopCalendarAutoScroll==='function')stopCalendarAutoScroll();
+ calendarSuppressClick=true;calendarClearGhost(op);
+ const scroller=document.querySelector('.calendar-scroll');if(scroller){scroller.scrollTop=op.scrollTop;scroller.scrollLeft=op.scrollLeft;}
+ calendarReleasePointer(op);
+}
+document.addEventListener('pointerdown',()=>{if(!calendarPointer)calendarSuppressClick=false;},true);
 document.addEventListener('pointerdown',e=>{
- const b=e.target.closest('[data-calendar-drag]');if(!b||e.button!==0||calendarMode==='month'||calendarPointer)return;
+ const b=e.target.closest('[data-calendar-drag]');if(!b||e.button!==0||e.isPrimary===false||calendarMode==='month'||calendarPointer||calendarDraftDrag||editor)return;
  const event=data.events.find(x=>x.id===b.dataset.calendarDrag);if(!event)return;
+ let start;try{start=pathZoneParts(pathEventTiming(event).start);}catch{return;}
  const scroller=document.querySelector('.calendar-scroll');
- calendarPointer={scrollTop:scroller?.scrollTop||0,scrollLeft:scroller?.scrollLeft||0,event,el:b,x:e.clientX,y:e.clientY,date:pathZoneParts(pathEventTiming(event).start).date,hour:pathZoneParts(pathEventTiming(event).start).hour,duration:event.duration??60,pointerId:e.pointerId,resize:!!e.target.closest('.calendar-resize'),moved:false};
- b.setPointerCapture(e.pointerId);e.preventDefault();
+ calendarPointer={scrollTop:scroller?.scrollTop||0,scrollLeft:scroller?.scrollLeft||0,event,el:b,x:e.clientX,y:e.clientY,date:start.date,hour:start.hour,duration:event.duration??60,pointerId:e.pointerId,resize:!!e.target.closest('.calendar-resize'),moved:false};
+ b.focus({preventScroll:true});b.setPointerCapture(e.pointerId);e.preventDefault();calendarHidePreview();
  if(typeof startCalendarHold==='function')startCalendarHold(calendarPointer);
 });
 document.addEventListener('pointermove',e=>{
@@ -176,19 +189,46 @@ document.addEventListener('pointermove',e=>{
  updateCalendarPointer(op,e.clientX,e.clientY);
 });
 function calendarDragDelta(startY,currentY,startScroll,currentScroll){return Math.round((currentY-startY+currentScroll-startScroll)/calendarMinutePixels(15))*15;}
+function calendarMoveCandidate(op){
+ if(op.resize){if(op.resizeProblem)throw Error(op.resizeProblem);return pathStampEvent({...op.event,duration:op.nextDuration});}
+ const choices=pathWallCandidates(op.nextDate,op.nextMinute/60);
+ if(choices.length!==1)throw Error(pathT(choices.length?'Choose the first or second occurrence of a repeated clock time.':'This local time does not exist in the event time zone.'));
+ return pathSlotEvent(op.event,choices[0]);
+}
+function calendarPaintGhost(op){
+ calendarClearGhost(op);op.el.classList.add('calendar-gesture-source');
+ let candidate,label;
+ try{candidate=calendarMoveCandidate(op);const t=pathEventTiming(candidate),a=pathZoneParts(t.start),b=pathZoneParts(t.end);
+  label=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(a.date),startTime:calendarClockLabel(t.start),endDate:calendarFullDate(b.date),endTime:calendarClockLabel(t.end)});
+ }catch(error){label=error.message;}
+ for(const day of document.querySelectorAll('.calendar-timegrid [data-grid-date]')){
+  const segment=candidate?calendarSegment(candidate,day.dataset.gridDate):day.dataset.gridDate===(op.nextDate||op.date)?{hour:(op.nextMinute??op.hour*60)/60,duration:15}:null;
+  if(!segment)continue;
+  const ghost=document.createElement('div');ghost.className='calendar-gesture-ghost';ghost.setAttribute('aria-hidden','true');
+  ghost.style.top=calendarMinutePixels(segment.hour*60)+'px';ghost.style.height=Math.max(1,calendarMinutePixels(segment.duration))+'px';
+  day.appendChild(ghost);
+ }
+ const hint=document.createElement('div');hint.className='calendar-gesture-label';hint.setAttribute('aria-hidden','true');hint.textContent=label;document.body.appendChild(hint);
+}
 function updateCalendarPointer(op,x,y){
- const scroller=document.querySelector('.calendar-scroll'),delta=calendarDragDelta(op.y,y,op.scrollTop,scroller?.scrollTop||0);
- if(op.resize){op.nextDuration=Math.min(10080,Math.max(15,Math.round((op.duration+delta)/15)*15));op.el.style.height=calendarMinutePixels(Math.min(op.nextDuration,1440-op.hour*60))+'px';}
- else {const day=[...document.querySelectorAll('[data-grid-date]')].find(d=>{const r=d.getBoundingClientRect();return x>=r.left&&x<r.right});op.nextDate=day?.dataset.gridDate||op.date;op.nextMinute=Math.min(1425,Math.max(0,Math.round((op.hour*60+delta)/15)*15));op.el.style.transform=`translate(${x-op.x+(scroller?.scrollLeft||0)-op.scrollLeft}px,${calendarMinutePixels(op.nextMinute-op.hour*60)}px)`;}
+ const scroller=document.querySelector('.calendar-scroll'),delta=(y-op.y+(scroller?.scrollTop||0)-op.scrollTop)/calendarMinutePixels(1);
+ if(op.resize){
+  const timing=pathEventTiming(op.event),end=pathZoneParts(timing.end),civil=Math.round((calendarMinute(end.date,end.hour)+delta)/15)*15,date=new Date(civil*60000);
+  op.nextEnd={date:date.toISOString().slice(0,10),minute:date.getUTCHours()*60+date.getUTCMinutes()};
+  const choices=pathWallCandidates(op.nextEnd.date,op.nextEnd.minute/60);
+  op.resizeProblem=choices.length===1?'':pathT(choices.length?'Choose the first or second occurrence of a repeated clock time.':'This local time does not exist in the event time zone.');
+  if(choices.length===1)op.nextDuration=Math.min(10080,Math.max(15,(choices[0]-timing.start)/60000));
+ }
+ else {const day=[...document.querySelectorAll('.calendar-timegrid [data-grid-date]')].find(d=>{const r=d.getBoundingClientRect();return x>=r.left&&x<r.right});op.nextDate=day?.dataset.gridDate||op.date;op.nextMinute=Math.min(1425,Math.max(0,Math.round((op.hour*60+delta)/15)*15));}
+ const key=[op.nextDate,op.nextMinute,op.nextDuration,op.resizeProblem,op.nextEnd?.date,op.nextEnd?.minute].join(':');if(key!==op.previewKey){op.previewKey=key;calendarPaintGhost(op);}
+ const hint=document.querySelector('.calendar-gesture-label');if(hint){hint.style.left=Math.max(12,Math.min(x+16,innerWidth-hint.offsetWidth-12))+'px';hint.style.top=Math.max(12,Math.min(y+24,innerHeight-hint.offsetHeight-12))+'px';}
 }
 document.addEventListener('pointerup',e=>{
- if(calendarPointer&&calendarPointer.pointerId!==e.pointerId)return;
+ const op=calendarPointer;if(!op||op.pointerId!==e.pointerId)return;
  if(typeof cancelCalendarHold==='function')cancelCalendarHold();
- const op=calendarPointer;calendarPointer=null;if(!op?.moved)return;
- calendarSuppressClick=true;setTimeout(()=>calendarSuppressClick=false,0);
- if(typeof commitCalendarMove==='function'){commitCalendarMove(op);return;}
- if(op.resize)op.event.duration=op.nextDuration;else {op.event.date=op.nextDate;op.event.hour=op.nextMinute/60;}
- if(!save()){render();return;}render();toast(calendarConflicts(op.event).length?'Updated. This event overlaps another event.':'Event updated');
+ calendarPointer=null;stopCalendarAutoScroll();calendarClearGhost(op);calendarReleasePointer(op);
+ if(!op.moved)return;
+ calendarSuppressClick=true;commitCalendarMove(op);
 });
-document.addEventListener('pointercancel',()=>{if(typeof cancelCalendarHold==='function')cancelCalendarHold();if(calendarPointer){calendarPointer=null;render();}});
-document.addEventListener('click',e=>{if(calendarSuppressClick){e.preventDefault();e.stopImmediatePropagation();calendarSuppressClick=false;}},true);
+document.addEventListener('pointercancel',e=>{if(calendarPointer?.pointerId===e.pointerId)cancelCalendarPointer();});
+document.addEventListener('click',e=>{if(calendarSuppressClick&&e.detail!==0){e.preventDefault();e.stopImmediatePropagation();calendarSuppressClick=false;}},true);

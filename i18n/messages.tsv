@@ -1329,3 +1329,9 @@ Click a block or drag it onto a time slot. Valid edits save automatically.	На�
 Protected rest blocks suggestions. Unprotected Free Time is a soft reservation. Valid edits save automatically.	Защищённый отдых исключён из предложений. Обычное свободное время — гибкий резерв. Корректные изменения сохраняются автоматически.	Chroniony odpoczynek wyklucza sugestie. Zwykły czas wolny to elastyczna rezerwacja. Poprawne zmiany zapisują się automatycznie.	El descanso protegido bloquea las sugerencias. El tiempo libre normal es una reserva flexible. Los cambios válidos se guardan automáticamente.
 Draft — not added. Edit a field to add it.	Черновик — ещё не добавлен. Измените поле, чтобы добавить.	Szkic — jeszcze nie dodany. Zmień pole, aby go dodać.	Borrador sin añadir. Modifica un campo para añadirlo.
 Close without adding	Закрыть без добавления	Zamknij bez dodawania	Cerrar sin añadir
+Change duration	Изменить длительность	Zmień czas trwania	Cambiar duración
+Review time change	Проверить изменение времени	Sprawdź zmianę czasu	Revisar cambio de hora
+Click to edit; drag to move. Hold for 800 ms or press Shift+Enter to complete. Use Quick actions to complete, reopen or change time.	Нажмите для редактирования; перетащите для переноса. Удерживайте 800 мс или нажмите Shift+Enter для завершения. Быстрые действия позволяют завершить, вернуть в план или изменить время.	Kliknij, aby edytować; przeciągnij, aby przenieść. Przytrzymaj 800 ms lub naciśnij Shift+Enter, aby ukończyć. Szybkie działania pozwalają ukończyć, ponownie otworzyć lub zmienić czas.	Haz clic para editar y arrastra para mover. Mantén pulsado 800 ms o pulsa Mayús+Intro para completar. Usa las acciones rápidas para completar, reabrir o cambiar la hora.
+Mark complete	Завершить	Oznacz jako ukończone	Marcar como completado
+Reopen	Вернуть в план	Otwórz ponownie	Volver a pendiente
+Hold to complete	Удерживайте для завершения	Przytrzymaj, aby ukończyć	Mantén pulsado para completar

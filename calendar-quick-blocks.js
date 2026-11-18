@@ -27,12 +27,12 @@ calendarQuickBlocks=function(){let html=calendarQuickBeforeSources().replace(/da
 // Template sources have their own identity, separate from event Quick Actions.
 document.addEventListener('click',e=>{const b=e.target.closest('[data-calendar-task],[data-calendar-template]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();if(calendarSuppressClick)return;openCalendarSourceDraft(b.dataset.calendarTask?{taskId:b.dataset.calendarTask}:{type:b.dataset.calendarTemplate});},true);
 function clearCalendarDrop(){document.querySelectorAll('.calendar-drop-target').forEach(el=>el.classList.remove('calendar-drop-target'));}
-document.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-calendar-task],[data-calendar-template]');if(!b||e.button!==0||calendarDraftDrag)return;calendarDraftDrag={source:b.dataset.calendarTask?{taskId:b.dataset.calendarTask}:{type:b.dataset.calendarTemplate},id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};b.setPointerCapture(e.pointerId);});
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('[data-calendar-task],[data-calendar-template]');if(!b||e.button!==0||e.isPrimary===false||calendarDraftDrag||calendarPointer)return;const scroller=document.querySelector('.calendar-scroll');calendarDraftDrag={scrollTop:scroller?.scrollTop||0,scrollLeft:scroller?.scrollLeft||0,source:b.dataset.calendarTask?{taskId:b.dataset.calendarTask}:{type:b.dataset.calendarTemplate},id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};b.setPointerCapture(e.pointerId);});
 document.addEventListener('pointermove',e=>{const op=calendarDraftDrag;if(!op||op.id!==e.pointerId)return;if(!op.moved&&Math.hypot(e.clientX-op.x,e.clientY-op.y)<7)return;op.moved=true;clearCalendarDrop();const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-calendar-slot]');slot?.classList.add('calendar-drop-target');});
 document.addEventListener('pointerup',e=>{const op=calendarDraftDrag;if(!op||op.id!==e.pointerId)return;calendarDraftDrag=null;clearCalendarDrop();if(!op.moved)return;calendarSuppressClick=true;setTimeout(()=>calendarSuppressClick=false,0);const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-calendar-slot]');if(slot)openCalendarSourceDraft(op.source,slot.dataset.calendarSlot,Number(slot.dataset.minute));});
-function cancelCalendarDraftDrag(){calendarDraftDrag=null;clearCalendarDrop();}
-document.addEventListener('pointercancel',cancelCalendarDraftDrag);
-document.addEventListener('lostpointercapture',cancelCalendarDraftDrag);
+function cancelCalendarDraftDrag(){const op=calendarDraftDrag;calendarDraftDrag=null;clearCalendarDrop();if(op){calendarSuppressClick=true;const scroller=document.querySelector('.calendar-scroll');if(scroller){scroller.scrollTop=op.scrollTop;scroller.scrollLeft=op.scrollLeft;}}}
+document.addEventListener('pointercancel',e=>{if(calendarDraftDrag?.id===e.pointerId)cancelCalendarDraftDrag();});
+document.addEventListener('lostpointercapture',e=>{if(calendarDraftDrag?.id===e.pointerId)cancelCalendarDraftDrag();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cancelCalendarDraftDrag();});
 window.addEventListener('blur',cancelCalendarDraftDrag);
 render();
