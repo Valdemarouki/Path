@@ -37,6 +37,7 @@ async function snapshot(){return evaluate('JSON.stringify(data)');}
  await send('Page.enable');await send('Runtime.enable');await send('Network.enable');await send('Network.setBlockedURLs',{urls:['http://*','https://*','ws://*','wss://*']});
  await send('Page.addScriptToEvaluateOnNewDocument',{source:`window.fetch=()=>Promise.reject(Error('Offline fixture'));window.XMLHttpRequest=window.WebSocket=function(){throw Error('Offline fixture')};navigator.sendBeacon=()=>false;window.testErrors=[];addEventListener('error',e=>testErrors.push(e.message));`});
  await send('Page.navigate',{url:pathToFileURL(path.resolve(__dirname,'../path2-beta-standalone.html')).href});await sleep(1000);
+ if(process.argv.includes('--empty-only')){await require('./check-calendar-empty-browser.cjs')({send,evaluate,key,screenshot,click,resize,sleep,trace});return;}
  if(process.argv.includes('--fidelity-only')){await require('./check-calendar-fidelity-browser.cjs')({send,evaluate,key,screenshot,click,resize,reset,point,mouse,sleep,trace});return;}
  if(!process.argv.includes('--gestures-only'))for(const locale of ['en','ru','es'])for(const busy of [true,false])for(const variant of (process.argv.includes('--text-only')?['text200']:[800,1024,1440,1920,'text200','reduced'])){
   const width=typeof variant==='number'?variant:variant==='text200'?800:1440;
