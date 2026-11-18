@@ -1323,3 +1323,9 @@ Reload saved values	Загрузить сохранённые значения	W
 Actions for {title}	Действия для события «{title}»	Działania dla „{title}”	Acciones para «{title}»
 The series changed. Review the affected events before applying.	Серия изменилась. Проверьте затронутые события перед применением.	Seria się zmieniła. Sprawdź objęte wydarzenia przed zastosowaniem.	La serie ha cambiado. Revisa los eventos afectados antes de aplicar.
 Apply to {count} event	Применить к событию: {count}	Zastosuj do {count} wydarzenia	Aplicar a {count} evento
+Protect this time	Защитить этот интервал	Chroń ten przedział	Proteger este intervalo
+Find room for {duration}	Найти время на {duration}	Znajdź czas na {duration}	Buscar tiempo para {duration}
+Click a block or drag it onto a time slot. Valid edits save automatically.	Нажмите на блок или перетащите его на нужное время. Корректные изменения сохраняются автоматически.	Kliknij blok lub przeciągnij go na wybraną godzinę. Poprawne zmiany zapisują się automatycznie.	Pulsa un bloque o arrástralo a una hora. Los cambios válidos se guardan automáticamente.
+Protected rest blocks suggestions. Unprotected Free Time is a soft reservation. Valid edits save automatically.	Защищённый отдых исключён из предложений. Обычное свободное время — гибкий резерв. Корректные изменения сохраняются автоматически.	Chroniony odpoczynek wyklucza sugestie. Zwykły czas wolny to elastyczna rezerwacja. Poprawne zmiany zapisują się automatycznie.	El descanso protegido bloquea las sugerencias. El tiempo libre normal es una reserva flexible. Los cambios válidos se guardan automáticamente.
+Draft — not added. Edit a field to add it.	Черновик — ещё не добавлен. Измените поле, чтобы добавить.	Szkic — jeszcze nie dodany. Zmień pole, aby go dodać.	Borrador sin añadir. Modifica un campo para añadirlo.
+Close without adding	Закрыть без добавления	Zamknij bez dodawania	Cerrar sin añadir
