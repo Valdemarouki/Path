@@ -27,7 +27,14 @@ function desktopHabitChange(source,id,day,value,{toggle=true,asOf=date}={}){
  const code=`var data=JSON.parse(input).state;var pathToday=()=>asOf,mutate=fn=>fn(),openEditor=(title,fields,save)=>save({value:targetValue}),toast=()=>{};\n${habitOperations}\n${toggle?'logHabitValue(data.habits.find(h=>h.id===target),day);':"throw Error('Only actual desktop logging operation is used');"}\nJSON.stringify(data)`;
  return JSON.parse(vm.runInContext(code,c,{timeout:1000}));
 }
-function desktopEventComplete(source,id){const c=vm.createContext({input:JSON.stringify(source),target:id});return JSON.parse(vm.runInContext(`var data=JSON.parse(input).state,save=()=>true,render=()=>{},toast=()=>{};${line(pulse,'function calendarCanComplete(')}\n${line(pulse,'function completeCalendarOccurrence(')}\ncompleteCalendarOccurrence(target);JSON.stringify(data)`,c,{timeout:1000}));}
+function desktopEventComplete(source,id){
+ const context=vm.createContext({data:structuredClone(source.state),save:()=>true,render:()=>{},toast:()=>{}});
+ const end=pulse.indexOf('function cancelCalendarHold(');
+ assert(end>pulse.indexOf('function completeCalendarOccurrence(')&&end>0,'Desktop completion source boundary changed');
+ vm.runInContext(pulse.slice(0,end),context,{timeout:1000});
+ assert.equal(context.completeCalendarOccurrence(id),true);
+ return context.data;
+}
 
 test('standalone completion matches actual desktop occurrence operation and changes only done',()=>{for(const pooled of [false,true]){const f=fixture(pooled),done=output(edit(desktopToMobileView(f),'eventCompletion','compat-event',true));assert.deepEqual(done.state,desktopEventComplete(f,'compat-event'));assert.deepEqual(paths(f,done),['/state/events/0/done']);assert(!Object.hasOwn(done.state.events[0],'completedAt'));assert.deepEqual(done.undo,f.undo);assert.deepEqual(done.imageAssets,f.imageAssets);desktopValidate(done);}});
 test('completion undo sets false without deleting or rewriting any event metadata',()=>{const f=fixture(true),done=edit(desktopToMobileView(f),'eventCompletion','compat-event',true),undone=output(edit(done,'eventCompletion','compat-event',false));assert.deepEqual(undone,f);desktopValidate(undone);});
