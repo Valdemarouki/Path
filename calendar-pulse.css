@@ -29,7 +29,7 @@
 .calendar-gesture-source{opacity:.35}
 .calendar-gesture-ghost{position:absolute;left:3px;right:3px;z-index:6;border:1px solid #e7ece9;background:#dce5df22;pointer-events:none;border-radius:5px;box-sizing:border-box}
 .calendar-gesture-label{position:fixed;z-index:160;max-width:min(320px,calc(100vw - 24px));background:#262c29;color:#f0f3f1;border:1px solid #9aa59e;border-radius:5px;font-size:12px;line-height:1.4;padding:6px 8px;overflow-wrap:anywhere;pointer-events:none;box-sizing:border-box}
-.calendar-resize-time{min-width:56px;padding:3px 9px;border-color:#696b6d;border-radius:8px;background:#2a2b2d;color:#e1e1df;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
+.calendar-gesture-time{min-width:56px;padding:3px 9px;border-color:#696b6d;border-radius:8px;background:#2a2b2d;color:#e1e1df;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 .calendar-wave-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:7;border-radius:inherit}
 .calendar-wave-ring{position:absolute;width:320px;height:320px;border:1px solid #e7ece966;border-radius:50%;pointer-events:none}
 .pulse-calendar-check{display:inline-flex;flex:none}

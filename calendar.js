@@ -202,12 +202,12 @@ function calendarPaintGhost(op){
  try{
   candidate=calendarMoveCandidate(op);
   const {start,end}=pathEventTiming(candidate);
-  if(op.resize){
-   label=clockTime(pathZoneParts(end).hour);
-  }else{
-   label=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(pathZoneParts(start).date),startTime:calendarClockLabel(start),endDate:calendarFullDate(pathZoneParts(end).date),endTime:calendarClockLabel(end)});
-  }
- }catch(error){label=op.resize?clockTime(op.nextEnd.minute/60):error.message;}
+  const endTime=clockTime(pathZoneParts(end).hour);
+  label=op.resize?endTime:clockTime(pathZoneParts(start).hour)+'–'+endTime;
+ }catch{
+  // An ambiguous or missing local time is reviewed on drop. Show the proposed wall times while dragging.
+  label=op.resize?clockTime(op.nextEnd.minute/60):clockTime(op.nextMinute/60)+'–'+clockTime(((op.nextMinute+op.duration)%1440)/60);
+ }
  for(const day of document.querySelectorAll('.calendar-timegrid [data-grid-date]')){
   const segment=candidate?calendarSegment(candidate,day.dataset.gridDate):day.dataset.gridDate===(op.nextDate||op.date)?{hour:(op.nextMinute??op.hour*60)/60,duration:15}:null;
   if(!segment)continue;
@@ -216,7 +216,7 @@ function calendarPaintGhost(op){
   day.appendChild(ghost);
   if(op.resize&&candidate&&!segment.continuesAfter)op.resizeEdge=ghost;
  }
- const hint=document.createElement('div');hint.className=op.resize?'calendar-gesture-label calendar-resize-time':'calendar-gesture-label';hint.setAttribute('aria-hidden','true');hint.textContent=label;document.body.appendChild(hint);
+ const hint=document.createElement('div');hint.className='calendar-gesture-label calendar-gesture-time';hint.setAttribute('aria-hidden','true');hint.textContent=label;document.body.appendChild(hint);
 }
 function updateCalendarPointer(op,x,y){
  const scroller=document.querySelector('.calendar-scroll'),delta=(y-op.y+(scroller?.scrollTop||0)-op.scrollTop)/calendarMinutePixels(1);
