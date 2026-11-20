@@ -170,8 +170,8 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-layout button.calendar-deadline-title{
  display:block;min-height:28px;min-width:0;max-width:18rem;padding:4px 10px;
  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;
- background:#242528;border:1px solid #424449;border-radius:0 0 8px 8px;
- color:#dddeda;font:inherit;font-size:12px;line-height:18px;cursor:pointer;
+ background:#303236;border:1px solid #595c61;border-radius:0 0 8px 8px;
+ color:#eef0ec;font:inherit;font-size:12px;font-weight:500;line-height:18px;cursor:pointer;
 }
 .calendar-day-with-deadline>.calendar-deadline-title{
  position:absolute;top:100%;left:50%;transform:translateX(-50%);width:max-content;
@@ -181,5 +181,5 @@ body[data-page=calendar] .app-main>footer{display:none}
  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;max-width:100%;
 }
 .calendar-heading-date>.calendar-deadline-title{grid-column:1/-1;justify-self:start;max-width:100%;border-radius:6px}
-.calendar-layout button.calendar-deadline-title:hover{background:#303236;color:#fff}
+.calendar-layout button.calendar-deadline-title:hover{background:#3b3e42;color:#fff}
 .calendar-layout button.calendar-deadline-title:focus-visible{outline:2px solid currentColor;outline-offset:-2px}
