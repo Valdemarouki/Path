@@ -6,3 +6,30 @@ body .path-context-overlay{position:fixed!important;inset:0!important;z-index:15
 .path-context-overlay input[type=checkbox]{width:18px;height:18px;flex:0 0 18px;padding:0;accent-color:#eee}
 
 .note-details>label{display:block;margin-bottom:6px;font-size:12px;color:#aaa}.note-details>input{box-sizing:border-box;width:100%;padding:8px 10px;border:1px solid #424448;border-radius:8px;color:#eee;background:#18191b}.note-document-toolbar{flex-wrap:wrap}
+
+/* Calendar's compact hierarchy shares one scroll region and an adaptive action area. */
+.path-context-overlay .editor{display:flex;flex-direction:column;padding:16px!important;overflow:hidden!important;color:#f3f3f3}
+.path-context-overlay .editor-head{flex:none;gap:12px}
+.path-context-overlay #editor-form{min-height:0;overflow:auto;overscroll-behavior:contain;padding:2px 3px;scroll-padding:12px 0 130px}
+.path-context-overlay .editor-actions{position:sticky!important;bottom:-2px;background:#1c1d20!important;padding:12px 0 2px;z-index:2;border-top:1px solid #45464a}
+.path-context-overlay #editor-form.context-actions-inline .editor-actions{position:static!important}
+.path-context-overlay input,.path-context-overlay select,.path-context-overlay textarea{min-height:36px;font-size:.875rem;border-color:#828489;color:#f3f3f3}
+.path-context-overlay label,.path-context-overlay [data-context-state],.path-context-overlay .context-more summary{font-size:.8125rem;color:#b3b5b9}
+.path-context-overlay .editor-actions button{font-size:.8125rem;min-height:36px;white-space:normal;overflow-wrap:anywhere}
+.path-context-overlay .context-icon-picker{flex-wrap:wrap}
+.path-context-overlay .context-icon-picker button{width:36px;height:36px;border-color:#828489}
+.path-context-overlay [data-context-selection]{display:block;font-size:.8125rem;color:#b3b5b9;margin-top:4px}
+.path-context-overlay .context-scope,.path-context-overlay .context-relation{font-size:.8125rem;line-height:1.5;color:#b3b5b9;overflow-wrap:anywhere}
+/* Follow enlarged text as well as root zoom; leave room for native AM/PM and clock. */
+.path-context-overlay .context-time-row{font-size:.875rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,10em),1fr));gap:12px}
+.path-context-overlay.context-full .editor{width:min(640px,calc(100vw - 32px))!important;max-height:calc(100dvh - 32px)!important;padding:20px!important}
+.path-context-overlay :is(input,textarea,select,button,summary):focus-visible{outline:2px solid #f3f3f3;outline-offset:2px}
+.path-context-overlay .calendar-time-context{font-size:.8125rem;color:#b3b5b9}
+.path-context-overlay .context-more::details-content{transition:none}
+.path-confirm-dialog footer{flex-wrap:wrap}.path-confirm-dialog button{white-space:normal}
+.context-conflict{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.context-conflict .btn{white-space:normal}
+.calendar-agenda-row{display:grid;grid-template-columns:minmax(0,1fr) 36px;align-items:center;gap:4px}
+.calendar-agenda-row .calendar-agenda-item{min-width:0;width:100%}
+.calendar-agenda-more{width:36px;min-height:36px;border:1px solid #828489;border-radius:8px;background:transparent;color:#f3f3f3;cursor:pointer}
+.calendar-agenda-more:focus-visible{outline:2px solid #f3f3f3;outline-offset:2px}
+body:has(#editor-overlay) .context-recovery{visibility:hidden}

@@ -6,57 +6,271 @@ const PATH_CONTEXT_DRAFT_KEY='path2-context-draft-v1';
 function pathContextUid(){if(!pathContextIds)return pathUid();return pathContextIds[pathContextCursor++]||(pathContextIds[pathContextCursor-1]=pathUid());}
 function pathContextRemoveCreated(value,ids){if(Array.isArray(value)){for(let i=value.length-1;i>=0;i--){if(value[i]?.id&&ids.has(value[i].id))value.splice(i,1);else pathContextRemoveCreated(value[i],ids);}}else if(value&&typeof value==='object')for(const child of Object.values(value))pathContextRemoveCreated(child,ids);}
 function pathContextValues(){const form=document.querySelector('#editor-form');return form?Object.fromEntries(new FormData(form).entries()):Object.fromEntries((editor?.fields||[]).map(f=>[f.key,String(f.value??'')]));}
-function pathContextStatus(message,error=false){const el=document.querySelector('[data-context-state]');if(el){el.textContent=message;el.setAttribute('role',error?'alert':'status');}document.querySelector('[data-context-retry]')?.toggleAttribute('hidden',!error);}
-function pathContextRemember(){if(!editor)return;try{localStorage.setItem(PATH_CONTEXT_DRAFT_KEY,JSON.stringify({title:editor.title,view,projectId,canvasId,noteId:selectedNote,noteDetailsOpen,route:editor.contextRoute,ids:editor.contextIds,created:editor.contextCreated,taskDetails:editor.taskDetails,dependencyDraft:editor.dependencyDraft,values:pathContextValues(),time:Date.now()}));return true;}catch{pathContextStatus('Draft could not be stored. Keep this window open.',true);return false;}}
+// Seeded rest is not added until a user edit commits successfully.
+function pathContextSeededRest(){return editor?.calendarSeededDraft&&editor.fields.some(f=>f.key==='type'&&f.value==='free_time');}
+function pathContextDraftAction(){
+ if(!pathContextSeededRest())return;
+ const action=document.querySelector('[data-context-done]');if(!action)return;
+ const added=editor.contextSaved,untouched=!added&&!editor.contextDirty;
+ action.dataset.noTranslate='';
+ action.textContent=pathT(added?'Done':'Close');
+ const description=pathT(added?'Apply and close':untouched?'Close without adding':'Close');
+ action.title=description;
+ if(untouched)action.setAttribute('aria-label',description);else action.removeAttribute('aria-label');
+}
+function pathContextStatus(message,error=false){if(pathContextSeededRest())editor.contextDraftFeedback={message,error};pathContextDraftAction();const el=document.querySelector('[data-context-state]');if(el){el.textContent=pathT(message);el.setAttribute('role',error?'alert':'status');}document.querySelector('[data-context-retry]')?.toggleAttribute('hidden',!error);document.querySelector('[data-context-continue]')?.toggleAttribute('hidden',!error);document.querySelector('[data-context-discard]')?.toggleAttribute('hidden',!error&&!pathContextScopeReview());}
+function pathContextRemember(){if(!editor)return;try{localStorage.setItem(PATH_CONTEXT_DRAFT_KEY,JSON.stringify({title:editor.title,view,projectId,canvasId,noteId:selectedNote,noteDetailsOpen,route:editor.contextRoute,ids:editor.contextIds,created:editor.contextCreated,taskDetails:editor.taskDetails,dependencyDraft:editor.dependencyDraft,values:pathContextValues(),calendarZone:editor.calendarTime?.zone,time:Date.now()}));return true;}catch{pathContextStatus('Draft could not be stored. Keep this window open.',true);return false;}}
 function pathContextForget(){try{localStorage.removeItem(PATH_CONTEXT_DRAFT_KEY);document.querySelector('[data-context-recovery]')?.remove();}catch{}}
-function pathContextError(message,key){pathContextStatus(message,true);const form=document.querySelector('#editor-form'),field=key?form?.querySelector(`[name="${key}"]`):null;if(field){field.setAttribute('aria-invalid','true');for(let parent=field.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;let hint=field.closest('.field,.subtask-row')?.querySelector('.context-field-error');if(!hint){hint=document.createElement('small');hint.className='context-field-error';field.closest('.field,.subtask-row')?.appendChild(hint);}if(hint)hint.textContent=message;field.focus();}return false;}
-function pathContextCalendarValues(values){if(!editor?.fields.some(f=>f.key==='time')||!editor.fields.some(f=>f.key==='duration'))return values;if(!values.type)values.type=document.querySelector('[name="type"]')?.value;if(values.type==='deadline'){values.duration='0';return values;}const end=document.querySelector('[name="contextEnd"]');if(!end)return values;const start=values.time,date=values.date,endDate=document.querySelector('[name="contextEndDate"]')?.value??date;if(!/^\d\d:\d\d$/.test(start)||!/^\d\d:\d\d$/.test(end.value))throw Error('Choose start and end times.');if(!pathValidDate(date)||!pathValidDate(endDate)){const error=Error('Choose a valid start and end date.');error.field=!pathValidDate(date)?'date':'contextEndDate';throw error;}const minute=t=>Number(t.slice(0,2))*60+Number(t.slice(3));if(minute(start)%15||minute(end.value)%15)throw Error('Use 15-minute time steps.');const a=pathWallCandidates(date,minute(start)/60,editor.pathTimeZone),b=pathWallCandidates(endDate,minute(end.value)/60,editor.pathTimeZone);if(!a.length||!b.length)throw Error('This local time does not exist in the event time zone.');const later=values.fold==='later',endLater=(values.contextEndFold||values.fold)==='later',duration=(b[endLater?b.length-1:0]-a[later?a.length-1:0])/60000;if(duration<=0||duration%15)throw Error('End must be after start, in 15-minute steps.');values.duration=String(duration);return values;}
+function pathContextError(message,key){pathContextStatus(message,true);const form=document.querySelector('#editor-form'),field=key?form?.querySelector(`[name="${key}"]`):null;if(field){field.setAttribute('aria-invalid','true');for(let parent=field.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;let hint=field.closest('.field,.subtask-row')?.querySelector('.context-field-error');if(!hint){hint=document.createElement('small');hint.className='context-field-error';field.closest('.field,.subtask-row')?.appendChild(hint);}if(hint){hint.id='context-error-'+encodeURIComponent(field.name);hint.textContent=message;const descriptions=new Set((field.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean));descriptions.add(hint.id);field.setAttribute('aria-describedby',[...descriptions].join(' '));}field.focus();pathContextRevealFocus(field);}return false;}
+function pathContextClearErrors(form){
+ const hints=[...form.querySelectorAll('.context-field-error')],ids=new Set(hints.map(el=>el.id));
+ form.querySelectorAll('[aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));
+ form.querySelectorAll('[aria-describedby]').forEach(el=>{const remaining=el.getAttribute('aria-describedby').split(/\s+/).filter(id=>id&&!ids.has(id));if(remaining.length)el.setAttribute('aria-describedby',remaining.join(' '));else el.removeAttribute('aria-describedby');});
+ hints.forEach(el=>el.remove());
+}
+function pathContextCalendarValues(values){
+ // Linked task deadlines have a disabled type field, omitted by FormData.
+ if(editor?.linkedDeadlineId)return {...values,type:'deadline',duration:'0'};
+ if(!editor?.calendarTime)return values;
+ // Validate here for field-specific errors; the save command performs conversion.
+ calendarPrepareValues(values);return values;
+}
+
+function pathContextSavedFields(record,baseline){
+ const values={...baseline,title:record.title,location:record.location||'',notes:record.notes||'',type:record.type,
+  status:record.done?'done':'planned',importance:findTask(record.taskId)?.task?.importance||record.importance||'none',
+  eventIcon:record.eventIcon||'calendar',reminderMinutes:String(record.reminderMinutes||0),protected:record.protected?'yes':'no'};
+ if(record.type==='deadline')values.date=record.date;
+ else Object.assign(values,calendarDisplayTiming(record,editor.calendarTime.zone));
+ return values;
+}
+function pathContextCheckSnapshot(){
+ const state=editor?.calendarTime,source=state?.source;
+ if(!source||editor.linkedDeadlineId)return true;
+ const latest=data.events.find(e=>e.id===source.id);
+ if(!latest)return pathContextError('This event is no longer available. Discard the draft to close.');
+ const baseline=editor.contextSnapshot||pathContextValues(),draft=pathContextValues();
+ let saved;try{saved=pathContextSavedFields(latest,baseline);}catch{return pathContextError('Saved timing changed. Reopen this event to review it.');}
+ const same=(a,b)=>String(a??'')===String(b??'');
+ const keys=Object.keys(saved).filter(k=>!same(saved[k],baseline[k]));
+ if(!keys.length)return true;
+ const scheduling=['date','time','fold','contextEnd','contextEndDate','contextEndFold','type'];
+ const timeChanged=keys.some(k=>scheduling.includes(k)),timeTouched=scheduling.some(k=>!same(draft[k],baseline[k]));
+ const conflicts=keys.filter(k=>!same(draft[k],baseline[k])&&!same(draft[k],saved[k]));
+ if(timeChanged&&timeTouched&&!scheduling.every(k=>same(draft[k],saved[k])))conflicts.push('time');
+ if(conflicts.length){
+  clearTimeout(pathContextTimer);editor.contextConflict=true;
+  pathContextError('This event changed while you were editing. Review your changes.');
+  const form=document.querySelector('#editor-form');
+  if(!form.querySelector('[data-context-conflict]')){
+   const choices=document.createElement('div');choices.dataset.contextConflict='';choices.className='context-conflict';
+   for(const [label,reload] of [['Use my changes',false],['Reload saved values',true]]){
+    const button=document.createElement('button');button.type='button';button.className='btn';button.textContent=pathT(label);
+    button.onclick=()=>{
+     // Re-read on activation; never use an out-of-date conflict prompt snapshot.
+     const current=data.events.find(e=>e.id===source.id);if(!current)return;
+     const fresh=pathContextSavedFields(current,baseline),live=pathContextValues();
+     for(const [key,value] of Object.entries(fresh)){
+      const input=form.elements[key];if(input&&(reload||same(live[key],baseline[key])))input.value=value??'';
+     }
+     state.source=pathClone(current);state.initial={...fresh};editor.contextSnapshot={...fresh};editor.contextConflict=false;choices.remove();
+     editor.contextDirty=!reload;calendarTimeEditorUI(form);pathContextCalendarHierarchy(form);pathContextScopeUI();
+     if(reload){pathContextClearErrors(form);pathContextForget();pathContextStatus('Saved locally');}else pathContextFlush();
+    };
+    choices.append(button);
+   }
+   form.querySelector('.editor-actions').before(choices);
+  }
+  return false;
+ }
+ const form=document.querySelector('#editor-form');
+ for(const key of keys)if(same(draft[key],baseline[key])&&form.elements[key])form.elements[key].value=saved[key]??'';
+ state.source=pathClone(latest);state.initial={...saved};editor.contextSnapshot={...saved};
+ calendarTimeEditorUI(form);pathContextCalendarHierarchy(form);return true;
+}
+
+// Scope review is a UI transaction boundary; the existing recurrence command
+// still owns the selected occurrences and all cancellation/exception semantics.
+function pathContextScopeReview(){
+ if(!editor?.contextCalendar)return false;
+ const form=document.querySelector('#editor-form'),scope=form?.elements.editScope?.value;
+ return scope==='following'||scope==='series'||(form?.elements.repeat?.value&&form.elements.repeat.value!=='none');
+}
+function pathContextScopeSnapshot(){
+ const source=editor?.calendarTime?.source,scope=document.querySelector('#editor-form')?.elements.editScope?.value;
+ if(!source?.seriesId||!['following','series'].includes(scope))return '';
+ return JSON.stringify(data.events.filter(e=>e.seriesId===source.seriesId&&(scope!=='following'||e.occurrenceDate>=source.occurrenceDate)).sort((a,b)=>a.id.localeCompare(b.id)));
+}
+function pathContextScopeUI(){
+ const form=document.querySelector('#editor-form');if(!form||!editor?.contextCalendar)return;
+ const review=!!pathContextScopeReview(),actions=form.querySelector('.editor-actions');if(!actions)return;
+ let summary=form.querySelector('[data-context-scope]'),apply=actions.querySelector('[data-context-apply]');
+ if(!summary){summary=document.createElement('p');summary.dataset.contextScope='';summary.dataset.noTranslate='';summary.className='context-scope';summary.setAttribute('role','status');form.querySelector('.context-more')?.before(summary);}
+ if(!apply){apply=document.createElement('button');apply.type='button';apply.className='btn primary';apply.dataset.contextApply='';apply.dataset.noTranslate='';actions.prepend(apply);}
+ const scope=form.elements.editScope?.value,source=editor.calendarTime?.source;
+ const count=source?.seriesId?data.events.filter(e=>e.seriesId===source.seriesId&&(scope!=='following'||e.occurrenceDate>=source.occurrenceDate)).length:Number(form.elements.repeatCount?.value||1);
+ const applyLabel=calendarMessage(count===1?'Apply to {count} event':'Apply to {count} events',{count});
+ summary.hidden=!source?.seriesId&&!review;
+ summary.textContent=review?applyLabel:pathT('Only this event');
+ apply.textContent=applyLabel;apply.hidden=!review;
+ editor.contextScopeSnapshot=pathContextScopeSnapshot();
+ actions.querySelector('[data-context-done]')?.toggleAttribute('hidden',review);
+ actions.querySelector('[data-context-discard]')?.toggleAttribute('hidden',!review&&form.querySelector('[data-context-state]')?.getAttribute('role')!=='alert');
+ if(review){clearTimeout(pathContextTimer);if(form.querySelector('[data-context-state]')?.getAttribute('role')!=='alert')pathContextStatus('Review the affected events, then apply or discard.');}
+ const repeatCount=form.elements.repeatCount;if(repeatCount){repeatCount.disabled=form.elements.repeat?.disabled||form.elements.repeat?.value==='none';repeatCount.closest('.field').hidden=repeatCount.disabled;}
+}
+function pathContextCalendarHierarchy(form){
+ if(!editor?.contextCalendar||!form)return;
+ const type=form.elements.type?.value,more=form.querySelector('.context-more');
+ const protection=form.elements.protected?.closest('.field');
+ if(protection){protection.hidden=type!=='free_time';if(type==='free_time')more?.before(protection);else more?.append(protection);}
+ const importance=form.elements.importance?.closest('.field');if(importance)importance.hidden=type==='free_time'||!!editor.linkedDeadlineId;
+ const status=form.elements.status;if(status){status.disabled=type==='free_time'||type==='deadline';status.closest('.field').hidden=status.disabled;}
+ const link=form.elements.deadlineTask;if(link){link.disabled=type!=='deadline'||!!editor.linkedDeadlineId;link.closest('.field').hidden=link.disabled;}
+ let relation=form.querySelector('[data-context-relation]');
+ if(!relation){relation=document.createElement('p');relation.dataset.contextRelation='';relation.dataset.noTranslate='';relation.className='context-relation';form.elements.date?.closest('.field').after(relation);}
+ const taskId=editor.linkedDeadlineId||editor.calendarTime?.source?.taskId;
+ relation.hidden=!taskId;if(taskId&&!editor.linkedDeadlineId)importance?.after(relation);else form.elements.date?.closest('.field').after(relation);
+ relation.textContent=pathT(taskId&&!findTask(taskId)?'This task is no longer available.':editor.linkedDeadlineId?'Shared with Projects. Saving changes the task deadline; deleting removes its deadline, not the task.':'Shared with linked task');
+ for(const picker of form.querySelectorAll('.context-icon-picker')){
+  const select=picker.previousElementSibling;if(select?.tagName!=='SELECT')continue;
+  picker.querySelectorAll('button').forEach(b=>{b.disabled=select.disabled;b.setAttribute('aria-pressed',String(b.dataset.contextChoice===select.value));});
+  let label=picker.nextElementSibling;if(!label?.hasAttribute('data-context-selection')){label=document.createElement('span');label.dataset.contextSelection='';label.dataset.noTranslate='';picker.after(label);}
+  label.textContent=pathT(select.selectedOptions[0]?.textContent||'');
+ }
+}
+function pathContextDelete(){
+ if(!editor?.deleteFn||pathContextCommitting)return false;
+ const current=editor,before=pathClone(data),pendingBefore=pathRepository.pending;
+ const references=new Map();
+ const collect=value=>{if(!value||typeof value!=='object')return;if(value.id)references.set(value.id,value);Object.values(value).forEach(collect);};collect(data);
+ const reconnect=value=>{if(!value||typeof value!=='object')return;for(const [key,child] of Object.entries(value)){const original=child?.id&&references.get(child.id);if(original&&original!==child){pathRestore(original,child);value[key]=original;}reconnect(value[key]);}};
+ clearTimeout(pathContextTimer);pathContextCommitting=true;
+ try{
+  current.deleteFn();
+  if(!save())throw Error(pathRepository.error);
+  current.contextDirty=false;current.contextDeletePending=false;current.contextPending=null;
+ }catch(error){
+  // A deleted object is absent from pathRestore's reference lookup. Reattach
+  // its original identity so Continue editing can safely reuse the save callback.
+  pathRestore(data,before);reconnect(data);current.contextDeletePending=true;
+  if(pathRepository.pending!==pendingBefore)current.contextPending=pathRepository.pending;
+  pathContextStatus(error.message,true);return false;
+ }finally{pathContextCommitting=false;}
+ pathContextForget();closeEditor();render();return true;
+}
+function pathContextClearPending(current){
+ current.contextDeletePending=false;
+ if(current.contextPending&&pathRepository.pending===current.contextPending){pathRepository.pending=null;if(!pathRepository.blocked)pathRepository.error='';}
+ current.contextPending=null;
+}
+async function pathContextDiscard(){
+ if(!editor||editor.contextDiscardPending)return false;
+ const current=editor;clearTimeout(pathContextTimer);current.contextDiscardPending=true;
+ const values=pathContextValues(),nonempty=Object.values(values).some(v=>String(v).trim());
+ const confirmed=!current.contextDirty||!nonempty||await pathConfirm(pathT('Discard unsaved changes? Earlier saved changes will remain.'),{yes:pathT('Discard unsaved changes'),no:pathT('Continue editing')});
+ if(editor!==current)return false;current.contextDiscardPending=false;
+ if(!confirmed)return false;
+ // Successful autosaves already live in the repository; failed saves roll back
+ // there. Closing only this draft must never restore the opening data snapshot.
+ current.contextDirty=false;pathContextClearPending(current);pathContextForget();const ok=closeEditor();if(ok)render();return ok;
+}
+let pathContextLayoutObserver=null;
+function pathContextActionLayout(form){
+ const actions=form?.querySelector('.editor-actions');if(!actions)return;
+ // A wrapping footer must leave room to edit, including at enlarged text sizes.
+ const inline=form.clientHeight-actions.getBoundingClientRect().height<160;
+ form.classList.toggle('context-actions-inline',inline);
+ form.style.scrollPaddingBottom=(inline?12:actions.offsetHeight+16)+'px';
+}
+function pathContextRevealFocus(target=document.activeElement){
+ const form=target?.closest?.('#editor-form');if(!form||!target.getClientRects().length)return;
+ pathContextActionLayout(form);
+ const field=target.getBoundingClientRect(),bounds=form.getBoundingClientRect();
+ const actions=form.querySelector('.editor-actions'),inActions=actions?.contains(target);
+ const sticky=actions&&!form.classList.contains('context-actions-inline');
+ const top=bounds.top+8,bottom=Math.min(bounds.bottom,sticky&&!inActions?actions.getBoundingClientRect().top:bounds.bottom)-8;
+ const hint=target.closest('.field,.subtask-row')?.querySelector('.context-field-error');
+ const end=hint?Math.max(field.bottom,hint.getBoundingClientRect().bottom):field.bottom;
+ // Keep the associated error visible too when it fits with its control.
+ const revealEnd=end-field.top<=bottom-top?end:field.bottom;
+ if(field.top<top)form.scrollTop-=top-field.top;
+ else if(revealEnd>bottom)form.scrollTop+=Math.min(revealEnd-bottom,field.top-top);
+}
+function pathContextObserveLayout(form){
+ pathContextLayoutObserver?.disconnect();
+ if(typeof ResizeObserver==='undefined')return;
+ pathContextLayoutObserver=new ResizeObserver(()=>{
+  if(!form.isConnected)return;
+  pathContextPosition();pathContextRevealFocus();
+ });
+ // Locale, text size, viewport and recovery/scope content all change these boxes.
+ pathContextLayoutObserver.observe(form);
+ const actions=form.querySelector('.editor-actions');if(actions)pathContextLayoutObserver.observe(actions);
+}
+document.addEventListener('focusin',e=>pathContextRevealFocus(e.target));
+document.addEventListener('focusout',e=>{
+ if(editor&&e.target.matches('#editor-form input,#editor-form textarea,#editor-form select'))editor.contextFieldFocus={element:e.target,start:e.target.selectionStart??null,end:e.target.selectionEnd??null};
+});
+
 const pathContextCommitBefore=commitEditor;
-commitEditor=function(values){if(!editor)return false;const current=editor,before=pathClone(data);current.contextProblem='';current.contextIds??=[];pathContextIds=current.contextIds;pathContextCursor=0;pathContextCommitting=true;pathContextRemoveCreated(data,new Set(current.contextCreated||[]));const beforeIds=new Set();const collect=v=>{if(Array.isArray(v))v.forEach(collect);else if(v&&typeof v==='object'){if(v.id)beforeIds.add(v.id);Object.values(v).forEach(collect);}};collect(data);let ok=false;try{ok=pathContextCommitBefore(values);}catch(error){pathContextStatus(error.message,true);}finally{pathContextIds=null;pathContextCommitting=false;}if(!ok){pathRestore(data,before);return false;}current.contextCreated=current.contextIds.filter(id=>!beforeIds.has(id));current.contextDirty=false;current.contextSaved=true;current.calendarDirty=false;current.projectDirty=false;pathContextForget();paintStorage();return true;};
-function pathContextFlush(){clearTimeout(pathContextTimer);if(!editor||!editor.contextDirty)return true;const form=document.querySelector('#editor-form');if(!form)return false;form.querySelectorAll('[aria-invalid]').forEach(el=>el.removeAttribute('aria-invalid'));form.querySelectorAll('.context-field-error').forEach(el=>el.remove());const blankSubtask=[...form.querySelectorAll('[data-subtask-title]')].find(el=>!el.value.trim());if(blankSubtask)return pathContextError('Give this subtask a title.',blankSubtask.name);const invalid=[...form.elements].find(el=>!el.disabled&&el.name&&!el.checkValidity());if(invalid)return pathContextError(invalid.validity.valueMissing?'Complete this field.':invalid.validationMessage,invalid.name);let values=pathContextValues();try{values=pathContextCalendarValues(values);}catch(error){return pathContextError(error.message,error.field||'contextEnd');}if(!commitEditor(values)){pathContextRemember();const message=editor.contextProblem||pathRepository.error||'Check these values. Changes have not been saved.';return pathContextError(message,pathContextProblemField(message));}pathContextStatus('Saved');return true;}
-closeEditor=function(){if(pathContextCommitting)return false;if(!pathContextFlush())return false;const focus=editor?.contextFocus;pathContextClosingVisual();editor=null;document.querySelector('#editor-overlay')?.remove();clearTimeout(pathContextTimer);paintStorage();if(focus?.isConnected)focus.focus({preventScroll:true});return true;};
+commitEditor=function(values){if(!editor||pathContextCommitting)return false;const current=editor,before=pathClone(data),pendingBefore=pathRepository.pending;current.contextProblem='';current.contextIds??=[];pathContextIds=current.contextIds;pathContextCursor=0;pathContextCommitting=true;document.querySelector('#editor-form')?.setAttribute('aria-busy','true');pathContextRemoveCreated(data,new Set(current.contextCreated||[]));const beforeIds=new Set();const collect=v=>{if(Array.isArray(v))v.forEach(collect);else if(v&&typeof v==='object'){if(v.id)beforeIds.add(v.id);Object.values(v).forEach(collect);}};collect(data);let ok=false;try{ok=pathContextCommitBefore(values);}catch(error){pathContextStatus(error.message,true);}finally{pathContextIds=null;pathContextCommitting=false;document.querySelector('#editor-form')?.removeAttribute('aria-busy');}if(!ok){pathRestore(data,before);if(pathRepository.pending!==pendingBefore)current.contextPending=pathRepository.pending;return false;}current.contextCreated=current.contextIds.filter(id=>!beforeIds.has(id));current.contextDirty=false;current.contextSaved=true;current.calendarDirty=false;current.projectDirty=false;current.contextPending=null;current.contextConflict=false;document.querySelector('[data-context-conflict]')?.remove();current.contextSnapshot={...values};if(current.calendarTime){const saved=data.events.find(e=>e.id===current.calendarEventId||current.contextCreated.includes(e.id));if(saved){current.calendarTime.source=pathClone(saved);current.calendarTime.initial={...values};}}pathContextForget();paintStorage();return true;};
+function pathContextFlush(explicit=false){clearTimeout(pathContextTimer);if(pathContextCommitting||editor?.contextComposing||editor?.contextDiscardPending)return false;if(editor?.contextDeletePending)return pathContextError('Could not save. Your changes are still here.');if(!editor||!editor.contextDirty)return true;if(pathContextScopeReview()&&!explicit){pathContextScopeUI();pathContextStatus('Review the affected events, then apply or discard.');document.querySelector('[data-context-apply]')?.focus({preventScroll:true});return false;}const form=document.querySelector('#editor-form');if(!form)return false;if(explicit&&editor.contextScopeSnapshot&&editor.contextScopeSnapshot!==pathContextScopeSnapshot()){pathContextScopeUI();return pathContextError('The series changed. Review the affected events before applying.');}if(!pathContextCheckSnapshot())return false;pathContextClearErrors(form);const blankSubtask=[...form.querySelectorAll('[data-subtask-title]')].find(el=>!el.value.trim());if(blankSubtask)return pathContextError('Give this subtask a title.',blankSubtask.name);const invalid=[...form.elements].find(el=>!el.disabled&&el.name&&!el.checkValidity());if(invalid)return pathContextError(invalid.validity.valueMissing?'Complete this field.':invalid.validationMessage,invalid.name);let values=pathContextValues();try{values=pathContextCalendarValues(values);}catch(error){return pathContextError(error.message,error.field||'contextEnd');}if(!commitEditor(values)){pathContextRemember();const message=editor.contextProblem||pathRepository.error||'Check these values. Changes have not been saved.';return pathContextError(message,pathContextProblemField(message));}pathContextStatus('Saved locally');return true;}
+closeEditor=function(){if(pathContextCommitting)return false;const calendarFocus=calendarFocusIdentity(editor?.contextFocus);if(!pathContextFlush())return false;const focus=editor?.contextFocus;pathContextClosingVisual();pathContextLayoutObserver?.disconnect();editor=null;document.querySelector('#editor-overlay')?.remove();clearTimeout(pathContextTimer);paintStorage();if(focus?.isConnected)focus.focus({preventScroll:true});else calendarRestoreFocus(calendarFocus);return true;};
 const pathContextOpenBefore=openEditor;
 openEditor=function(...args){if(editor&&!closeEditor())return false;const focus=document.activeElement;pathContextOpenBefore(...args);if(editor)editor.contextFocus=focus;if(editor){editor.contextIds=[];editor.contextCreated=[];editor.contextDirty=false;editor.contextExplicit=/^(Start focus|Confirm actual focus|Add existing note|Resolve|Import|Schedule)/.test(editor.title);}return true;};
 // Disable the obsolete docking layer; the actual forms are retained, including task dependencies.
 dockCalendarEditor=function(){};
 positionCalendarQuickCreate=function(){pathContextPosition();};
 calendarApplyQuickCreate=function(){};
-function pathContextPosition(){const overlay=document.querySelector('#editor-overlay'),box=overlay?.querySelector('.editor');if(!box||overlay.classList.contains('context-full'))return;const r=box.getBoundingClientRect(),pos=calendarQuickPosition(pathContextAnchor,r.width,r.height,{width:window.innerWidth,height:window.innerHeight});box.style.left=pos.left+'px';box.style.top=pos.top+'px';}
+function pathContextPosition(){const overlay=document.querySelector('#editor-overlay'),box=overlay?.querySelector('.editor');if(!box)return;const form=overlay.querySelector('#editor-form');pathContextActionLayout(form);if(overlay.classList.contains('context-full'))return;let anchor=editor?.contextFocus?.isConnected?editor.contextFocus.getBoundingClientRect():pathContextAnchor;const clip=editor?.contextFocus?.closest('.calendar-scroll')?.getBoundingClientRect();if(anchor&&(anchor.bottom<12||anchor.top>window.innerHeight-12||anchor.right<12||anchor.left>window.innerWidth-12||clip&&(anchor.bottom<clip.top||anchor.top>clip.bottom)))anchor=null;const pos=calendarQuickPosition(anchor,box.offsetWidth,box.offsetHeight,{width:window.innerWidth,height:window.innerHeight});if(!anchor&&view==='calendar'){const region=document.querySelector('.calendar-main-region')?.getBoundingClientRect();if(region){pos.left=Math.max(12,Math.min((Math.max(12,region.left)+Math.min(window.innerWidth-12,region.right)-box.offsetWidth)/2,window.innerWidth-box.offsetWidth-12));pos.top=Math.max(12,Math.min((Math.max(12,region.top)+Math.min(window.innerHeight-12,region.bottom)-box.offsetHeight)/2,window.innerHeight-box.offsetHeight-12));}}box.style.left=pos.left+'px';box.style.top=pos.top+'px';}
 function pathContextPicker(select,kind){if(!select||select.dataset.contextPicker)return;select.dataset.contextPicker='true';const row=document.createElement('div');row.className='context-icon-picker';row.setAttribute('role','group');row.setAttribute('aria-label',kind);for(const option of select.options){const b=document.createElement('button');b.type='button';b.title=option.text;b.setAttribute('aria-label',option.text);b.dataset.contextChoice=option.value;b.setAttribute('aria-pressed',String(option.selected));const paths=kind==='Direction'?(option.value==='line'?'M3 12h18':'M3 12h18l-5-5 M21 12l-5 5'):kind==='Importance'?`M5 18V${option.value==='high'?3:option.value==='medium'?7:option.value==='low'?11:16} M12 18V${option.value==='high'?6:option.value==='medium'?10:15} M19 18V${option.value==='high'?10:16}`:option.value==='workout'?'M3 8v8 M7 5v14 M7 12h10 M17 5v14 M21 8v8':option.value==='deadline'?'M5 21V3 M5 4h14l-4 5 4 5H5':option.value==='focus'?'M5 3H3v5 M19 3h2v5 M3 16v5h5 M21 16v5h-5 M8 12h8 M12 8v8':option.value==='free_time'?'M4 7h13v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z M17 8h3v5h-3':option.value==='routine'?'M4 10a8 8 0 0 1 14-4 M18 2v4h-4 M20 14a8 8 0 0 1-14 4 M6 22v-4h4':'M4 5h16v16H4z M8 2v6 M16 2v6 M4 10h16';b.innerHTML=kind==='Icon'?icon(option.value,20):`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="${paths}"/></svg>`;b.onclick=()=>{select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));row.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));};row.appendChild(b);}select.hidden=true;select.after(row);}
 const pathContextRenderEditorBefore=renderEditor;
-renderEditor=function(){pathContextRenderEditorBefore();const overlay=document.querySelector('#editor-overlay'),box=overlay?.querySelector('.editor'),form=document.querySelector('#editor-form');if(!editor||!box||!form)return;document.body.appendChild(overlay);overlay.className='editor-overlay path-context-overlay';box.setAttribute('aria-modal','false');form.noValidate=true;const calendar=editor.fields.some(f=>f.key==='time')&&editor.fields.some(f=>f.key==='duration');editor.contextCalendar=calendar;
-overlay.querySelectorAll('.calendar-save-state,.project-save-state,[data-calendar-full-editor]').forEach(el=>el.remove());form.querySelectorAll('.calendar-more-options,.project-more-options').forEach(old=>{for(const field of [...old.querySelectorAll('.field,#task-dependencies')])form.querySelector('.editor-actions')?.before(field);old.remove();});const more=document.createElement('details');more.className='context-more';more.innerHTML='<summary>More Settings</summary>';const basics=new Set(calendar?['title','date','time','type','importance','eventIcon']:editor.taskDetails?['title','status','deadline','importance']:['title','name','status','start','end','deadline','from','to','direction','label','body','date','duration','url','project','board','taskId','value','minutes','sets','target','rest','startDate','mode','weekdays','spacing','cycles','workoutId']);for(const field of [...form.querySelectorAll('.field')]){const input=field.querySelector('[name]');field.hidden=false;if(input&&!basics.has(input.name)&&!input.name.startsWith('weekdayWorkout_'))more.appendChild(field);}for(const section of [...form.querySelectorAll('#task-subtasks,#task-dependencies')])more.appendChild(section);form.querySelectorAll('.project-more-options').forEach(el=>{if(!el.querySelector('.field,section'))el.remove();});form.querySelectorAll('.calendar-more-options').forEach(el=>{while(el.children.length>1)more.appendChild(el.children[1]);el.remove();});if(more.children.length>1)form.querySelector('.editor-actions')?.before(more);
-if(calendar){const duration=form.querySelector('[name="duration"]'),time=form.querySelector('[name="time"]'),date=form.querySelector('[name="date"]'),minutes=Number(duration.value)||60;time.step='900';duration.closest('.field').hidden=true;const start=Number(time.value.slice(0,2))*60+Number(time.value.slice(3));let endParts={date:addDays(date.value,Math.floor((start+minutes)/1440)),hour:((start+minutes)%1440)/60};try{endParts=pathZoneParts(pathEventTiming({date:date.value,hour:start/60,duration:minutes,tzid:editor.pathTimeZone,fold:form.querySelector('[name=fold]')?.value}).end,editor.pathTimeZone);}catch{}const end=document.createElement('div');end.className='field context-end';end.innerHTML=`<label for="context-end">End time</label><input id="context-end" name="contextEnd" type="time" step="900" value="${clockTime(endParts.hour)}"><label for="context-end-date">End date</label><input id="context-end-date" name="contextEndDate" type="date" value="${endParts.date}">`;const endDateField=document.createElement('div');endDateField.className='field';endDateField.append(end.children[2],end.children[3]);more.appendChild(endDateField);const endFold=document.createElement('div');endFold.className='field';let endOccurrence='earlier';try{const instant=pathEventTiming({date:date.value,hour:start/60,duration:minutes,tzid:editor.pathTimeZone,fold:form.querySelector('[name=fold]')?.value}).end,candidates=pathWallCandidates(endParts.date,endParts.hour,editor.pathTimeZone);if(candidates.length>1&&instant===candidates.at(-1))endOccurrence='later';}catch{}endFold.innerHTML=`<label for="context-end-fold">End when clocks repeat</label><select id="context-end-fold" name="contextEndFold"><option value="earlier">First occurrence</option><option value="later" ${endOccurrence==='later'?'selected':''}>Second occurrence</option></select>`;more.appendChild(endFold);const timeRow=document.createElement('div');timeRow.className='context-time-row';time.closest('.field').before(timeRow);timeRow.append(time.closest('.field'),end);pathContextPicker(form.querySelector('[name="type"]'),'Event type');pathContextPicker(form.querySelector('[name="importance"]'),'Importance');pathContextPicker(form.querySelector('[name="eventIcon"]'),'Icon');date.dataset.contextDate=date.value;pathContextCalendarType();}
-const actions=form.querySelector('.editor-actions');if(actions){actions.innerHTML=`<button type="button" class="btn primary" data-context-done title="Apply and close">Done</button><button type="button" class="btn" data-context-full>Advanced</button>${editor.deleteFn?'<button type="button" class="btn" data-context-delete title="Delete · Undo available">Delete</button>':''}<button type="button" class="btn" data-context-retry hidden>Retry</button><span data-context-state role="status">${editor.contextSaved?'Saved':'Changes save automatically'}</span>`;}if(editor.title==='Edit connection')pathContextPicker(form.querySelector('[name=direction]'),'Direction');pathContextPosition();if(typeof PathMotion!=='undefined')PathMotion.play(box,[{opacity:0,transform:'translateY(5px) scale(.98)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:260});};
+renderEditor=function(){document.querySelectorAll('.context-closing-visual').forEach(el=>el.remove());pathContextRenderEditorBefore();const overlay=document.querySelector('#editor-overlay'),box=overlay?.querySelector('.editor'),form=document.querySelector('#editor-form');if(!editor||!box||!form)return;document.body.appendChild(overlay);box.getAnimations?.().forEach(animation=>animation.cancel());overlay.className='editor-overlay path-context-overlay';box.setAttribute('aria-modal','false');form.noValidate=true;const calendar=editor.fields.some(f=>f.key==='time')&&editor.fields.some(f=>f.key==='duration');editor.contextCalendar=calendar;
+overlay.querySelectorAll('.calendar-save-state,.project-save-state,[data-calendar-full-editor]').forEach(el=>el.remove());form.querySelectorAll('.calendar-more-options,.project-more-options').forEach(old=>{for(const field of [...old.querySelectorAll('.field,#task-dependencies')])form.querySelector('.editor-actions')?.before(field);old.remove();});const more=document.createElement('details');more.className='context-more';more.innerHTML='<summary>More Settings</summary>';const basics=new Set(calendar?['title','date','time','type','importance','editScope']:editor.taskDetails?['title','status','deadline','importance']:['title','name','status','start','end','deadline','from','to','direction','label','body','date','duration','url','project','board','taskId','value','minutes','sets','target','rest','startDate','mode','weekdays','spacing','cycles','workoutId']);for(const field of [...form.querySelectorAll('.field')]){const input=field.querySelector('[name]');field.hidden=false;if(input&&!basics.has(input.name)&&!input.name.startsWith('weekdayWorkout_'))more.appendChild(field);}for(const section of [...form.querySelectorAll('#task-subtasks,#task-dependencies')])more.appendChild(section);form.querySelectorAll('.project-more-options').forEach(el=>{if(!el.querySelector('.field,section'))el.remove();});form.querySelectorAll('.calendar-more-options').forEach(el=>{while(el.children.length>1)more.appendChild(el.children[1]);el.remove();});if(more.children.length>1)form.querySelector('.editor-actions')?.before(more);
+if(calendar){const duration=form.querySelector('[name="duration"]'),time=form.querySelector('[name="time"]'),date=form.querySelector('[name="date"]'),minutes=Number(duration.value)||60;time.step='60';duration.min='0';duration.step='any';duration.closest('.field').hidden=true;const start=Number(time.value.slice(0,2))*60+Number(time.value.slice(3));let endParts={date:addDays(date.value,Math.floor((start+minutes)/1440)),hour:((start+minutes)%1440)/60};try{endParts=pathZoneParts(pathEventTiming({date:date.value,hour:start/60,duration:minutes,tzid:editor.pathTimeZone,fold:form.querySelector('[name=fold]')?.value||undefined}).end,editor.pathTimeZone);}catch{}const end=document.createElement('div');end.className='field context-end';end.innerHTML=`<label for="context-end">End time</label><input id="context-end" name="contextEnd" type="time" step="60" value="${clockTime(endParts.hour)}"><label for="context-end-date">End date</label><input id="context-end-date" name="contextEndDate" type="date" value="${endParts.date}">`;const endDateField=document.createElement('div');endDateField.className='field';endDateField.append(end.children[2],end.children[3]);more.appendChild(endDateField);const endFold=document.createElement('div');endFold.className='field';const endOccurrence='';endFold.innerHTML=`<label for="context-end-fold">End when clocks repeat</label><select id="context-end-fold" name="contextEndFold"><option value="">Choose occurrence</option><option value="earlier" ${endOccurrence==='earlier'?'selected':''}>First occurrence</option><option value="later" ${endOccurrence==='later'?'selected':''}>Second occurrence</option></select>`;more.appendChild(endFold);const timeRow=document.createElement('div');timeRow.className='context-time-row';time.closest('.field').before(timeRow);timeRow.append(time.closest('.field'),end);pathContextPicker(form.querySelector('[name="type"]'),'Event type');pathContextPicker(form.querySelector('[name="importance"]'),'Importance');pathContextPicker(form.querySelector('[name="eventIcon"]'),'Icon');timeRow.after(form.querySelector('[name=type]').closest('.field'),form.querySelector('[name=importance]').closest('.field'));date.dataset.contextDate=date.value;calendarTimeEditorUI(form);pathContextCalendarType();}
+const actions=form.querySelector('.editor-actions');if(actions){actions.innerHTML=`<button type="button" class="btn primary" data-context-done title="Apply and close">Done</button><button type="button" class="btn" data-context-full>Open full editor</button>${editor.deleteFn?'<button type="button" class="btn" data-context-delete title="Delete · Undo available">Delete</button>':''}<button type="button" class="btn" data-context-retry hidden>Retry</button><button type="button" class="btn" data-context-continue hidden>Continue editing</button><button type="button" class="btn" data-context-discard hidden>Discard unsaved changes</button><span data-context-state role="status">${editor.contextSaved?'Saved locally':'Changes save automatically'}</span>`;}pathContextDraftAction();if(pathContextSeededRest()){const feedback=editor.contextDraftFeedback;pathContextStatus(feedback?.message||(editor.contextSaved?'Saved locally':editor.contextDirty?'Saving…':'Draft — not added. Edit a field to add it.'),feedback?.error);}pathContextScopeUI();if(calendar){pathContextCalendarHierarchy(form);if(editor.calendarTime?.source&&!editor.contextSnapshot)editor.contextSnapshot=pathContextValues();}if(editor.title==='Edit connection')pathContextPicker(form.querySelector('[name=direction]'),'Direction');pathContextPosition();pathContextObserveLayout(form);if(typeof PathMotion!=='undefined')PathMotion.play(box,reducedPortraitMotion()?[{opacity:0},{opacity:1}]:[{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:reducedPortraitMotion()?100:280,easing:'cubic-bezier(.16,1,.3,1)'});};
 function pathContextShiftEndDate(previous,next,end){if(!pathValidDate(previous)||!pathValidDate(next)||!pathValidDate(end))return end;return addDays(end,Math.round((Date.parse(next)-Date.parse(previous))/86400000));}
-function pathContextChanged(e){if(!editor||!e.target.closest('#editor-form'))return;if(editor.contextCalendar&&e.target.name==='date'){const end=document.querySelector('[name=contextEndDate]'),previous=e.target.dataset.contextDate;if(pathValidDate(e.target.value)){if(end)end.value=pathContextShiftEndDate(previous,e.target.value,end.value);e.target.dataset.contextDate=e.target.value;}}pathContextMarkChanged(e.isComposing);}
-function pathContextMarkChanged(isComposing=false){if(!editor)return;editor.contextDirty=true;paintStorage();if(pathContextRemember())pathContextStatus(editor.contextExplicit?'Ready to apply':'Saving…');clearTimeout(pathContextTimer);if(!isComposing&&!editor.contextExplicit)pathContextTimer=setTimeout(pathContextFlush,650);}
+function pathContextChanged(e){
+ if(!editor||!e.target.closest('#editor-form'))return;
+ // Text controls emit change on blur even after input was validated or saved.
+ // Do not restart the debounce or hide recovery actions during that gesture.
+ // Keep input/compositionend unconditional: IME completion must resume saving.
+ const seen=editor.contextInputValues??=new WeakMap(),value=()=>JSON.stringify([e.target.value,e.target.checked]);
+ if(e.type==='change'&&seen.get(e.target)===value())return;
+ if(editor.calendarTime)calendarTimeInputChanged(e);if(editor.contextCalendar&&e.target.name==='date'){const end=document.querySelector('[name=contextEndDate]'),previous=e.target.dataset.contextDate;if(pathValidDate(e.target.value)){if(end)end.value=pathContextShiftEndDate(previous,e.target.value,end.value);e.target.dataset.contextDate=e.target.value;}}if(editor.calendarTime)calendarTimeEditorUI(document.querySelector('#editor-form'));pathContextCalendarHierarchy(document.querySelector('#editor-form'));pathContextScopeUI();pathContextMarkChanged(e.isComposing||editor.contextComposing);
+ seen.set(e.target,value());
+}
+function pathContextMarkChanged(isComposing=false){if(!editor)return;editor.contextDirty=true;paintStorage();if(pathContextRemember())pathContextStatus(editor.contextExplicit?'Ready to apply':'Saving…');clearTimeout(pathContextTimer);if(editor.contextConflict)pathContextStatus('This event changed while you were editing. Review your changes.',true);else if(pathContextScopeReview())pathContextStatus('Review the affected events, then apply or discard.');if(!isComposing&&!editor.contextExplicit&&!editor.contextConflict&&!pathContextScopeReview())pathContextTimer=setTimeout(()=>pathContextFlush(),650);}
 document.addEventListener('input',pathContextChanged);document.addEventListener('change',pathContextChanged);
-document.addEventListener('compositionend',pathContextChanged);
+document.addEventListener('compositionstart',e=>{if(editor&&e.target.closest('#editor-form')){editor.contextComposing=true;clearTimeout(pathContextTimer);}});
+document.addEventListener('compositionend',e=>{if(editor&&e.target.closest('#editor-form')){editor.contextComposing=false;pathContextChanged(e);}});
 window.addEventListener('pointerdown',e=>{const target=e.target.closest('[data-event],[data-calendar-slot],[data-task-drag],[data-node],button');if(target&&!target.closest('#editor-overlay')){const r=target.getBoundingClientRect();pathContextAnchor={left:r.left,right:r.right,top:r.top,bottom:r.bottom};}if(editor&&!e.target.closest('#editor-overlay,.path-confirm-dialog')){if(!closeEditor()){e.preventDefault();e.stopImmediatePropagation();}else{pathContextRefreshPending=true;}}},true);
-window.addEventListener('click',e=>{const b=e.target.closest('[data-context-full],[data-context-retry],[data-context-delete],[data-close-editor]');if(!b||!editor)return;e.preventDefault();e.stopImmediatePropagation();if(b.hasAttribute('data-context-full')){const o=document.querySelector('#editor-overlay');o.classList.toggle('context-full');if(o.classList.contains('context-full')){const more=o.querySelector('.context-more');if(more)more.open=true;}o.querySelector('.editor').setAttribute('aria-modal',String(o.classList.contains('context-full')));pathContextPosition();}else if(b.hasAttribute('data-context-retry'))pathContextFlush();else if(b.hasAttribute('data-context-delete')){const before=pathClone(data);try{editor.deleteFn();if(!save()){pathRestore(data,before);pathContextStatus(pathRepository.error,true);return;}editor.contextDirty=false;closeEditor();render();}catch(error){pathRestore(data,before);pathContextStatus(error.message,true);}}else if(closeEditor())render();},true);
+window.addEventListener('click',e=>{const b=e.target.closest('[data-context-full],[data-context-retry],[data-context-delete],[data-context-discard],[data-context-continue],[data-context-apply],[data-close-editor]');if(!b||!editor)return;e.preventDefault();e.stopImmediatePropagation();if(editor.contextDiscardPending||pathContextCommitting)return;if(b.hasAttribute('data-context-full')){const o=document.querySelector('#editor-overlay');const focus=editor.contextFieldFocus;o.classList.toggle('context-full');if(o.classList.contains('context-full')){const more=o.querySelector('.context-more');if(more)more.open=true;}o.querySelector('.editor').setAttribute('aria-modal',String(o.classList.contains('context-full')));b.textContent=o.classList.contains('context-full')?'Compact editor':'Open full editor';pathContextPosition();if(focus?.element?.isConnected){focus.element.focus({preventScroll:true});if(focus.start!==null)try{focus.element.setSelectionRange(focus.start,focus.end);}catch{}}}else if(b.hasAttribute('data-context-discard'))pathContextDiscard();else if(b.hasAttribute('data-context-continue')){if(editor.contextDeletePending){pathContextClearPending(editor);pathContextStatus('Continue editing');paintStorage();}document.querySelector('#editor-form [aria-invalid=true],#editor-form [name=title]')?.focus();}else if(b.hasAttribute('data-context-apply'))pathContextDone(true);else if(b.hasAttribute('data-context-retry')){if(editor.contextDeletePending)pathContextDelete();else pathContextFlush();}else if(b.hasAttribute('data-context-delete'))pathContextDelete();else if(closeEditor())render();},true);
 // Embedded previews may prohibit native form submission. All activation paths
 // share the same validated persistence boundary without navigating the iframe.
-function pathContextDone(){if(!editor)return false;editor.contextDirty=editor.contextDirty||!editor.contextSaved;if(!pathContextFlush()||!closeEditor())return false;render();return true;}
+// A seeded template is still untouched until user input marks the form dirty.
+function pathContextDone(explicit=false){if(!editor||editor.contextDiscardPending||editor.contextComposing||pathContextCommitting)return false;editor.contextDirty=editor.contextDirty||(!editor.contextSaved&&!editor.calendarSeededDraft);if(!pathContextFlush(explicit)||!closeEditor())return false;render();return true;}
 window.addEventListener('click',e=>{if(!e.target.closest('[data-context-done]'))return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);
 window.addEventListener('submit',e=>{if(e.target.id!=='editor-form')return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);
 window.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing||e.repeat||!e.target.closest('#editor-form')||!e.target.matches('input:not([type=button]):not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range])'))return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);
-window.addEventListener('keydown',e=>{if(!editor||!e.target.closest('#editor-overlay')||e.target.closest('[data-path-date-picker]'))return;if(e.key==='Escape'){if(e.isComposing){e.stopImmediatePropagation();return;}e.preventDefault();e.stopImmediatePropagation();if(closeEditor())render();}},true);
+window.addEventListener('keydown',e=>{if(!editor||!e.target.closest('#editor-overlay')||e.target.closest('[data-path-date-picker]'))return;if(e.key==='Escape'){if(e.isComposing||editor.contextComposing){e.stopImmediatePropagation();return;}e.preventDefault();e.stopImmediatePropagation();if(closeEditor())render();}},true);
 window.addEventListener('beforeunload',e=>{if(editor?.contextDirty){pathContextRemember();if(!pathContextFlush()){e.preventDefault();e.returnValue='';}}});
 window.addEventListener('resize',pathContextPosition);
+window.addEventListener('scroll',()=>{if(editor)pathContextPosition();},{capture:true,passive:true});
 
 function pathContextCalendarType(){
  const form=document.querySelector('#editor-form');if(!form||!editor?.contextCalendar)return;
  const deadline=form.querySelector('[name=type]')?.value==='deadline';
  for(const key of ['time','duration','fold','contextEndDate','contextEndFold']){const el=form.querySelector(`[name="${key}"]`);if(el){el.disabled=deadline;el.closest('.field').hidden=deadline||key==='duration';}}
- const end=form.querySelector('.context-end');if(end){end.hidden=deadline;end.querySelectorAll('input').forEach(el=>el.disabled=deadline);}
+ const end=form.querySelector('.context-end');if(end){end.hidden=deadline;end.querySelectorAll('input').forEach(el=>el.disabled=deadline);}if(editor.calendarTime)calendarTimeEditorUI(form);
 }
 const pathContextTypeBefore=calendarApplyTypeFields;
 calendarApplyTypeFields=function(){pathContextTypeBefore();pathContextCalendarType();};
 // Reposition after details expand, while keeping the chosen object unobscured where possible.
 document.addEventListener('toggle',e=>{if(e.target.closest?.('#editor-form'))pathContextPosition();},true);
 window.addEventListener('keydown',e=>{
- const scope=document.querySelector('.path-confirm-dialog')||document.querySelector('#editor-overlay');if(!scope||e.key!=='Tab')return;
+ const scope=document.querySelector('.path-confirm-dialog')||document.querySelector('#editor-overlay');if(!scope||e.key!=='Tab'||(scope.id==='editor-overlay'&&!scope.classList.contains('context-full')))return;
  const items=[...scope.querySelectorAll('button,input,textarea,select,summary,[tabindex="0"]')].filter(x=>!x.disabled&&!x.hidden&&x.getClientRects().length);
  if(!items.length)return;const first=items[0],last=items.at(-1);
  if(e.shiftKey&&(document.activeElement===first||!scope.contains(document.activeElement))){e.preventDefault();last.focus();}
@@ -97,10 +311,10 @@ function pathContextRestoreDraft(){
  if(editor&&!closeEditor())return;
  view=saved.view;projectId=route.projectId;canvasId=route.canvasId;canvasSelected=route.canvasSelected;if(saved.noteId){selectedNote=saved.noteId;const note=data.notes.find(n=>n.id===saved.noteId);if(note){noteDraft=pathClone(note);noteKind=note.kind;noteDirty=false;noteDetailsOpen=!!saved.noteDetailsOpen;}}render();
  const args=(route.args||[]).map(x=>x?.entityId?data.canvases.find(c=>c.id===x.entityId):x);
- const recoveredEvent=['source','workoutSchedule','projectSession'].includes(route.name)?data.events.find(e=>(saved.created||[]).includes(e.id)):null;if(recoveredEvent){modalEvent(recoveredEvent.id);saved.ids=[];saved.created=[];}else if(route.name==='trigger'){const button=[...document.querySelectorAll('button')].find(b=>route.attrs.every(([key,value])=>b.getAttribute(key)===value));if(!button){toast('Open the original workspace to resume this draft.');return;}button.click();}else handlers[route.name](...args);if(!editor)return;
+ const recoveredEvent=['event','source','workoutSchedule','projectSession'].includes(route.name)?data.events.find(e=>(saved.created||[]).includes(e.id)):null;if(recoveredEvent){modalEvent(recoveredEvent.id);saved.ids=[];saved.created=[];}else if(route.name==='trigger'){const button=[...document.querySelectorAll('button')].find(b=>route.attrs.every(([key,value])=>b.getAttribute(key)===value));if(!button){toast('Open the original workspace to resume this draft.');return;}button.click();}else handlers[route.name](...args);if(!editor)return;
  editor.contextIds=saved.ids||[];editor.contextCreated=saved.created||[];if(saved.taskDetails&&editor.taskDetails){Object.assign(editor.taskDetails,saved.taskDetails);const section=document.querySelector('#task-subtasks');if(section)section.innerHTML=subtaskEditorMarkup(editor.taskDetails.subtasks);}if(saved.dependencyDraft&&editor.dependencyDraft){Object.assign(editor.dependencyDraft,saved.dependencyDraft);paintDependencyPicker();}
  const form=document.querySelector('#editor-form');for(const [key,value] of Object.entries(saved.values||{})){const input=[...form.elements].find(el=>el.name===key);if(input)input.value=value;}
- editor.contextDirty=true;pathContextCalendarType();pathContextStatus('Recovered draft · Review and save',true);document.querySelector('[data-context-recovery]')?.remove();
+ if(saved.calendarZone&&editor.calendarTime){editor.calendarTime.zone=saved.calendarZone;editor.pathTimeZone=saved.calendarZone;if(editor.calendarTime.source?.type!=='deadline'&&editor.calendarTime.source)editor.calendarTime.initial=calendarDisplayTiming(editor.calendarTime.source,saved.calendarZone);}editor.contextDirty=true;calendarTimeEditorUI(form);pathContextCalendarType();pathContextCalendarHierarchy(form);pathContextScopeUI();pathContextStatus('Recovered draft · Review and save',true);document.querySelector('[data-context-recovery]')?.remove();
 }
 function pathContextRecoveryNotice(){
  try{const draft=JSON.parse(localStorage.getItem(PATH_CONTEXT_DRAFT_KEY));if(!draft?.route)return;const notice=document.createElement('div');notice.className='context-recovery';notice.dataset.contextRecovery='';notice.innerHTML='<span>Unfinished changes are available.</span><button class="btn small">Resume editing</button>';notice.querySelector('button').onclick=pathContextRestoreDraft;document.body.appendChild(notice);}catch{}
@@ -120,21 +334,32 @@ pathContextRecoveryNotice();
 function pathContextGlyph(name){const paths={edit:'M4 20l4-1L20 7l-3-3L5 16z M14 7l3 3',reverse:'M3 8h17l-4-4 M21 16H4l4 4',line:'M4 12h16',arrow:'M4 12h16l-5-5 M20 12l-5 5',delete:'M4 7h16 M9 7V4h6v3 M6 7l1 14h10l1-14 M10 10v8 M14 10v8',done:'M4 12l5 5L20 6',more:'M5 12h1 M11 12h1 M17 12h1'};return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${paths[name]||paths.more}"/></svg>`;}
 const pathContextEdgeActionsBefore=canvasMountEdgeActions;
 canvasMountEdgeActions=function(){pathContextEdgeActionsBefore();const bar=document.querySelector('.canvas-edge-actions');if(!bar)return;bar.querySelector('span')?.remove();const labels={edit:'Edit label and endpoints',reverse:'Reverse direction',type:'Toggle arrow / line',delete:'Delete connection · Undo available'};bar.querySelectorAll('button').forEach(b=>{const action=b.dataset.edgeAction;b.title=labels[action];b.setAttribute('aria-label',labels[action]);b.innerHTML=pathContextGlyph(action==='type'?'arrow':action);});};
-let pathContextQuickTarget=null;
-function pathContextQuickClose(){document.querySelector('.path-quick-actions')?.remove();pathContextQuickTarget=null;}
+let pathContextQuickTarget=null,pathContextQuickSource=null;
+function pathContextQuickClose(restore=false){document.querySelector('.path-quick-actions')?.remove();pathContextQuickTarget=null;if(restore){if(pathContextQuickSource?.isConnected)pathContextQuickSource.focus({preventScroll:true});else calendarRestoreFocus(calendarFocusIdentity(pathContextQuickSource));}pathContextQuickSource=null;}
 function pathContextQuickShow(element){
  if(editor&&!closeEditor())return;pathContextQuickClose();const d=element.dataset;let target;
- if(d.event){const item=data.events.find(x=>x.id===d.event);if(!item)return;target={edit:()=>modalEvent(item.id),done:()=>{if(item.done)mutate(()=>{item.done=false;});else completeCalendarOccurrence(item.id);},remove:()=>mutate(()=>{data.events=data.events.filter(x=>x.id!==item.id);})};}
+ if(d.event){const linkedId=d.event.startsWith('task-deadline:')?d.event.slice(14):null,linked=linkedId?findTask(linkedId):null;
+ const item=data.events.find(x=>x.id===d.event)||(linked?{id:d.event,type:'deadline',title:linked.task.title}:null);if(!item)return;
+ target={edit:()=>modalEvent(item.id),move:()=>{modalEvent(item.id);(document.querySelector('#editor-form [name=time]:not(:disabled)')||document.querySelector('#editor-form [name=date]:not(:disabled)'))?.focus();},remove:()=>{modalEvent(item.id);document.querySelector('[data-context-delete]')?.click();}};
+ if(!['free_time','deadline'].includes(item.type))target.done=()=>{if(item.done)mutate(()=>{item.done=false;});else completeCalendarOccurrence(item.id);};
+ target.doneLabel=item.done?'Reopen':'Mark complete';target.deleteLabel=linkedId?'Remove task deadline':item.seriesId?'Delete this occurrence':'Delete · Undo available';
+ }
+ else if(d.calendarSlot){target={rest:()=>openCalendarSourceDraft({type:'free_time'},d.calendarSlot,Number(d.minute))};}
  else if(d.taskDrag||d.taskEdit){const record=findTask(d.taskDrag||d.taskEdit);if(!record)return;target={edit:()=>{projectId=record.project?.id||projectId;modalTask(record.task.status,record.task.id);},done:()=>mutate(()=>{record.task.status=taskComplete(record.task)?'planned':'done';record.task.progress=record.task.status==='done'?100:0;}),remove:()=>mutate(()=>{for(const p of data.projects)p.tasks=p.tasks.filter(t=>t.id!==record.task.id);})};}
  else if(d.habitEdit){target={edit:()=>editHabit(d.habitEdit)};}
  else return;
- pathContextQuickTarget=target;const bar=document.createElement('div');bar.className='path-quick-actions';bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Quick actions');
- for(const [key,label] of [['edit','Edit'],['done','Toggle completion'],['remove','Delete · Undo available']])if(target[key]){const b=document.createElement('button');b.type='button';b.title=label;b.setAttribute('aria-label',label);b.innerHTML=pathContextGlyph(key==='remove'?'delete':key);b.onclick=()=>{const fn=target[key];pathContextQuickClose();fn();};bar.appendChild(b);}
+ pathContextQuickTarget=target;pathContextQuickSource=element;const bar=document.createElement('div');bar.className='path-quick-actions';bar.setAttribute('role','toolbar');bar.setAttribute('aria-label','Quick actions');
+ const add=(key,label,action)=>{const b=document.createElement('button');b.type='button';b.title=pathT(label);b.setAttribute('aria-label',pathT(label));b.innerHTML=pathContextGlyph(key);b.onclick=action;bar.appendChild(b);};
+ const act=key=>{const fn=target[key];pathContextQuickClose(true);fn();};
+ if(target.rest){add('edit','Free Time',()=>act('rest'));bar.lastElementChild.append(document.createTextNode(pathT('Free Time')));}else add('edit','Edit',()=>act('edit'));if(target.done)add('done',target.doneLabel||'Toggle completion',()=>act('done'));
+ if(target.remove)add('more','More',()=>{bar.replaceChildren();if(target.move)add('edit','Move / change time',()=>act('move'));add('delete',target.deleteLabel||'Delete · Undo available',()=>act('remove'));bar.querySelector('button')?.focus();});
  document.body.appendChild(bar);const r=element.getBoundingClientRect();pathContextAnchor=r;const pos=calendarQuickPosition(r,bar.offsetWidth,bar.offsetHeight,{width:window.innerWidth,height:window.innerHeight});bar.style.left=pos.left+'px';bar.style.top=pos.top+'px';bar.querySelector('button')?.focus();PathMotion.play(bar,[{opacity:0,transform:'scale(.96)'},{opacity:1,transform:'scale(1)'}],{duration:220});
 }
-document.addEventListener('contextmenu',e=>{const item=e.target.closest('[data-event],[data-task-drag],[data-task-edit],[data-habit-edit]');if(!item)return;e.preventDefault();pathContextQuickShow(item);});
+window.addEventListener('keydown',e=>{if(e.key==='ContextMenu'||e.key==='F10'&&e.shiftKey){const item=e.target.closest('[data-event],[data-calendar-slot]');if(item){e.preventDefault();e.stopImmediatePropagation();pathContextQuickShow(item);}}},true);
+window.addEventListener('click',e=>{const more=e.target.closest('[data-calendar-quick]');if(!more)return;e.preventDefault();e.stopImmediatePropagation();const source=more.closest('.calendar-agenda-row')?.querySelector('[data-event]');if(source)pathContextQuickShow(source);},true);
+document.addEventListener('contextmenu',e=>{const item=e.target.closest('[data-event],[data-calendar-slot],[data-task-drag],[data-task-edit],[data-habit-edit]');if(!item)return;e.preventDefault();pathContextQuickShow(item);});
 window.addEventListener('pointerdown',e=>{if(!e.target.closest('.path-quick-actions'))pathContextQuickClose();if(noteDetailsOpen&&!e.target.closest('.note-details,[data-note-details-toggle]')){if(!flushNote()){e.preventDefault();e.stopImmediatePropagation();return;}noteDetailsOpen=false;document.querySelector('.note-details')?.remove();}},true);
-window.addEventListener('keydown',e=>{if(e.key==='Escape')pathContextQuickClose();},true);
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&pathContextQuickTarget){e.preventDefault();e.stopImmediatePropagation();pathContextQuickClose(true);}},true);
 // A compact details popover leaves the long document workspace intact.
 const pathContextNotesBefore=notesPage;
 notesPage=function(){return pathContextNotesBefore().replace('with-note-details ','');};
@@ -149,8 +374,7 @@ saveCanvasNoteDraft=function(){if(canvasNoteDraft?.dirty)pathKeepTextDraft('path
 document.addEventListener('input',e=>{if(e.target.closest('.note-document')&&noteDraft)pathKeepTextDraft('path2-note-editor-draft',noteDraft);if(e.target.closest('.canvas-inline-editor')&&canvasNoteDraft)pathKeepTextDraft('path2-canvas-text-draft',canvasNoteDraft);});
 function pathTextRecovery(){for(const [key,label] of [['path2-note-editor-draft','Resume note'],['path2-canvas-text-draft','Resume Canvas text']]){let saved;try{saved=JSON.parse(localStorage.getItem(key));}catch{}if(!saved)continue;const button=document.createElement('button');button.className='btn context-text-recovery';button.textContent=label;button.onclick=()=>{if(editor&&!closeEditor())return;if(key==='path2-note-editor-draft'){view='notes';noteDraft=saved;noteDirty=true;selectedNote=saved.id;noteKind=saved.kind;}else{view='canvas';canvasId=saved.boardId;canvasNoteDraft=saved;}render();button.remove();};document.body.appendChild(button);}}
 pathTextRecovery();
-const pathContextEventButtonBefore=calendarEventButton;
-calendarEventButton=function(event,...args){let html=pathContextEventButtonBefore(event,...args);if(event.eventIcon)html=html.replace('<strong>',`<strong><span class="context-event-icon">${icon(event.eventIcon,12)}</span> `);return html;};
+// Custom eventIcon stays in the editor; calendar cards use the semantic type icon.
 // Reminders are local, in-app notifications; no browser permission is requested.
 const pathContextReminded=new Set();
 setInterval(()=>{for(const event of data.events){if(!event.reminderMinutes||event.done||event.type==='deadline'||pathContextReminded.has(event.id))continue;try{const ms=pathEventTiming(event).start-Date.now();if(ms>=0&&ms<=event.reminderMinutes*60000){pathContextReminded.add(event.id);toast('Upcoming: '+event.title+' · '+clockTime(event.hour));}}catch{}}},30000);
@@ -183,8 +407,8 @@ document.addEventListener('change',e=>{if(workoutDraft&&e.target.closest('.worko
 document.addEventListener('click',e=>{if(editor?.taskDetails&&e.target.closest('[data-subtask-add],[data-subtask-remove]')){editor.contextDirty=true;pathContextRemember();clearTimeout(pathContextTimer);pathContextTimer=setTimeout(pathContextFlush,650);}});
 function pathContextClosingVisual(){
  const box=document.querySelector('#editor-overlay .editor');if(!box||reducedPortraitMotion())return;
- const rect=box.getBoundingClientRect(),ghost=box.cloneNode(true);ghost.className='context-closing-visual';ghost.inert=true;ghost.setAttribute('aria-hidden','true');ghost.removeAttribute('role');ghost.querySelectorAll('[id]').forEach(x=>x.removeAttribute('id'));
- Object.assign(ghost.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});document.body.appendChild(ghost);PathMotion.play(ghost,[{opacity:1,transform:'scale(1)'},{opacity:0,transform:'translateY(4px) scale(.98)'}],{duration:160});setTimeout(()=>ghost.remove(),180);
+ const rect=box.getBoundingClientRect(),ghost=box.cloneNode(true);ghost.className='context-closing-visual';ghost.inert=true;ghost.setAttribute('aria-hidden','true');ghost.removeAttribute('role');for(const el of [ghost,...ghost.querySelectorAll('*')])for(const attr of el.getAttributeNames())if(attr==='id'||attr==='name'||attr.startsWith('data-'))el.removeAttribute(attr);
+ Object.assign(ghost.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});document.body.appendChild(ghost);PathMotion.play(ghost,[{opacity:1},{opacity:0}],{duration:120});setTimeout(()=>ghost.remove(),180);
 }
 function pathContextOpenNoteTask(noteId,taskId){
  const projects=data.projects.filter(p=>!p.archived);if(!projects.length)return false;
@@ -192,7 +416,7 @@ function pathContextOpenNoteTask(noteId,taskId){
  editor.contextRoute={name:'noteTask',args:[noteId,taskId],projectId,canvasId};return true;
 }
 const pathContextCloseFocusBefore=closeEditor;
-closeEditor=function(){const previous=editor?.contextFocus,closingView=view,attrs=previous?.getAttributeNames?.().filter(k=>k.startsWith('data-')).map(k=>[k,previous.getAttribute(k)])||[];const ok=pathContextCloseFocusBefore();if(ok&&attrs.length)setTimeout(()=>{if(editor||view!==closingView)return;const target=[...document.querySelectorAll('button,[tabindex]')].find(el=>attrs.every(([k,v])=>el.getAttribute(k)===v));for(let parent=target?.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;target?.focus({preventScroll:true});},0);return ok;};
+closeEditor=function(){const previous=editor?.contextFocus,calendarFocus=calendarFocusIdentity(previous),closingView=view,attrs=previous?.getAttributeNames?.().filter(k=>k.startsWith('data-')).map(k=>[k,previous.getAttribute(k)])||[];const ok=pathContextCloseFocusBefore();if(ok&&attrs.length)setTimeout(()=>{if(editor||view!==closingView)return;if(calendarFocus){calendarRestoreFocus(calendarFocus);return;}const target=[...document.querySelectorAll('button,[tabindex]')].find(el=>attrs.every(([k,v])=>el.getAttribute(k)===v));for(let parent=target?.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;target?.focus({preventScroll:true});},0);return ok;};
 // A domain callback may repaint its workspace. Keep the active form and caret intact.
 const pathContextWorkspaceRenderBefore=render;
 render=function(...args){

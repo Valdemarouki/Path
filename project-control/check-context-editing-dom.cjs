@@ -15,7 +15,7 @@ function open(saved={}){
 (async()=>{
 let a=open();
 a.run(`pathSystemTimeZone=()=> 'UTC';data=pathEmpty();data.events=[pathStampEvent({id:'e',title:'Existing event',date:'2026-03-29',hour:1.5,duration:120,type:'busy',done:false,tzid:'Europe/Warsaw'})];save();view='calendar';render();modalEvent('e');`);
-assert.equal(a.w.document.querySelector('[name=contextEnd]').value,'04:30','event end must use stored event zone, not the current system zone');
+assert.equal(a.w.document.querySelector('[name=contextEnd]').value,'02:30','event end must use the system display zone while preserving the stored event zone');
 a.input('[name=title]','Changed title');a.w.document.querySelector('[name=title]').dispatchEvent(new a.w.KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));assert.equal(a.run('editor'),null);assert.equal(a.run('data.events[0].duration'),120);assert.equal(a.run('data.events[0].title'),'Changed title');
 a.run(`modalEvent('e');`);a.input('[name=title]','');
 const outside=a.w.document.createElement('button');outside.textContent='Outside action';a.w.document.body.appendChild(outside);let activations=0;outside.addEventListener('click',()=>activations++);

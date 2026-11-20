@@ -223,13 +223,17 @@ async function run(){
   phase='single canonical Calendar event and move';await openTemplate(templateId);
   await click('[data-sport-editor-schedule]');assert.equal(await page.locator('#sport-library-search').count(),0);
   assert.equal((await state()).events.length,0);
-  await fill('#sport-plan-date','2026-11-13');await fill('#sport-plan-time','18:00');await click('[data-sport-plan-confirm]');
+  const scheduleDay=await read('pathToday()'), firstDay=await read('addDays(pathToday(),1)');
+  await fill('#sport-plan-date',firstDay);await fill('#sport-plan-time','18:00');await click('[data-sport-plan-confirm]');
   s=await state();assert.equal(s.events.length,1);const eventId=s.events[0].id;
   assert.equal(s.events[0].workoutTemplateId,templateId);assert(s.events[0].plannedSnapshot);
-  await click('[data-sport-plan-move="'+eventId+'"]');await fill('#sport-plan-date','2026-11-14');await fill('#sport-plan-time','19:15');
-  await click('[data-sport-plan-confirm]');s=await state();assert.equal(s.events.length,1);assert.equal(s.events[0].id,eventId);assert.equal(s.events[0].date,'2026-11-14');assert.equal(s.events[0].hour,19.25);
+  await click('[data-sport-plan-move="'+eventId+'"]');await fill('#sport-plan-date',scheduleDay);await fill('#sport-plan-time','19:15');
+  await click('[data-sport-plan-confirm]');s=await state();assert.equal(s.events.length,1);assert.equal(s.events[0].id,eventId);assert.equal(s.events[0].date,scheduleDay);assert.equal(s.events[0].hour,19.25);
   await page.locator('.sport-heading').first().scrollIntoViewIfNeeded();await shot('1366-en-schedule-created');await closeBuilder();
-  await click('[data-nav="calendar"]');assert(await page.locator('[data-event="'+eventId+'"]').count());await uiSport();
+  await click('[data-nav="calendar"]');assert.equal(await page.locator('.calendar-actions .calendar-icon-action').count(),6);
+  await click('[data-event="'+eventId+'"]');
+  assert.equal(await visible('#editor-form [name="title"]').inputValue(),s.events[0].title);
+  await click('[data-context-done]');await uiSport();
   pass('Schedule replaces library and creates one canonical Calendar event; retime retains its event ID');
 
   phase='single active session and actual typed results';

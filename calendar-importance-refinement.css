@@ -12,3 +12,39 @@
 .context-importance-picker{display:flex;gap:7px}.context-importance-picker button{width:38px;min-height:36px}.context-importance-picker button[aria-pressed=true]{border-color:#dedfe0;background:#3c3e40;color:#fff}
 body[data-ui-motion=off] .cal-entry[data-importance],body[data-ui-motion=off] .cal-entry[data-importance]::before{transition:none}
 @media(prefers-reduced-motion:reduce){.cal-entry[data-importance],.cal-entry[data-importance]::before{transition:none!important}}
+
+/* Readable event anatomy and presentation-only density targets. */
+.calendar-timegrid .cal-entry,.calendar-month .cal-entry{padding:4px 6px;border-radius:6px;font-size:13px;line-height:18px;color:#f3f3f3}
+.cal-entry strong{display:flex;align-items:center;gap:3px;min-width:0;font-size:13px;line-height:18px;font-weight:500}
+.calendar-event-title{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;line-height:18px}
+.calendar-two-lines .calendar-event-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;overflow-wrap:anywhere}
+.calendar-type-icon{width:14px;height:14px;flex:none;vertical-align:middle}
+.calendar-importance-glyph{flex:none;font-size:12px;line-height:16px}
+.calendar-timegrid .cal-entry small,.calendar-month .cal-entry small{display:block;font-size:12px;line-height:16px;color:#b3b5b9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.calendar-timegrid .cal-entry.completed,.calendar-month .cal-entry.completed{opacity:1;color:#d9dadd}
+.cal-entry[data-importance].completed strong{text-decoration:none}
+.cal-entry[data-importance]::before{box-shadow:none}
+.calendar-disclosure{position:absolute;box-sizing:border-box;padding:4px 8px;border:1px solid #828489;border-radius:4px;background:#282a2e;color:#f3f3f3;text-align:left;overflow:hidden;z-index:2}
+.calendar-disclosure strong,.calendar-disclosure small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.calendar-disclosure strong{font-size:13px;line-height:18px;font-weight:500}
+.calendar-disclosure small{font-size:12px;line-height:16px;color:#b3b5b9}
+.calendar-exact-tick{position:absolute;left:0;width:6px;border-left:2px solid #f3f3f3;border-top:2px solid #f3f3f3;border-bottom:2px solid #f3f3f3;z-index:3;pointer-events:none;box-sizing:border-box}
+.calendar-disclosure:focus-visible,.calendar-deadline-more:focus-visible,.calendar-density-list button:focus-visible{outline:2px solid #f3f3f3;outline-offset:2px;z-index:6}
+.calendar-deadline-strip{max-height:none;overflow:visible}
+.calendar-deadline-strip .calendar-deadline{min-height:32px;padding:5px 6px}
+.calendar-deadline-strip .calendar-deadline small{display:none}
+.calendar-deadline-strip .calendar-event-title{white-space:nowrap}
+.calendar-deadline-more{min-height:32px;background:#242629;border:1px solid #828489;border-radius:4px;color:#f3f3f3;font-size:12px}
+.calendar-density-list{position:fixed;z-index:100;inset:12px 12px auto auto;width:min(520px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;background:#1c1d20;color:#f3f3f3;border:1px solid #828489;border-radius:6px;padding:16px;box-sizing:border-box;box-shadow:0 12px 40px #0008}
+.calendar-density-list header{display:flex;align-items:center;gap:12px}
+.calendar-density-list h2{font-size:16px;line-height:24px;font-weight:500;flex:1;margin:0}
+.calendar-density-list .calendar-agenda-item{min-height:48px;padding:12px 0}
+.calendar-density-list .calendar-agenda-item strong{font-size:13px;line-height:18px;overflow-wrap:anywhere}
+.calendar-density-list .calendar-agenda-item small{font-size:12px;line-height:16px;color:#b3b5b9;overflow-wrap:anywhere}
+.calendar-custom-art{display:inline-block;margin-top:6px}
+.calendar-title-preview{position:fixed;z-index:125;width:min(360px,calc(100vw - 16px));max-height:min(380px,calc(100dvh - 16px));box-sizing:border-box;overflow:auto;padding:10px 12px;background:#1c1d20;color:#f3f3f3;border:1px solid #828489;border-radius:6px;font-size:12px;line-height:18px;overflow-wrap:anywhere;box-shadow:0 6px 24px #0008}
+.calendar-title-preview p{margin:0 0 8px}.calendar-title-preview p:last-child{margin:0}
+
+.calendar-density-metrics{position:absolute;visibility:hidden;pointer-events:none;width:80px;height:0;overflow:hidden}
+.calendar-density-metrics small{font-size:12px;line-height:16px}
+.calendar-agenda-item .calendar-type-icon,.calendar-agenda-item .calendar-importance-glyph{margin-right:4px}

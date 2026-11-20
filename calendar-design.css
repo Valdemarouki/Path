@@ -26,8 +26,9 @@ body[data-page=calendar] .page-intro{margin-bottom:22px}
 .cal-entry.completed{opacity:.65}
 .cal-entry.free-time{border-style:dashed!important;background:#ffffff02!important;color:#adb2b8;box-shadow:none}
 .cal-entry.calendar-importance-high{border-color:#e3e5e4;box-shadow:0 0 9px #ffffff14}
-.calendar-resize{height:7px;background:transparent}
-.cal-entry:hover .calendar-resize{background:#ffffff16}
+.calendar-resize{height:24px;background:transparent}
+.calendar-resize::after{content:"";position:absolute;left:25%;right:25%;bottom:4px;height:4px;border-radius:2px;background:transparent}
+.cal-entry:hover .calendar-resize::after,.cal-entry:focus-visible .calendar-resize::after{background:#ffffff60}
 .calendar-now{position:absolute;left:0;right:0;height:1px;background:#b7d2d4;z-index:4;pointer-events:none;box-shadow:0 0 6px #b7d2d422}
 .calendar-now:before{content:'';position:absolute;left:-3px;top:-2px;width:5px;height:5px;border-radius:50%;background:#c8dfe0}
 .calendar-now span{position:absolute;right:4px;bottom:3px;color:#c8dfe0;font-size:9px;background:#151719d9;padding:1px 3px;border-radius:3px}
@@ -36,7 +37,7 @@ body[data-page=calendar] .page-intro{margin-bottom:22px}
 .calendar-mini-head strong{font-size:12px;font-weight:500}.calendar-mini-head .btn{padding:5px;min-width:28px}
 .calendar-mini-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin-bottom:10px}
 .calendar-mini-grid>*{display:grid;place-items:center;min-height:32px;font-size:11px;border:1px solid transparent;border-radius:7px;background:none;color:#d8dce0}
-.calendar-mini-grid>span{color:#818993;min-height:22px}.calendar-mini-grid .outside{color:#69717c}.calendar-mini-grid .today{border-color:#80888e}.calendar-mini-grid .selected{background:#e6e8e6;color:#17191c}.calendar-mini-grid button:hover{border-color:white}
+.calendar-mini-grid>span{color:#818993;min-height:22px}.calendar-mini-grid .outside{color:#a4aab2}.calendar-mini-grid .today{border-color:#80888e}.calendar-mini-grid .selected{background:#e6e8e6;color:#17191c}.calendar-mini-grid button:hover{border-color:white}
 .calendar-inspector{justify-content:flex-end;align-items:stretch;padding:14px;background:#0005;backdrop-filter:blur(2px)}
 .calendar-inspector .editor{width:min(420px,100%);max-height:100%;height:100%;border-radius:14px;background:#181a1d;border-color:#45494f;box-shadow:-20px 0 70px #0005}
 .calendar-inspector .editor-head{position:sticky;top:0;z-index:2;background:#181a1d;border-bottom:1px solid #ffffff10;padding-bottom:18px}
@@ -45,3 +46,14 @@ body[data-page=calendar] .page-intro{margin-bottom:22px}
 .calendar-inspector .field input,.calendar-inspector .field select,.calendar-inspector .field textarea{background:#101214;border-color:#353a40;border-radius:8px;font-size:13px}
 .calendar-inspector .editor-actions{position:sticky;bottom:0;background:#181a1d;padding:16px 0 4px;border-top:1px solid #ffffff12;flex-wrap:wrap}
 @media(max-width:650px){body[data-page=calendar] .app-main{padding-right:14px}.calendar-toolbar{padding:10px}.calendar-range{font-size:16px}.calendar-help{min-width:0}.calendar-mini-picker{left:8px;top:105px;width:min(304px,calc(100% - 16px))}.calendar-inspector{padding:6px}.calendar-scroll{max-height:65vh}.calendar-v2{overflow:hidden}}
+
+/* Only the pointer-transparent ring paints above events. The slot itself must
+   not create a stacking context or cover event click/drag/resize targets. */
+.calendar-slot:focus-visible{position:relative;outline:none;background:#ffffff18;z-index:auto}
+.calendar-slot:focus-visible::after{content:"";position:absolute;inset:-1px 0 0;outline:2px solid #f3f3f3;outline-offset:-2px;z-index:3;pointer-events:none}
+.calendar-mini-grid button:focus-visible,.calendar-agenda-item:focus-visible,[data-calendar-context-date]:focus-visible{outline:2px solid #f3f3f3;outline-offset:-3px}
+.calendar-mini-grid span{min-width:0;font-size:11px;text-align:center}
+.calendar-context-control{display:flex;flex-wrap:wrap;gap:8px}
+.calendar-agenda-item small{white-space:normal;overflow-wrap:anywhere}
+.calendar-agenda-item time{flex:none;white-space:nowrap}
+.calendar-mini-grid .selected:focus-visible,.month-date.selected-day:focus-visible{outline-color:#17191c}

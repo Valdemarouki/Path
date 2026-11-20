@@ -7,6 +7,13 @@ function setup(system='en-US',saved=null){const dom=new JSDOM('<body><div id="ap
 for(const [system,expected]of [['ru-RU','ru'],['RU_ru','ru'],['pl-PL','pl'],['es-MX','es'],['es-ES','es'],['en-US','en'],['de-DE','en'],['uk-UA','en']]){const d=setup(system);assert.equal(d.window.eval('pathLanguage()'),expected);d.window.close();}
 for(const lang of ['en','ru','pl','es']){const d=setup('ru-RU',lang);assert.equal(d.window.eval('pathLanguage()'),lang);d.window.close();}
 for(const [key,row] of Object.entries(translations)){const tokens=x=>(x.match(/\{\w+\}/g)||[]).sort();for(const value of row)assert.deepEqual(tokens(value),tokens(key),key);}
+// Recovery status translates its application prefix and preserves unknown diagnostics verbatim.
+for(const [lang,prefix]of [['en','Not saved.'],['ru','Не сохранено.'],['pl','Nie zapisano.'],['es','No guardado.']]){
+ const d=setup('en-US',lang),run=s=>d.window.eval('pathT('+JSON.stringify(s)+')');
+ assert.equal(run('Not saved. '),prefix+' ');
+ assert.equal(run('Not saved. Synthetic $& <quota>'),prefix+' Synthetic $& <quota>');
+ d.window.close();
+}
 const d=setup('ru-RU'),w=d.window;
 for(const [key,row] of Object.entries(translations)){if(!key.includes('{name}'))continue;const value=key.replace('{name}', ()=>'My $& project');const actual=w.eval('pathT('+JSON.stringify(value)+')');assert(actual.includes('My $& project'),key);}
 assert.notEqual(w.eval('pathT("No great thing is created suddenly.")'),'No great thing is created suddenly.');
