@@ -19,7 +19,7 @@
 .calendar-quick-card strong{font-size:12px;font-weight:500}.calendar-quick-card small{margin-left:auto;color:#8c939b;font-size:10px;white-space:nowrap}.calendar-quick-card:hover{background:#2a2e31;border-color:#ffffff45}.calendar-quick-hint{font-size:10px;color:#90969c;margin:12px 0 0}
 @media(max-width:850px){.calendar-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.calendar-quick-card{flex-wrap:wrap}}
 .calendar-drop-target{background:#d9e5df30!important;outline:1px solid #d9e5df;outline-offset:-1px}
-.calendar-quick-card[draggable=true]{cursor:grab}.calendar-quick-card:active{cursor:grabbing}
+.calendar-quick-card[data-calendar-template]{cursor:grab;user-select:none}.calendar-quick-card:active{cursor:grabbing}
 .calendar-unscheduled h2{font:400 21px Georgia,serif;margin:0}.calendar-unscheduled h2 small{font:11px Manrope,sans-serif;color:#92999f;margin-left:8px}
 .calendar-unscheduled .calendar-quick-grid{max-height:260px;overflow:auto}.calendar-unscheduled .calendar-quick-card{min-width:0}.calendar-unscheduled strong{overflow-wrap:anywhere}.calendar-source-project{display:block;font-size:10px;color:#969da4;margin-top:4px}
 
@@ -36,3 +36,12 @@
 .pulse-calendar-check svg{transform-origin:center}
 .calendar-charge-static .calendar-charge{display:none}
 @media(prefers-reduced-motion:reduce){.calendar-wave-layer{display:none}}
+
+.calendar-quick-card.calendar-drag-source {opacity:.5;cursor:grabbing}
+.calendar-drag-preview {
+ position:fixed;top:0;left:0;z-index:120;pointer-events:none;user-select:none;
+ flex-wrap:wrap;overflow:hidden;background:#292b2e;border-color:#ffffff58;
+ box-shadow:0 6px 18px #0005;opacity:.94;
+ transition:transform 85ms ease-out;
+}
+.calendar-drag-preview strong {overflow-wrap:anywhere}

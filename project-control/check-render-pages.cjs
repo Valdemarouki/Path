@@ -2,7 +2,7 @@
 // The recurrence fixture below targets the Warsaw 02:30 DST gap explicitly.
 process.env.TZ="Europe/Warsaw";
 const fs=require('fs'),vm=require('vm'),assert=require('assert'),path=require('path');const root=path.resolve(__dirname,'..');
-const element=()=>({dataset:{},style:{setProperty:()=>{}},classList:{add:()=>{},remove:()=>{},toggle:()=>{}},appendChild:()=>{},addEventListener:()=>{},remove:()=>{},querySelector:()=>null,querySelectorAll:()=>[],getBoundingClientRect:()=>({width:1000,height:800}),setAttribute:()=>{},innerHTML:'',scrollLeft:0,scrollTop:0});const app=element();
+const element=()=>({dataset:{},style:{setProperty:()=>{}},classList:{add:()=>{},remove:()=>{},toggle:()=>{},contains:()=>false},appendChild:()=>{},addEventListener:()=>{},remove:()=>{},querySelector:()=>null,querySelectorAll:()=>[],getBoundingClientRect:()=>({width:1000,height:800}),setAttribute:()=>{},innerHTML:'',scrollLeft:0,scrollTop:0});const app=element();
 const doc={body:element(),documentElement:element(),hidden:false,hasFocus:()=>true,querySelector:sel=>['#app','#toast'].includes(sel)?app:null,querySelectorAll:()=>[],getElementById:()=>null,createElement:element,addEventListener:()=>{}};
 const motionListeners={};doc.addEventListener=(type,fn)=>{(motionListeners[type]??=[]).push(fn);};
 const memory=new Map();
