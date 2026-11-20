@@ -219,9 +219,9 @@ assert.equal(c.calendarNowPosition(Date.parse('2026-10-25T00:30:00Z')).minute,15
 assert.equal(c.calendarNowPosition(Date.parse('2026-10-25T01:30:00Z')).minute,150);
 assert.equal(c.calendarNowPosition(Date.parse('2026-10-26T23:30:00Z')).date,'2026-10-27');
 console.log('PASS mini-calendar leap-day coverage and Warsaw Now position across DST and midnight.');
-assert.equal(c.calendarPulseVector(320,0),null);assert.equal(c.calendarPulseVector(0,0),null);
-assert(c.calendarPulseVector(40,0).x>c.calendarPulseVector(120,0).x);
-assert(c.calendarPulseVector(40,0).delay<c.calendarPulseVector(120,0).delay);
+assert.equal(c.pathPulseVector(560,0),null);assert.equal(c.pathPulseVector(0,0),null);
+assert(c.pathPulseVector(40,0).x>c.pathPulseVector(400,0).x);
+assert(c.pathPulseVector(40,0).delay<c.pathPulseVector(120,0).delay);
 assert.equal(c.calendarCanComplete({type:'free_time',done:false}),false);
 assert.equal(c.calendarCanComplete({type:'busy',done:true}),false);
 vm.runInContext(`data.events=[{id:'pulse-test',title:'Pulse',date:homeDate,hour:10,duration:60,type:'busy',done:false}];`,c);

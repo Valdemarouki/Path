@@ -32,7 +32,7 @@
 .calendar-gesture-time{min-width:56px;padding:3px 9px;border-color:#696b6d;border-radius:8px;background:#2a2b2d;color:#e1e1df;text-align:center;font-variant-numeric:tabular-nums;white-space:nowrap}
 .calendar-timegrid .timegrid-body{position:relative}
 .calendar-wave-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:7;border-radius:inherit}
-.calendar-wave-ring{position:absolute;width:320px;height:320px;border:1px solid #e7ece966;border-radius:50%;pointer-events:none}
+.calendar-wave-ring{position:absolute;box-sizing:border-box;background:radial-gradient(circle closest-side,transparent 83%,#eeeef214 98%,#eeeef240);border:2px solid #ececf0bf;border-radius:50%;pointer-events:none}
 .pulse-calendar-check{display:inline-flex;flex:none}
 .pulse-calendar-check svg{transform-origin:center}
 .calendar-charge-static .calendar-charge{display:none}

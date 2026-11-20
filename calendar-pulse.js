@@ -8,29 +8,49 @@ function calendarAnimate(el,frames,options){
  const a=el.animate(frames,{fill:'none',...options});calendarMotion.animations.add(a);
  a.onfinish=a.oncancel=()=>calendarMotion.animations.delete(a);return a;
 }
-function calendarPulseVector(dx,dy){const distance=Math.hypot(dx,dy);if(!distance||distance>160)return null;const strength=2*(1-distance/160);return {x:dx/distance*strength,y:dy/distance*strength,delay:distance/2};}
 function calendarPulse(id){
  calendarStopMotion();if(view!=='calendar'||reducedPortraitMotion()||document.hidden)return;
  const grid=document.querySelector('.calendar-timegrid .timegrid-body');if(!grid)return;
- const source=[...grid.querySelectorAll('.cal-entry:not(.calendar-deadline)')].find(el=>el.dataset.event===id);if(!source)return;
- const r=source.getBoundingClientRect(),clip=source.closest('.calendar-scroll')?.getBoundingClientRect();
- if(!r.width||!r.height||clip&&(r.bottom<=clip.top||r.top>=clip.bottom))return;
- const cx=r.left+r.width/2,cy=r.top+r.height/2,date=source.closest('[data-grid-date]').dataset.gridDate;
+ const cards=Array.from(grid.querySelectorAll('.cal-entry:not(.calendar-deadline),.calendar-disclosure'));
+ const clip=grid.closest('.calendar-scroll')?.getBoundingClientRect();
+ const visible=r=>r.width&&r.height&&(!clip||(r.bottom>clip.top&&r.top<clip.bottom&&r.right>clip.left&&r.left<clip.right));
+ const source=cards.find(card=>card.dataset.event===id&&visible(card.getBoundingClientRect()));
+ if(!source)return;
+ const r=source.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+ const bounds=grid.getBoundingClientRect(),config=PATH_PULSE_360_CONFIG;
+ const neighbors=[];
+ for(const card of cards){
+  if(card===source)continue;
+  const box=card.getBoundingClientRect();if(!visible(box))continue;
+  const impulse=pathPulseVector(box.left+box.width/2-cx,box.top+box.height/2-cy);
+  if(impulse)neighbors.push({card,impulse});
+ }
  const check=source.querySelector('.pulse-calendar-check svg');
  calendarAnimate(check,PATH_MOTION_CONFIG.checkmark.scaleFrames.map((s,i)=>({transform:`scale(${s}) rotate(${[-9,2,-1,.5,0][i]}deg)`,opacity:i?1:0,offset:PATH_MOTION_CONFIG.checkmark.keyframeOffsets[i]})),{duration:565,easing:'linear'});
- calendarAnimate(source,[{opacity:1},{opacity:.75,offset:.2},{opacity:1}],{duration:850,easing:'ease-out'});
- const bounds=grid.getBoundingClientRect(),layer=document.createElement('span'),ring=document.createElement('span');
- layer.className='calendar-wave-layer';layer.setAttribute('aria-hidden','true');ring.className='calendar-wave-ring';ring.style.left=cx-bounds.left+'px';ring.style.top=cy-bounds.top+'px';layer.appendChild(ring);grid.appendChild(layer);calendarMotion.layers.add(layer);
- const wave=calendarAnimate(ring,[{transform:'translate(-50%,-50%) scale(.02)',opacity:0},{transform:'translate(-50%,-50%) scale(.2)',opacity:.4,offset:.15},{transform:'translate(-50%,-50%) scale(1)',opacity:0}],{duration:850,easing:'cubic-bezier(.16,1,.3,1)'});
+ calendarAnimate(source,[
+  {scale:'.94',boxShadow:'inset 0 0 0 2px #ffffff90'},
+  {scale:'1.045',boxShadow:'inset 0 0 18px #ffffff35',offset:.16},
+  {scale:'1',boxShadow:'inset 0 0 0 0 #ffffff00'}
+ ],{duration:config.centralReturnMs,easing:'cubic-bezier(.2,.75,.3,1)'});
+ const layer=document.createElement('span'),ring=document.createElement('span');
+ layer.className='calendar-wave-layer';layer.setAttribute('aria-hidden','true');
+ ring.className='calendar-wave-ring';ring.style.width=ring.style.height=config.radiusPx*2+'px';
+ ring.style.left=cx-bounds.left+'px';ring.style.top=cy-bounds.top+'px';
+ layer.appendChild(ring);grid.appendChild(layer);calendarMotion.layers.add(layer);
+ const wave=calendarAnimate(ring,[
+  {transform:'translate(-50%,-50%) scale(.03)',opacity:.9},
+  {transform:'translate(-50%,-50%) scale(.6)',opacity:.48,offset:.40},
+  {transform:'translate(-50%,-50%) scale(1)',opacity:0}
+ ],{duration:config.centralReturnMs,easing:'linear'});
  if(wave)wave.onfinish=()=>{calendarMotion.animations.delete(wave);calendarMotion.layers.delete(layer);layer.remove();};
- let count=0;
- for(const day of grid.querySelectorAll('[data-grid-date]')){
-  if(Math.abs(Date.parse(day.dataset.gridDate)-Date.parse(date))>86400000)continue;
-  for(const card of day.querySelectorAll('.cal-entry:not(.calendar-deadline)')){
-   if(card===source||count>=24)continue;const b=card.getBoundingClientRect();if(!b.width||!b.height)continue;
-   const v=calendarPulseVector(b.left+b.width/2-cx,b.top+b.height/2-cy);if(!v)continue;count++;
-   calendarAnimate(card,[{translate:'0px 0px'},{translate:`${v.x}px ${v.y}px`,offset:.2},{translate:'0px 0px'}],{duration:600,delay:v.delay,easing:'ease-out'});
-  }
+ // Prioritize the nearest visible cards even on a dense week.
+ neighbors.sort((a,b)=>a.impulse.delay-b.impulse.delay);
+ for(const {card,impulse} of neighbors.slice(0,24)){
+  calendarAnimate(card,[
+   {translate:'0px 0px',easing:'cubic-bezier(.15,.75,.3,1)'},
+   {translate:`${impulse.x}px ${impulse.y}px`,offset:.19,easing:'cubic-bezier(.25,.7,.25,1)'},
+   {translate:'0px 0px'}
+  ],{duration:config.neighborReturnMs,delay:impulse.delay});
  }
 }
 function completeCalendarOccurrence(id){

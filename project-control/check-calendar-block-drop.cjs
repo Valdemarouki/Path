@@ -57,6 +57,15 @@ async function run(){
   assert.deepEqual(await events(),before);
   await page.evaluate(()=>{view='calendar';calendarMode='week';homeDate='2026-11-20';render();});
   await card.scrollIntoViewIfNeeded();
+  // Exercise the impulse both along the timeline and across weekday columns.
+  const neighbor=before.find(e=>e.type==='focus'&&!e.taskId);
+  const across=await page.evaluate(({id,day})=>{
+   const event=pathStampEvent({...data.events.find(e=>e.id===id),id:uid(),date:addDays(day,1)});
+   data.events.push(event);save();render();return event.id;
+  },{id:added.id,day});
+  const cardFor=id=>page.locator(`[data-calendar-drag="${id}"]`);
+  const below=cardFor(neighbor.id),right=cardFor(across);
+  const belowStart=await below.boundingBox(),rightStart=await right.boundingBox();
   const r=await card.boundingBox();
   await page.mouse.move(r.x+15,r.y+10);await page.mouse.down();
   try{
@@ -69,6 +78,25 @@ async function run(){
    assert(offset<2,'wave must start on the held card after scrolling, offset '+offset);
   }finally{await page.mouse.up();}
   assert((await events()).find(e=>e.id===added.id).done);
+  const delta=await page.evaluate(async({belowId,rightId,belowY,rightX})=>{
+   const box=id=>document.querySelector(`[data-calendar-drag="${id}"]`).getBoundingClientRect();
+   const start=performance.now();let vertical=0,horizontal=0;
+   do{
+    vertical=Math.max(vertical,box(belowId).y-belowY);
+    horizontal=Math.max(horizontal,box(rightId).x-rightX);
+    await new Promise(requestAnimationFrame);
+   }while(performance.now()-start<1550);
+   return {vertical,horizontal};
+  },{belowId:neighbor.id,rightId:across,belowY:belowStart.y,rightX:rightStart.x});
+  assert(delta.vertical>10&&delta.horizontal>10,'visible outward movement in both axes: '+JSON.stringify(delta));
+  assert(Math.abs((await below.boundingBox()).y-belowStart.y)<1);
+  assert(Math.abs((await right.boundingBox()).x-rightStart.x)<1);
+  assert.equal(await page.locator('.calendar-wave-layer').count(),0);
+  console.log('Measured peak displacement (CSS px)',delta);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await right.focus();await page.keyboard.press('Shift+Enter');
+  assert((await events()).find(e=>e.id===across).done);
+  assert.equal(await page.locator('.calendar-wave-layer').count(),0);
   assert.deepEqual(errors,[]);
   console.log('PASS pointer drops, conflict, task link, date-only deadline, persistent grid and scrolled completion wave.');
  }finally{await browser.close();}
