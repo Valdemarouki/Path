@@ -29,12 +29,7 @@ body[data-ui-motion=off] .cal-entry[data-importance],body[data-ui-motion=off] .c
 .calendar-disclosure strong{font-size:13px;line-height:18px;font-weight:500}
 .calendar-disclosure small{font-size:12px;line-height:16px;color:#b3b5b9}
 .calendar-exact-tick{position:absolute;left:0;width:6px;border-left:2px solid #f3f3f3;border-top:2px solid #f3f3f3;border-bottom:2px solid #f3f3f3;z-index:3;pointer-events:none;box-sizing:border-box}
-.calendar-disclosure:focus-visible,.calendar-deadline-more:focus-visible,.calendar-density-list button:focus-visible{outline:2px solid #f3f3f3;outline-offset:2px;z-index:6}
-.calendar-deadline-strip{max-height:none;overflow:visible}
-.calendar-deadline-strip .calendar-deadline{min-height:32px;padding:5px 6px}
-.calendar-deadline-strip .calendar-deadline small{display:none}
-.calendar-deadline-strip .calendar-event-title{white-space:nowrap}
-.calendar-deadline-more{min-height:32px;background:#242629;border:1px solid #828489;border-radius:4px;color:#f3f3f3;font-size:12px}
+.calendar-disclosure:focus-visible,.calendar-density-list button:focus-visible{outline:2px solid #f3f3f3;outline-offset:2px;z-index:6}
 .calendar-density-list{position:fixed;z-index:100;inset:12px 12px auto auto;width:min(520px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;background:#1c1d20;color:#f3f3f3;border:1px solid #828489;border-radius:6px;padding:16px;box-sizing:border-box;box-shadow:0 12px 40px #0008}
 .calendar-density-list header{display:flex;align-items:center;gap:12px}
 .calendar-density-list h2{font-size:16px;line-height:24px;font-weight:500;flex:1;margin:0}

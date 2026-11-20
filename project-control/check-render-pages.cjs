@@ -419,7 +419,7 @@ assert.equal(vm.runInContext('progressSnapshot(homeDate).plannedMinutes',c),0);
 assert.equal(vm.runInContext('homeEvents().length',c),0);
 vm.runInContext(`calendarMode='week'`,c);
 const deadlineHtml=vm.runInContext('calendarPage()',c);
-assert(deadlineHtml.includes('calendar-deadline-strip'));assert(deadlineHtml.includes('Delivery &lt;deadline&gt;'));
+assert(!deadlineHtml.includes('calendar-deadline-strip'));assert(deadlineHtml.includes('calendar-deadline-marker'));assert(deadlineHtml.includes('Delivery &lt;deadline&gt;'));
 assert(!vm.runInContext('calendarEventButton(data.events[0])',c).includes('data-calendar-drag'));
 assert(!vm.runInContext('calendarEventButton(data.events[0])',c).includes('calendar-resize'));
 vm.runInContext(`calendarMode='month'`,c);assert(vm.runInContext('calendarPage()',c).includes('calendar-deadline'));

@@ -29,9 +29,6 @@ body[data-page=calendar] .date-switch{display:none}.calendar-context-control{dis
 .calendar-quick-popover .editor-actions{margin-top:4px;padding-top:12px;background:transparent}
 .calendar-quick-popover .field input,.calendar-quick-popover .field select{padding:8px 10px}
 #toast{z-index:130}
-.calendar-deadline-strip{display:grid;grid-template-columns:60px repeat(var(--days),minmax(0,1fr));border-bottom:1px solid #343538;background:#191a1d}
-.calendar-deadline-strip>span{font-size:8px;color:#a4a6a9;padding:12px 2px}
-.calendar-deadline-strip>div{min-width:0;padding:5px;border-left:1px solid #ffffff06;display:grid;gap:5px;align-content:start}
 .cal-entry.calendar-deadline{position:relative!important;inset:auto!important;width:100%;min-height:42px;height:auto!important;border:1px solid #55575b;border-radius:6px;background:#232427;padding:6px;text-align:left}
 .calendar-deadline strong{display:flex;gap:5px;align-items:center;overflow-wrap:anywhere;white-space:normal}
 .calendar-deadline strong svg{width:13px;height:13px;flex:none}
@@ -39,7 +36,6 @@ body[data-page=calendar] .date-switch{display:none}.calendar-context-control{dis
 .calendar-type-note{grid-column:1/-1;font-size:11px;line-height:1.5;color:#a4a6a9;margin:0 0 10px}
 .calendar-inspector .field[hidden],.calendar-inspector button[hidden]{display:none!important}
 
-.calendar-deadline-strip{position:sticky;top:56px;z-index:5;max-height:150px;overflow:auto}
 .calendar-task-search{display:block;padding:12px 16px 0;font-size:11px;color:#a4a6a9}
 .calendar-task-search input{display:block;width:100%;margin-top:7px;background:#111214;border:1px solid #343538;border-radius:8px;color:#f0f0ee;padding:10px}
 #calendar-unscheduled-body[hidden]{display:none}
@@ -69,7 +65,7 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-gesture-help{position:relative;color:#b3b5b9}
 .calendar-gesture-help summary{cursor:pointer;padding:8px;min-height:36px}
 .calendar-gesture-help p{position:absolute;top:100%;right:0;z-index:20;width:280px;padding:16px;background:#1c1d20;border:1px solid #828489;border-radius:8px}
-.calendar-layout .timegrid-head,.calendar-layout .timegrid-body,.calendar-layout .calendar-deadline-strip{grid-template-columns:56px repeat(var(--days),minmax(0,1fr))}
+.calendar-layout .timegrid-head,.calendar-layout .timegrid-body{grid-template-columns:56px repeat(var(--days),minmax(0,1fr))}
 .calendar-layout .calendar-hours,.calendar-layout .calendar-day{height:1440px}
 .calendar-layout .calendar-slot{height:15px;border-top-color:transparent}
 .calendar-layout .calendar-slot:nth-child(4n+1){border-top-color:#ffffff16}
@@ -81,13 +77,11 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-layout .timegrid-head .current,.calendar-week-overview .current{background:transparent;box-shadow:none;color:#f3f3f3}
 .timegrid-head .current b,.calendar-week-overview .current b{border-color:#b3b5b9}
 .calendar-layout .timegrid-head .selected-day,.calendar-week-overview .selected-day{background:#ffffff08;box-shadow:inset 0 -2px #f3f3f3;color:#f3f3f3}
-.calendar-layout .calendar-deadline-strip{top:var(--calendar-head-height,52px);max-height:none;overflow:visible}
-.calendar-deadline-strip>span{font-size:10px;overflow-wrap:anywhere}
 .calendar-week-overview{display:grid;grid-template-columns:repeat(7,minmax(44px,1fr));overflow-x:auto;scrollbar-width:thin}
 .calendar-narrow-heading{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 0}
-.calendar-narrow-heading>h2{font-size:14px;font-weight:500;overflow-wrap:anywhere;margin:0}
+.calendar-heading-date{display:flex;align-items:center;gap:8px}
+.calendar-heading-date>h2{font-size:14px;font-weight:500;overflow-wrap:anywhere;margin:0}
 .calendar-narrow .timegrid-head{display:none}
-.calendar-narrow .calendar-deadline-strip{top:0}
 .calendar-list-scroll .calendar-agenda{padding:0 12px}
 .calendar-list-scroll .calendar-agenda .panel-head{display:none}
 .calendar-agenda-item{min-height:48px;padding:12px 0;gap:12px;flex-wrap:wrap;font-size:13px;line-height:1.4}
@@ -166,3 +160,9 @@ body[data-page=calendar] .app-main>footer{display:none}
 @media(min-width:651px) and (max-width:900px){
  body[data-page=calendar] .app-main {padding-top:74px}
 }
+
+.timegrid-head>.calendar-day-with-deadline{position:relative;display:grid;align-items:stretch;justify-items:stretch;min-width:0}
+.calendar-day-with-deadline>.calendar-deadline-marker{position:absolute;inset-inline-start:calc(50% + 17px);align-self:center}
+.calendar-layout button.calendar-deadline-marker{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;gap:3px;min-width:24px;min-height:28px;padding:2px 3px;border:0;border-radius:5px;background:transparent;color:#bfc1c4;font:inherit;line-height:1;cursor:pointer}
+.calendar-layout button.calendar-deadline-marker:hover,.calendar-layout button.calendar-deadline-marker:focus-visible{background:#313337;color:#f4f4f3}
+.calendar-layout button.calendar-deadline-marker:focus-visible{outline:1px solid currentColor}

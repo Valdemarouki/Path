@@ -119,10 +119,10 @@ function calendarMeasureLayout(){
  const height=Math.max(0,window.innerHeight-scroll.getBoundingClientRect().top-24);
  scroll.style.height=height+'px';
  calendarRevealAgendaFocus();
- const head=document.querySelector('.timegrid-head');if(head)document.querySelector('.calendar-timegrid')?.style.setProperty('--calendar-head-height',head.offsetHeight+'px');
+ const head=document.querySelector('.timegrid-head');
  // Native focus/scrollIntoView must expose midnight targets below sticky bands.
- const band=scroll.querySelector('.calendar-deadline-strip'),overview=scroll.querySelector('.calendar-week-overview');
- scroll.style.scrollPaddingTop=((head?.offsetHeight||0)+(band?.offsetHeight||0)+(calendarCombinedScroll?(overview?.offsetHeight||0):0)+4)+'px';
+ const overview=scroll.querySelector('.calendar-week-overview');
+ scroll.style.scrollPaddingTop=((head?.offsetHeight||0)+(calendarCombinedScroll?(overview?.offsetHeight||0):0)+4)+'px';
  scroll.style.scrollPaddingBottom='4px';
 }
 function calendarObserveLayout(){
@@ -130,7 +130,7 @@ function calendarObserveLayout(){
  if(view!=='calendar')return;
  if(typeof ResizeObserver!=='undefined'){
   calendarLayoutObserver=new ResizeObserver(()=>{if(calendarLayoutFrame!==null)return;calendarLayoutFrame=requestAnimationFrame(()=>{calendarLayoutFrame=null;calendarMeasureLayout();});});
-  for(const el of document.querySelectorAll('.page-intro,.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head,.calendar-deadline-strip,.calendar-density-metrics .calendar-event-title'))calendarLayoutObserver.observe(el);
+  for(const el of document.querySelectorAll('.page-intro,.calendar-main-region,.calendar-toolbar,.calendar-actions,.calendar-week-overview,.calendar-narrow-heading,.timegrid-head,.calendar-density-metrics .calendar-event-title'))calendarLayoutObserver.observe(el);
  }
  calendarMeasureLayout();
 }
