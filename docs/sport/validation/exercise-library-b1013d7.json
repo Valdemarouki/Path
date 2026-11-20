@@ -1,0 +1,136 @@
+{
+  "startedAt": "2026-11-20T19:48:52.311Z",
+  "mode": "desktop web artifact",
+  "executable": "/usr/bin/chromium",
+  "platform": "linux",
+  "timezone": "Europe/Warsaw",
+  "origin": "https://sport.local",
+  "inputSHA256": "14309fef069446deb150fd894bdc76b3ec00c108fed042269d84688fd8ba18c5",
+  "localRequestCount": 10,
+  "blockedRequests": [
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap"
+  ],
+  "pageErrors": [],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+    "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector"
+  ],
+  "checks": [
+    {
+      "name": "program and named empty template do not create Calendar events; empty Start disabled"
+    },
+    {
+      "name": "catalog EN/RU/ES search, empty result, four unmapped muscles and persistent manual exclusion"
+    },
+    {
+      "name": "favorites, recent, combined equipment/text filters and custom exercise with accessible placeholder"
+    },
+    {
+      "name": "desktop plus adds immediately, keeps library open, guards repeat click, Undo/Redo and explicit duplicate slot"
+    },
+    {
+      "name": "reps, fractional seconds and separate weight plus reps survive save/reload with reordered stable slot IDs"
+    },
+    {
+      "name": "program owns two named templates with distinct IDs and no implicit scheduling"
+    },
+    {
+      "name": "Schedule replaces library and creates one canonical Calendar event; retime retains its event ID"
+    },
+    {
+      "name": "planned snapshot starts one session and rapid repeated Log records one actual weight plus reps set"
+    },
+    {
+      "name": "rest pause persists across reload, +30, resume and skip; exit/reload preserves raw input and prevents a second session"
+    },
+    {
+      "name": "quota failure keeps actual input without success; retry logs one set"
+    },
+    {
+      "name": "fractional duration records seconds separately; fractional repetitions remain rejected"
+    },
+    {
+      "name": "partial finish quota rollback/retry creates one actual-only record and Calendar completion; template edits preserve history and unknown fields"
+    },
+    {
+      "name": "EN/RU/ES overview/editor/history at 1366×768 and 1920×1080; keyboard activation, 125% text and reduced motion"
+    },
+    {
+      "name": "second tab write blocks stale edits and offers recovery export/reload"
+    },
+    {
+      "name": "zero uncaught browser errors; all app resources fulfilled from local files",
+      "blockedExternalRequests": 10
+    }
+  ],
+  "screenshots": [
+    "1366-en-empty-overview.png",
+    "1366-en-editor-library-configured.png",
+    "1366-en-schedule-created.png",
+    "1366-en-active-rest.png",
+    "1366-en-write-failure.png",
+    "1366-en-history.png",
+    "1366-en-overview.png",
+    "1366-en-editor-library.png",
+    "1366-en-schedule.png",
+    "1366-en-history.png",
+    "1920-en-overview.png",
+    "1920-en-editor-library.png",
+    "1920-en-schedule.png",
+    "1920-en-history.png",
+    "1366-ru-overview.png",
+    "1366-ru-editor-library.png",
+    "1366-ru-schedule.png",
+    "1366-ru-history.png",
+    "1920-ru-overview.png",
+    "1920-ru-editor-library.png",
+    "1920-ru-schedule.png",
+    "1920-ru-history.png",
+    "1366-es-overview.png",
+    "1366-es-editor-library.png",
+    "1366-es-schedule.png",
+    "1366-es-history.png",
+    "1920-es-overview.png",
+    "1920-es-editor-library.png",
+    "1920-es-schedule.png",
+    "1920-es-history.png",
+    "1366-en-execution-rest.png",
+    "1920-en-execution-rest.png",
+    "1366-ru-execution-rest.png",
+    "1920-ru-execution-rest.png",
+    "1366-es-execution-rest.png",
+    "1920-es-execution-rest.png",
+    "1366-es-large-text-keyboard-reduced-motion.png",
+    "1366-es-storage-conflict.png"
+  ],
+  "video": {
+    "file": "desktop-main-chain.mp4",
+    "frames": 496,
+    "wallDurationMs": 14107,
+    "encodedDurationSeconds": 14.112,
+    "clock": "actual capture timestamps at millisecond timebase; ordinary speed"
+  },
+  "browserVersion": "156.0.8078.79",
+  "catalog": {
+    "renderedEntries": 145,
+    "scrollToEndAndBackMs": 101
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-20T19:49:35.660Z"
+}
