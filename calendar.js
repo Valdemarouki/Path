@@ -104,7 +104,9 @@ function calendarDeadlineMarker(events,date){
  const single=entries.length===1,count=entries.length;
  const label=[pathT('Deadlines'),single?entries[0].title:count,calendarFullDate(date)].join(' · ');
  const action=single?`data-event="${esc(entries[0].id)}"`:`data-calendar-disclosure="${esc(JSON.stringify(entries.map(e=>e.id)))}" data-disclosure-date="${date}" aria-haspopup="dialog"`;
- return `<button type="button" class="calendar-deadline-marker" ${action} aria-label="${esc(label)}" title="${esc(label)}" data-no-translate>${icon('flag',14)}${single?'':`<span>${count}</span>`}</button>`;
+ const first=entries[0];
+ const titleCard=`<button type="button" class="calendar-deadline-title" data-event="${esc(first.id)}" aria-label="${esc(calendarEventPresentation(first).name)}" title="${esc(first.title)}" data-no-translate>${esc(first.title)}</button>`;
+ return `<button type="button" class="calendar-deadline-marker" ${action} aria-label="${esc(label)}" title="${esc(label)}" data-no-translate>${icon('flag',14)}${single?'':`<span>${count}</span>`}</button>${titleCard}`;
 }
 function calendarDayHeader(date){
  const d=new Date(date+'T12:00:00');
