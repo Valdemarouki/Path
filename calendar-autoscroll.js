@@ -12,7 +12,7 @@ function calendarAutoScrollTick(time){
   if(!calendarPointer?.resize)scroller.scrollLeft+=calendarEdgeVelocity(point.x,Math.max(0,r.left),Math.min(window.innerWidth,r.right))*dt;
  }
  if(calendarPointer?.moved)updateCalendarPointer(calendarPointer,point.x,point.y);
- if(calendarDraftDrag?.moved){clearCalendarDrop();document.elementFromPoint(point.x,point.y)?.closest('[data-calendar-slot]')?.classList.add('calendar-drop-target');}
+ if(calendarDraftDrag?.moved){clearCalendarDrop();calendarDropSlot(point.x,point.y)?.classList.add('calendar-drop-target');}
  calendarScrollFrame=requestAnimationFrame(calendarAutoScrollTick);
 }
 document.addEventListener('pointermove',e=>{const id=calendarPointer?.pointerId??calendarDraftDrag?.id;if(id!==e.pointerId||!(calendarPointer?.moved||calendarDraftDrag?.moved))return;calendarScrollPoint={x:e.clientX,y:e.clientY};if(!calendarScrollFrame)calendarScrollFrame=requestAnimationFrame(calendarAutoScrollTick);});

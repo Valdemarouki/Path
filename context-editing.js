@@ -250,7 +250,7 @@ window.addEventListener('click',e=>{const b=e.target.closest('[data-context-full
 // Embedded previews may prohibit native form submission. All activation paths
 // share the same validated persistence boundary without navigating the iframe.
 // A seeded template is still untouched until user input marks the form dirty.
-function pathContextDone(explicit=false){if(!editor||editor.contextDiscardPending||editor.contextComposing||pathContextCommitting)return false;editor.contextDirty=editor.contextDirty||(!editor.contextSaved&&!editor.calendarSeededDraft);if(!pathContextFlush(explicit)||!closeEditor())return false;render();return true;}
+function pathContextDone(explicit=false){if(!editor||editor.contextDiscardPending||editor.contextComposing||pathContextCommitting)return false;editor.contextDirty=editor.contextDirty||(!editor.contextSaved&&!pathContextSeededRest());if(!pathContextFlush(explicit)||!closeEditor())return false;render();return true;}
 window.addEventListener('click',e=>{if(!e.target.closest('[data-context-done]'))return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);
 window.addEventListener('submit',e=>{if(e.target.id!=='editor-form')return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);
 window.addEventListener('keydown',e=>{if(e.key!=='Enter'||e.isComposing||e.repeat||!e.target.closest('#editor-form')||!e.target.matches('input:not([type=button]):not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range])'))return;e.preventDefault();e.stopImmediatePropagation();pathContextDone();},true);

@@ -128,6 +128,9 @@ function validCalendarEvent(values){
  if(duration>10080)return 'An event can last up to 7 days.';
  return '';
 }
+function calendarEventFromValues(v,id=uid()){
+ const [h,m]=v.time.split(':').map(Number);return {id,title:v.title.trim(),date:v.date,hour:h+m/60,duration:Number(v.duration),...(v.fold?{fold:v.fold}:{}),location:v.location.trim(),type:v.type,done:v.status==='done',notes:v.notes,eventIcon:v.eventIcon||'calendar',reminderMinutes:Number(v.reminderMinutes)||0,importance:v.type==='free_time'?'none':v.importance||'none'};
+}
 modalEvent=function(id=null,date=homeDate,minute=600){
  const e=data.events.find(x=>x.id===id);
  openEditor(e?'Edit event':'New event',[
@@ -145,7 +148,7 @@ modalEvent=function(id=null,date=homeDate,minute=600){
  ],v=>{
  if(v.type==='deadline')v={...v,time:'00:00',duration:0,fold:'',status:'planned'};
  if(v.importance&&!['none','low','medium','high'].includes(v.importance)){toast('Choose a valid importance.');return false;}const error=validCalendarEvent(v);if(error){toast(error);return false;}
- const [h,m]=v.time.split(':').map(Number);const x={id:e?.id||uid(),title:v.title.trim(),date:v.date,hour:h+m/60,duration:Number(v.duration),...(v.fold?{fold:v.fold}:{}),location:v.location.trim(),type:v.type,done:v.status==='done',notes:v.notes,eventIcon:v.eventIcon||'calendar',reminderMinutes:Number(v.reminderMinutes)||0,importance:v.type==='free_time'?'none':v.importance||'none'};
+ const x=calendarEventFromValues(v,e?.id);
  if(e)Object.assign(e,x);else data.events.push(x);
  const linked=e?.taskId?findTask(e.taskId)?.task:null;if(linked&&v.type!=='free_time')linked.importance=x.importance;
 

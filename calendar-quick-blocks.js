@@ -1,4 +1,4 @@
-/* Templates open a draft; the existing editor owns validation and persistence. */
+/* A click opens the editor; dropping a block commits it to the selected slot. */
 const calendarQuickTemplates=[{type:'busy',title:'Event',duration:60,glyph:'calendar'},{type:'focus',title:'Focused work',duration:60,glyph:'target'},{type:'workout',title:'Workout',duration:90,glyph:'sport'},{type:'free_time',title:'Free Time',duration:30,glyph:'sun'},{type:'routine',title:'Routine',duration:30,glyph:'calendar'},{type:'deadline',title:'Deadline',duration:0,glyph:'target'}];
 let calendarQuickOpen=false;
 function calendarQuickBlocks(){return `<section class="calendar-quick"><button class="calendar-quick-toggle" data-calendar-quick-toggle aria-expanded="${calendarQuickOpen}"><span>Quick Blocks</span><small>${calendarQuickOpen?'Hide templates':'Choose a template'} ${icon('chevron',12)}</small></button>${calendarQuickOpen?`<div class="calendar-quick-grid">${calendarQuickTemplates.map(t=>`<button class="calendar-quick-card" data-calendar-template="${t.type}"><span>${icon(t.glyph,18)}</span><strong>${t.title}</strong><small>${t.type==='deadline'?'Date marker':t.duration+' min'}</small></button>`).join('')}</div><p class="calendar-quick-hint">Click a block or drag it onto a time slot. Valid edits save automatically.</p>`:''}</section>`;}
@@ -10,22 +10,61 @@ render();
 let calendarDraftDrag=null;
 function calendarUnscheduledTasks(){const scheduled=new Set(data.events.filter(e=>e.type!=='deadline').map(e=>e.taskId).filter(Boolean));return taskRecords().filter(({task,project})=>!task.archived&&!project?.archived&&!taskComplete(task)&&!scheduled.has(task.id));}
 function calendarTaskDuration(task){const minutes=Number(task.duration)||(Number(task.estimate)*60)||60;return Math.min(10080,Math.max(15,Math.ceil(minutes/15)*15));}
+function calendarSourceBlock(source){
+ if(source.taskId){
+  const record=calendarUnscheduledTasks().find(r=>r.task.id===source.taskId);
+  if(!record)return null;
+  return {title:record.task.title,type:'focus',duration:calendarTaskDuration(record.task),...record};
+ }
+ const template=calendarQuickTemplates.find(t=>t.type===source.type);
+ return template&&{...template,title:pathT(template.title),duration:source.duration??template.duration};
+}
 function openCalendarSourceDraft(source,date=homeDate,minute=600){
  if(!pathValidDate(date)||!Number.isFinite(minute)||minute<0||minute>1425||minute%15)return false;
- const record=source.taskId?calendarUnscheduledTasks().find(r=>r.task.id===source.taskId):null;
- const template=source.type?calendarQuickTemplates.find(t=>t.type===source.type):null;
- if(!record&&!template)return false;
- const task=record?.task,t=task?{title:task.title,type:'focus',duration:calendarTaskDuration(task)}:template;
+ const t=calendarSourceBlock(source);if(!t)return false;
+ const task=t.task;
  modalEvent(null,date,minute);
- for(const f of editor.fields){if(f.key==='title')f.value=task?t.title:pathT(t.title);if(f.key==='type')f.value=t.type;if(f.key==='duration')f.value=source.duration??t.duration;if(f.key==='importance'&&task)f.value=task.importance||'none';}
+ for(const f of editor.fields){if(f.key==='title')f.value=t.title;if(f.key==='type')f.value=t.type;if(f.key==='duration')f.value=t.duration;if(f.key==='importance'&&task)f.value=task.importance||'none';}
  if(task){const original=editor.saveFn;editor.saveFn=values=>{const current=findTask(task.id);if(!current||current.task.archived||current.project?.archived||taskComplete(current.task)){toast('This task is no longer available.');return false;}const before=new Set(data.events.map(e=>e.id));if(original(values)===false)return false;for(const event of data.events)if(!before.has(event.id)){event.taskId=task.id;if(current.project)event.projectId=current.project.id;}return true;};}
  editor.calendarSeededDraft=true;
  renderEditor();return true;
+}
+function dropCalendarSource(source,slot){
+ if(editor&&!closeEditor())return;
+ const block=calendarSourceBlock(source);
+ if(!block){toast(pathT('This task is no longer available.'));return;}
+ const date=slot.dataset.calendarSlot,minute=Number(slot.dataset.minute);
+ const time=block.type==='deadline'?'00:00':clockTime(minute/60);
+ const values={title:block.title,type:block.type,date,time,duration:block.duration,
+  importance:block.task?.importance,location:'',notes:''};
+ try{
+  if(block.type!=='deadline')calendarResolveInput(date,time,'',pathSystemTimeZone(),'time');
+  const event=pathStampEvent(calendarEventFromValues(values));
+  event.protected=false;
+  if(pathBlocksTime(event)&&calendarConflicts(event).length){
+   toast(pathT('This time is occupied. Choose another time.'));return;
+  }
+  if(block.task)event.taskId=block.task.id;
+  if(block.project)event.projectId=block.project.id;
+  data.events.push(event);
+ }catch(error){toast(error.message);return;}
+ const saved=save();
+ render();
+ if(!saved&&pathRepository.error)toast(pathRepository.error);
 }
 const calendarQuickBeforeSources=calendarQuickBlocks;
 calendarQuickBlocks=function(){let html=calendarQuickBeforeSources().replace(/data-calendar-template="/g,'draggable="false" data-calendar-template="');const tasks=calendarUnscheduledTasks();return html+`<section class="calendar-quick calendar-unscheduled"><h2>Unscheduled Tasks <small>${tasks.length}</small></h2><p class="calendar-quick-hint">Click to plan, or drag onto the calendar. Your original task stays in place.</p><div class="calendar-quick-grid">${tasks.map(({task,project})=>`<button class="calendar-quick-card" draggable="false" data-calendar-task="${esc(task.id)}"><strong>${esc(task.title)}${project?`<span class="calendar-source-project">${esc(project.name)}</span>`:''}</strong><small>${calendarTaskDuration(task)} min</small></button>`).join('')||'<p class="empty-line">No unscheduled tasks.</p>'}</div></section>`;};
 // Template sources have their own identity, separate from event Quick Actions.
 document.addEventListener('click',e=>{const b=e.target.closest('[data-calendar-task],[data-calendar-template]');if(!b)return;e.preventDefault();e.stopImmediatePropagation();if(calendarSuppressClick&&e.detail!==0)return;openCalendarSourceDraft(b.dataset.calendarTask?{taskId:b.dataset.calendarTask}:{type:b.dataset.calendarTemplate});},true);
+function calendarDropSlot(x,y){
+ const hit=document.elementFromPoint(x,y),slot=hit?.closest('[data-calendar-slot]');
+ if(slot)return slot;
+ const day=hit?.closest('.cal-entry')?.closest('[data-grid-date]');
+ if(!day)return null;
+ const bounds=day.getBoundingClientRect();
+ const minute=Math.floor((y-bounds.top)/bounds.height*96)*15;
+ return day.querySelector(`[data-minute="${minute}"]`);
+}
 function clearCalendarDrop(){document.querySelectorAll('.calendar-drop-target').forEach(el=>el.classList.remove('calendar-drop-target'));}
 function moveCalendarDraftPreview(op,x,y){
  if(!op.preview){
@@ -65,7 +104,7 @@ document.addEventListener('pointermove',e=>{
  op.moved=true;
  moveCalendarDraftPreview(op,e.clientX,e.clientY);
  clearCalendarDrop();
- document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-calendar-slot]')?.classList.add('calendar-drop-target');
+ calendarDropSlot(e.clientX,e.clientY)?.classList.add('calendar-drop-target');
 });
 document.addEventListener('pointerup',e=>{
  const op=calendarDraftDrag;
@@ -73,8 +112,8 @@ document.addEventListener('pointerup',e=>{
  finishCalendarDraftDrag(op);
  if(!op.moved)return;
  calendarSuppressClick=true;setTimeout(()=>calendarSuppressClick=false,0);
- const slot=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-calendar-slot]');
- if(slot)openCalendarSourceDraft(op.source,slot.dataset.calendarSlot,Number(slot.dataset.minute));
+ const slot=calendarDropSlot(e.clientX,e.clientY);
+ if(slot)dropCalendarSource(op.source,slot);
 });
 function cancelCalendarDraftDrag(){
  const op=calendarDraftDrag;if(!op)return;
