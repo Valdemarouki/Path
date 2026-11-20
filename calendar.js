@@ -143,7 +143,7 @@ modalEvent=function(id=null,date=homeDate,minute=600){
  {key:'eventIcon',label:'Icon',type:'select',value:e?.eventIcon||'calendar',options:[['calendar','Calendar'],['book','Study'],['focus','Focus'],['sport','Training'],['sun','Rest']]},
  {key:'reminderMinutes',label:'Reminder before event',type:'select',value:String(e?.reminderMinutes||0),options:[['0','None'],['15','15 minutes'],['30','30 minutes'],['60','1 hour']]}
  ],v=>{
- if(v.type==='deadline')v={...v,time:'00:00',duration:0,status:'planned'};
+ if(v.type==='deadline')v={...v,time:'00:00',duration:0,fold:'',status:'planned'};
  if(v.importance&&!['none','low','medium','high'].includes(v.importance)){toast('Choose a valid importance.');return false;}const error=validCalendarEvent(v);if(error){toast(error);return false;}
  const [h,m]=v.time.split(':').map(Number);const x={id:e?.id||uid(),title:v.title.trim(),date:v.date,hour:h+m/60,duration:Number(v.duration),...(v.fold?{fold:v.fold}:{}),location:v.location.trim(),type:v.type,done:v.status==='done',notes:v.notes,eventIcon:v.eventIcon||'calendar',reminderMinutes:Number(v.reminderMinutes)||0,importance:v.type==='free_time'?'none':v.importance||'none'};
  if(e)Object.assign(e,x);else data.events.push(x);

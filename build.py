@@ -14,7 +14,7 @@ sport_runtime='globalThis.PATH_SPORT_ASSET_DATA='+json.dumps(sport_images)+';\n'
 sport_runtime+='\n'.join((p/'domain'/name).read_text() for name in ('sport-catalog.js','sport-body-map.js','sport-core.js'))+'\n'
 # Install the repository before any initial save/render or migration can run.
 src=src.replace("let data;try{const raw=localStorage.getItem(STORE);data=raw?JSON.parse(raw):demo()}catch{data=demo()}",
- sport_runtime+(p/'timezone.js').read_text()+'\n'+(p/'storage.js').read_text()+"\nlet data=pathRepository.load();for(const e of data.events||[])if(!e.tzid)e.tzid='Europe/Warsaw';")
+ sport_runtime+(p/'timezone.js').read_text()+'\n'+(p/'storage.js').read_text()+"\nlet data=pathRepository.load();for(const e of data.events||[])if(e.type!=='deadline'&&!e.tzid)e.tzid='Europe/Warsaw';")
 start=src.index('let storageWarningShown=false;');end=src.index('function toast(',start)
 src=src[:start]+'''function save(){
  try{if(typeof reconcileTaskCompletion==='function')reconcileTaskCompletion();}catch(e){pathRestore(data,pathRepository.state);toast('Could not save: '+e.message);return false;}

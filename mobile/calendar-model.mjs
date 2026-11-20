@@ -39,22 +39,34 @@ export function saveEvent(state,id,fields,{allowOverlap=false}={}){
  const e=existing?structuredClone(existing):{id},title=fields.title?.trim();
  if(!title||title.length>500||!/^20\d{2}-\d{2}-\d{2}$/.test(fields.date)||!EVENT_TYPES.includes(fields.type)||!IMPORTANCE.includes(fields.importance)||!EVENT_ICONS.includes(fields.eventIcon)||typeof fields.notes!=='string'||fields.notes.length>10000||typeof fields.location!=='string'||fields.location.length>500)throw Error('eventInvalid');
  const check=new Date(fields.date+'T12:00:00Z');if(!Number.isFinite(+check)||check.toISOString().slice(0,10)!==fields.date)throw Error('eventInvalid');
- const tzid=existing?.tzid||systemZone(),time=fields.type==='deadline'?'00:00':fields.time;
- if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)||!['earlier','later'].includes(fields.fold))throw Error('eventInvalid');
- const [h,m]=time.split(':').map(Number),hour=h+m/60,duration=fields.type==='deadline'?0:Number(fields.duration);
- if(!Number.isInteger(duration)||duration<0||duration>10080||(fields.type!=='deadline'&&duration<1))throw Error('eventInvalid');
- const timingChanged=!existing||existing.date!==fields.date||existing.hour!==hour||existing.duration!==duration||(existing.type==='deadline')!==(fields.type==='deadline')||(existing.fold||'earlier')!==fields.fold;
- // Keep legacy mobile minute values unchanged, but new/retimed intervals follow desktop's 15-minute editor grid.
- if(timingChanged&&fields.type!=='deadline'&&(m%15||duration%15))throw Error('eventQuarter');
- const choices=fields.type==='deadline'?[]:wallCandidates(fields.date,hour,tzid);if(fields.type!=='deadline'&&!choices.length)throw Error('eventGap');
- const start=choices[fields.fold==='later'?choices.length-1:0];
- Object.assign(e,{title,date:fields.date,hour,duration,tzid,fold:fields.fold,type:fields.type,notes:fields.notes,location:fields.location,eventIcon:fields.eventIcon,importance:fields.type==='free_time'?'none':fields.importance,done:fields.type==='free_time'?false:fields.type==='deadline'?false:!!fields.done,protected:fields.type==='free_time'&&!!fields.protected});
- if(timingChanged){if(fields.type==='deadline'){delete e.start_at;delete e.end_at;}else{e.start_at=new Date(start).toISOString();e.end_at=new Date(start+duration*60000).toISOString();}}
+ const deadline=fields.type==='deadline',time=deadline?'00:00':fields.time;
+ if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)||(!deadline&&!['earlier','later'].includes(fields.fold)))throw Error('eventInvalid');
+ const [h,m]=time.split(':').map(Number),hour=h+m/60,duration=deadline?0:Number(fields.duration);
+ if(!Number.isInteger(duration)||duration<0||duration>10080||(!deadline&&duration<1))throw Error('eventInvalid');
+ const timingChanged=!existing||existing.date!==fields.date||existing.hour!==hour||existing.duration!==duration||(existing.type==='deadline')!==deadline||(!deadline&&(existing.fold||'earlier')!==fields.fold);
+ Object.assign(e,{title,date:fields.date,hour,duration,type:fields.type,notes:fields.notes,location:fields.location,eventIcon:fields.eventIcon,importance:fields.type==='free_time'?'none':fields.importance,done:!deadline&&fields.type!=='free_time'&&!!fields.done,protected:fields.type==='free_time'&&!!fields.protected});
+ if(!deadline){
+  // Keep legacy minute values on metadata edits; scheduled changes follow the desktop grid.
+  if(timingChanged&&(m%15||duration%15))throw Error('eventQuarter');
+  const tzid=existing?.tzid||systemZone(),choices=wallCandidates(fields.date,hour,tzid);
+  if(!choices.length)throw Error('eventGap');
+  e.tzid=tzid;e.fold=fields.fold;
+  if(timingChanged){
+   const start=choices[fields.fold==='later'?choices.length-1:0];
+   e.start_at=new Date(start).toISOString();e.end_at=new Date(start+duration*60000).toISOString();
+  }
+ }
  delete e.titleKey;
  // Explicit overlap acknowledgement. Never shift dates or rest reservations automatically.
  const reservationChanged=timingChanged||!!existing&&blocksTime(e)!==blocksTime(existing);
  if(reservationChanged&&blocksTime(e)&&state.events.some(x=>x.id!==id&&blocksTime(x)&&Date.parse(x.start_at)<Date.parse(e.end_at)&&Date.parse(x.end_at)>Date.parse(e.start_at))&&!allowOverlap)throw Error('eventOverlap');
- if(existing){if(timingChanged&&fields.type==='deadline'){delete existing.start_at;delete existing.end_at;}Object.assign(existing,e);}else state.events.push(e);
+ if(deadline&&timingChanged){
+  for(const key of ['tzid','fold','start_at','end_at']){
+   delete e[key];
+   if(existing)delete existing[key];
+  }
+ }
+ if(existing)Object.assign(existing,e);else state.events.push(e);
  return e;
 }
 

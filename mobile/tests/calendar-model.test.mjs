@@ -13,3 +13,33 @@ test('failed persistence leaves original v1 bytes and event draft untouched',()=
 test('legacy non-quarter instants are not rounded on title-only edit',()=>{const s=migrate(seed(now)),e=s.events[0];e.hour=12+7/60;e.duration=5;e.start_at='2026-11-09T11:07:00Z';e.end_at='2026-11-09T11:12:00Z';e.tzid='Europe/Warsaw';const before=[e.start_at,e.end_at];saveEvent(s,e.id,{...fields,title:'Only title',date:e.date,time:'12:07',duration:5,type:e.type,importance:'none',eventIcon:'calendar'});assert.deepEqual([e.start_at,e.end_at],before);});
 
 test('v2 to v5 is lazy and nondestructive, failed write does not migrate disk',()=>{const old=migrate(seed(now));old.schemaVersion=2;old.unknown={keep:true};const raw=JSON.stringify(old),disk=memory(raw),r=createRepository(disk,now);assert.equal(r.state.schemaVersion,5);assert.equal(disk.getItem(),raw);assert.deepEqual(r.state.events,old.events);assert.deepEqual(r.state.unknown,old.unknown);disk.setItem=()=>{throw Error('quota');};assert.throws(()=>r.commit(s=>saveEvent(s,'new',fields)));assert.equal(disk.getItem(),raw);});
+
+test('date-only deadlines survive reload, legacy renames and conversions',()=>{
+ const disk=memory(),repo=createRepository(disk,now),id='date-only';
+ const deadline={...fields,type:'deadline',fold:undefined,date:'2026-10-25'};
+ const timing=['tzid','fold','start_at','end_at'];
+ const find=s=>s.events.find(event=>event.id===id);
+ const update=values=>repo.commit(s=>saveEvent(s,id,values));
+ function checkDateOnly(date){
+  const state=createRepository(disk,now).state,event=find(state);
+  assert.equal(event.date,date);
+  assert.deepEqual([event.hour,event.duration,event.done],[0,0,false]);
+  assert.ok(timing.every(key=>!Object.hasOwn(event,key)));
+  assert.ok(eventsOnDay(state,date).some(e=>e.id===id));
+ }
+ update(deadline);
+ checkDateOnly(deadline.date);
+ const legacy={tzid:'UTC',fold:'earlier',start_at:'2026-10-25T00:00:00Z',end_at:'2026-10-25T00:00:00Z'};
+ repo.commit(s=>Object.assign(find(s),legacy,{future:{keep:1}}));
+ update({...deadline,title:'Renamed',fold:'later'});
+ for(const key of timing)assert.equal(find(repo.state)[key],legacy[key]);
+ update({...deadline,date:'2026-10-26'});
+ checkDateOnly('2026-10-26');
+ update(fields);
+ const timed=find(repo.state);
+ assert.ok(timed.tzid);
+ assert.equal(Date.parse(timed.end_at)-Date.parse(timed.start_at),fields.duration*60000);
+ update(deadline);
+ checkDateOnly(deadline.date);
+ assert.deepEqual(find(repo.state).future,{keep:1});
+});

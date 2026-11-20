@@ -21,4 +21,9 @@ function pathEventTiming(event){
  if(event.fold!==undefined&&!['earlier','later'].includes(event.fold))throw Error('Choose the first or second occurrence of a repeated clock time.');
  const start=choices[event.fold==='later'?choices.length-1:0];return {start,end:start+event.duration*60000,tzid,ambiguous:choices.length>1};
 }
-function pathStampEvent(event){const t=pathEventTiming(event);event.start_at=new Date(t.start).toISOString();event.end_at=new Date(t.end).toISOString();event.tzid=t.tzid;event.fold=event.fold||'earlier';return event;}
+function pathStampEvent(event){
+ if(event.type==='deadline'){
+  delete event.tzid;delete event.fold;delete event.start_at;delete event.end_at;
+  return event;
+ }
+ const t=pathEventTiming(event);event.start_at=new Date(t.start).toISOString();event.end_at=new Date(t.end).toISOString();event.tzid=t.tzid;event.fold=event.fold||'earlier';return event;}
