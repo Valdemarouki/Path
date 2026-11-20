@@ -38,8 +38,8 @@ function calendarPulse(id){
  ring.style.left=cx-bounds.left+'px';ring.style.top=cy-bounds.top+'px';
  layer.appendChild(ring);grid.appendChild(layer);calendarMotion.layers.add(layer);
  const wave=calendarAnimate(ring,[
-  {transform:'translate(-50%,-50%) scale(.03)',opacity:.9},
-  {transform:'translate(-50%,-50%) scale(.6)',opacity:.48,offset:.40},
+  {transform:'translate(-50%,-50%) scale(.03)',opacity:.12},
+  {transform:'translate(-50%,-50%) scale(.6)',opacity:.06,offset:.40},
   {transform:'translate(-50%,-50%) scale(1)',opacity:0}
  ],{duration:config.centralReturnMs,easing:'linear'});
  if(wave)wave.onfinish=()=>{calendarMotion.animations.delete(wave);calendarMotion.layers.delete(layer);layer.remove();};
