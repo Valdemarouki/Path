@@ -88,7 +88,7 @@ src=src.replace('<script>','<script>'+runtime+'\n',1)
 # These calls format labels only; machine-readable ISO dates and Warsaw math stay fixed.
 src=src.replace("toLocaleDateString('en-US'",'toLocaleDateString(pathLocale()')
 js=js.replace("toLocaleDateString('en-US'",'toLocaleDateString(pathLocale()')
-js+='\n'+(p/'clipboard-images.js').read_text()+'\n'+(p/'notes-rich.js').read_text()+'\n'+(p/'i18n/ui.js').read_text()+'\n'+(p/'date-picker.js').read_text()
+js+='\n'+(p/'clipboard-images.js').read_text()+'\n'+(p/'notes-rich.js').read_text()+'\n'+(p/'i18n/ui.js').read_text()+'\n'+(p/'date-picker.js').read_text()+'\n'+(p/'desktop/profile-scroll.js').read_text()
 src=src.replace("timeZone:'Europe/Warsaw'","timeZone:pathSystemTimeZone()")
 src=src.replace('</head>','<style>'+(p/'i18n/layout.css').read_text()+'\n'+(p/'notes-rich.css').read_text()+'\n'+(p/'interface-polish.css').read_text()+'\n'+(p/'date-picker.css').read_text()+'</style></head>')
 # Register the existing locally licensed font; only Sport opts into this family.

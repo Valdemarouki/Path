@@ -56,7 +56,6 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('click',e=>{if(!workoutDraft||!e.target.closest('[data-nav]'))return;if(!leaveWorkoutBuilder()){e.preventDefault();e.stopImmediatePropagation();return;}},true);
 window.addEventListener('beforeunload',e=>{if(workoutDraftChanged()){e.preventDefault();e.returnValue='';}});
-const paintStorageBeforeBuilder=paintStorage;paintStorage=function(){paintStorageBeforeBuilder();if(workoutDraftChanged())document.querySelectorAll('[data-history]').forEach(b=>b.disabled=true);};
 const applyHistoryBeforeBuilder=applyHistory;applyHistory=function(direction){
  if(!workoutDraft)return applyHistoryBeforeBuilder(direction);
  if(workoutDraftChanged()||pathRepository.error||editor)return;

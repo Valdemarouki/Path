@@ -363,8 +363,6 @@ window.addEventListener('keydown',e=>{if(e.key==='Escape'&&pathContextQuickTarge
 // A compact details popover leaves the long document workspace intact.
 const pathContextNotesBefore=notesPage;
 notesPage=function(){return pathContextNotesBefore().replace('with-note-details ','');};
-const pathContextPaintBefore=paintStorage;
-paintStorage=function(){pathContextPaintBefore();if(editor?.contextDirty){const state=document.querySelector('#path-storage [role=status]');if(state)state.textContent='Unsaved editor changes';}};
 // Separate recovery slots for full text workspaces: these are never serialized as tiny forms.
 function pathKeepTextDraft(key,value){try{if(value)localStorage.setItem(key,JSON.stringify(value));else localStorage.removeItem(key);}catch{}}
 const pathContextFlushNoteBefore=flushNote;

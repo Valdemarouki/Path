@@ -157,3 +157,12 @@ body[data-page=calendar] .app-main>footer{display:none}
  content:""; position:absolute; bottom:0; left:50%; width:12px; height:2px;
  transform:translateX(-50%); background:currentColor; border-radius:1px;
 }
+
+@media(min-width:901px){
+ body[data-page=calendar] .app-main {padding-top:26px}
+ body[data-page=calendar] .page-intro {margin-bottom:4px;padding-inline:18px 74px}
+ body[data-page=calendar] .calendar-toolbar {padding-block:8px}
+}
+@media(min-width:651px) and (max-width:900px){
+ body[data-page=calendar] .app-main {padding-top:74px}
+}

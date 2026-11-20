@@ -77,14 +77,14 @@ if(!process.env.PATH_WEEK_TEST_CHILD){
    app.run("mutate(()=>setTaskComplete('pending',true))");
    const completed=counts.slice();completed[0]++;expectChart(app,'en',completed);
    assert.equal(app.run("findTask('pending').task.completedAt"),'2026-11-02T12:00:00.000Z');
-   app.w.document.querySelector('[data-history=undo]').click();expectChart(app,'en');
-   app.w.document.querySelector('[data-history=redo]').click();expectChart(app,'en',completed);
+   app.run("applyHistory('undo')");expectChart(app,'en');
+   app.run("applyHistory('redo')");expectChart(app,'en',completed);
    const saved=app.saved(),after=app.run('JSON.stringify(data)');
    assert.deepEqual(JSON.parse(app.run('JSON.stringify(pathImport(pathBackupState(true)))')),JSON.parse(after),'Synthetic export/import preserves exact data');
    const reload=boot(saved);try{
     expectChart(reload,'en',completed);assert.equal(reload.run('JSON.stringify(data)'),after);
-    reload.w.document.querySelector('[data-history=undo]').click();expectChart(reload,'en');
-    reload.w.document.querySelector('[data-history=redo]').click();expectChart(reload,'en',completed);
+    reload.run("applyHistory('undo')");expectChart(reload,'en');
+    reload.run("applyHistory('redo')");expectChart(reload,'en',completed);
    }finally{reload.close();}
    // Advance over local Sunday/Monday: previous week's completions disappear.
    app.setTime('2026-11-09T12:00:00Z');app.run("navigatePath('today')");

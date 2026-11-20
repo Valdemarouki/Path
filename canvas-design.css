@@ -70,3 +70,21 @@ body[data-page=canvas] .canvas-world{position:absolute;background:transparent!im
 .canvas-node[data-canvas-node-kind=note]:active>.nodetext{cursor:grabbing}
 .canvas-inline-editor input[hidden]{display:none!important}
 .canvas-node[data-canvas-node-kind=text]>.nodetitle,.canvas-node[data-canvas-node-kind=text]>.nodetext,.canvas-inline-editor[data-kind=text] input,.canvas-inline-editor[data-kind=text] textarea{text-align:center}
+
+body[data-page=canvas] .date-switch {display:none}
+@media(min-width:651px){
+ body[data-page=canvas] .app-main {padding-top:74px}
+ body[data-page=canvas] .canvas-wrap {height:max(360px,calc(100dvh - 146px))}
+}
+.canvas-inline-editor[data-kind=text],
+.canvas-inline-editor[data-kind=text] :is(input,textarea) {
+ background:transparent;border:0;box-shadow:none;
+}
+body[data-page=canvas] .canvas-node[data-canvas-node-kind=text].selected {
+ outline:none;box-shadow:none!important;
+}
+.canvas-node[data-canvas-node-kind=text].selected:not(:hover):not(:focus-within) :is(.canvas-connector-handle,.node-resize) {
+ opacity:0;pointer-events:none;
+}
+.canvas-node[data-canvas-node-kind=text]:focus-visible .nodetext,
+.canvas-inline-editor[data-kind=text] input:focus-visible {text-decoration:underline}

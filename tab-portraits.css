@@ -11,3 +11,10 @@ body[data-page=progress] .progress-overview{grid-template-columns:minmax(0,1fr)}
 @media(max-width:650px){.page-intro:has(.tab-heading-tools)>div:first-child{flex-basis:100%}.page-intro .tab-heading-tools{flex-basis:100%;min-width:0}.tab-heading-actions{flex:1;min-width:0}.tab-heading-actions .btn{white-space:nowrap}.tab-heading-actions>.row{gap:6px}}
 /* Keep Undo/Redo above the bottom navigation on compact windows. */
 @media(max-width:650px){.storage-tools{bottom:80px;left:14px;max-width:calc(100vw - 28px)}}
+
+body:is([data-page=notes],[data-page=canvas]) .tab-philosopher {
+ width:clamp(140px,16vw,250px);height:auto;aspect-ratio:371/486;
+}
+@media(max-width:650px){
+ body:is([data-page=notes],[data-page=canvas]) .tab-philosopher {width:clamp(102px,27vw,140px)}
+}

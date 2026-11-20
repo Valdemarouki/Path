@@ -26,3 +26,26 @@ body .app-main{padding-bottom:max(80px,env(safe-area-inset-bottom))}
 .notes-refined .note-list-item strong,.notes-refined .note-list-item span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere;white-space:normal}
 
 .sport-design .program-card h3,.sport-design .sport-template-card h3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.35}
+
+/* Keep the profile menu attached to its trigger when the page scrolls. */
+.topbar {pointer-events:none;z-index:25}
+.topbar button,.topbar a,.topbar .date-switch {pointer-events:auto}
+.avatar.profile-button {
+ position:fixed;top:22px;right:32px;width:44px;height:44px;
+ isolation:isolate;background:transparent;border:0;
+}
+.avatar.profile-button::before {
+ content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;
+ background:radial-gradient(circle at 35% 20%,#8d8d89,#252627 65%);
+}
+.avatar.profile-button::before,.avatar.profile-button svg {transition:transform 160ms ease-out}
+body:is(.path-profile-compact,:has(.profile-grid-scrolled)) .avatar.profile-button::before,
+body:is(.path-profile-compact,:has(.profile-grid-scrolled)) .avatar.profile-button svg {transform:scale(.76)}
+#path-profile-menu {position:fixed;right:32px;top:70px}
+@media(max-width:650px){
+ .avatar.profile-button {top:10px;right:12px}
+ #path-profile-menu {top:58px;right:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ .avatar.profile-button::before,.avatar.profile-button svg {transition:none}
+}

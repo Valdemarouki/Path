@@ -161,8 +161,8 @@ async function run(){
   // A real rapid second click hits the disabled added control and must stay harmless.
   await page.locator('[data-sport-library-plus="catalog:push-up"]').dispatchEvent('click');
   assert.equal((await draft()).exercises.length,1);
-  await click('[data-history="undo"]');assert.equal((await draft()).exercises.length,0);
-  await click('[data-history="redo"]');assert.equal((await draft()).exercises.length,1);
+  await page.locator('.app-main').focus();await page.keyboard.press('Control+z');assert.equal((await draft()).exercises.length,0);
+  await page.keyboard.press('Control+Shift+z');assert.equal((await draft()).exercises.length,1);
   assert.equal(await page.locator('#editor-overlay').count(),0,'add must not open exercise details');
   await click('[data-sport-favorite="catalog:push-up"]');await click('[data-sport-library-tab="favorites"]');
   assert.equal(await page.locator('.sport-catalog-item').count(),1);
