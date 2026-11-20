@@ -54,6 +54,11 @@ body[data-page=calendar] .app-main>footer{display:none}
 .calendar-layout,.calendar-layout.with-context{display:block;position:relative}
 .calendar-layout .calendar-timegrid{min-width:0!important}
 .calendar-layout .calendar-scroll{max-height:none;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.calendar-layout .calendar-week-frame {
+ border:1px solid #ffffff14;
+ border-radius:14px;
+}
+.calendar-combined-scroll .calendar-scroll-content.calendar-week-frame {overflow:clip}
 .calendar-toolbar{padding:12px 0;gap:16px}
 .calendar-toolbar .btn,.calendar-toolbar .tab,.calendar-actions .btn{min-height:36px;font-size:12px;white-space:normal}
 .calendar-toolbar .icon-only{width:36px;flex:none}
