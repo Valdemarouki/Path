@@ -198,17 +198,25 @@ function calendarMoveCandidate(op){
 function calendarPaintGhost(op){
  calendarClearGhost(op);op.el.classList.add('calendar-gesture-source');
  let candidate,label;
- try{candidate=calendarMoveCandidate(op);const t=pathEventTiming(candidate),a=pathZoneParts(t.start),b=pathZoneParts(t.end);
-  label=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(a.date),startTime:calendarClockLabel(t.start),endDate:calendarFullDate(b.date),endTime:calendarClockLabel(t.end)});
- }catch(error){label=error.message;}
+ op.resizeEdge=null;
+ try{
+  candidate=calendarMoveCandidate(op);
+  const {start,end}=pathEventTiming(candidate);
+  if(op.resize){
+   label=clockTime(pathZoneParts(end).hour);
+  }else{
+   label=calendarMessage('{startDate}, {startTime} – {endDate}, {endTime}',{startDate:calendarFullDate(pathZoneParts(start).date),startTime:calendarClockLabel(start),endDate:calendarFullDate(pathZoneParts(end).date),endTime:calendarClockLabel(end)});
+  }
+ }catch(error){label=op.resize?clockTime(op.nextEnd.minute/60):error.message;}
  for(const day of document.querySelectorAll('.calendar-timegrid [data-grid-date]')){
   const segment=candidate?calendarSegment(candidate,day.dataset.gridDate):day.dataset.gridDate===(op.nextDate||op.date)?{hour:(op.nextMinute??op.hour*60)/60,duration:15}:null;
   if(!segment)continue;
   const ghost=document.createElement('div');ghost.className='calendar-gesture-ghost';ghost.setAttribute('aria-hidden','true');
   ghost.style.top=calendarMinutePixels(segment.hour*60)+'px';ghost.style.height=Math.max(1,calendarMinutePixels(segment.duration))+'px';
   day.appendChild(ghost);
+  if(op.resize&&candidate&&!segment.continuesAfter)op.resizeEdge=ghost;
  }
- const hint=document.createElement('div');hint.className='calendar-gesture-label';hint.setAttribute('aria-hidden','true');hint.textContent=label;document.body.appendChild(hint);
+ const hint=document.createElement('div');hint.className=op.resize?'calendar-gesture-label calendar-resize-time':'calendar-gesture-label';hint.setAttribute('aria-hidden','true');hint.textContent=label;document.body.appendChild(hint);
 }
 function updateCalendarPointer(op,x,y){
  const scroller=document.querySelector('.calendar-scroll'),delta=(y-op.y+(scroller?.scrollTop||0)-op.scrollTop)/calendarMinutePixels(1);
@@ -221,7 +229,14 @@ function updateCalendarPointer(op,x,y){
  }
  else {const day=[...document.querySelectorAll('.calendar-timegrid [data-grid-date]')].find(d=>{const r=d.getBoundingClientRect();return x>=r.left&&x<r.right});op.nextDate=day?.dataset.gridDate||op.date;op.nextMinute=Math.min(1425,Math.max(0,Math.round((op.hour*60+delta)/15)*15));}
  const key=[op.nextDate,op.nextMinute,op.nextDuration,op.resizeProblem,op.nextEnd?.date,op.nextEnd?.minute].join(':');if(key!==op.previewKey){op.previewKey=key;calendarPaintGhost(op);}
- const hint=document.querySelector('.calendar-gesture-label');if(hint){hint.style.left=Math.max(12,Math.min(x+16,innerWidth-hint.offsetWidth-12))+'px';hint.style.top=Math.max(12,Math.min(y+24,innerHeight-hint.offsetHeight-12))+'px';}
+ const hint=document.querySelector('.calendar-gesture-label');
+ if(hint){
+  const edge=op.resizeEdge?.getBoundingClientRect();
+  const left=op.resize?((edge?edge.left+edge.width/2:x)-hint.offsetWidth/2):x+16;
+  const top=op.resize?(edge?.bottom??y)+3:y+24;
+  hint.style.left=Math.max(12,Math.min(left,innerWidth-hint.offsetWidth-12))+'px';
+  hint.style.top=Math.max(12,Math.min(top,innerHeight-hint.offsetHeight-12))+'px';
+ }
 }
 document.addEventListener('pointerup',e=>{
  const op=calendarPointer;if(!op||op.pointerId!==e.pointerId)return;
