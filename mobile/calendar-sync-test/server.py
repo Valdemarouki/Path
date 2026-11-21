@@ -5,6 +5,7 @@ from functools import partial
 from http.server import ThreadingHTTPServer
 import importlib.util
 import json
+import re
 from pathlib import Path
 import sqlite3
 import ssl
@@ -18,7 +19,10 @@ sys.modules[spec.name] = phone
 spec.loader.exec_module(phone)
 API = "/calendar-test/api"
 LEGACY_FIELDS = {"meeting", "deadline"}
-FIELDS = LEGACY_FIELDS | {"meetingTitle"}
+V2_FIELDS = LEGACY_FIELDS | {"meetingTitle"}
+FIELDS = V2_FIELDS | {"meetingImportance", "deadlineImportance"}
+PRIORITIES = ("none", "low", "medium", "high")
+MAX_PAYLOAD = 2 * 1024 * 1024
 INITIAL_MEETING_TITLE = "Тестовая встреча"
 
 
@@ -26,15 +30,55 @@ def encode(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def valid_values(value):
-    if not isinstance(value, dict) or set(value) not in (LEGACY_FIELDS, FIELDS):
+def valid_slot(slot):
+    return (isinstance(slot, list) and len(slot) == 2 and all(type(n) is int for n in slot)
+            and 946684800000 <= slot[0] < 4102444800000 and slot[0] % 60000 == 0
+            and 1 <= slot[1] <= 10080)
+
+
+def valid_title(text):
+    return isinstance(text, str) and 0 < len(text.strip()) <= 500
+
+
+def valid_event(key, event):
+    if not re.fullmatch(r"event:[a-zA-Z0-9_-]{1,128}", key) or key in ("event:path-rehearsal-meeting", "event:path-rehearsal-deadline"):
         return False
-    slot = value["meeting"]
-    titles = [value[key] for key in ("deadline", "meetingTitle") if key in value]
-    return (all(isinstance(title, str) and title.strip() and len(title) <= 500 for title in titles) and
-            isinstance(slot, list) and len(slot) == 2 and all(type(n) is int for n in slot) and
-            946684800000 <= slot[0] < 4102444800000 and slot[0] % 60000 == 0 and
-            1 <= slot[1] <= 10080)
+    if event is None:
+        return True
+    if not isinstance(event, dict) or set(event) != {"title","type","importance","when","done","protected","notes","location","eventIcon","reminderMinutes"}:
+        return False
+    kind, when = event["type"], event["when"]
+    if (not valid_title(event["title"]) or event["importance"] not in PRIORITIES
+            or kind not in ("busy","routine","workout","focus","deadline","free_time")
+            or event["eventIcon"] not in ("calendar","book","focus","sport","sun")
+            or type(event["reminderMinutes"]) is not int or event["reminderMinutes"] < 0
+            or any(type(event[k]) is not bool for k in ("done","protected"))
+            or not isinstance(event["notes"],str) or len(event["notes"]) > 10000
+            or not isinstance(event["location"],str) or len(event["location"]) > 500):
+        return False
+    if kind == "deadline":
+        try:
+            return isinstance(when,str) and dt.date.fromisoformat(when).isoformat() == when and not event["done"]
+        except ValueError:
+            return False
+    return (isinstance(when,list) and len(when) == 3 and valid_slot(when[:2])
+            and isinstance(when[2],str) and 0 < len(when[2]) <= 128)
+
+
+def valid_values(value):
+    if not isinstance(value, dict) or not LEGACY_FIELDS.issubset(value):
+        return False
+    if not valid_slot(value["meeting"]) or not valid_title(value["deadline"]):
+        return False
+    if set(value) == LEGACY_FIELDS:
+        return True
+    if not V2_FIELDS.issubset(value) or not valid_title(value["meetingTitle"]):
+        return False
+    if set(value) == V2_FIELDS:
+        return True
+    return (FIELDS.issubset(value) and len(value) <= 5000 + len(FIELDS)
+            and all(value[k] in PRIORITIES for k in ("meetingImportance","deadlineImportance"))
+            and all(valid_event(k,value[k]) for k in value.keys() - FIELDS))
 
 
 def initialize(db):
@@ -62,6 +106,8 @@ def snapshot(db, rev=None):
     values = json.loads(row[1])
     # Older revisions predate title exchange. Preserve their IDs and receipts.
     values.setdefault("meetingTitle", INITIAL_MEETING_TITLE)
+    values.setdefault("meetingImportance", "none")
+    values.setdefault("deadlineImportance", "none")
     return dict(room=room, day=day, revision=row[0], values=values)
 
 
@@ -84,15 +130,18 @@ def exchange(db, job):
     base = snapshot(db, job["revision"])["values"]
     values = dict(head["values"])
     for key, local in job["values"].items():
-        remote = values[key]
-        if local != base[key]:
-            if remote != base[key] and local != remote:
+        remote = values.get(key)
+        if local != base.get(key):
+            if remote != base.get(key) and local != remote:
                 return 409, head
             values[key] = local
     revision = head["revision"]
     if values != head["values"]:
         revision += 1
-        db.execute("INSERT INTO history VALUES(?,?)", (revision,encode(values)))
+        payload = encode(values)
+        if len(payload.encode()) > MAX_PAYLOAD - 512 or len(values) > 5000 + len(FIELDS):
+            raise ValueError("calendar capacity")
+        db.execute("INSERT INTO history VALUES(?,?)", (revision,payload))
     db.execute("INSERT INTO receipt VALUES(?,?,?)", (job["id"], encode(job), revision))
     return 200, snapshot(db, revision)
 
@@ -103,8 +152,10 @@ class Handler(phone.PhoneHandler):
         super().__init__(*args, **kwargs)
 
     def reply(self, code, data):
-        if "values" in data and self.headers.get("X-Path-Calendar-Version") != "2":
-            data = {**data, "values": {k: data["values"][k] for k in LEGACY_FIELDS}}
+        version = self.headers.get("X-Path-Calendar-Version")
+        if "values" in data and version != "3":
+            keys = V2_FIELDS if version == "2" else LEGACY_FIELDS
+            data = {**data, "values": {k: data["values"][k] for k in keys}}
         body = encode(data).encode()
         self.send_headers(code, "application/json; charset=utf-8", len(body))
         self.wfile.write(body)
@@ -121,7 +172,7 @@ class Handler(phone.PhoneHandler):
             return self.send_error(403)
         try:
             size = int(self.headers.get("Content-Length", 0))
-            if not 0 < size <= 8192:
+            if not 0 < size <= MAX_PAYLOAD:
                 return self.send_error(413)
             job = json.loads(self.rfile.read(size))
             with sqlite3.connect(self.database) as db:

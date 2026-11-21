@@ -166,6 +166,8 @@ async function main() {
       const state = structuredClone(data);
       const journal = state.calendarTestSync;
       delete journal.base.values.meetingTitle;
+      delete journal.base.values.meetingImportance;
+      delete journal.base.values.deadlineImportance;
       journal.pending = {room:journal.base.room,revision:journal.base.revision,id:crypto.randomUUID(),values:{...journal.base.values}};
       state.events.find(e => e.id === 'path-rehearsal-meeting').title = 'До обновления';
       if (!pathRepository.commit(state)) throw Error(pathRepository.error);
@@ -188,6 +190,33 @@ async function main() {
     await waitText(secondTab,phoneDeadline,'Из прежней сборки');
     await waitText(secondTab,phoneMeeting,'До обновления');
     console.log('PASS: v1 pending request replay, pre-update local rename recovered, legacy writes preserve meeting title.');
+
+    // Save with the desktop icon controls and observe the mobile day without manual exchange.
+    await desktop.locator(deskMeeting).click();
+    await desktop.locator('[data-context-choice="high"]').click();
+    await desktop.locator('[data-context-done]').click();
+    await secondTab.locator(phoneMeeting + '[data-importance="high"]').waitFor();
+    await desktop.locator('[data-new-event]').first().click();
+    await desktop.locator('#editor-form [name="title"]').fill('Проверить новый блок');
+    await desktop.locator('#editor-form [name="time"]').fill('16:00');
+    await desktop.locator('#editor-form [name="time"]').dispatchEvent('change');
+    await desktop.locator('#editor-form [name="contextEnd"]').fill('17:00');
+    await desktop.locator('[data-context-choice="medium"]').click();
+    await desktop.locator('[data-context-done]').click();
+    await desktop.waitForFunction(() => !editor && data.events.some(e => e.title === 'Проверить новый блок'));
+    const id = await desktop.evaluate(() => data.events.find(e => e.title === 'Проверить новый блок').id);
+    const added = secondTab.locator('[data-calendar-event="' + id + '"]');
+    await added.waitFor();
+    assert.equal(await added.getAttribute('data-importance'),'medium');
+    assert.match(await added.innerText(),/Проверить новый блок/);
+    await secondTab.reload();
+    await added.waitFor();
+    assert.equal(await added.count(),1);
+    await added.click();
+    await secondTab.locator('#event-importance').selectOption('low');
+    await secondTab.locator('#event-save').click();
+    await desktop.locator('[data-calendar-drag="' + id + '"][data-importance="low"]').waitFor();
+    console.log('PASS: desktop importance and new timed event reach the mobile day, persist across reload, and accept return edits.');
 
   } catch (error) {
     for (const context of contexts) {
