@@ -12,7 +12,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 
 
-def build(output):
+def build(output, fresh=False):
     if output.exists() and any(output.iterdir()):
         raise ValueError("Choose an empty output directory")
     app = output / "www/calendar-test"
@@ -49,14 +49,24 @@ def build(output):
     entry = (HERE / "open.html").read_text(encoding="utf-8")
     (output / "www/open.html").write_text(entry.replace("BUILD_HASH", build_id), encoding="utf-8")
     (app / "sw.js").write_text(worker.replace("BUILD_HASH", build_id).replace("PRECACHE_FILES", json.dumps(files)), encoding="utf-8")
-    for name in ("server.py", "README-RU.md"):
-        shutil.copy(HERE / name, output)
+    shutil.copy(HERE / "server.py", output)
+    instructions = (HERE / "README-RU.md").read_text(encoding="utf-8")
+    launcher = (HERE / "Start.cmd").read_text(encoding="ascii")
+    if fresh:
+        start = instructions.index("## Обновление")
+        end = instructions.index("## Что передаётся", start)
+        setup = (HERE / "README-FRESH-RU.md").read_text(encoding="utf-8").rstrip()
+        instructions = instructions[:start] + setup + "\n\n" + instructions[end:]
+        launcher = launcher.replace("--port 8443", "--port 8444")
+    (output / "README-RU.md").write_text(instructions, encoding="utf-8")
     (output / "Start-PC.cmd").write_bytes(b'@call "%~dp0Start.cmd" 127.0.0.1\r\n')
-    (output / "Start.cmd").write_bytes((HERE / "Start.cmd").read_text().replace("\n", "\r\n").encode("ascii"))
+    (output / "Start.cmd").write_bytes(launcher.replace("\n", "\r\n").encode("ascii"))
     shutil.copy(ROOT / "mobile/tools/serve-phone.py", output)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
-    build(parser.parse_args().output.resolve())
+    parser.add_argument("--fresh", action="store_true", help="Build a separate installation on port 8444")
+    args = parser.parse_args()
+    build(args.output.resolve(), fresh=args.fresh)
