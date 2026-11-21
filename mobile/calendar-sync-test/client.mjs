@@ -1,4 +1,4 @@
-import {equal, values, apply, initialize, conflicting, legacyDefaults} from './records.mjs';
+import {equal, values as sharedValues, applyBatch as applyShared, initialize, conflicting, legacyDefaults} from './records.mjs';
 
 async function request(job) {
   const controller = new AbortController();
@@ -8,7 +8,7 @@ async function request(job) {
     try {
       response = await fetch('/calendar-test/api', {
         method: job ? 'POST' : 'GET', cache: 'no-store', signal: controller.signal,
-        headers: {'X-Path-Calendar-Version':'3', ...(job ? {'Content-Type':'application/json'} : {})}, body: job ? JSON.stringify(job) : undefined
+        headers: {'X-Path-Calendar-Version':'4', 'X-Path-View':location.pathname.split('/')[2], ...(job ? {'Content-Type':'application/json'} : {})}, body: job ? JSON.stringify(job) : undefined
       });
     } catch {
       throw Error('Сервер недоступен. Сохранённые на устройстве правки дождутся связи.');
@@ -16,7 +16,7 @@ async function request(job) {
     if (!response.ok && response.status !== 409) throw Error('Сервер отклонил запрос (' + response.status + '). Правки сохранены на устройстве.');
     const result = await response.json();
     if (result.error === 'otherRoom') throw Error('Открыта другая тестовая база. Вернитесь к исходной папке сервера.');
-    if (!Object.hasOwn(result.values || {}, 'meetingImportance')) throw Error('Перезапустите сервер из обновлённой сборки Calendar.');
+    if (result.protocol !== 4) throw Error('Перезапустите сервер из обновлённой сборки Path.');
     const slot = result.values.meeting;
     if (typeof result.room !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(result.day) ||
         !Number.isSafeInteger(result.revision) || result.revision < 1 ||
@@ -30,9 +30,12 @@ async function request(job) {
 }
 
 export function install(adapter) {
+  const mobile = adapter.role === 'mobile';
+  const values = state => sharedValues(state,mobile);
+  const applyBatch = (state,snapshot,keys) => applyShared(state,snapshot,keys,mobile);
   const panel = document.createElement('details');
   panel.id = 'calendar-rehearsal';
-  panel.innerHTML = '<summary>Тест обмена</summary><span>События календаря · Время и важность</span><p role="status"></p><small></small><div></div><button type="button">Обменять сейчас</button>';
+  panel.innerHTML = '<summary>Тест обмена</summary><span>Calendar · Today · Projects · Sport · Habits · Notes · Canvas · Progress</span><p role="status"></p><small></small><div></div><button type="button">Обменять сейчас</button>';
   document.body.append(panel);
   const status = panel.querySelector('p'), offline = panel.querySelector('small'), choices = panel.querySelector('div');
   let running = false, opened = false;
@@ -44,6 +47,8 @@ export function install(adapter) {
       const when = Array.isArray(v.when) ? new Date(v.when[0]).toLocaleString() + ' · ' + v.when[1] + ' мин' : v.when;
       return v.title + ' · ' + when + ' · ' + v.importance;
     }
+    if (v === null) return 'Удалено';
+    if (typeof v === 'object') return v.title || v.name || JSON.stringify(v).slice(0,180);
     return v;
   };
 
@@ -53,11 +58,20 @@ export function install(adapter) {
     const decisions = new Map();
     for (const key of Object.keys(journal.rejected.values).filter(k => conflicting(journal.base.values, local, journal.rejected.values, k))) {
       const label = document.createElement('label'), select = document.createElement('select');
-      label.textContent = {meeting:'Время встречи ', meetingTitle:'Название встречи ', deadline:'Название дедлайна ',meetingImportance:'Важность встречи ',deadlineImportance:'Важность дедлайна '}[key] || 'Событие ';
+      label.textContent = {meeting:'Время встречи ', meetingTitle:'Название встречи ', deadline:'Название дедлайна ',meetingImportance:'Важность встречи ',deadlineImportance:'Важность дедлайна '}[key] || (key + ' ');
       select.add(new Option('Выберите вариант', ''));
       select.add(new Option('Мой: ' + describe(key, local[key]), 'local'));
       select.add(new Option('С сервера: ' + describe(key, journal.rejected.values[key]), 'remote'));
       label.append(select); choices.append(label); decisions.set(key, select);
+      if (key.includes(':')) {
+        const details = document.createElement('details'), summary = document.createElement('summary');
+        summary.textContent = 'Сравнить обе версии'; details.append(summary);
+        for (const version of [local[key],journal.rejected.values[key]]) {
+          const pre = document.createElement('pre'); pre.textContent = JSON.stringify(version,null,2) ?? 'Удалено';
+          details.append(pre);
+        }
+        choices.append(details);
+      }
     }
     const button = document.createElement('button');
     button.textContent = 'Применить выбор'; choices.append(button);
@@ -68,9 +82,8 @@ export function install(adapter) {
       try {
         await adapter.update(state => {
           if (!equal(values(state), local) || !equal(state.calendarTestSync, journal)) throw Error('Повторите выбор после обновления.');
-          for (const key of Object.keys(journal.rejected.values)) {
-            if (decisions.get(key)?.value === 'remote' || equal(local[key], journal.base.values[key])) apply(state, key, journal.rejected.values[key]);
-          }
+          applyBatch(state,journal.rejected,Object.keys(journal.rejected.values).filter(key =>
+            decisions.get(key)?.value === 'remote' || equal(local[key],journal.base.values[key])));
           state.calendarTestSync = {base:journal.rejected, pending:null, rejected:null};
         });
         choices.replaceChildren();
@@ -81,7 +94,8 @@ export function install(adapter) {
   }
 
   async function sync() {
-    if (running || adapter.busy()) return;
+    if (running) return;
+    if (adapter.busy()) { message('Обмен продолжится после закрытия редактора.'); return; }
     running = true;
     try {
       adapter.prepare();
@@ -89,7 +103,7 @@ export function install(adapter) {
       if (!journal) {
         const {result} = await request();
         if (adapter.busy()) return;
-        await adapter.update(state => { if (!state.calendarTestSync) initialize(state, result); });
+        await adapter.update(state => { if (!state.calendarTestSync) initialize(state, result,mobile); });
         journal = adapter.read().calendarTestSync;
       }
       const needsDefaults = snapshot => snapshot && Object.keys(legacyDefaults).some(key => !Object.hasOwn(snapshot.values,key));
@@ -98,6 +112,23 @@ export function install(adapter) {
         await adapter.update(state => {
           for (const snapshot of [state.calendarTestSync.base,state.calendarTestSync.rejected]) {
             if (snapshot) snapshot.values = {...legacyDefaults,...snapshot.values};
+          }
+        });
+        journal = structuredClone(adapter.read().calendarTestSync);
+      }
+      // An older client may have acknowledged this revision without seeing the new collections.
+      // Pull their contents before publishing local rows against that revision.
+      if (!journal.pending && !journal.rejected && journal.base.protocol !== 4) {
+        const {result} = await request();
+        if (adapter.busy()) return;
+        if (result.room !== journal.base.room || result.revision < journal.base.revision) throw Error('Для продолжения откройте исходную папку сервера.');
+        await adapter.update(state => {
+          if (!equal(state.calendarTestSync,journal)) throw Error('Обмен повторится после обновления данных.');
+          const local = values(state), base = journal.base.values, keys = Object.keys(result.values);
+          if (keys.some(key=>conflicting(base,local,result.values,key))) state.calendarTestSync.rejected = result;
+          else {
+            applyBatch(state,result,keys.filter(key=>equal(local[key],base[key]) && !equal(local[key],result.values[key])));
+            state.calendarTestSync.base = result;
           }
         });
         journal = structuredClone(adapter.read().calendarTestSync);
@@ -114,7 +145,11 @@ export function install(adapter) {
       if (document.hidden && !dirty && !journal.pending) return;
       let job = journal.pending;
       if (!job && dirty) {
-        job = {room:journal.base.room, revision:journal.base.revision, id:crypto.randomUUID(), values:local};
+        const payload = {};
+        for (const [key,value] of Object.entries(local)) {
+          if (!key.includes(':') || !equal(value,journal.base.values[key])) payload[key] = value;
+        }
+        job = {room:journal.base.room, revision:journal.base.revision, id:crypto.randomUUID(), values:payload};
         await adapter.update(state => { state.calendarTestSync.pending = job; });
       }
       const {result, conflict} = await request(job);
@@ -126,12 +161,12 @@ export function install(adapter) {
           if (!equal(j.pending, job) || !equal(j.base, journal.base)) throw Error('Данные обновились. Обмен повторится.');
           const current = values(state);
           const keys = Object.keys(result.values);
-          const overlap = keys.some(key => !Object.hasOwn(job?.values || {}, key) && conflicting(j.base.values, current, result.values, key));
+          const overlap = keys.some(key => (!Object.hasOwn(job?.values || {}, key) || equal(job.values[key],j.base.values[key])) && conflicting(j.base.values, current, result.values, key));
           if (conflict || overlap) { j.rejected = result; j.pending = null; return; }
-          for (const key of keys) {
+          applyBatch(state,result,keys.filter(key => {
             const sent = job && Object.hasOwn(job.values,key) ? job.values[key] : j.base.values[key];
-            if (!equal(current[key],result.values[key]) && equal(current[key],sent)) apply(state,key,result.values[key]);
-          }
+            return !equal(current[key],result.values[key]) && equal(current[key],sent);
+          }));
           state.calendarTestSync = {base:result, pending:null, rejected:null};
         });
       }

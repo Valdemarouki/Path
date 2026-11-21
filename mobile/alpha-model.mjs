@@ -144,7 +144,7 @@ export function saveWorkoutInputs(state,entries,now=new Date()){
 }
 export function boardViewable(board){
  if(!board||!Array.isArray(board.nodes)||!Array.isArray(board.edges)||board.nodes.length>500||board.edges.length>1000)return false;
- const ids=new Set();for(const n of board.nodes){if(!n||typeof n.id!=='string'||ids.has(n.id)||![n.x,n.y,n.width,n.height].every(Number.isFinite)||n.width<=0||n.height<=0||n.collapsed||['frame','group'].includes(n.kind)||n.parentId||n.hidden)return false;ids.add(n.id);}
+ const ids=new Set();for(const n of board.nodes){if(!n||typeof n.id!=='string'||ids.has(n.id)||![n.x,n.y,n.width??280,n.height??180].every(Number.isFinite)||n.width<=0||n.height<=0||n.collapsed||['frame','group'].includes(n.kind)||n.parentId||n.hidden)return false;ids.add(n.id);}
  return board.edges.every(e=>e&&ids.has(e.from)&&ids.has(e.to));
 }
 export function canvasNodeProjection(state,node){

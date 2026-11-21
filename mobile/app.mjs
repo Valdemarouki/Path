@@ -5,6 +5,8 @@ import {createEventEditor} from './event-editor.mjs';
 import {createAlphaUI} from './alpha-ui.mjs';
 import {createSportUI} from './sport-ui.mjs';
 import {tasksForDate,projectDeadlines,taskEntry,projectTaskEditable} from './task-selectors.mjs';
+import {desktopHabitState} from './desktop-inspector.mjs';
+import {desktopTestText} from './desktop-test-i18n.mjs';
 import {mobileBackup} from './desktop-adapter.mjs';
 import {HABITS_ICON_PATH} from './habit-icon.mjs';
 import {canSetEventCompletion,zoneParts} from './calendar-model.mjs';
@@ -48,7 +50,7 @@ const numericPicker=installNumericFields({navigation,tr});
 const getSaveError=()=>lastSaveError||($('storage-error').hidden||$('storage-error').dataset.resolved?'':$('storage-error').textContent);
 const eventEditor=createEventEditor({getState:()=>state,commit,tr,label:e=>label(e,lang),date:()=>selected,openWorkout:id=>{sport.openEvent(id);navigate('sport');},getError:getSaveError,navigation,refresh:refreshData,isStale:()=>blocked,onCompletion:(id,done)=>completion.feedback(id,done)});
 const completion=createCalendarCompletion({getState:()=>state,commit,tr,label:e=>label(e,lang),getContext:()=>({route,date:selected}),isBlocked:()=>fatal||blocked||writing||!!testControls?.isBusy(),isStale:()=>blocked,getError:getSaveError,refresh:refreshData,announce});
-const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,openTask:openAdd,getHabitDate:()=>desktopMode?(desktopHabitDate||today):dayKey(),setHabitDate:date=>{desktopHabitDate=date;render();}});
+const alpha=createAlphaUI({getState:()=>state,commit,tr,label:e=>label(e,lang),language:()=>lang,icon,navigation,navigate,refresh:refreshData,isStale:()=>blocked||fatal,getError:getSaveError,getHabitDate:()=>desktopMode?(desktopHabitDate||today):dayKey(),setHabitDate:date=>{desktopHabitDate=date;render();}});
 const sport=createSportUI({getState:()=>state,commit,language:()=>lang,navigation,navigate,refreshView:render,getError:getSaveError,isStale:()=>blocked||fatal,numericPicker,openCalendar:date=>{selected=date;navigate('calendar');}});
 try { const make=()=>desktopMode?createDesktopTestRepository(localStorage):createRepository(localStorage);repo=navigator.locks?await navigator.locks.request(storageKey,make):make(); state=repo.state; lang=state?.language||'en';if(desktopMode&&state){today=state.desktopTest.date;selected=today;desktopHabitDate=today;} }
 catch { fatal=true; }
@@ -145,6 +147,24 @@ function habitsView() {
 function unavailableView(key) {
   return `${intro(key)}<section class="notice">${icon(key)}<h2>${tr('unavailable')}</h2><p>${tr(key==='sync'?'syncDetail':key==='sport'?'sportNote':'unavailableDetail')}</p></section>`;
 }
+function sharedReadOnlyCards() {
+  const collection = {today:'homeTasks', habits:'habits', calendar:'events'}[route];
+  if (!collection || !state.workspaceReadOnly) return '';
+  return Object.entries(state.workspaceReadOnly)
+    .filter(([key,row]) => key.startsWith(collection + ':') &&
+      (route !== 'calendar' || row.date === selected) && (route !== 'today' || !row.date || row.date === today))
+    .map(([,row]) => {
+      const value = route === 'habits' ? row.values?.[today] : null;
+      if (route === 'habits') {
+        const status=desktopHabitState(row,today);
+        const editable=status.supported && status.eligible && ['duration','count'].includes(status.kind);
+        const unit=status.unit ? desktopTestText(status.unit,lang) : '';
+        return `<article class="alpha-card"><h3>${escape(row.name)}</h3><p>${escape(value ?? '—')} / ${escape(status.goal ?? '—')} ${escape(unit)}</p>${editable?actionButton(desktopTestText('setValue',lang),{attrs:`data-test-habit-value="${escape(row.id)}" data-day="${escape(today)}"`}):`<small>${tr('readOnly')}</small>`}</article>`;
+      }
+      const time = route === 'calendar' && Number.isFinite(row.hour) ? String(Math.floor(row.hour)).padStart(2,'0') + ':' + String(Math.round(row.hour % 1 * 60)).padStart(2,'0') : '';
+      return `<article class="alpha-card"><h3>${escape(row.title || row.name)}</h3><p>${escape([time,row.note,value].filter(x => x !== null && x !== undefined && x !== '').join(' · '))}</p><small>${tr('readOnly')}</small></article>`;
+    }).join('');
+}
 function render() {
   formatterZone=Intl.DateTimeFormat().resolvedOptions().timeZone;
   completion.beforeRender();
@@ -155,7 +175,7 @@ function render() {
   if(fatal){$('content').innerHTML='';showError('loadError');document.querySelectorAll('[data-add]').forEach(b=>b.disabled=true);return;}
   if(desktopMode&&!state){$('content').innerHTML=`<p class="desktop-test-empty">${testText('empty')}</p>`;document.querySelectorAll('nav [data-add]').forEach(b=>b.disabled=true);return;}
   const motion=state.mobilePreferences?.motion==='off'?'off':'system';if(document.documentElement.dataset.motion!==motion){document.documentElement.dataset.motion=motion;window.dispatchEvent(new Event('path-motion-change'));}
-  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='sport'?sport.view():route==='settings'?settingsView():alpha.view(route)??unavailableView(route))+`<p class="local-tag">${tr('demo')}</p>`;
+  $('content').innerHTML=(route==='today'?todayView():route==='calendar'?calendarView():route==='sport'?sport.view():route==='settings'?settingsView():alpha.view(route)??unavailableView(route))+sharedReadOnlyCards()+`<p class="local-tag">${tr(state.calendarTestSync?'localExchange':'demo')}</p>`;
   alpha.mount();
   sport.mount();
   if(desktopMode)document.querySelectorAll('nav [data-add]').forEach(b=>{b.disabled=true;b.setAttribute('title',testText('readonly'));});

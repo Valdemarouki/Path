@@ -33,7 +33,7 @@ def build(output):
     with (mobile / "app.mjs").open("a", encoding="utf-8") as f:
         f.write((HERE / "mobile-bridge.mjs").read_text(encoding="utf-8"))
     shutil.copy(HERE / "desktop.mjs", desktop)
-    for name in ("client.mjs", "records.mjs", "storage-scope.js", "test.css"):
+    for name in ("client.mjs", "records.mjs", "workspace.mjs", "storage-scope.js", "test.css"):
         shutil.copy(HERE / name, app)
     worker = (HERE / "sw.js").read_text(encoding="utf-8")
     digest = hashlib.sha256(worker.encode())

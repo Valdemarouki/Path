@@ -5,8 +5,10 @@ from functools import partial
 from http.server import ThreadingHTTPServer
 import importlib.util
 import json
+import math
 import re
 from pathlib import Path
+import socket
 import sqlite3
 import ssl
 import sys
@@ -22,7 +24,7 @@ LEGACY_FIELDS = {"meeting", "deadline"}
 V2_FIELDS = LEGACY_FIELDS | {"meetingTitle"}
 FIELDS = V2_FIELDS | {"meetingImportance", "deadlineImportance"}
 PRIORITIES = ("none", "low", "medium", "high")
-MAX_PAYLOAD = 2 * 1024 * 1024
+MAX_PAYLOAD = 8 * 1024 * 1024
 INITIAL_MEETING_TITLE = "Тестовая встреча"
 
 
@@ -65,6 +67,63 @@ def valid_event(key, event):
             and isinstance(when[2],str) and 0 < len(when[2]) <= 128)
 
 
+COLLECTIONS = {"homeTasks":"title", "projects":"name", "notes":"title", "habits":"name",
+               "canvases":"name", "focusRecords":"date"}
+GROUP = "linked:sport-calendar"
+GROUP_LISTS = {"events", "eventSeries", "workoutRecords", "workouts", "programs", "skillTests"}
+
+
+def safe_tree(value, depth=0):
+    if depth > 64:
+        return False
+    if isinstance(value, dict):
+        return all(k not in ("__proto__", "constructor", "prototype") and safe_tree(item, depth+1)
+                   for k, item in value.items())
+    if isinstance(value, list):
+        return all(safe_tree(item, depth+1) for item in value)
+    return not isinstance(value, float) or math.isfinite(value)
+
+
+def valid_entry(key, row):
+    if key.startswith("event:"):
+        return valid_event(key, row)
+    if key in ("starter:deadline", "starter:meeting"):
+        return row is None or (isinstance(row, dict) and "id" not in row)
+    if key == "library:sport":
+        return row is None or (isinstance(row, dict) and not row.keys() - {"sportsLibrary", "exercisePreferences"}
+                               and all(isinstance(item, dict) for item in row.values()))
+    if key == GROUP:
+        if row is None:
+            return True
+        if not isinstance(row, dict) or row.keys() - GROUP_LISTS - {"activeWorkout"}:
+            return False
+        for name, items in row.items():
+            if name not in GROUP_LISTS:
+                if not isinstance(items, dict):
+                    return False
+            elif (not isinstance(items, list) or len(items) > 5000
+                  or any(not isinstance(x,dict) or not isinstance(x.get("id"),str) or not x["id"] for x in items)
+                  or len({x["id"] for x in items}) != len(items)):
+                return False
+        return True
+    kind, _, ident = key.partition(":")
+    if kind not in COLLECTIONS or not 0 < len(ident) <= 512:
+        return False
+    if row is None:
+        return True
+    if not isinstance(row,dict) or row.get("id") != ident:
+        return False
+    if not isinstance(row.get(COLLECTIONS[kind]),str):
+        return False
+    if kind == "notes":
+        return row.get("kind") == "note" and isinstance(row.get("body"),str)
+    if kind == "projects":
+        return isinstance(row.get("tasks"),list)
+    if kind == "canvases":
+        return "viewport" not in row and all(isinstance(row.get(k),list) for k in ("nodes","edges"))
+    return True
+
+
 def valid_values(value):
     if not isinstance(value, dict) or not LEGACY_FIELDS.issubset(value):
         return False
@@ -78,7 +137,7 @@ def valid_values(value):
         return True
     return (FIELDS.issubset(value) and len(value) <= 5000 + len(FIELDS)
             and all(value[k] in PRIORITIES for k in ("meetingImportance","deadlineImportance"))
-            and all(valid_event(k,value[k]) for k in value.keys() - FIELDS))
+            and safe_tree(value) and all(valid_entry(k,value[k]) for k in value.keys() - FIELDS))
 
 
 def initialize(db):
@@ -111,7 +170,7 @@ def snapshot(db, rev=None):
     return dict(room=room, day=day, revision=row[0], values=values)
 
 
-def exchange(db, job):
+def exchange(db, job, version=None, view=None):
     db.execute("BEGIN IMMEDIATE")
     head = snapshot(db)
     if not isinstance(job, dict) or set(job) != {"room","revision","id","values"} or not valid_values(job["values"]):
@@ -131,11 +190,19 @@ def exchange(db, job):
     values = dict(head["values"])
     for key, local in job["values"].items():
         remote = values.get(key)
-        if local != base.get(key):
+        if key not in FIELDS and not key.startswith("event:") and (version != "4" or view not in ("mobile","desktop")):
+            raise ValueError("protocol")
+        if key.startswith("canvases:") and view != "desktop" and local != base.get(key):
+            raise ValueError("Canvas is read-only on mobile")
+        if local != base.get(key) or (key not in base and local is None):
             if remote != base.get(key) and local != remote:
                 return 409, head
             values[key] = local
     revision = head["revision"]
+    group = values.get(GROUP) or {}
+    for event in group.get("events", []):
+        if values.get("event:" + event["id"]) is not None or event["id"] in ("path-rehearsal-meeting","path-rehearsal-deadline"):
+            raise ValueError("duplicate event")
     if values != head["values"]:
         revision += 1
         payload = encode(values)
@@ -153,9 +220,13 @@ class Handler(phone.PhoneHandler):
 
     def reply(self, code, data):
         version = self.headers.get("X-Path-Calendar-Version")
-        if "values" in data and version != "3":
+        if "values" in data and version != "4":
             keys = V2_FIELDS if version == "2" else LEGACY_FIELDS
+            if version == "3":
+                keys = FIELDS | {k for k in data["values"] if k.startswith("event:")}
             data = {**data, "values": {k: data["values"][k] for k in keys}}
+        elif "values" in data:
+            data = {**data, "protocol": 4}
         body = encode(data).encode()
         self.send_headers(code, "application/json; charset=utf-8", len(body))
         self.wfile.write(body)
@@ -176,12 +247,28 @@ class Handler(phone.PhoneHandler):
                 return self.send_error(413)
             job = json.loads(self.rfile.read(size))
             with sqlite3.connect(self.database) as db:
-                code, result = exchange(db, job)
+                code, result = exchange(db, job, self.headers.get("X-Path-Calendar-Version"), self.headers.get("X-Path-View"))
             self.reply(code, result)
-        except (ValueError, OverflowError):
+        except (ValueError, OverflowError, RecursionError):
             self.send_error(400)
         except sqlite3.Error:
             self.send_error(503)
+
+
+def local_lan_address():
+    candidates = set()
+    for info in socket.getaddrinfo(socket.gethostname(), None, socket.AF_INET, socket.SOCK_STREAM):
+        address = info[4][0]
+        try:
+            address = phone.validate_bind(address, True)
+        except phone.SetupError:
+            continue
+        if not address.startswith("127."):
+            candidates.add(address)
+    if len(candidates) != 1:
+        choices = ", ".join(sorted(candidates)) or "see ipconfig"
+        raise phone.SetupError("Run Start.cmd with the home-network IPv4 address. Candidates: " + choices)
+    return candidates.pop()
 
 
 def main():
@@ -192,6 +279,8 @@ def main():
     parser.add_argument("--cert", type=Path, required=True)
     parser.add_argument("--key", type=Path, required=True)
     args = parser.parse_args()
+    if args.bind == "lan" and args.allow_lan:
+        args.bind = local_lan_address()
     args.directory = HERE / "www"
     args.public_ca = None
     config = phone.prepare(args, ("calendar-test/desktop/index.html", "calendar-test/mobile/index.html", "calendar-test/sw.js"))
@@ -211,5 +300,7 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+    except phone.SetupError as error:
+        raise SystemExit(str(error)) from None
     except KeyboardInterrupt:
         pass

@@ -46,14 +46,19 @@ export function validate(state) {
     validateEventRecord(undo.event);
   }
   for (const habit of state.habits) {
-    if (!validDay(habit.startDate) || !record(habit.checkIns) || !record(habit.values) || !Array.isArray(habit.schedules) || !habit.schedules.length) fail();
-    if (Object.entries(habit.checkIns).some(([d,v])=>!validDay(d)||typeof v!=='boolean') || Object.entries(habit.values).some(([d,v])=>!validDay(d)||![0,1].includes(v))) fail();
-    if (habit.schedules.some(r=>!record(r)||!validDay(r.from)||!['daily','days'].includes(r.frequency)||r.kind!=='completion'||r.goal!==1||r.source!=='manual'||typeof r.days!=='string'||!/^([0-6])(,[0-6])*$/.test(r.days))) fail();
+    validateHabitRecord(habit);
   }
   validateAlphaExtensions(state);
   return state;
 }
-function validateHomeTaskRecord(task){
+export function validateHabitRecord(habit){
+  const fail=()=>{throw Error('invalid');};
+  if (!record(habit) || typeof habit.name!=='string' || !habit.name.trim() || habit.name.length>500) fail();
+  if (!validDay(habit.startDate) || !record(habit.checkIns) || !record(habit.values) || !Array.isArray(habit.schedules) || !habit.schedules.length) fail();
+  if (Object.entries(habit.checkIns).some(([d,v])=>!validDay(d)||typeof v!=='boolean') || Object.entries(habit.values).some(([d,v])=>!validDay(d)||![0,1].includes(v))) fail();
+  if (habit.schedules.some(r=>!record(r)||!validDay(r.from)||!['daily','days'].includes(r.frequency)||r.kind!=='completion'||r.goal!==1||(r.source!==undefined&&r.source!=='manual')||typeof r.days!=='string'||!/^([0-6])(,[0-6])*$/.test(r.days))) fail();
+}
+export function validateHomeTaskRecord(task){
  if(!record(task)||typeof task.id!=='string'||!task.id||typeof task.title!=='string'||!task.title.trim()||task.title.length>500||!validDay(task.date)||typeof task.done!=='boolean'||task.duration!==undefined&&(!Number.isInteger(task.duration)||task.duration<1||task.duration>10080)||task.note!==undefined&&(typeof task.note!=='string'||task.note.length>10000))throw Error('invalid');
 }
 // Undo snapshots obey the same event contract, without rewriting extension fields.

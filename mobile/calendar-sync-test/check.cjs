@@ -56,11 +56,16 @@ async function main() {
   }
   try {
     execFileSync('python3', [path.join(__dirname, 'build.py'), bundle]);
+    execFileSync(process.execPath,[path.join(__dirname,'records-check.mjs'),bundle],{stdio:'inherit'});
     execFileSync('openssl',['req','-x509','-newkey','rsa:2048','-nodes','-days','1','-subj','/CN=localhost',
       '-keyout',path.join(tmp,'key.pem'),'-out',path.join(tmp,'cert.pem')],{stdio:'ignore'});
     await start();
     let desktop = await open('desktop'), phone = await open('mobile');
-    for (const page of [desktop,phone]) await waitText(page,health,'версия 1');
+    for (const page of [desktop,phone]) await waitText(page,health,'версия 2');
+    if (process.env.PATH_WORKSPACE_ONLY === '1') {
+      await require('./workspace-check.cjs')(desktop,phone,url);
+      return;
+    }
     await stop();
     const card = desktop.locator(deskMeeting);
     await card.evaluate(el => el.scrollIntoView({block:'center'}));
@@ -76,15 +81,15 @@ async function main() {
     await waitText(desktop,deskMeeting,'11:00–12:00'); await waitText(desktop,deskDeadline,'Сдать отчёт');
     await waitText(phone,phoneDeadline,title); await waitText(phone,phoneMeeting,'10:00');
     await start();
-    for (const page of [desktop,phone]) await waitText(page,health,'версия 3');
+    for (const page of [desktop,phone]) await waitText(page,health,'версия 4');
     await waitText(desktop,deskDeadline,title); await waitText(phone,phoneMeeting,'11:00');
     await waitText(phone,phoneMeeting,'12:00');
     for (const [page,selectors] of [[desktop,[deskMeeting,deskDeadline]],[phone,[phoneMeeting,phoneDeadline]]]) {
       for (const selector of selectors) assert.equal(await page.locator(selector).count(),1);
-      await page.reload(); await waitText(page,health,'версия 3');
+      await page.reload(); await waitText(page,health,'версия 4');
       assert(await page.evaluate(() => Object.keys(localStorage).every(k => k.startsWith('path-calendar-rehearsal:'))));
     }
-    console.log('PASS: two independent profiles, native desktop drag and mobile rename, both browsers restarted offline, two records converge on revision 3.');
+    console.log('PASS: two independent profiles, native desktop drag and mobile rename, both browsers restarted offline, two records converge on revision 4.');
     // Simulate a response disappearing after the server has durably accepted it.
     await phone.evaluate(() => {
       const send = window.fetch;
@@ -103,7 +108,7 @@ async function main() {
     const oldPhone = phone.context();
     await phone.close(); await oldPhone.close(); contexts.delete(oldPhone);
     phone = await open('mobile');
-    for (const p of [desktop,phone]) await waitText(p,health,'версия 5');
+    for (const p of [desktop,phone]) await waitText(p,health,'версия 6');
     await waitText(desktop,deskDeadline,'Исправление после отправки');
     console.log('PASS: replayed a lost acknowledgement after restart, retained a later local edit.');
 
@@ -128,14 +133,14 @@ async function main() {
     await phone.locator('#calendar-rehearsal summary').click();
     await phone.locator('#calendar-rehearsal select').selectOption('local');
     await phone.getByRole('button',{name:'Применить выбор'}).click();
-    for (const p of [desktop,phone]) await waitText(p,health,'версия 7');
+    for (const p of [desktop,phone]) await waitText(p,health,'версия 8');
     await waitText(desktop,deskDeadline,'Вариант телефона');
     console.log('PASS: persisted same-field conflict across reload, explicit choice reached both clients.');
 
     // Use both clients in one browser, then switch away immediately after Done.
     const secondTab = await desktop.context().newPage();
     await secondTab.goto(url + 'mobile/');
-    await waitText(secondTab,health,'версия 7');
+    await waitText(secondTab,health,'версия 8');
     await desktop.bringToFront();
     await desktop.locator(deskMeeting).click();
     await desktop.locator('#editor-form [name="title"]').fill('Обсудить план');
@@ -148,11 +153,11 @@ async function main() {
     });
     await secondTab.bringToFront();
     await waitText(secondTab,phoneMeeting,'Обсудить план');
-    await waitText(secondTab,health,'версия 8');
+    await waitText(secondTab,health,'версия 9');
     await secondTab.locator(phoneMeeting).click();
     await secondTab.locator('#event-name').fill('Проверка с телефона');
     await secondTab.locator('#event-save').click();
-    await waitText(secondTab,health,'версия 9');
+    await waitText(secondTab,health,'версия 10');
     await desktop.evaluate(() => {
       delete document.hidden;
       document.dispatchEvent(new Event('visibilitychange'));
@@ -165,9 +170,8 @@ async function main() {
     await desktop.evaluate(() => {
       const state = structuredClone(data);
       const journal = state.calendarTestSync;
-      delete journal.base.values.meetingTitle;
-      delete journal.base.values.meetingImportance;
-      delete journal.base.values.deadlineImportance;
+      journal.base.values = {meeting:journal.base.values.meeting,deadline:journal.base.values.deadline};
+      delete journal.base.protocol;
       journal.pending = {room:journal.base.room,revision:journal.base.revision,id:crypto.randomUUID(),values:{...journal.base.values}};
       state.events.find(e => e.id === 'path-rehearsal-meeting').title = 'До обновления';
       if (!pathRepository.commit(state)) throw Error(pathRepository.error);
@@ -179,7 +183,7 @@ async function main() {
     await desktop.locator('#calendar-rehearsal select').selectOption('local');
     await desktop.getByRole('button',{name:'Применить выбор'}).click();
     await waitText(secondTab,phoneMeeting,'До обновления');
-    await waitText(secondTab,health,'версия 10');
+    await waitText(secondTab,health,'версия 11');
     const legacy = await (await api.get(url + 'api')).json();
     assert.deepEqual(Object.keys(legacy.values).sort(),['deadline','meeting']);
     const legacyWrite = await api.post(url+'api',{headers:{Origin:new URL(url).origin},data:{
@@ -216,6 +220,7 @@ async function main() {
     await secondTab.locator('#event-importance').selectOption('low');
     await secondTab.locator('#event-save').click();
     await desktop.locator('[data-calendar-drag="' + id + '"][data-importance="low"]').waitFor();
+    await require('./workspace-check.cjs')(desktop,secondTab,url);
     console.log('PASS: desktop importance and new timed event reach the mobile day, persist across reload, and accept return edits.');
 
   } catch (error) {

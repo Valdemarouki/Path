@@ -8,3 +8,6 @@
 #calendar-rehearsal[open] { padding: 8px 12px; box-shadow: 0 4px 18px #0006; }
 #calendar-rehearsal p { margin: .5rem 0; }
 #calendar-rehearsal select,#calendar-rehearsal button { display:block; max-width:100%; margin:6px 0; }
+
+#calendar-rehearsal[open] { max-height: 75vh; overflow: auto; }
+#calendar-rehearsal pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12rem; overflow: auto; }

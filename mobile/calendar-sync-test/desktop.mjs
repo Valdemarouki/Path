@@ -1,13 +1,15 @@
 import {install} from '../client.mjs';
 
-function editingCalendar() {
-  return !!(editor || calendarPointer || calendarDraftDrag ||
+function editingWorkspace() {
+  return !!(editor || calendarPointer || calendarDraftDrag || noteDirty || canvasNoteDraft || canvasGesture ||
+    (view === 'sport' && (workoutDraft || sportScheduleDraft || sportShortDraft)) ||
     document.querySelector('dialog[open], [role="dialog"]:not([hidden])')?.getClientRects().length ||
     document.activeElement?.matches('input,textarea,[contenteditable=true]'));
 }
 install({
+  role: 'desktop',
   read: () => data,
-  busy: () => editingCalendar() || !!pathRepository.pending,
+  busy: () => editingWorkspace() || !!pathRepository.pending,
   prepare() {
     const changed = pathRepository.storage.getItem(pathRepository.key) !== pathRepository.raw;
     if (changed && !pathRepository.pending && pathJsonEqual(data, pathRepository.state)) {
