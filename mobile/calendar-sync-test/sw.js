@@ -1,4 +1,7 @@
 const cacheName = 'path-calendar-rehearsal-BUILD_HASH';
+self.addEventListener('message', event => {
+  if (event.data === 'path-build') event.ports[0]?.postMessage('BUILD_HASH');
+});
 const files = PRECACHE_FILES;
 const paths = new Set(files.map(f => new URL(f, self.registration.scope).pathname));
 self.addEventListener('install', event => {

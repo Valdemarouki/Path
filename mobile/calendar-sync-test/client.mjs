@@ -35,7 +35,7 @@ export function install(adapter) {
   const applyBatch = (state,snapshot,keys) => applyShared(state,snapshot,keys,mobile);
   const panel = document.createElement('details');
   panel.id = 'calendar-rehearsal';
-  panel.innerHTML = '<summary>Тест обмена</summary><span>Calendar · Today · Projects · Sport · Habits · Notes · Canvas · Progress</span><p role="status"></p><small></small><div></div><button type="button">Обменять сейчас</button>';
+  panel.innerHTML = '<summary>Тест обмена</summary><span>Path Sync 4 · Calendar · Today · Projects · Sport · Habits · Notes · Canvas · Progress</span><p role="status"></p><small></small><div></div><button type="button">Обменять сейчас</button>';
   document.body.append(panel);
   const status = panel.querySelector('p'), offline = panel.querySelector('small'), choices = panel.querySelector('div');
   let running = false, opened = false;
@@ -172,7 +172,7 @@ export function install(adapter) {
       }
       const latest = adapter.read();
       if (latest.calendarTestSync.rejected) { resolve(latest.calendarTestSync); message('Две правки одного поля требуют выбора.'); }
-      else if (equal(values(latest),result.values)) message('Синхронизировано · версия ' + result.revision);
+      else if (equal(values(latest),result.values)) message('Синхронизировано · версия базы ' + result.revision);
       else message('Сохранено на устройстве. Следующий обмен отправит правки.');
     } catch (error) { message(error.message); }
     finally { running = false; }

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Открыть Path</title>
+<style>
+:root{color-scheme:dark;font:16px/1.55 system-ui,sans-serif;background:#101113;color:#eee}
+main{max-width:32rem;margin:12vh auto;padding:1.5rem}h1{font:3rem Georgia,serif;margin:0}
+nav{display:flex;flex-wrap:wrap;gap:.6rem}a,button{font:inherit;color:inherit;background:#242528;border:1px solid #525457;border-radius:.65rem;padding:.55rem 1rem;text-decoration:none;cursor:pointer}
+[hidden]{display:none}a:focus-visible,button:focus-visible{outline:2px solid white;outline-offset:3px}
+</style></head><body><main><h1>Path.</h1>
+<p id="status" role="status">Проверяем сборку…</p>
+<nav hidden aria-label="Открыть Path"><a href="/calendar-test/desktop/">Компьютерная версия</a><a href="/calendar-test/mobile/">Мобильная версия</a></nav>
+<button type="button" hidden>Проверить снова</button>
+</main><script type="module">
+const status=document.querySelector('#status'), retry=document.querySelector('button');
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function matches(worker) {
+  if (worker?.state !== 'activated') return false;
+  const channel=new MessageChannel();
+  try {
+    return await new Promise(resolve=>{
+      const timer=setTimeout(()=>resolve(false),400);
+      channel.port1.onmessage=event=>{clearTimeout(timer);resolve(event.data==='BUILD_HASH');};
+      worker.postMessage('path-build', [channel.port2]);
+    });
+  } finally { channel.port1.close(); }
+}
+async function check() {
+  const response=await fetch('/calendar-test/api',{cache:'no-store',headers:{'X-Path-Calendar-Version':'4'}});
+  if (!response.ok) throw Error('Сервер Path недоступен. Проверьте окно запуска на ПК.');
+  const head=await response.json();
+  if (head.protocol!==4) throw Error('Работает старый сервер. Остановите его сочетанием Ctrl+C и запустите Start-PC.cmd из обновлённой папки.');
+  if ('serviceWorker' in navigator) {
+    status.textContent='Обновляем файлы Path для этого браузера…';
+    const registration=await navigator.serviceWorker.register('/calendar-test/sw.js',{updateViaCache:'none'});
+    if (!await matches(registration.active)) {
+      if (!registration.installing && !registration.waiting) await registration.update();
+      const deadline=Date.now()+90000;
+      while (!await matches(registration.active)) {
+        if (Date.now()>deadline) throw Error('Обновление ещё не завершилось. Проверьте связь с сервером и повторите проверку.');
+        await delay(200);
+      }
+    }
+  }
+  status.textContent='Готово. Откройте нужную версию. Для проверки на одном ПК можно открыть обе ссылки в отдельных вкладках.';
+  document.querySelector('nav').hidden=false;
+}
+async function run(){
+  retry.hidden=true;
+  try { await check(); }
+  catch(error) { status.textContent=error.message;retry.hidden=false; }
+}
+retry.onclick=run;
+run();
+</script></body></html>

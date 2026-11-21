@@ -44,7 +44,11 @@ def build(output):
             continue  # Static asset documentation is not requested by the app.
         files.append(name)
         digest.update(name.encode() + b"\0" + hashlib.sha256(path.read_bytes()).digest())
-    (app / "sw.js").write_text(worker.replace("BUILD_HASH", digest.hexdigest()[:20]).replace("PRECACHE_FILES", json.dumps(files)), encoding="utf-8")
+    build_id = digest.hexdigest()[:20]
+    # Keep the upgrade entry outside the service worker scope to reach older installations.
+    entry = (HERE / "open.html").read_text(encoding="utf-8")
+    (output / "www/open.html").write_text(entry.replace("BUILD_HASH", build_id), encoding="utf-8")
+    (app / "sw.js").write_text(worker.replace("BUILD_HASH", build_id).replace("PRECACHE_FILES", json.dumps(files)), encoding="utf-8")
     for name in ("server.py", "README-RU.md"):
         shutil.copy(HERE / name, output)
     (output / "Start-PC.cmd").write_bytes(b'@call "%~dp0Start.cmd" 127.0.0.1\r\n')

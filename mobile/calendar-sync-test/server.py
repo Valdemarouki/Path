@@ -292,6 +292,8 @@ def main():
         initialize(db)
     with ThreadingHTTPServer((config.bind, config.port), partial(Handler, config=config, database=dbpath)) as server:
         server.socket = tls.wrap_socket(server.socket, server_side=True)
+        print(f"Open Path: https://{config.bind}:{config.port}/open.html", flush=True)
+        print(f"Database: {dbpath}", flush=True)
         for client in ("desktop", "mobile"):
             print(f"{client}: https://{config.bind}:{config.port}/calendar-test/{client}/", flush=True)
         server.serve_forever()
