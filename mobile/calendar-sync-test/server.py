@@ -17,7 +17,9 @@ phone = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = phone
 spec.loader.exec_module(phone)
 API = "/calendar-test/api"
-FIELDS = {"meeting", "deadline"}
+LEGACY_FIELDS = {"meeting", "deadline"}
+FIELDS = LEGACY_FIELDS | {"meetingTitle"}
+INITIAL_MEETING_TITLE = "Тестовая встреча"
 
 
 def encode(value):
@@ -25,10 +27,11 @@ def encode(value):
 
 
 def valid_values(value):
-    if not isinstance(value, dict) or set(value) != FIELDS:
+    if not isinstance(value, dict) or set(value) not in (LEGACY_FIELDS, FIELDS):
         return False
-    title, slot = value["deadline"], value["meeting"]
-    return (isinstance(title, str) and 0 < len(title.strip()) <= 500 and
+    slot = value["meeting"]
+    titles = [value[key] for key in ("deadline", "meetingTitle") if key in value]
+    return (all(isinstance(title, str) and title.strip() and len(title) <= 500 for title in titles) and
             isinstance(slot, list) and len(slot) == 2 and all(type(n) is int for n in slot) and
             946684800000 <= slot[0] < 4102444800000 and slot[0] % 60000 == 0 and
             1 <= slot[1] <= 10080)
@@ -45,7 +48,8 @@ def initialize(db):
         day = dt.date.today()
         instant = dt.datetime.combine(day, dt.time(10)).timestamp()
         db.execute("INSERT INTO metadata VALUES(?,?)", (str(uuid.uuid4()), day.isoformat()))
-        db.execute("INSERT INTO history VALUES(1,?)", (encode(dict(meeting=[int(instant)*1000, 60], deadline="Сдать отчёт")),))
+        initial = {"meeting": [int(instant) * 1000, 60], "meetingTitle": INITIAL_MEETING_TITLE, "deadline": "Сдать отчёт"}
+        db.execute("INSERT INTO history VALUES(1,?)", (encode(initial),))
     db.commit()
 
 
@@ -55,7 +59,10 @@ def snapshot(db, rev=None):
            db.execute("SELECT rev,payload FROM history WHERE rev=?", (rev,))).fetchone()
     if not row:
         raise ValueError("revision")
-    return dict(room=room, day=day, revision=row[0], values=json.loads(row[1]))
+    values = json.loads(row[1])
+    # Older revisions predate title exchange. Preserve their IDs and receipts.
+    values.setdefault("meetingTitle", INITIAL_MEETING_TITLE)
+    return dict(room=room, day=day, revision=row[0], values=values)
 
 
 def exchange(db, job):
@@ -76,8 +83,8 @@ def exchange(db, job):
         return 200, snapshot(db, prior[1])
     base = snapshot(db, job["revision"])["values"]
     values = dict(head["values"])
-    for key in FIELDS:
-        local, remote = job["values"][key], values[key]
+    for key, local in job["values"].items():
+        remote = values[key]
         if local != base[key]:
             if remote != base[key] and local != remote:
                 return 409, head
@@ -96,6 +103,8 @@ class Handler(phone.PhoneHandler):
         super().__init__(*args, **kwargs)
 
     def reply(self, code, data):
+        if "values" in data and self.headers.get("X-Path-Calendar-Version") != "2":
+            data = {**data, "values": {k: data["values"][k] for k in LEGACY_FIELDS}}
         body = encode(data).encode()
         self.send_headers(code, "application/json; charset=utf-8", len(body))
         self.wfile.write(body)

@@ -47,6 +47,7 @@ def build(output):
     (app / "sw.js").write_text(worker.replace("BUILD_HASH", digest.hexdigest()[:20]).replace("PRECACHE_FILES", json.dumps(files)), encoding="utf-8")
     for name in ("server.py", "README-RU.md"):
         shutil.copy(HERE / name, output)
+    (output / "Start-PC.cmd").write_bytes(b'@call "%~dp0Start.cmd" 127.0.0.1\r\n')
     (output / "Start.cmd").write_bytes((HERE / "Start.cmd").read_text().replace("\n", "\r\n").encode("ascii"))
     shutil.copy(ROOT / "mobile/tools/serve-phone.py", output)
 

@@ -132,6 +132,63 @@ async function main() {
     await waitText(desktop,deskDeadline,'Вариант телефона');
     console.log('PASS: persisted same-field conflict across reload, explicit choice reached both clients.');
 
+    // Use both clients in one browser, then switch away immediately after Done.
+    const secondTab = await desktop.context().newPage();
+    await secondTab.goto(url + 'mobile/');
+    await waitText(secondTab,health,'версия 7');
+    await desktop.bringToFront();
+    await desktop.locator(deskMeeting).click();
+    await desktop.locator('#editor-form [name="title"]').fill('Обсудить план');
+    await desktop.locator('[data-context-done]').click();
+    await waitText(desktop,deskMeeting,'Обсудить план');
+    // Headless Chromium may keep every page visible. Deliver the browser's tab-hide event.
+    await desktop.evaluate(() => {
+      Object.defineProperty(document,'hidden',{value:true,configurable:true});
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await secondTab.bringToFront();
+    await waitText(secondTab,phoneMeeting,'Обсудить план');
+    await waitText(secondTab,health,'версия 8');
+    await secondTab.locator(phoneMeeting).click();
+    await secondTab.locator('#event-name').fill('Проверка с телефона');
+    await secondTab.locator('#event-save').click();
+    await waitText(secondTab,health,'версия 9');
+    await desktop.evaluate(() => {
+      delete document.hidden;
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    await desktop.bringToFront();
+    await waitText(desktop,deskMeeting,'Проверка с телефона');
+    console.log('PASS: native meeting rename in both directions across two tabs of one browser.');
+
+    // Restore a checkpoint shaped like v1, including an unacknowledged v1 send.
+    await desktop.evaluate(() => {
+      const state = structuredClone(data);
+      const journal = state.calendarTestSync;
+      delete journal.base.values.meetingTitle;
+      journal.pending = {room:journal.base.room,revision:journal.base.revision,id:crypto.randomUUID(),values:{...journal.base.values}};
+      state.events.find(e => e.id === 'path-rehearsal-meeting').title = 'До обновления';
+      if (!pathRepository.commit(state)) throw Error(pathRepository.error);
+    });
+    await desktop.reload();
+    // The existing title on the server and this legacy local rename require explicit choice.
+    await desktop.locator('#calendar-rehearsal select').waitFor({state:'attached'});
+    await desktop.locator('#calendar-rehearsal summary').click();
+    await desktop.locator('#calendar-rehearsal select').selectOption('local');
+    await desktop.getByRole('button',{name:'Применить выбор'}).click();
+    await waitText(secondTab,phoneMeeting,'До обновления');
+    await waitText(secondTab,health,'версия 10');
+    const legacy = await (await api.get(url + 'api')).json();
+    assert.deepEqual(Object.keys(legacy.values).sort(),['deadline','meeting']);
+    const legacyWrite = await api.post(url+'api',{headers:{Origin:new URL(url).origin},data:{
+      room:legacy.room,revision:legacy.revision,id:require('node:crypto').randomUUID(),
+      values:{...legacy.values, deadline:'Из прежней сборки'}
+    }});
+    assert.equal(legacyWrite.status(),200);
+    await waitText(secondTab,phoneDeadline,'Из прежней сборки');
+    await waitText(secondTab,phoneMeeting,'До обновления');
+    console.log('PASS: v1 pending request replay, pre-update local rename recovered, legacy writes preserve meeting title.');
+
   } catch (error) {
     for (const context of contexts) {
       const page = context.pages()[0];
