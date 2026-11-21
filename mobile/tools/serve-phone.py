@@ -111,7 +111,7 @@ def public_certificate(path: Path) -> bytes:
     return data
 
 
-def prepare(args: argparse.Namespace) -> Config:
+def prepare(args: argparse.Namespace, required_files=("index.html", "app.mjs", "model.mjs")) -> Config:
     bind = validate_bind(args.bind, args.allow_lan)
     bootstrap = args.public_ca is not None
     port = args.port if args.port is not None else 8019 if bootstrap else 8443
@@ -129,10 +129,10 @@ def prepare(args: argparse.Namespace) -> Config:
         raise SetupError("Compiled Path-Mobile directory does not exist.") from None
     if not root.is_dir():
         raise SetupError("--directory must name the compiled Path-Mobile folder.")
-    for name in ("index.html", "app.mjs", "model.mjs"):
+    for name in required_files:
         candidate = (root / name).resolve()
         if not candidate.is_relative_to(root) or not candidate.is_file():
-            raise SetupError("Choose the compiled Path-Mobile folder containing index.html, app.mjs and model.mjs.")
+            raise SetupError("Missing required build file: " + name)
     cert, key = existing_file(args.cert, "TLS certificate"), existing_file(args.key, "TLS key")
     if cert.is_relative_to(root) or key.is_relative_to(root):
         raise SetupError("TLS certificate and private key must be outside the served Path-Mobile folder.")

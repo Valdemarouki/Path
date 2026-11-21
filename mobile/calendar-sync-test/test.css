@@ -1,0 +1,10 @@
+#calendar-rehearsal {
+  position: fixed; z-index: 80; top: max(4px, env(safe-area-inset-top)); left: 50%;
+  transform: translateX(-50%); max-width: min(92vw, 25rem); width: max-content;
+  border: 1px solid #4b4c50; border-radius: 9px; background: #202124; color: #eee;
+  font: 13px/1.45 system-ui, sans-serif; padding: 3px 10px;
+}
+#calendar-rehearsal summary { cursor: pointer; }
+#calendar-rehearsal[open] { padding: 8px 12px; box-shadow: 0 4px 18px #0006; }
+#calendar-rehearsal p { margin: .5rem 0; }
+#calendar-rehearsal select,#calendar-rehearsal button { display:block; max-width:100%; margin:6px 0; }
