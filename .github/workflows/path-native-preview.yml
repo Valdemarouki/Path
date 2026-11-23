@@ -7,7 +7,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: path-native-preview-${{ github.ref }}
+  group: path-native-preview-${{ github.sha }}
   cancel-in-progress: true
 jobs:
   shell:
@@ -85,6 +85,7 @@ jobs:
         run: |
           set -eo pipefail
           sdk="$ANDROID_HOME/cmdline-tools/latest/bin"
+          export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
           image='system-images;android-35;google_apis;x86_64'
           "$sdk/sdkmanager" "$image" emulator platform-tools
           echo no | "$sdk/avdmanager" create avd --force -n path-preview -k "$image"
