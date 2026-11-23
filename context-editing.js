@@ -408,7 +408,8 @@ document.addEventListener('click',e=>{if(editor?.taskDetails&&e.target.closest('
 function pathContextClosingVisual(){
  const box=document.querySelector('#editor-overlay .editor');if(!box||reducedPortraitMotion())return;
  const rect=box.getBoundingClientRect(),ghost=box.cloneNode(true);ghost.className='context-closing-visual';ghost.inert=true;ghost.setAttribute('aria-hidden','true');ghost.removeAttribute('role');for(const el of [ghost,...ghost.querySelectorAll('*')])for(const attr of el.getAttributeNames())if(attr==='id'||attr==='name'||attr.startsWith('data-'))el.removeAttribute(attr);
- Object.assign(ghost.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});document.body.appendChild(ghost);PathMotion.play(ghost,[{opacity:1},{opacity:0}],{duration:120});setTimeout(()=>ghost.remove(),180);
+ Object.assign(ghost.style,{left:rect.left+'px',top:rect.top+'px',width:rect.width+'px',height:rect.height+'px'});document.body.appendChild(ghost);const fade=PathMotion.play(ghost,[{opacity:1},{opacity:0}],{duration:120,fill:'forwards'});
+ if(fade){fade.finished.then(()=>ghost.remove(),()=>ghost.remove());}else ghost.remove();
 }
 function pathContextOpenNoteTask(noteId,taskId){
  const projects=data.projects.filter(p=>!p.archived);if(!projects.length)return false;
