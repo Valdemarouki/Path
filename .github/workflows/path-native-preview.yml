@@ -83,30 +83,49 @@ jobs:
       - name: Boot a clean Android emulator
         shell: bash
         run: |
-          set -eo pipefail
+          set -euo pipefail
           sdk="$ANDROID_HOME/cmdline-tools/latest/bin"
           export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
+          export ANDROID_AVD_HOME="$RUNNER_TEMP/path-android-avd" ANDROID_SERIAL=emulator-5554
+          mkdir -p "$ANDROID_AVD_HOME"
           image='system-images;android-35;google_apis;x86_64'
           "$sdk/sdkmanager" "$image" emulator platform-tools
-          echo no | "$sdk/avdmanager" create avd --force -n path-preview -k "$image"
+          "$sdk/avdmanager" create avd --force -n path-preview -k "$image" -d pixel_5 <<<no
+          sed -i '/^disk.dataPartition.size=/d' "$ANDROID_AVD_HOME/path-preview.avd/config.ini"
+          echo 'disk.dataPartition.size=2G' >> "$ANDROID_AVD_HOME/path-preview.avd/config.ini"
           sudo chmod a+rw /dev/kvm
-          "$ANDROID_HOME/emulator/emulator" -avd path-preview -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect > "$RUNNER_TEMP/emulator.log" 2>&1 &
-          adb wait-for-device
-          for n in {1..120}; do [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == 1 ]] && break; sleep 2; done
+          df -h "$ANDROID_AVD_HOME"
+          adb start-server
+          emulator -avd path-preview -port 5554 -no-window -no-audio -no-boot-anim -no-snapshot -gpu software -memory 2048 -cores 2 > "$RUNNER_TEMP/emulator.log" 2>&1 &
+          emulator_pid=$!
+          cleanup() {
+            if [[ $1 != 0 ]]; then tail -100 "$RUNNER_TEMP/emulator.log"; adb devices -l; fi
+            kill "$emulator_pid" 2>/dev/null || true
+          }
+          trap 'cleanup $?' EXIT
+          deadline=$((SECONDS + 360))
+          until [[ "$(timeout 6 adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == 1 ]]; do
+            if ! kill -0 "$emulator_pid" 2>/dev/null || (( SECONDS >= deadline )); then exit 1; fi
+            sleep 3
+          done
+          adb shell wm dismiss-keyguard
           adb shell input keyevent 82
           adb install artifacts/Path-Android-Preview.apk
+          adb shell cmd connectivity airplane-mode enable
           adb shell svc wifi disable
           adb shell svc data disable
+          [[ "$(adb shell settings get global airplane_mode_on | tr -d '\r')" == 1 ]]
           adb shell am start -W -n com.pathyourday.path.preview/com.pathyourday.path.MainActivity
           for n in {1..24}; do
-            adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
-            if adb shell cat /sdcard/window.xml 2>/dev/null | grep -Eq '(Войти в Path|Sign in to Path|Вход в Path)'; then
+            timeout 10 adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
+            adb exec-out cat /sdcard/window.xml > "$RUNNER_TEMP/path-ui.xml" 2>/dev/null || true
+            if grep -Eq '(Войти в Path|Sign in to Path|Вход в Path)' "$RUNNER_TEMP/path-ui.xml"; then
               echo 'The installed APK rendered the bundled sign-in screen offline.'
               exit 0
             fi
             sleep 2
           done
-          adb shell cat /sdcard/window.xml || true
+          cat "$RUNNER_TEMP/path-ui.xml"
           exit 1
   ios:
     needs: shell
