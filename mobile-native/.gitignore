@@ -1,0 +1,9 @@
+/generated/
+/node_modules/
+/android/.gradle/
+/android/app/build/
+/android/local.properties
+/ios/PathPreview.xcodeproj/
+*.keystore
+*.p12
+*.mobileprovision
