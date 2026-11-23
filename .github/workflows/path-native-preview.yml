@@ -47,7 +47,10 @@ jobs:
         with:
           gradle-version: '8.9'
       - name: Install Android SDK if missing
-        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+        run: |
+          if [[ ! -d "$ANDROID_HOME/platforms/android-35" || ! -d "$ANDROID_HOME/build-tools/35.0.0" ]]; then
+            "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
+          fi
       - name: Reuse the preview signing identity
         uses: actions/cache@v4
         with:
@@ -68,6 +71,42 @@ jobs:
           name: Path-Android-Preview
           path: artifacts/Path-Android-Preview.apk
           retention-days: 30
+  android-launch:
+    needs: android
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Path-Android-Preview
+          path: artifacts
+      - name: Boot a clean Android emulator
+        shell: bash
+        run: |
+          set -eo pipefail
+          sdk="$ANDROID_HOME/cmdline-tools/latest/bin"
+          image='system-images;android-35;google_apis;x86_64'
+          "$sdk/sdkmanager" "$image" emulator platform-tools
+          echo no | "$sdk/avdmanager" create avd --force -n path-preview -k "$image"
+          sudo chmod a+rw /dev/kvm
+          "$ANDROID_HOME/emulator/emulator" -avd path-preview -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect > "$RUNNER_TEMP/emulator.log" 2>&1 &
+          adb wait-for-device
+          for n in {1..120}; do [[ "$(adb shell getprop sys.boot_completed | tr -d '\r')" == 1 ]] && break; sleep 2; done
+          adb shell input keyevent 82
+          adb install artifacts/Path-Android-Preview.apk
+          adb shell svc wifi disable
+          adb shell svc data disable
+          adb shell am start -W -n com.pathyourday.path.preview/com.pathyourday.path.MainActivity
+          for n in {1..24}; do
+            adb shell uiautomator dump /sdcard/window.xml >/dev/null 2>&1 || true
+            if adb shell cat /sdcard/window.xml 2>/dev/null | grep -Eq '(Войти в Path|Sign in to Path|Вход в Path)'; then
+              echo 'The installed APK rendered the bundled sign-in screen offline.'
+              exit 0
+            fi
+            sleep 2
+          done
+          adb shell cat /sdcard/window.xml || true
+          exit 1
   ios:
     needs: shell
     runs-on: macos-15
