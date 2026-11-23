@@ -1,6 +1,8 @@
 /* Navigation is device-local UI state, separate from domain backups and future sharing. */
 const PATH_NAV_KEY=STORE+'-navigation-v1';
 let pathRouteMemory={},pathProfileOpen=false,pathEditorReturnFocus=null,pathNavigationWarning=false;
+// A training week is a temporary selection for the current visit to Sport.
+let sportMiniAnchor=null,sportMiniSelected=null,sportMiniPick=null;
 function pathRouteSnapshot(){return {projectId,canvasId,homeDate,calendarMode,workflowAnchor,timelineScale,sportProgram,noteKind,selectedNote,noteArchive,noteTrash,progressRange};}
 function pathValidRoute(route){return ['today','calendar','projects','canvas','sport','habits','notes','progress','settings'].includes(route);}
 function pathApplyRouteState(route,state={}){
@@ -8,7 +10,12 @@ function pathApplyRouteState(route,state={}){
  projectId=route==='projects'&&data.projects.some(p=>p.id===state.projectId)?state.projectId:null;
  canvasId=route==='canvas'&&data.canvases.some(c=>c.id===state.canvasId)?state.canvasId:null;canvasSelected=null;canvasConnecting=null;
  // Daily views always reopen on the current system day; Calendar keeps its own date.
- if(route==='today'||route==='habits')homeDate=pathToday();
+ if(route==='sport'){
+  sportMiniAnchor=null;
+  sportMiniSelected=null;
+  sportMiniPick=null;
+ }
+ if(route==='today'||route==='habits'||route==='sport')homeDate=pathToday();
  else if(pathValidDate(state.homeDate))homeDate=state.homeDate;
  if(['day','week','month'].includes(state.calendarMode))calendarMode=state.calendarMode;
  if(pathValidDate(state.workflowAnchor))workflowAnchor=state.workflowAnchor;
@@ -27,7 +34,7 @@ let pathDailySystemDate=pathToday();
 function pathRefreshDailyDate(){
  const today=pathToday(),previous=pathDailySystemDate;pathDailySystemDate=today;
  // Follow midnight only when showing the live day, retaining deliberate date browsing.
- if(today===previous||!['today','habits'].includes(view)||homeDate!==previous)return false;
+ if(today===previous||!['today','habits','sport'].includes(view)||homeDate!==previous)return false;
  homeDate=today;return true;
 }
 render=function(){pathRefreshDailyDate();renderBeforeNavigation();const main=document.querySelector('.app-main');if(main)main.setAttribute('tabindex','-1');pathPersistNavigation();};
