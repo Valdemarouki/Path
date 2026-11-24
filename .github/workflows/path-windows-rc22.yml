@@ -7,7 +7,7 @@ permissions:
   contents: read
 concurrency:
   group: path-windows-rc22
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   verify:
     runs-on: windows-2022

@@ -111,6 +111,13 @@ Invoke-Installer @('/x',('"'+$msi+'"')) (Join-Path $probe 'rc21-upgrade-uninstal
 Invoke-Installer @('/i',('"'+$rc21Msi+'"'),('INSTALLDIR="'+$customDir+'"'),'ADDLOCAL=Planner','REMOVE=DesktopShortcut') (Join-Path $probe 'rc21-custom.log')
 Invoke-Wizard 'Off' 'Off' '' $customDir
 Check-Link $shortcut $customDir
+foreach($entry in $expected.PSObject.Properties){
+    $targetFile=Join-Path $customDir $entry.Name
+    if(-not (Test-Path -LiteralPath $targetFile) -or (Get-FileHash -LiteralPath $targetFile).Hash -ne $entry.Value){
+        Show-InstallActions
+        throw "RC21 in-place upgrade did not install the current $($entry.Name)."
+    }
+}
 if((Test-Path -LiteralPath $desktopLink) -or (Test-Path -LiteralPath $oldDesktopLink)){throw 'RC21 opted-out desktop shortcut reappeared.'}
 Invoke-Installer @('/x',('"'+$msi+'"')) (Join-Path $probe 'custom-upgrade-uninstall.log')
 
