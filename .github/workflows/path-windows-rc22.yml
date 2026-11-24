@@ -1,0 +1,78 @@
+name: Path Windows RC22
+on:
+  push:
+    branches: [release/windows-brand-rc22]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: path-windows-rc22
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: release/windows-rc22
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare verified Electron and planner
+        run: python runtime.py "$env:RUNNER_TEMP/rc22-input"
+      - name: Assemble the installer
+        run: python build.py "$env:RUNNER_TEMP/rc22-input/runtime" "$env:RUNNER_TEMP/rc22-input/assets" "$env:RUNNER_TEMP/rc22-setup"
+      - name: Inspect executable icon
+        run: python check-icon.py "$env:RUNNER_TEMP/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe" "$env:RUNNER_TEMP/rc22-input/assets/installer.ico"
+      - name: Install isolated browser-test dependency
+        run: |
+          $deps = New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/path-browser-deps"
+          npm install --prefix $deps.FullName --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright-core@1.62.1
+      - name: Verify Path branding, RC20 and RC21 upgrades, optional shortcuts, Sport, Calendar and uninstall
+        run: |
+          $env:NODE_PATH = "$env:RUNNER_TEMP/path-browser-deps/node_modules"
+          $env:PATH_PREVIEW_SETUP = "$env:RUNNER_TEMP/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe"
+          ./test-on-runner.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Path-RC22-verified-setup
+          path: ${{ runner.temp }}/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe
+          if-no-files-found: error
+          retention-days: 14
+  publish:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Path-RC22-verified-setup
+          path: files
+      - name: Publish the tested installer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          COMMIT: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd files
+          tag=path-windows-2.0.0-rc.22
+          setup=Path-2.0.0-rc.22-Windows-x64-Setup.exe
+          sha256sum "$setup" > SHA256SUMS.txt
+          if ! gh release view "$tag" --repo "$REPO" >/dev/null 2>&1; then
+            gh release create "$tag" "$setup" SHA256SUMS.txt --repo "$REPO" --target "$COMMIT" --prerelease --latest=false --title "Path 2.0.0-rc.22 for Windows" --notes "The Windows app, its shortcuts and its installed-program entry are named Path. The desktop icon keeps the original white mark with softly rounded corners. Upgrades preserve the existing profile and desktop shortcut preference."
+          fi
+          url="https://github.com/$REPO/releases/download/$tag/$setup"
+          curl --fail --location --silent --show-error --retry 4 --retry-all-errors "$url" -o "$RUNNER_TEMP/public-setup.exe"
+          cmp "$setup" "$RUNNER_TEMP/public-setup.exe"
+          sha256sum "$RUNNER_TEMP/public-setup.exe"
+          echo "Public download matches the tested installer byte for byte."
