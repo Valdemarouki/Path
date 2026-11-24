@@ -1,0 +1,118 @@
+name: Windows in-app updates
+on:
+  push:
+    branches: [release/windows-updates]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: path-windows-in-app-release
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build the installer from verified runtime and planner inputs
+        shell: pwsh
+        run: |
+          npm ci --prefix desktop/windows-updates --no-audit --no-fund --ignore-scripts
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          python release/windows-rc22/runtime.py "$env:RUNNER_TEMP/path-input"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          python release/windows-updates/prepare.py "$env:RUNNER_TEMP/path-input"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          python release/windows-rc22/build.py "$env:RUNNER_TEMP/path-input/runtime" "$env:RUNNER_TEMP/path-input/assets" "$env:RUNNER_TEMP/path-build" --update-manifest "$env:RUNNER_TEMP/path-input/update-build.json"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          python release/windows-rc22/check-icon.py "$env:RUNNER_TEMP/path-build/Path.Installer.exe" "$env:RUNNER_TEMP/path-input/assets/installer.ico"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          $setup = Get-Item "$env:RUNNER_TEMP/path-build/Path.Installer.exe"
+          $version = (Get-Content release/windows-updates/version.txt -Raw).Trim()
+          "DIGEST=sha256:$((Get-FileHash $setup).Hash.ToLowerInvariant())" >> $env:GITHUB_ENV
+          "PREDICATE=$(@{version=$version;size=$setup.Length;platform='win32-x64'} | ConvertTo-Json -Compress)" >> $env:GITHUB_ENV
+      - name: Sign the Windows release identity and installer digest
+        id: attest
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6
+        with:
+          subject-name: Path.Installer.exe
+          subject-digest: ${{ env.DIGEST }}
+          predicate-type: https://pathyourday.com/attestations/windows-update/v1
+          predicate: ${{ env.PREDICATE }}
+          create-storage-record: false
+      - name: Verify signed metadata, cache, corruption handling, update states and version ordering
+        shell: pwsh
+        env:
+          ATTESTATION_FILE: ${{ steps.attest.outputs.bundle-path }}
+        run: |
+          Copy-Item -LiteralPath $env:ATTESTATION_FILE -Destination "$env:RUNNER_TEMP/path-build/windows-update.sigstore.json"
+          node release/windows-updates/qa-updater.cjs "$env:RUNNER_TEMP/path-build"
+      - name: Exercise RC22 migration and update through the running Windows app
+        shell: pwsh
+        run: |
+          npm install --prefix "$env:RUNNER_TEMP/browser-deps" --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright-core@1.62.1
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          $env:NODE_PATH = "$env:RUNNER_TEMP/browser-deps/node_modules"
+          ./release/windows-updates/qa-install.ps1 "$env:RUNNER_TEMP/path-input" "$env:RUNNER_TEMP/path-build"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verified-windows-update
+          path: |
+            ${{ runner.temp }}/path-build/Path.Installer.exe
+            ${{ runner.temp }}/path-build/windows-update.sigstore.json
+          if-no-files-found: error
+          retention-days: 14
+  publish:
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-windows-update
+          path: files
+      - name: Publish verified installer and point the desktop channel at it
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --prefix desktop/windows-updates --no-audit --no-fund --ignore-scripts
+          version=$(tr -d '\r\n' < release/windows-updates/version.txt)
+          tag="path-windows-$version"
+          channel=path-windows-updates
+          cd files
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Path can now download Windows updates in the background and install them when you choose Restart and update. Install this version once to enable the update channel."
+          fi
+          # Verify the versioned public assets before offering them to clients.
+          url="https://github.com/$GH_REPO/releases/download/$tag"
+          curl -fsSL --retry 5 --retry-all-errors "$url/Path.Installer.exe" -o "$RUNNER_TEMP/public.exe"
+          cmp Path.Installer.exe "$RUNNER_TEMP/public.exe"
+          curl -fsSL --retry 5 --retry-all-errors "$url/windows-update.sigstore.json" -o "$RUNNER_TEMP/public.json"
+          cmp windows-update.sigstore.json "$RUNNER_TEMP/public.json"
+          if gh release view "$channel" >/dev/null 2>&1; then
+            gh release download "$channel" -p windows-update.sigstore.json -O "$RUNNER_TEMP/previous.json"
+            node ../release/windows-updates/check-channel.cjs "$RUNNER_TEMP/previous.json" windows-update.sigstore.json
+            gh release upload "$channel" windows-update.sigstore.json --clobber
+          else
+            gh release create "$channel" windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path Windows update channel" --notes "Signed metadata read by the Path desktop application."
+          fi
+          node ../release/windows-updates/check-channel.cjs --public windows-update.sigstore.json

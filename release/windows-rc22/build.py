@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('runtime', type=Path)
 parser.add_argument('assets', type=Path)
 parser.add_argument('out', type=Path)
+parser.add_argument('--update-manifest', type=Path)
 args = parser.parse_args()
 APP, ASSETS, OUT = (p.resolve() for p in (args.runtime, args.assets, args.out))
 OUT.mkdir(parents=True, exist_ok=True)
@@ -26,12 +27,20 @@ NS = uuid.UUID("ae05d365-042e-4951-87c6-78d139bdbe8a")
 def guid(label): return "{"+str(uuid.uuid5(NS,label)).upper()+"}"
 def digest(p):
     with p.open("rb") as f: return hashlib.file_digest(f,"sha256").hexdigest()
+manifest = json.loads((HERE/'files.json').read_text())
+version, msi_version, file_version = '2.0.0-rc.22', '2.0.22', '2.0.0.22'
+if args.update_manifest:
+    release = json.loads(args.update_manifest.read_text())
+    version, msi_version, file_version = (release[k] for k in ('version','msi','windows'))
+    manifest = release['files']
+    EXPECTED = manifest['resources/app.asar']
+    PROD = guid('product-'+version)
 assert digest(APP/"resources/app.asar") == EXPECTED
 
 basefiles = sorted(p for p in APP.rglob("*") if p.is_file())
 names = {p:p.relative_to(APP).as_posix() for p in basefiles}
 assert all(not p.is_symlink() and p.resolve().is_relative_to(APP.resolve()) for p in basefiles)
-assert {rel:digest(p) for p,rel in names.items()} == json.loads((HERE/"files.json").read_text()), "Runtime differs from the release manifest"
+assert {rel:digest(p) for p,rel in names.items()} == manifest, "Runtime differs from the release manifest"
 dirs={"":"INSTALLDIR"}
 for name in names.values():
     parent=Path(name).parent
@@ -74,7 +83,7 @@ def shortname(name,number):
     return f'P{number:06d}'+(('.'+ext) if ext else '')+'|'+name
 
 table('Property','Property Value','s72 l0','Property',[
-    ('ProductCode',PROD),('ProductName','Path'),('ProductLanguage','1033'),('ProductVersion','2.0.22'),
+    ('ProductCode',PROD),('ProductName','Path'),('ProductLanguage','1033'),('ProductVersion',msi_version),
     ('Manufacturer','Path'),('UpgradeCode',UPGRADE),('ARPPRODUCTICON','Path.ico'),('ARPNOMODIFY','1'),
     ('MSIDISABLERMRESTART','1'),('MSPLATFORM','x64'),('SecureCustomProperties','PREVIOUSPATH;NEWERPATH')])
 dirrows=[('TARGETDIR',None,'SourceDir'),('LocalAppDataFolder','TARGETDIR','.'),('PreviewPrograms','LocalAppDataFolder','Programs'),
@@ -126,7 +135,7 @@ table('RemoveFile','FileKey Component_ FileName DirProperty InstallMode','s72 s7
 table('Icon','Name Data','s72 v0','Name',[])
 attachment('Icon','Name','Path.ico',ASSETS/'path.ico')
 attachment('_Streams','Name','payload.cab',STAGE/'payload.cab')
-table('Upgrade','UpgradeCode VersionMin VersionMax Language Attributes Remove ActionProperty','s38 S20 S20 S255 i4 S255 s72','UpgradeCode VersionMin VersionMax Language Attributes',[(UPGRADE,None,'2.0.22',None,512,None,'PREVIOUSPATH'),(UPGRADE,'2.0.22',None,None,2,None,'NEWERPATH')])
+table('Upgrade','UpgradeCode VersionMin VersionMax Language Attributes Remove ActionProperty','s38 S20 S20 S255 i4 S255 s72','UpgradeCode VersionMin VersionMax Language Attributes',[(UPGRADE,None,msi_version,None,512,None,'PREVIOUSPATH'),(UPGRADE,msi_version,None,None,2,None,'NEWERPATH')])
 table('LaunchCondition','Condition Description','s255 l255','Condition',[('Installed OR VersionNT64','A 64-bit version of Windows is required.'),('NOT NEWERPATH','A newer version of Path is installed.'),
     ('Installed OR NOT (INSTALLDIR ~= DesktopFolder)','Choose an application folder. The desktop is reserved for shortcuts.')])
 actions=[('FindRelatedProducts',25),('ReplacePreviousRuntime',45),('AppSearch',50),('LaunchConditions',1100),('CostInitialize',800),('FileCost',900),
@@ -142,11 +151,15 @@ for key,value in {2:'Installation Database',3:'Path for Windows',4:'Path',7:'x64
     ok(set_prop(info,key,3 if isinstance(value,int) else 30,value if isinstance(value,int) else 0,None,value if isinstance(value,str) else None),'summary property')
 ok(persist(info),'save summary');close(info);ok(commit(db),'commit MSI database');close(db)
 print('MSI assembled with',len(entries),'files',flush=True)
-setup=OUT/'Path-2.0.0-rc.22-Windows-x64-Setup.exe'
+setup=OUT/('Path.Installer.exe' if args.update_manifest else 'Path-2.0.0-rc.22-Windows-x64-Setup.exe')
 compiler=Path(os.environ['WINDIR'])/'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
 source=(HERE/'Setup.cs').read_text(encoding='utf8').replace('MSI_SHA256_PLACEHOLDER',digest(package))
+update_sources = []
+if args.update_manifest:
+    source = source.replace('2.0.0-rc.22',version).replace('2.0.0.22',file_version).replace('{7D593BA1-BC0C-5302-B5AE-1BF189129FCF}',PROD)
+    update_sources = ['/define:PATH_APP_UPDATE',str(HERE.parent/'windows-updates/InstallUpdate.cs')]
 (STAGE/'Setup.cs').write_text(source,encoding='utf-8-sig')
 subprocess.run([str(compiler),'/nologo','/target:winexe','/platform:x64','/optimize+','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
                 '/win32manifest:'+str(HERE/'setup.manifest'),'/win32icon:'+str(ASSETS/'installer.ico'),'/out:'+str(setup),
-                '/resource:'+str(HERE/'PathMark.png')+',PathMark.png','/resource:'+str(package)+',PathPreview.msi',str(STAGE/'Setup.cs')],check=True)
+                '/resource:'+str(HERE/'PathMark.png')+',PathMark.png','/resource:'+str(package)+',PathPreview.msi',*update_sources,str(STAGE/'Setup.cs')],check=True)
 print(setup.name,setup.stat().st_size,digest(setup),flush=True)

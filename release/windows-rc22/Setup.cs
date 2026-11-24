@@ -121,7 +121,7 @@ sealed class Cover : Panel {
     protected override void Dispose(bool disposing){if(disposing)mark.Dispose();base.Dispose(disposing);}
 }
 
-class Setup : Form {
+partial class Setup : Form {
     const string Expected="MSI_SHA256_PLACEHOLDER", RegistryPath=@"Software\PathYourDay\Preview";
     readonly TextBox folder=new TextBox();
     readonly ActionButton browse=new ActionButton(false), install=new ActionButton(true);
@@ -247,6 +247,20 @@ class Setup : Form {
         using(var h=SHA256.Create())using(var f=File.OpenRead(target))
             if(BitConverter.ToString(h.ComputeHash(f)).Replace("-","").ToLowerInvariant()!=Expected)throw new InvalidDataException("MSI checksum mismatch.");
     }
+    static int InstallPackage(string location, bool makeLink, string linkFolder, bool repair){
+        string temp=Path.Combine(Path.GetTempPath(),"PathPreview-"+Guid.NewGuid().ToString("N"));
+        string msi=Path.Combine(temp,"PathPreview.msi");
+        try{
+            Directory.CreateDirectory(temp);Extract(msi);
+            string features="ADDLOCAL=Planner";
+            if(makeLink)features+=",DesktopShortcut PATHLINKDIR=\""+linkFolder+"\"";
+            else if(repair)features+=" REMOVE=DesktopShortcut";
+            var start=new ProcessStartInfo(Path.Combine(Environment.SystemDirectory,"msiexec.exe"),
+                "/i \""+msi+"\" /qn /norestart "+features+" INSTALLDIR=\""+location+"\""){UseShellExecute=false};
+            using(var p=Process.Start(start)){p.WaitForExit();return p.ExitCode;}
+        }
+        finally{try{if(File.Exists(msi))File.Delete(msi);if(Directory.Exists(temp))Directory.Delete(temp,false);}catch(IOException){}catch(UnauthorizedAccessException){}}
+    }
     void BeginInstall(){
         if(running||!ApplyLocation(folder.Text))return;
         string location=folder.Text;bool makeLink=desktop.Checked,open=launch.Checked;
@@ -254,17 +268,9 @@ class Setup : Form {
         running=true;folder.Enabled=browse.Enabled=desktop.Enabled=launch.Enabled=install.Enabled=false;
         progress.Visible=true;status.Text=T("Installing Path…","Идёт установка Path…");
         var worker=new Thread(()=>{
-            int code=-1;string problem=null;string temp=Path.Combine(Path.GetTempPath(),"PathPreview-"+Guid.NewGuid().ToString("N"));
-            string msi=Path.Combine(temp,"PathPreview.msi");
-            try{
-                Directory.CreateDirectory(temp);Extract(msi);
-                string features="ADDLOCAL=Planner";
-                if(makeLink)features+=",DesktopShortcut PATHLINKDIR=\""+linkFolder+"\"";
-                else if(installed)features+=" REMOVE=DesktopShortcut";
-                using(var p=Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory,"msiexec.exe"),
-                    "/i \""+msi+"\" /qn /norestart "+features+" INSTALLDIR=\""+location+"\""){UseShellExecute=false})){p.WaitForExit();code=p.ExitCode;}
-            }catch(Exception err){problem=err.Message;}
-            finally{try{if(File.Exists(msi))File.Delete(msi);if(Directory.Exists(temp))Directory.Delete(temp,false);}catch(IOException){}catch(UnauthorizedAccessException){}}
+            int code=-1;string problem=null;
+            try{code=InstallPackage(location,makeLink,linkFolder,installed);}
+            catch(Exception err){problem=err.Message;}
             BeginInvoke((MethodInvoker)delegate{
                 running=false;progress.Visible=false;
                 if(code==0||code==3010){
@@ -281,6 +287,9 @@ class Setup : Form {
     }
     [STAThread]static int Main(string[] args){
         if(args.Length==2 && args[0]=="--extract-msi"){try{Extract(Path.GetFullPath(args[1]));return 0;}catch{return 1;}}
+#if PATH_APP_UPDATE
+        if(args.Length>0 && args[0]=="--apply-path-update")return ApplyInAppUpdate(args);
+#endif
         Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);Application.Run(new Setup());return 0;
     }
 }
