@@ -31,6 +31,8 @@ function Show-InstallActions {
     $recent=Get-ChildItem -Path $env:TEMP,(Join-Path $env:WINDIR 'Temp') -Filter 'MSI*.log' -File -ErrorAction SilentlyContinue |
         Sort-Object LastWriteTime -Descending | Select-Object -First 3
     foreach($log in $recent){
+        Select-String -LiteralPath $log.FullName -Pattern 'Path\.exe;|[\\ ]Path\.exe[);]|FileCopy\(SourceName=Path|Disallowing installation of component|Skipping action: CreateShortcuts|Action ended .*CreateShortcuts|Error 19[0-9][0-9]|REINSTALLMODE property|Dir \(target\): Key: PathMenu' |
+            Where-Object {$_.Line.Length -lt 1500} | Select-Object -Last 12 | ForEach-Object { $_.Line }
         Select-String -LiteralPath $log.FullName -Pattern 'Component: (MainMenuLink|UserRegistration|DesktopLink)|Feature: Planner;|ShortcutCreate\(|ShortcutRemove\(|Return value 3|^Product: Path|PROPERTY CHANGE: Adding PREVIOUSPATH' |
             Select-Object -Last 16 | ForEach-Object { $_.Line }
     }

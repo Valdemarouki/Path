@@ -103,6 +103,10 @@ table('FeatureComponents','Feature_ Component_','s38 s72','Feature_ Component_',
 table('File','File Component_ FileName FileSize Version Language Attributes Sequence','s72 s72 l255 i4 S72 S20 I2 i2','File',files)
 table('Media','DiskId LastSequence DiskPrompt Cabinet VolumeLabel Source','i2 i2 L64 S255 S32 S72','DiskId',[(1,len(files),None,'#payload.cab',None,None)])
 registry = r'Software\PathYourDay\Preview'
+# RC21's unbranded Electron.exe has a higher native file version (45.1.0).
+# On major upgrades recopy the package-owned runtime, including in a custom folder.
+table('CustomAction','Action Type Source Target','s72 i2 S72 S255','Action',[
+    ('ReplacePreviousRuntime',51,'REINSTALLMODE','amus')])
 table('Signature','Signature FileName MinVersion MaxVersion MinSize MaxSize MinDate MaxDate Languages',
       's72 s255 S20 S20 I4 I4 I4 I4 S255','Signature',[])
 table('RegLocator','Signature_ Root Key Name Type','s72 i2 s255 S255 I2','Signature_',[
@@ -115,7 +119,7 @@ table('Registry','Registry Root Key Name Value Component_','s72 i2 l255 L255 L0 
     ('DesktopLinkFlag',1,registry,'DesktopLink','#1','DesktopLink'),
     ('DesktopLinkDirectory',1,registry,'BrandedDesktopFolder','[PATHLINKDIR]','DesktopLink')])
 table('Shortcut','Shortcut Directory_ Name Component_ Target Arguments Description Hotkey Icon_ IconIndex ShowCmd WkDir','s72 s72 l128 s72 s255 S255 L255 I2 S72 I2 I2 S72','Shortcut',[
-    (name,folder,'Path',component,'[#'+next(fid for fid,_,_,rel in entries if rel=='Path.exe')+']',None,'Path',None,'Path.ico',0,1,'INSTALLDIR')
+    (name,folder,'Path',component,'[INSTALLDIR]Path.exe',None,'Path',None,'Path.ico',0,1,'INSTALLDIR')
     for name,folder,component in [('StartMenu','PathMenu','MainMenuLink'),('Desktop','PATHLINKDIR','DesktopLink')]])
 table('RemoveFile','FileKey Component_ FileName DirProperty InstallMode','s72 s72 L255 s72 i2','FileKey',[
     ('RemovePathMenu','MainMenuLink',None,'PathMenu',2)])
@@ -125,12 +129,13 @@ attachment('_Streams','Name','payload.cab',STAGE/'payload.cab')
 table('Upgrade','UpgradeCode VersionMin VersionMax Language Attributes Remove ActionProperty','s38 S20 S20 S255 i4 S255 s72','UpgradeCode VersionMin VersionMax Language Attributes',[(UPGRADE,None,'2.0.22',None,512,None,'PREVIOUSPATH'),(UPGRADE,'2.0.22',None,None,2,None,'NEWERPATH')])
 table('LaunchCondition','Condition Description','s255 l255','Condition',[('Installed OR VersionNT64','A 64-bit version of Windows is required.'),('NOT NEWERPATH','A newer version of Path is installed.'),
     ('Installed OR NOT (INSTALLDIR ~= DesktopFolder)','Choose an application folder. The desktop is reserved for shortcuts.')])
-actions=[('FindRelatedProducts',25),('AppSearch',50),('LaunchConditions',1100),('CostInitialize',800),('FileCost',900),
+actions=[('FindRelatedProducts',25),('ReplacePreviousRuntime',45),('AppSearch',50),('LaunchConditions',1100),('CostInitialize',800),('FileCost',900),
          ('CostFinalize',1000),('InstallValidate',1400),('InstallInitialize',1500),('RemoveExistingProducts',1510),
          ('ProcessComponents',1600),('UnpublishFeatures',1800),('RemoveRegistryValues',2600),('RemoveShortcuts',3200),
          ('RemoveFiles',3500),('InstallFiles',4000),('CreateShortcuts',4500),('WriteRegistryValues',5000),
          ('RegisterUser',6000),('RegisterProduct',6100),('PublishFeatures',6300),('PublishProduct',6400),('InstallFinalize',6600)]
-table('InstallExecuteSequence','Action Condition Sequence','s72 S255 I2','Action',[(a,None,n) for a,n in actions])
+table('InstallExecuteSequence','Action Condition Sequence','s72 S255 I2','Action',[
+    (a,'PREVIOUSPATH AND NOT Installed' if a=='ReplacePreviousRuntime' else None,n) for a,n in actions])
 table('AdminExecuteSequence','Action Condition Sequence','s72 S255 I2','Action',[(a,None,n) for a,n in [('CostInitialize',800),('FileCost',900),('CostFinalize',1000),('InstallValidate',1400),('InstallInitialize',1500),('InstallAdminPackage',3900),('InstallFiles',4000),('InstallFinalize',6600)]])
 info=H();ok(summary(db,None,12,c.byref(info)),'get summary')
 for key,value in {2:'Installation Database',3:'Path for Windows',4:'Path',7:'x64;1033',9:guid('package-'+EXPECTED),14:500,15:2,19:4}.items():
