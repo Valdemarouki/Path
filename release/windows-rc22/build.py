@@ -2,12 +2,12 @@ import argparse
 import json
 import ctypes as c
 import hashlib
-import os
 import re
 import shutil
 import subprocess
 import uuid
 from pathlib import Path
+from package_installer import package_installer
 
 HERE = Path(__file__).resolve().parent
 parser = argparse.ArgumentParser()
@@ -142,11 +142,5 @@ for key,value in {2:'Installation Database',3:'Path for Windows',4:'Path',7:'x64
     ok(set_prop(info,key,3 if isinstance(value,int) else 30,value if isinstance(value,int) else 0,None,value if isinstance(value,str) else None),'summary property')
 ok(persist(info),'save summary');close(info);ok(commit(db),'commit MSI database');close(db)
 print('MSI assembled with',len(entries),'files',flush=True)
-setup=OUT/'Path-2.0.0-rc.22-Windows-x64-Setup.exe'
-compiler=Path(os.environ['WINDIR'])/'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
-source=(HERE/'Setup.cs').read_text(encoding='utf8').replace('MSI_SHA256_PLACEHOLDER',digest(package))
-(STAGE/'Setup.cs').write_text(source,encoding='utf-8-sig')
-subprocess.run([str(compiler),'/nologo','/target:winexe','/platform:x64','/optimize+','/r:System.Windows.Forms.dll','/r:System.Drawing.dll',
-                '/win32manifest:'+str(HERE/'setup.manifest'),'/win32icon:'+str(ASSETS/'installer.ico'),'/out:'+str(setup),
-                '/resource:'+str(HERE/'PathMark.png')+',PathMark.png','/resource:'+str(package)+',PathPreview.msi',str(STAGE/'Setup.cs')],check=True)
+setup=package_installer(package,ASSETS/'installer.ico',OUT)
 print(setup.name,setup.stat().st_size,digest(setup),flush=True)

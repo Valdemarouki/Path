@@ -1,12 +1,12 @@
-name: Path Windows RC22
+name: Path Installer
 on:
   push:
-    branches: [release/windows-brand-rc22]
+    branches: [release/windows-installer-name]
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: path-windows-rc22
+  group: path-windows-installer-name
   cancel-in-progress: true
 jobs:
   verify:
@@ -24,25 +24,49 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Prepare verified Electron and planner
-        run: python runtime.py "$env:RUNNER_TEMP/rc22-input"
-      - name: Assemble the installer
-        run: python build.py "$env:RUNNER_TEMP/rc22-input/runtime" "$env:RUNNER_TEMP/rc22-input/assets" "$env:RUNNER_TEMP/rc22-setup"
-      - name: Inspect executable icon
-        run: python check-icon.py "$env:RUNNER_TEMP/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe" "$env:RUNNER_TEMP/rc22-input/assets/installer.ico"
-      - name: Install isolated browser-test dependency
+      - name: Repackage the exact published RC22 MSI
         run: |
-          $deps = New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/path-browser-deps"
+          $dir = New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/installer-name"
+          $old = Join-Path $dir 'previous.exe'
+          $msi = Join-Path $dir 'published.msi'
+          $url = 'https://github.com/Valdemarouki/Path/releases/download/path-windows-2.0.0-rc.22/Path-2.0.0-rc.22-Windows-x64-Setup.exe'
+          Invoke-WebRequest -Uri $url -OutFile $old
+          if ((Get-FileHash -LiteralPath $old).Hash -ne '003703C3FFCF1CE99EB27DEC7D7B2C256EDCEE7809EE9BDEF575947D457C938D') {throw 'Unexpected RC22 installer.'}
+          function Expand-Msi($app,$target) {
+              $proc = Start-Process -FilePath $app -ArgumentList @('--extract-msi',('"'+$target+'"')) -WindowStyle Hidden -PassThru -Wait
+              if ($proc.ExitCode -ne 0) {throw 'MSI extraction failed.'}
+          }
+          Expand-Msi $old $msi
+          $assets = New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/rc22-input/assets" -Force
+          python -c "import sys,zipfile; z=zipfile.ZipFile('payload.zip'); z.extract('installer.ico',sys.argv[1]); z.extract('path.ico',sys.argv[1])" $assets.FullName
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          python package_installer.py $msi (Join-Path $assets 'installer.ico') $dir.FullName
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          $setup = Join-Path $dir 'Path Installer.exe'
+          $new = Join-Path $dir 'renamed.msi'
+          Expand-Msi $setup $new
+          if ((Get-FileHash -LiteralPath $msi).Hash -ne (Get-FileHash -LiteralPath $new).Hash) {throw 'The published application package changed.'}
+          $version = (Get-Item -LiteralPath $setup).VersionInfo
+          if ($version.FileDescription -cne 'Path Installer' -or $version.ProductName -cne 'Path Installer' -or $version.OriginalFilename -cne 'Path Installer.exe') {throw 'Incorrect Windows installer name.'}
+          python check-icon.py $setup (Join-Path $assets 'installer.ico')
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          foreach ($lang in @('en-US','ru-RU')) {
+              & powershell.exe -NoProfile -NonInteractive -STA -File ./wizard-qa.ps1 -SetupFile $setup -Mode Preview -Language $lang
+              if ($LASTEXITCODE) {throw "Wrong installer title in $lang"}
+          }
+          "PATH_PREVIEW_SETUP=$setup" >> $env:GITHUB_ENV
+          'PASS: exact filename, executable properties, English and Russian dialog titles, and byte-identical RC22 MSI.'
+      - name: Verify normal installation and upgrades on Windows
+        run: |
+          $deps=New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/browser-deps"
           npm install --prefix $deps.FullName --no-save --no-package-lock --ignore-scripts --no-audit --no-fund playwright-core@1.62.1
-      - name: Verify Path branding, RC20 and RC21 upgrades, optional shortcuts, Sport, Calendar and uninstall
-        run: |
-          $env:NODE_PATH = "$env:RUNNER_TEMP/path-browser-deps/node_modules"
-          $env:PATH_PREVIEW_SETUP = "$env:RUNNER_TEMP/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          $env:NODE_PATH=Join-Path $deps 'node_modules'
           ./test-on-runner.ps1
       - uses: actions/upload-artifact@v4
         with:
-          name: Path-RC22-verified-setup
-          path: ${{ runner.temp }}/rc22-setup/Path-2.0.0-rc.22-Windows-x64-Setup.exe
+          name: Path-Installer-Windows
+          path: ${{ runner.temp }}/installer-name/Path Installer.exe
           if-no-files-found: error
           retention-days: 14
   publish:
@@ -54,25 +78,35 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: Path-RC22-verified-setup
+          name: Path-Installer-Windows
           path: files
-      - name: Publish the tested installer
+      - name: Publish and verify the exact tested file
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           COMMIT: ${{ github.sha }}
-        shell: bash
         run: |
           set -euo pipefail
           cd files
-          tag=path-windows-2.0.0-rc.22
-          setup=Path-2.0.0-rc.22-Windows-x64-Setup.exe
+          tag=path-installer-2.0.0-rc.22
+          setup='Path Installer.exe'
           sha256sum "$setup" > SHA256SUMS.txt
           if ! gh release view "$tag" --repo "$REPO" >/dev/null 2>&1; then
-            gh release create "$tag" "$setup" SHA256SUMS.txt --repo "$REPO" --target "$COMMIT" --prerelease --latest=false --title "Path 2.0.0-rc.22 for Windows" --notes "The Windows app, its shortcuts and its installed-program entry are named Path. The desktop icon keeps the original white mark with softly rounded corners. Upgrades preserve the existing profile and desktop shortcut preference."
+            gh release create "$tag" "$setup#$setup" SHA256SUMS.txt --repo "$REPO" --target "$COMMIT" --prerelease --latest=false --title "Path Installer" --notes "Windows installer for Path 2.0.0-rc.22. The installer is named Path Installer. It contains the same verified RC22 application package."
           fi
-          url="https://github.com/$REPO/releases/download/$tag/$setup"
-          curl --fail --location --silent --show-error --retry 4 --retry-all-errors "$url" -o "$RUNNER_TEMP/public-setup.exe"
-          cmp "$setup" "$RUNNER_TEMP/public-setup.exe"
-          sha256sum "$RUNNER_TEMP/public-setup.exe"
-          echo "Public download matches the tested installer byte for byte."
+          asset="$(gh api "repos/$REPO/releases/tags/$tag" --jq '.assets[] | select(.label == "Path Installer.exe") | .id')"
+          test -n "$asset"
+          # Some upload clients normalize spaces. Request the display filename on the stored asset too.
+          if [ "$(gh api "repos/$REPO/releases/assets/$asset" --jq .name)" != "$setup" ]; then
+            gh api -X PATCH "repos/$REPO/releases/assets/$asset" -f name="$setup" -f label="$setup" >/dev/null
+          fi
+          info="$(gh api "repos/$REPO/releases/assets/$asset")"
+          stored="$(jq -r .name <<<"$info")"
+          url="$(jq -r .browser_download_url <<<"$info")"
+          url="${url// /%20}"
+          curl --fail --location --silent --show-error --retry 4 --retry-all-errors --dump-header "$RUNNER_TEMP/response.headers" "$url" -o "$RUNNER_TEMP/public.exe"
+          cmp "$setup" "$RUNNER_TEMP/public.exe"
+          echo "Published asset name: $stored"
+          grep -i '^content-disposition:' "$RUNNER_TEMP/response.headers" | tail -1
+          sha256sum "$RUNNER_TEMP/public.exe"

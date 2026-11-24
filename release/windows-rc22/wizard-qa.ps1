@@ -22,7 +22,9 @@ try{
     $form.Opacity=0
     $form.Show()
     [Windows.Forms.Application]::DoEvents()
-    if ($form.Text -match 'Preview' -or $form.Text -notmatch 'Path') { throw 'Incorrect installer title.' }
+    if ($form.Text -cne 'Path Installer') { throw "Incorrect installer window title: $($form.Text)" }
+    $hero=$form.Controls | Where-Object { $_.GetType().Name -eq 'Cover' }
+    if(@($hero.Controls | Where-Object { $_.Text -ceq 'Path Installer' }).Count -ne 1){throw 'Incorrect installer heading.'}
     $pathBox=Control 'folder'
     $choice=Control 'desktop'
     $open=Control 'launch'
