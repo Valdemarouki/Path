@@ -10,12 +10,13 @@ $menu = Join-Path ([Environment]::GetFolderPath('Programs')) 'Path\Path.lnk'
 $exe = Join-Path $location 'Path.exe'
 $asar = Join-Path $location 'resources\app.asar'
 $setup = Join-Path $OutputDirectory 'Path.Installer.exe'
+if ((Get-Item -LiteralPath $setup).VersionInfo.ProductName -cne 'Path Installer') {throw 'Installer name differs from the published RC22 installer'}
 $bundle = Join-Path $OutputDirectory 'windows-update.sigstore.json'
 $version = (Get-Content -LiteralPath (Join-Path $PSScriptRoot 'version.txt') -Raw).Trim()
 $expected = Get-Content -Raw -LiteralPath (Join-Path $InputDirectory 'update-build.json') | ConvertFrom-Json
 $rc22 = Join-Path $qa.FullName 'RC22.exe'
 Invoke-WebRequest 'https://github.com/Valdemarouki/Path/releases/download/path-installer-2.0.0-rc.22/Path.Installer.exe' -OutFile $rc22
-if ((Get-FileHash $rc22).Hash -ne '003703C3FFCF1CE99EB27DEC7D7B2C256EDCEE7809EE9BDEF575947D457C938D') { throw 'Unexpected RC22 installer' }
+if ((Get-FileHash $rc22).Hash -ne 'CA790AB92A6309039F0ACE05EB1E364C6EE75E323DB154256E7F41BDD95EEB2C') { throw 'Unexpected RC22 installer' }
 function Run-Checked($file, [string[]]$switches) {
     $result = Start-Process -FilePath $file -ArgumentList $switches -PassThru -Wait -WindowStyle Hidden
     if ($result.ExitCode -notin @(0,3010)) { throw "$file failed ($($result.ExitCode))" }

@@ -11,9 +11,9 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-[assembly: AssemblyTitle("Path Setup")]
+[assembly: AssemblyTitle("Path Installer")]
 [assembly: AssemblyCompany("Path")]
-[assembly: AssemblyProduct("Path")]
+[assembly: AssemblyProduct("Path Installer")]
 [assembly: AssemblyFileVersion("2.0.0.22")]
 [assembly: AssemblyVersion("2.0.0.22")]
 
@@ -192,13 +192,13 @@ partial class Setup : Form {
     Setup(){
         SuspendLayout();
         AutoScaleDimensions=new SizeF(96,96); AutoScaleMode=AutoScaleMode.Dpi;
-        Text=T("Path Setup","Установка Path");
+        Text="Path Installer";
         Icon=Icon.ExtractAssociatedIcon(typeof(Setup).Assembly.Location);
         Font=new Font("Segoe UI",10);BackColor=Theme.Ink;ForeColor=Theme.Paper;
         ClientSize=new Size(632,438);FormBorderStyle=FormBorderStyle.FixedSingle;
         MaximizeBox=false;StartPosition=FormStartPosition.CenterScreen;
         var hero=new Cover();hero.SetBounds(0,0,632,121);Controls.Add(hero);
-        Caption(hero,T("Install Path","Установка Path"),115,24,325,49,25,Theme.Paper,true);
+        Caption(hero,Text,115,24,325,49,25,Theme.Paper,true);
         Caption(hero,"2.0.0-rc.22   ·   Windows x64",118,73,311,23,10,Theme.Muted,false);
         Caption(this,T("Installation folder","Папка установки"),32,138,565,23,10.5f,Theme.Paper,true);
         var pathFrame=new Frame {Editing=true};pathFrame.SetBounds(32,169,456,43);Controls.Add(pathFrame);
