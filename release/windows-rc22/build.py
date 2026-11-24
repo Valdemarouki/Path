@@ -92,6 +92,7 @@ for i,(fid,cid,p,name) in enumerate(entries,1):
     comps.append((cid,guid(name),dirs['' if parent==Path('.') else parent.as_posix()],256,None,fid))
     files.append((fid,cid,shortname(p.name,i),p.stat().st_size,None,None,16384,i))
 comps.append(('UserRegistration',guid('preview-user-registry'),'INSTALLDIR',260,None,'InstallPath'))
+comps.append(('MainMenuLink',guid('path-named-start-menu-link'),'PathMenu',260,None,'MainMenuLinkFlag'))
 comps.append(('DesktopLink',guid('path-named-desktop-link'),'PATHLINKDIR',260,None,'DesktopLinkFlag'))
 table('Component','Component ComponentId Directory_ Attributes Condition KeyPath','s72 S38 s72 i2 S255 S72','Component',comps)
 table('Feature','Feature Feature_Parent Title Description Display Level Directory_ Attributes','s38 S38 L64 L255 I2 i2 S72 i2','Feature',[
@@ -110,13 +111,14 @@ table('AppSearch','Property Signature_','s72 s72','Property Signature_',[('PATHL
 table('Registry','Registry Root Key Name Value Component_','s72 i2 l255 L255 L0 s72','Registry',[
     ('InstallPath',1,registry,'InstallDir','[INSTALLDIR]','UserRegistration'),
     ('ShortcutOptions',1,registry,'ShortcutOptions','#1','UserRegistration'),
+    ('MainMenuLinkFlag',1,registry,'MainMenuLink','#1','MainMenuLink'),
     ('DesktopLinkFlag',1,registry,'DesktopLink','#1','DesktopLink'),
     ('DesktopLinkDirectory',1,registry,'BrandedDesktopFolder','[PATHLINKDIR]','DesktopLink')])
 table('Shortcut','Shortcut Directory_ Name Component_ Target Arguments Description Hotkey Icon_ IconIndex ShowCmd WkDir','s72 s72 l128 s72 s255 S255 L255 I2 S72 I2 I2 S72','Shortcut',[
     (name,folder,'Path',component,'[#'+next(fid for fid,_,_,rel in entries if rel=='Path.exe')+']',None,'Path',None,'Path.ico',0,1,'INSTALLDIR')
-    for name,folder,component in [('StartMenu','PathMenu','UserRegistration'),('Desktop','PATHLINKDIR','DesktopLink')]])
+    for name,folder,component in [('StartMenu','PathMenu','MainMenuLink'),('Desktop','PATHLINKDIR','DesktopLink')]])
 table('RemoveFile','FileKey Component_ FileName DirProperty InstallMode','s72 s72 L255 s72 i2','FileKey',[
-    ('RemovePathMenu','UserRegistration',None,'PathMenu',2)])
+    ('RemovePathMenu','MainMenuLink',None,'PathMenu',2)])
 table('Icon','Name Data','s72 v0','Name',[])
 attachment('Icon','Name','Path.ico',ASSETS/'path.ico')
 attachment('_Streams','Name','payload.cab',STAGE/'payload.cab')

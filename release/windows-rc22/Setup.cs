@@ -258,7 +258,9 @@ class Setup : Form {
             string msi=Path.Combine(temp,"PathPreview.msi");
             try{
                 Directory.CreateDirectory(temp);Extract(msi);
-                string features=makeLink?"ADDLOCAL=Planner,DesktopShortcut PATHLINKDIR=\""+linkFolder+"\"":"ADDLOCAL=Planner REMOVE=DesktopShortcut";
+                string features="ADDLOCAL=Planner";
+                if(makeLink)features+=",DesktopShortcut PATHLINKDIR=\""+linkFolder+"\"";
+                else if(installed)features+=" REMOVE=DesktopShortcut";
                 using(var p=Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory,"msiexec.exe"),
                     "/i \""+msi+"\" /qn /norestart "+features+" INSTALLDIR=\""+location+"\""){UseShellExecute=false})){p.WaitForExit();code=p.ExitCode;}
             }catch(Exception err){problem=err.Message;}

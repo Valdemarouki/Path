@@ -23,6 +23,18 @@ $msi = Join-Path $probe 'PathPreview.msi'
 $extract = Start-Process -FilePath $setup -ArgumentList @('--extract-msi', ('"'+$msi+'"')) -Wait -PassThru -WindowStyle Hidden
 if ($extract.ExitCode -ne 0) { throw 'Installer could not extract the embedded package.' }
 $engine = Join-Path $env:WINDIR 'system32/msiexec.exe'
+# Keep enough MSI activity on the disposable runner to diagnose a failed upgrade.
+$loggingKey='HKLM:\Software\Policies\Microsoft\Windows\Installer'
+New-Item -Path $loggingKey -Force | Out-Null
+New-ItemProperty -Path $loggingKey -Name Logging -PropertyType String -Value 'voicewarmup' -Force | Out-Null
+function Show-InstallActions {
+    $recent=Get-ChildItem -Path $env:TEMP,(Join-Path $env:WINDIR 'Temp') -Filter 'MSI*.log' -File -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending | Select-Object -First 3
+    foreach($log in $recent){
+        Select-String -LiteralPath $log.FullName -Pattern 'Component: (MainMenuLink|UserRegistration|DesktopLink)|Feature: Planner;|ShortcutCreate\(|ShortcutRemove\(|Return value 3|^Product: Path|PROPERTY CHANGE: Adding PREVIOUSPATH' |
+            Select-Object -Last 16 | ForEach-Object { $_.Line }
+    }
+}
 function Invoke-Installer([string[]]$Arguments, [string]$Log) {
     $result = Start-Process -FilePath $engine -ArgumentList ($Arguments + @('/qn', '/norestart', '/l*v', ('"'+$Log+'"'))) -Wait -PassThru -WindowStyle Hidden
     if ($result.ExitCode -ne 0) {
@@ -35,10 +47,10 @@ function Invoke-Wizard([string]$Choice, [string]$Initial, [string]$Location, [st
         '-SetupFile',$setup,'-Mode','Install','-Shortcut',$Choice,'-ExpectedInitial',$Initial,'-ExpectedFolder',$Expected)
     if ($Location) { $switches += @('-Folder',$Location) }
     & powershell.exe @switches
-    if ($LASTEXITCODE -ne 0) { throw 'UI installation failed.' }
+    if ($LASTEXITCODE -ne 0) { Show-InstallActions; throw 'UI installation failed.' }
 }
 function Check-Link([string]$Link, [string]$Directory) {
-    if (-not (Test-Path -LiteralPath $Link)) { throw "Missing shortcut $Link" }
+    if (-not (Test-Path -LiteralPath $Link)) { Show-InstallActions;throw "Missing shortcut $Link" }
     $item = (New-Object -ComObject WScript.Shell).CreateShortcut($Link)
     if ($item.TargetPath -ne (Join-Path $Directory 'Path.exe')) { throw "Unexpected target $($item.TargetPath)" }
     $ico = ($item.IconLocation -replace ',\s*-?\d+$','').Trim('"')
