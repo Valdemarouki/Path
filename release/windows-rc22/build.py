@@ -102,6 +102,8 @@ table('FeatureComponents','Feature_ Component_','s38 s72','Feature_ Component_',
 table('File','File Component_ FileName FileSize Version Language Attributes Sequence','s72 s72 l255 i4 S72 S20 I2 i2','File',files)
 table('Media','DiskId LastSequence DiskPrompt Cabinet VolumeLabel Source','i2 i2 L64 S255 S32 S72','DiskId',[(1,len(files),None,'#payload.cab',None,None)])
 registry = r'Software\PathYourDay\Preview'
+table('Signature','Signature FileName MinVersion MaxVersion MinSize MaxSize MinDate MaxDate Languages',
+      's72 s255 S20 S20 I4 I4 I4 I4 S255','Signature',[])
 table('RegLocator','Signature_ Root Key Name Type','s72 i2 s255 S255 I2','Signature_',[
     ('SavedDesktopDir',1,registry,'BrandedDesktopFolder',18)])
 table('AppSearch','Property Signature_','s72 s72','Property Signature_',[('PATHLINKDIR','SavedDesktopDir')])

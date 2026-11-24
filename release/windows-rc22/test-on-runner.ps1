@@ -96,6 +96,11 @@ if($name -cne 'Path'){throw "Installed product name is '$name'."}
 $native=(Get-Item -LiteralPath (Join-Path $installDir 'Path.exe')).VersionInfo
 if($native.ProductName -cne 'Path' -or $native.FileDescription -cne 'Path' -or $native.OriginalFilename -cne 'Path.exe'){throw 'Incorrect executable branding.'}
 Invoke-Installer @('/x',('"'+$msi+'"')) (Join-Path $probe 'rc21-upgrade-uninstall.log')
+Invoke-Installer @('/i',('"'+$rc21Msi+'"'),('INSTALLDIR="'+$customDir+'"'),'ADDLOCAL=Planner','REMOVE=DesktopShortcut') (Join-Path $probe 'rc21-custom.log')
+Invoke-Wizard 'Off' 'Off' '' $customDir
+Check-Link $shortcut $customDir
+if((Test-Path -LiteralPath $desktopLink) -or (Test-Path -LiteralPath $oldDesktopLink)){throw 'RC21 opted-out desktop shortcut reappeared.'}
+Invoke-Installer @('/x',('"'+$msi+'"')) (Join-Path $probe 'custom-upgrade-uninstall.log')
 
 # Preserve a different desktop shortcut with the same visible name, including after removal.
 $foreign=PersonalLink $desktopLink
