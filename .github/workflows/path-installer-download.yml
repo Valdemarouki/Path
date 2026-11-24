@@ -1,0 +1,49 @@
+name: Package the published Path Installer download
+on:
+  push:
+    branches: [release/windows-installer-download]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TAG: path-installer-2.0.0-rc.22
+      EXPECTED: ca790ab92a6309039f0ace05eb1e364c6ee75e323db154256e7f41bdd95eeb2c
+    steps:
+      - name: Publish the verified executable with its original filename inside the ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          setup='Path Installer.exe'
+          archive=Path-Installer.zip
+          base="https://github.com/$GH_REPO/releases/download/$TAG"
+          curl --fail --location --silent --show-error --retry 3 "$base/Path.Installer.exe" -o "$setup"
+          echo "$EXPECTED  $setup" | sha256sum --check
+          if ! gh release view "$TAG" --json assets --jq '.assets[].name' | grep -Fxq "$archive"; then
+            zip -q -X -0 "$archive" "$setup"
+            gh release upload "$TAG" "$archive#Path Installer (ZIP)"
+          fi
+          curl --fail --location --silent --show-error --retry 4 --retry-all-errors "$base/$archive" -o public.zip
+          test "$(unzip -Z1 public.zip)" = "$setup"
+          unzip -p public.zip "$setup" | cmp - "$setup"
+          echo "Verified the public ZIP contains exactly one file: $setup"
+      - name: Read the Windows download link on the live site
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 2 --max-time 20 https://pathyourday.com/ -o site.html
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          html = Path('site.html').read_text(encoding='utf-8')
+          urls = sorted(set(re.findall(r'https?://[^\s"\'<>]+\.exe', html)))
+          for url in urls:
+              print(url)
+          if not urls:
+              print('No direct Windows executable URL in the landing page HTML.')
+          PY
