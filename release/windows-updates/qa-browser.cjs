@@ -33,6 +33,7 @@ async function fail(error) {
   await page.waitForURL('path2://app/');
   page.setDefaultTimeout(60000);
   await page.waitForFunction(() => window.pathDesktop?.updates && typeof save === 'function');
+  await page.waitForFunction(()=>typeof window.pathPaintUpdates==='function' && typeof window.pathSyncBackup==='function',null,{timeout:12000});
   const status = () => page.evaluate(()=>window.pathDesktop.updates.status());
   assert.equal((await status()).currentVersion,version);
   if (mode === 'verify') {

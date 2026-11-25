@@ -1,5 +1,6 @@
 """Build the MSI planner from the checksum-verified release payload."""
 import argparse
+import base64
 import hashlib
 import json
 import re
@@ -82,7 +83,20 @@ def prepare_asar(source, target, version, dependencies):
     html = entries['app/index.html']
     if html.count(old) != 1:
         raise ValueError('The existing update panel was not found in the release')
-    entries['app/index.html'] = html.replace(old,(UPDATER/'panel.js').read_bytes())
+    # Desktop authorizes its inline scripts by hash. Update only the hash of
+    # the script containing the panel, using the browser's normalized text.
+    def script_hash(body):
+        normalized = body.replace(b'\r\n',b'\n').replace(b'\r',b'\n')
+        return b"'sha256-" + base64.b64encode(hashlib.sha256(normalized).digest()) + b"'"
+    host, = [m[1] for m in re.finditer(br'<script>(.*?)</script>',html,re.S) if old in m[1]]
+    panel = (UPDATER/'panel.js').read_text(encoding='utf8').encode()
+    updated = host.replace(old,panel)
+    old_hash = script_hash(host)
+    policy, = re.findall(br'<meta http-equiv="Content-Security-Policy" content="[^"]+">',html)
+    if old_hash not in policy:
+        raise ValueError('The signed baseline script is missing from its desktop CSP')
+    new_policy = policy.replace(old_hash,script_hash(updated))
+    entries['app/index.html'] = html.replace(host,updated,1).replace(policy,new_policy,1)
     entries['update-engine.cjs'] = (UPDATER/'msi-engine.cjs').read_bytes()
     entries['update-service.cjs'] = (DESKTOP/'update-service.cjs').read_bytes()
     for name in ['engine.cjs','release.cjs','sigstore-root.json']:
