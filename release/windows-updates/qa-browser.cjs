@@ -67,6 +67,9 @@ async function fail(error) {
   await install.click();
   await page.locator('.path-confirm-dialog [data-answer=no]').click();
   assert.equal((await status()).phase,'downloaded');
+  // The profile menu closes when the user interacts with the separate confirmation dialog.
+  if (!await page.locator('#path-profile-menu').isVisible()) await page.locator('[data-profile-toggle]').first().click();
+  stage = 'applying the update from the profile menu';
   await install.click();
   stage = 'saving the guest profile and closing the old process';
   await Promise.all([page.waitForEvent('close',{timeout:90000}),page.locator('.path-confirm-dialog [data-answer=yes]').click()]);
