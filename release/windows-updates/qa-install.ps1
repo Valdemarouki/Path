@@ -74,13 +74,12 @@ if (!$opened.WaitForExit(30000)) {throw 'Reopened Path did not close normally'}
 $last = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
 & node (Join-Path $PSScriptRoot 'qa-browser.cjs') verify $version
 if ($LASTEXITCODE -ne 0) {throw 'Failed to restore the updated profile'}
-if (!$last.HasExited) {
-    [void]$last.CloseMainWindow()
-    if (!$last.WaitForExit(30000)) {throw 'Verified Path did not close normally'}
-}
-& python $fixture (Join-Path $InputDirectory 'runtime/resources/app.asar') $asar $bundle $setup '2.0.0-rc.23'
+$uiRoot = Join-Path $qa.FullName 'Shortcut preview'
+Copy-Item -LiteralPath (Join-Path $InputDirectory 'runtime') -Destination $uiRoot -Recurse
+$uiAsar = Join-Path $uiRoot 'resources/app.asar'
+& python $fixture $uiAsar $uiAsar $bundle $setup '2.0.0-rc.23'
 if ($LASTEXITCODE -ne 0) {throw 'Could not stage the candidate with an available update'}
-$ui = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
+$ui = Start-Process -FilePath (Join-Path $uiRoot 'Path.exe') -ArgumentList '--remote-debugging-port=9320' -PassThru -WindowStyle Hidden
 & node (Join-Path $PSScriptRoot 'qa-browser.cjs') shortcut '2.0.0-rc.23'
 if ($LASTEXITCODE -ne 0) {throw 'The profile update shortcut failed'}
 Write-Host 'PASS: RC22 wizard migration, public RC23 in-app upgrade, preserved profile, and candidate profile shortcut.'

@@ -20,8 +20,9 @@ async function fail(error) {
 }
 (async () => {
   let browser;
+  const endpoint = mode === 'shortcut' ? 'http://127.0.0.1:9320' : 'http://127.0.0.1:9319';
   for (let i=0; i<60 && !browser; i++) {
-    try {browser = await chromium.connectOverCDP('http://127.0.0.1:9319', {timeout:1500});}
+    try {browser = await chromium.connectOverCDP(endpoint, {timeout:1500});}
     catch {await new Promise(resolve=>setTimeout(resolve,500));}
   }
   assert.ok(browser, 'Path did not start');

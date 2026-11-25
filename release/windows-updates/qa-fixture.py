@@ -10,11 +10,15 @@ if os.getenv('GITHUB_ACTIONS') != 'true' or os.getenv('RUNNER_OS') != 'Windows':
 source, destination, bundle, setup = (Path(value).resolve() for value in sys.argv[1:5])
 entries = unpack(source.read_bytes())
 latest = Path(__file__).with_name('version.txt').read_text().strip()
+profile_setup = ''
 if len(sys.argv) == 6:
     # Exercise the candidate's new controls against this run's signed package.
     package = json.loads(entries['package.json'])
     package['version'] = sys.argv[5]
     entries['package.json'] = json.dumps(package).encode()
+    app_data = destination.parent.parent/'test-app-data'
+    app_data.mkdir()
+    profile_setup = "require('electron').app.setPath('appData', " + json.dumps(str(app_data)) + ");\n"
 base = 'https://github.com/Valdemarouki/Path/releases/download/'
 paths = {base+'path-windows-updates/windows-update.sigstore.json':str(bundle),
          base+'path-windows-'+latest+'/Path.Installer.exe':str(setup)}
@@ -38,5 +42,5 @@ globalThis.fetch = async url => {
   return new Response(require('node:stream').Readable.toWeb(require('node:fs').createReadStream(files[url])));
 };
 """ % (json.dumps(str(bundle.parent/"qa-transport.log")),json.dumps(paths))
-entries['main.cjs'] = fixture.encode() + entries['main.cjs']
+entries['main.cjs'] = (profile_setup + fixture).encode() + entries['main.cjs']
 destination.write_bytes(pack(entries))
