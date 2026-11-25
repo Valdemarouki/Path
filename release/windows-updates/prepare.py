@@ -94,6 +94,15 @@ def prepare_asar(source, target, version, dependencies):
         for item in sorted(dep.rglob('*')):
             if item.is_file() and (item.suffix in ['.js','.json'] or item.name.startswith('LICENSE')):
                 entries['node_modules/'+name+'/'+item.relative_to(dep).as_posix()] = item.read_bytes()
+    # Rekor and Fulcio use ECDSA P-256 / SHA-256. Stock Node chooses SHA-256
+    # implicitly for EC keys. Electron's BoringSSL requires the digest by name.
+    # Keep explicit certificate algorithms and Ed25519's digest-less mode intact.
+    crypto_module = 'node_modules/@sigstore/core/dist/crypto.js'
+    call = b'return crypto_1.default.verify(algorithm, data, key, signature);'
+    if entries[crypto_module].count(call) != 1:
+        raise ValueError('Review the Electron digest adapter for this verifier version')
+    entries[crypto_module] = entries[crypto_module].replace(call,
+        b"if (algorithm == null && key.asymmetricKeyType === 'ec') algorithm = 'sha256';\n        " + call)
     output = pack(entries)
     if unpack(output) != entries: raise ValueError('ASAR round-trip failed')
     target.write_bytes(output)
