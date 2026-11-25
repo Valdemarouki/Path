@@ -49,8 +49,13 @@ async function fail(error) {
   }),true);
   stage = 'waiting for the automatic download';
   console.log('Opened older Windows client; waiting for its update.');
-  await page.waitForFunction(async()=>['downloaded','error','current'].includes((await window.pathDesktop.updates.status()).phase),{},{timeout:120000});
-  assert.equal((await status()).phase,'downloaded', 'Expected a verified background download');
+  const until = Date.now()+120000;
+  let snapshot = await status();
+  while (!['downloaded','error','current'].includes(snapshot.phase) && Date.now()<until) {
+    await new Promise(resolve=>setTimeout(resolve,250));
+    snapshot = await status();
+  }
+  assert.equal(snapshot.phase,'downloaded','Expected a verified background download: '+JSON.stringify(snapshot));
   await page.waitForSelector('#path-update-ready', {timeout:10000});
   assert.equal((await status()).phase,'downloaded');
   await page.locator('#path-update-ready [data-update-action=later]').click();
