@@ -1,0 +1,53 @@
+name: Windows website download
+
+on:
+  workflow_run:
+    workflows: ["Windows in-app updates"]
+    types: [completed]
+    branches: [release/windows-updates]
+  push:
+    branches: [paperclip-test]
+    paths:
+      - .github/workflows/windows-website-download.yml
+      - release/website-download/publish.cjs
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  publish:
+    if: >-
+      github.repository == 'Valdemarouki/Path' &&
+      github.ref == 'refs/heads/paperclip-test' &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_repository.full_name == github.repository &&
+        (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    concurrency:
+      group: path-website-windows-installer
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # Use the same verifier and trust material shipped in the public RC24 client.
+      # This job never loads an upstream run's artifacts or executes its checkout.
+      - uses: actions/checkout@v4
+        with:
+          ref: 3f06461e9c8ebbac97ddfb33396fec74ad3f08d0
+          path: verifier
+          sparse-checkout: desktop/windows-updates
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix verifier/desktop/windows-updates --ignore-scripts --no-audit --no-fund
+      - name: Publish and verify the permanent download against the signed desktop channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: node release/website-download/publish.cjs
