@@ -48,7 +48,11 @@ Install-Old
 if ($LASTEXITCODE -ne 0) {throw 'Could not stage the older updater client'}
 $appProcess = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
 & node (Join-Path $PSScriptRoot 'qa-browser.cjs') apply '2.0.0-rc.22'
-if ($LASTEXITCODE -ne 0) {throw 'In-app update failed'}
+if ($LASTEXITCODE -ne 0) {
+    $trace = Join-Path $OutputDirectory 'qa-transport.log'
+    if (Test-Path $trace) {Get-Content -LiteralPath $trace}
+    throw 'In-app update failed'
+}
 if (!$appProcess.WaitForExit(90000)) {throw 'The prior process did not exit'}
 $opened = $null
 for ($i=0; $i -lt 120 -and !$opened; $i++) {

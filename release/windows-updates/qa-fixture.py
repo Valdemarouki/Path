@@ -17,11 +17,24 @@ base = 'https://github.com/Valdemarouki/Path/releases/download/'
 paths = {base+'path-windows-updates/windows-update.sigstore.json':str(bundle),
          base+'path-windows-'+latest+'/Path.Installer.exe':str(setup)}
 fixture = """
+const qaTrace = %s;
+const record = line => require('node:fs').appendFileSync(qaTrace,line+'\\n');
+const {WindowsUpdater: QaUpdater} = require('./windows-updates/engine.cjs');
+for (const action of ['checkForUpdates','downloadUpdate','verifyReady']) {
+  const method = QaUpdater.prototype[action];
+  QaUpdater.prototype[action] = async function(...args) {
+    try { return await method.apply(this,args); }
+    catch (error) {
+      for (let detail=error; detail; detail=detail.cause) record(action+' '+detail.code+' '+detail.message);
+      throw error;
+    }
+  };
+}
 globalThis.fetch = async url => {
   const files = %s;
   if (!Object.hasOwn(files,url)) throw Error('Unexpected fixture request');
   return new Response(require('node:stream').Readable.toWeb(require('node:fs').createReadStream(files[url])));
 };
-""" % json.dumps(paths)
+""" % (json.dumps(str(bundle.parent/"qa-transport.log")),json.dumps(paths))
 entries['main.cjs'] = fixture.encode() + entries['main.cjs']
 destination.write_bytes(pack(entries))

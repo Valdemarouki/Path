@@ -45,7 +45,7 @@ function verifyRelease(bundle) {
     const sha256 = statement.subject[0].digest.sha256;
     if (typeof sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(sha256)) throw invalid();
     return {version, size, sha256, url: releases + 'path-windows-' + version + '/Path.Installer.exe'};
-  } catch { throw invalid(); }
+  } catch (cause) { const error = invalid(); error.cause = cause; throw error; }
 }
 
 async function get(url, signal, fetchImpl = fetch) {

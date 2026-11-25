@@ -49,7 +49,9 @@ async function fail(error) {
   }),true);
   stage = 'waiting for the automatic download';
   console.log('Opened older Windows client; waiting for its update.');
-  await page.waitForSelector('#path-update-ready', {timeout:120000});
+  await page.waitForFunction(async()=>['downloaded','error','current'].includes((await window.pathDesktop.updates.status()).phase),{},{timeout:120000});
+  assert.equal((await status()).phase,'downloaded', 'Expected a verified background download');
+  await page.waitForSelector('#path-update-ready', {timeout:10000});
   assert.equal((await status()).phase,'downloaded');
   await page.locator('#path-update-ready [data-update-action=later]').click();
   stage = 'opening the profile menu after deferring';

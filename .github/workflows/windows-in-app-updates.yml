@@ -57,6 +57,12 @@ jobs:
         run: |
           Copy-Item -LiteralPath $env:ATTESTATION_FILE -Destination "$env:RUNNER_TEMP/path-build/windows-update.sigstore.json"
           node release/windows-updates/qa-updater.cjs "$env:RUNNER_TEMP/path-build"
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          $env:ELECTRON_RUN_AS_NODE = '1'
+          $probe = (Resolve-Path 'release/windows-updates/qa-packaged-signature.cjs').Path
+          $arguments = @($probe, "$env:RUNNER_TEMP/path-input/runtime/resources/app.asar", "$env:RUNNER_TEMP/path-build/windows-update.sigstore.json") | ForEach-Object {'"'+$_+'"'}
+          $check = Start-Process "$env:RUNNER_TEMP/path-input/runtime/Path.exe" -ArgumentList $arguments -PassThru -Wait -NoNewWindow
+          if ($check.ExitCode -ne 0) {throw "Packaged signature check failed ($($check.ExitCode))."}
       - name: Exercise RC22 migration and update through the running Windows app
         shell: pwsh
         run: |
