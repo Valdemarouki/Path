@@ -27,6 +27,7 @@ Run-Checked $rc22 @('--extract-msi',('"' + $oldMsi + '"'))
 Run-Checked $setup @('--extract-msi',('"' + $newMsi + '"'))
 $msiexec = Join-Path $env:WINDIR 'System32\msiexec.exe'
 function Install-Old {
+    Write-Host 'Installing the public RC22 fixture in a custom folder.'
     Run-Checked $msiexec @('/i',('"'+$oldMsi+'"'),'/qn','/norestart','ADDLOCAL=Planner',('INSTALLDIR="'+$location+'"'))
 }
 function Assert-Installed {
@@ -40,6 +41,7 @@ $wizard = Join-Path $PSScriptRoot '..\windows-rc22\wizard-qa.ps1'
 & powershell.exe -NoProfile -NonInteractive -STA -File $wizard -SetupFile $setup -Mode Install -Shortcut Off -ExpectedInitial Off -ExpectedFolder $location
 if ($LASTEXITCODE -ne 0) {throw 'The one-time RC22 upgrade failed'}
 Assert-Installed
+Write-Host 'Public RC22 upgraded through the installer wizard, with its original folder and shortcut settings.'
 Run-Checked $msiexec @('/x',('"'+$newMsi+'"'),'/qn','/norestart')
 Install-Old
 & python (Join-Path $PSScriptRoot 'qa-fixture.py') (Join-Path $InputDirectory 'runtime/resources/app.asar') $asar $bundle $setup

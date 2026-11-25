@@ -22,6 +22,7 @@ partial class Setup {
                     if(!previous.HasExited && !String.Equals(Path.GetFullPath(previous.MainModule.FileName),exe,StringComparison.OrdinalIgnoreCase))
                         throw new InvalidDataException("The running application does not match the installation.");
                 }catch(InvalidOperationException){if(!previous.HasExited)throw;}
+                catch(System.ComponentModel.Win32Exception){if(!previous.HasExited)throw;}
                 if(!previous.WaitForExit(90000))throw new TimeoutException("Path is still running.");
             }
             stopped=true;
