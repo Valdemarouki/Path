@@ -1,0 +1,68 @@
+.topbar [data-profile-toggle] {
+  anchor-name: --path-profile;
+}
+
+#path-update-shortcut {
+  position: fixed;
+  top: 46px;
+  right: 80px;
+  top: anchor(--path-profile top);
+  right: calc(anchor(--path-profile left) + 4px);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #171818;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+#path-update-shortcut:focus-visible {
+  outline: 2px solid #f5f5f2;
+  outline-offset: 1px;
+}
+
+#path-update-shortcut:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.path-update-disc {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f5f5f2;
+}
+
+#path-update-shortcut:enabled:hover .path-update-disc {
+  background: #fff;
+}
+
+.path-update-disc svg {
+  width: 17px;
+  height: 17px;
+}
+
+.path-update-restart,
+.path-update-percent,
+#path-update-shortcut[data-phase="downloaded"] .path-update-arrow,
+#path-update-shortcut[data-phase="downloading"] svg {
+  display: none;
+}
+
+#path-update-shortcut[data-phase="downloaded"] .path-update-restart {
+  display: inline;
+}
+
+#path-update-shortcut[data-phase="downloading"] .path-update-percent {
+  display: block;
+  font: 600 10px/1 system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+}

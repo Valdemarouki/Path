@@ -36,10 +36,54 @@ async function fail(error) {
   await page.waitForFunction(()=>typeof window.pathPaintUpdates==='function' && typeof window.pathSyncBackup==='function',null,{timeout:12000});
   const status = () => page.evaluate(()=>window.pathDesktop.updates.status());
   assert.equal((await status()).currentVersion,version);
+  const shortcut = page.locator('#path-update-shortcut');
   if (mode === 'verify') {
     assert.equal(await page.evaluate(()=>data.homeTasks.some(task=>task.title==='Synthetic in-app upgrade task')),true);
     assert.equal(await page.evaluate(()=>localStorage.getItem('path-update-test-marker')),'preserved');
+    assert.equal(await shortcut.count(),0);
     console.log('Verified the updated app and the saved task in the reopened guest profile.');
+    await browser.close(); return;
+  }
+  if (mode === 'shortcut') {
+    assert.equal((await status()).automatic,false);
+    stage = 'discovering a release without downloading it';
+    await shortcut.waitFor({state:'visible'});
+    assert.equal((await status()).phase,'available');
+    const profile = page.locator('.topbar [data-profile-toggle]');
+    const [icon, avatar] = await Promise.all([shortcut.boundingBox(),profile.boundingBox()]);
+    assert.ok(icon && avatar && icon.width >= 40 && icon.height >= 40);
+    const gap = avatar.x - (icon.x + icon.width);
+    assert.ok(gap >= 0 && gap <= 12 && Math.abs(icon.y - avatar.y) <= 2,
+      'Shortcut should sit beside the profile: '+JSON.stringify({icon,avatar}));
+    for (const [lang, label] of Object.entries({en:'Download update',ru:'Загрузить обновление',pl:'Pobierz aktualizację',es:'Descargar actualización'})) {
+      await page.evaluate(value => {pathSetLanguage(value); render(); pathTranslateInterface();},lang);
+      assert.equal(await shortcut.count(),1);
+      assert.ok((await shortcut.getAttribute('aria-label')).startsWith(label));
+    }
+    stage = 'downloading from the shortcut with the keyboard';
+    await page.evaluate(() => {
+      window.pathDesktop.updates.onState(state => {
+        if (state.phase !== 'downloading' || state.percent <= 0) return;
+        const button = document.querySelector('#path-update-shortcut');
+        if (button?.disabled && button.querySelector('.path-update-percent').textContent === state.percent+'%') {
+          window.pathShortcutProgressSeen = true;
+        }
+      });
+    });
+    await shortcut.focus();
+    await shortcut.press('Enter');
+    const ready = page.locator('#path-update-shortcut[data-phase=downloaded]:enabled');
+    await ready.waitFor({timeout:120000});
+    assert.ok(await page.evaluate(()=>window.pathShortcutProgressSeen));
+    await page.locator('#path-update-ready [data-update-action=later]').click();
+    await profile.click();
+    await profile.click();
+    assert.equal(await shortcut.count(),1);
+    await ready.click();
+    await page.locator('.path-confirm-dialog [data-answer=no]').click();
+    assert.equal((await status()).phase,'downloaded');
+    await ready.waitFor();
+    console.log('Profile shortcut passed discovery, placement, four languages, keyboard download, progress and deferred restart.');
     await browser.close(); return;
   }
   assert.equal((await status()).automatic,true);

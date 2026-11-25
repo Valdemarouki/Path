@@ -43,11 +43,17 @@ if ($LASTEXITCODE -ne 0) {throw 'The one-time RC22 upgrade failed'}
 Assert-Installed
 Write-Host 'Public RC22 upgraded through the installer wizard, with its original folder and shortcut settings.'
 Run-Checked $msiexec @('/x',('"'+$newMsi+'"'),'/qn','/norestart')
-Install-Old
-& python (Join-Path $PSScriptRoot 'qa-fixture.py') (Join-Path $InputDirectory 'runtime/resources/app.asar') $asar $bundle $setup
-if ($LASTEXITCODE -ne 0) {throw 'Could not stage the older updater client'}
+$rc23 = Join-Path $qa.FullName 'RC23.exe'
+$rc23Msi = Join-Path $qa.FullName 'RC23.msi'
+Invoke-WebRequest 'https://github.com/Valdemarouki/Path/releases/download/path-windows-2.0.0-rc.23/Path.Installer.exe' -OutFile $rc23
+if ((Get-FileHash $rc23).Hash -ne '106DAF22B69BED8D59BB2FA63708DBCB3E890F8372F5FC51651E4451D4E826FD') {throw 'Unexpected RC23 installer'}
+Run-Checked $rc23 @('--extract-msi',('"'+$rc23Msi+'"'))
+Run-Checked $msiexec @('/i',('"'+$rc23Msi+'"'),'/qn','/norestart','ADDLOCAL=Planner',('INSTALLDIR="'+$location+'"'))
+$fixture = Join-Path $PSScriptRoot 'qa-fixture.py'
+& python $fixture $asar $asar $bundle $setup
+if ($LASTEXITCODE -ne 0) {throw 'Could not point the public RC23 client at the candidate feed'}
 $appProcess = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
-& node (Join-Path $PSScriptRoot 'qa-browser.cjs') apply '2.0.0-rc.22'
+& node (Join-Path $PSScriptRoot 'qa-browser.cjs') apply '2.0.0-rc.23'
 if ($LASTEXITCODE -ne 0) {
     $trace = Join-Path $OutputDirectory 'qa-transport.log'
     if (Test-Path $trace) {Get-Content -LiteralPath $trace}
@@ -68,4 +74,13 @@ if (!$opened.WaitForExit(30000)) {throw 'Reopened Path did not close normally'}
 $last = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
 & node (Join-Path $PSScriptRoot 'qa-browser.cjs') verify $version
 if ($LASTEXITCODE -ne 0) {throw 'Failed to restore the updated profile'}
-Write-Host 'PASS: one-time RC22 upgrade, real signed in-app update, automatic restart, profile, backup, custom folder and shortcuts.'
+if (!$last.HasExited) {
+    [void]$last.CloseMainWindow()
+    if (!$last.WaitForExit(30000)) {throw 'Verified Path did not close normally'}
+}
+& python $fixture (Join-Path $InputDirectory 'runtime/resources/app.asar') $asar $bundle $setup '2.0.0-rc.23'
+if ($LASTEXITCODE -ne 0) {throw 'Could not stage the candidate with an available update'}
+$ui = Start-Process -FilePath $exe -ArgumentList '--remote-debugging-port=9319' -PassThru -WindowStyle Hidden
+& node (Join-Path $PSScriptRoot 'qa-browser.cjs') shortcut '2.0.0-rc.23'
+if ($LASTEXITCODE -ne 0) {throw 'The profile update shortcut failed'}
+Write-Host 'PASS: RC22 wizard migration, public RC23 in-app upgrade, preserved profile, and candidate profile shortcut.'

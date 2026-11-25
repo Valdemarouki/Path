@@ -7,12 +7,14 @@ from prepare import pack, unpack
 
 if os.getenv('GITHUB_ACTIONS') != 'true' or os.getenv('RUNNER_OS') != 'Windows':
     raise SystemExit('Disposable Windows runner required')
-source, destination, bundle, setup = (Path(value).resolve() for value in sys.argv[1:])
+source, destination, bundle, setup = (Path(value).resolve() for value in sys.argv[1:5])
 entries = unpack(source.read_bytes())
-package = json.loads(entries['package.json'])
-latest = package['version']
-package['version'] = '2.0.0-rc.22'
-entries['package.json'] = json.dumps(package).encode()
+latest = Path(__file__).with_name('version.txt').read_text().strip()
+if len(sys.argv) == 6:
+    # Exercise the candidate's new controls against this run's signed package.
+    package = json.loads(entries['package.json'])
+    package['version'] = sys.argv[5]
+    entries['package.json'] = json.dumps(package).encode()
 base = 'https://github.com/Valdemarouki/Path/releases/download/'
 paths = {base+'path-windows-updates/windows-update.sigstore.json':str(bundle),
          base+'path-windows-'+latest+'/Path.Installer.exe':str(setup)}

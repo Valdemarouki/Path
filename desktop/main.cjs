@@ -22,7 +22,7 @@ function readAuto(){try{const value=JSON.parse(autoPrefs.read()||'{}');return ac
 function syncV2Mode(){return accounts?.current.kind==='account'?require('./sync-v2-host.cjs').mode(profile,accounts.current.id):'off';}
 function accountPublicState(){return {...accounts.status(),syncAutoEnabled:readAuto(),syncV2Mode:syncV2Mode(),syncV3Mode:syncV3Mode()};}
 const updatePrefs=fileProfileStorage(path.join(profile,'updates','preferences.json'));
-function updatePreference(){try{return JSON.parse(updatePrefs.read()||'{}').automatic!==false;}catch{return true;}}
+function updatePreference(){try{return JSON.parse(updatePrefs.read()||'{}').automatic===true;}catch{return false;}}
 function sendUpdate(state){if(win&&!win.isDestroyed())win.webContents.send('path:update-state',state);}
 async function prepareUpdateInstall(){
  if(transitioning||accounts?.busy||accounts?.phase==='signing-in')throw Object.assign(Error('Account operation busy'),{code:'UPDATE_BUSY'});
@@ -149,7 +149,7 @@ if(!app.requestSingleInstanceLock())app.quit();else{
   if(process.platform==='win32'&&app.isPackaged){
    const {PathUpdater}=require('./update-engine.cjs');
    updater=new UpdateService({engine:new PathUpdater(),version:app.getVersion(),enabled:updatePreference(),onState:sendUpdate,savePreference:automatic=>updatePrefs.write(JSON.stringify({automatic})),prepareInstall:prepareUpdateInstall,releaseInstall:releaseUpdateInstall});
-   const check=()=>{if(updater.status().automatic&&!transitioning)updater.run('check').catch(()=>{});};
+   const check=()=>{if(!transitioning)updater.run('check').catch(()=>{});};
    const first=setTimeout(check,15000),repeat=setInterval(check,6*60*60*1000);first.unref();repeat.unref();
   }
   app.on('activate',()=>{if(!win)createWindow(accounts.current);});

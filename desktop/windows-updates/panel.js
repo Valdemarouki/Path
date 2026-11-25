@@ -5,7 +5,7 @@
   const labels = {
     title: ['App updates','Обновления приложения','Aktualizacje aplikacji','Actualizaciones de la aplicación'],
     check: ['Check for updates','Проверить обновления','Sprawdź aktualizacje','Buscar actualizaciones'],
-    automatic: ['Check and download automatically','Проверять и загружать автоматически','Automatycznie sprawdzaj i pobieraj','Buscar y descargar automáticamente'],
+    automatic: ['Download updates automatically','Загружать обновления автоматически','Pobieraj aktualizacje automatycznie','Descargar actualizaciones automáticamente'],
     checking: ['Checking…','Проверяем…','Sprawdzanie…','Buscando…'],
     current: ['You have the latest version.','Установлена последняя версия.','Masz najnowszą wersję.','Tienes la última versión.'],
     available: ['Available','Доступна версия','Dostępna wersja','Versión disponible'],
@@ -13,6 +13,7 @@
     downloaded: ['Ready to install','Готово к установке','Gotowa do instalacji','Lista para instalar'],
     installing: ['Saving and restarting…','Сохраняем данные и перезапускаем Path…','Zapisywanie i ponowne uruchamianie…','Guardando y reiniciando…'],
     download: ['Download update','Загрузить обновление','Pobierz aktualizację','Descargar actualización'],
+    retry: ['Retry download','Повторить загрузку','Ponów pobieranie','Volver a descargar'],
     install: ['Restart and update','Перезапустить и обновить','Uruchom ponownie i zaktualizuj','Reiniciar y actualizar'],
     later: ['Later','Позже','Później','Más tarde'],
     confirm: ['Save your changes, update Path and reopen it?','Сохранить изменения, обновить Path и снова открыть программу?','Zapisać zmiany, zaktualizować Path i otworzyć ponownie?','¿Guardar los cambios, actualizar Path y volver a abrirlo?'],
@@ -24,6 +25,43 @@
   };
   const t = key => labels[key]?.[Math.max(0,languages.indexOf(typeof pathLanguage === 'function' ? pathLanguage() : 'en'))] || '';
   let state = {}, working = false, dismissed = '';
+  const shortcut = document.createElement('button');
+  shortcut.type = 'button';
+  shortcut.id = 'path-update-shortcut';
+  shortcut.innerHTML = `<span class="path-update-disc" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <g class="path-update-arrow"><path d="M12 3v11m-4-4 4 4 4-4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></g>
+      <g class="path-update-restart"><path d="M20 10a8 8 0 1 0-.8 6M20 4v6h-6"/></g>
+    </svg><span class="path-update-percent"></span></span>`;
+  const percent = shortcut.querySelector('.path-update-percent');
+
+  function paintShortcut() {
+    const {phase, version} = state;
+    if (!state.supported || !version || !['available','downloading','downloaded','error'].includes(phase)) {
+      shortcut.remove();
+      return;
+    }
+    const profile = document.querySelector('.topbar [data-profile-toggle]');
+    if (!profile) return;
+    const action = phase === 'downloaded' ? 'install' : 'download';
+    const progress = phase === 'downloading' ? state.percent + '%' : '';
+    const label = progress ? t('downloading') + ' ' + progress : t(phase === 'error' ? 'retry' : action);
+    shortcut.dataset.phase = phase;
+    shortcut.dataset.updateAction = action;
+    shortcut.disabled = !!(working || state.busy || phase === 'downloading');
+    shortcut.title = label + ' · Path ' + version;
+    shortcut.setAttribute('aria-label', shortcut.title);
+    percent.textContent = progress;
+    if (profile.nextElementSibling !== shortcut) profile.after(shortcut);
+  }
+
+  // Path replaces its header on navigation, language changes and profile toggles.
+  const renderHeader = header;
+  header = function () {
+    const html = renderHeader();
+    if (state.version) queueMicrotask(paintShortcut);
+    return html;
+  };
   function button(action, label = action) {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'btn'; b.dataset.updateAction = action; b.textContent = t(label);
@@ -51,6 +89,7 @@
     section.append(button(action), label); box.append(section);
   }
   function refresh() {
+    paintShortcut();
     const box = document.querySelector('[data-path-account]'); if (box) paint(box);
     document.getElementById('path-update-ready')?.remove();
     if (state.phase !== 'downloaded' || state.version === dismissed) return;
@@ -64,14 +103,16 @@
   }
   window.pathPaintUpdates = paint;
   const receive = value => {state = value; refresh();};
-  api.onState(receive); api.status().then(receive).catch(() => {});
+  let receivedEvent = false;
+  api.onState(value => {receivedEvent = true; receive(value);});
+  api.status().then(value => {if (!receivedEvent) receive(value);}).catch(() => {});
   document.addEventListener('change', async event => {
     if (!event.target.matches('[data-update-automatic]')) return;
     try { receive(await api.action('automatic',event.target.checked)); } catch { refresh(); }
   });
   document.addEventListener('click', async event => {
     const b = event.target.closest('[data-update-action]');
-    if (!b || working) return;
+    if (!b || b.disabled || working) return;
     event.preventDefault(); const action = b.dataset.updateAction;
     if (action === 'later') { dismissed = state.version; refresh(); return; }
     working = true;

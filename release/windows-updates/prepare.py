@@ -96,7 +96,19 @@ def prepare_asar(source, target, version, dependencies):
     if old_hash not in policy:
         raise ValueError('The signed baseline script is missing from its desktop CSP')
     new_policy = policy.replace(old_hash,script_hash(updated))
-    entries['app/index.html'] = html.replace(host,updated,1).replace(policy,new_policy,1)
+    html = html.replace(host,updated,1).replace(policy,new_policy,1)
+    if html.count(b'</head>') != 1:
+        raise ValueError('Expected one desktop document head')
+    css = (UPDATER/'shortcut.css').read_bytes()
+    entries['app/index.html'] = html.replace(b'</head>', b'<style>' + css + b'</style></head>')
+    # The public runtime includes newer account/sync handlers than this checkout.
+    # Import only the update preference and periodic check from the desktop host.
+    main = entries['main.cjs'].decode('utf8').splitlines(keepends=True)
+    source_main = (DESKTOP/'main.cjs').read_text(encoding='utf8').splitlines(keepends=True)
+    for prefix in ('function updatePreference()', '   const check=()=>'):
+        index, = [i for i,line in enumerate(main) if line.startswith(prefix)]
+        main[index], = [line for line in source_main if line.startswith(prefix)]
+    entries['main.cjs'] = ''.join(main).encode()
     entries['update-engine.cjs'] = (UPDATER/'msi-engine.cjs').read_bytes()
     entries['update-service.cjs'] = (DESKTOP/'update-service.cjs').read_bytes()
     for name in ['engine.cjs','release.cjs','sigstore-root.json']:
