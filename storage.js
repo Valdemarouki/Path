@@ -70,6 +70,13 @@ function pathImport(value){
  return pathClone(pathValidate(value));
 }
 function pathValidDate(value){if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;const d=new Date(value+'T12:00:00Z');return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===value;}
+function pathValidCanvasInk(ink){
+ if(!ink || !Number.isFinite(ink.width) || ink.width<=0 || !Number.isFinite(ink.height) || ink.height<=0 ||
+    ![2,4,8,12].includes(ink.size) || typeof ink.color!=='string' || !/^#[a-f0-9]{6}$/i.test(ink.color) ||
+    !Array.isArray(ink.points) || ink.points.length<2) return false;
+ return ink.points.every(p=>Array.isArray(p) && p.length===2 && Number.isFinite(p[0]) && Number.isFinite(p[1]) &&
+   p[0]>=0 && p[0]<=ink.width && p[1]>=0 && p[1]<=ink.height);
+}
 function pathValidate(state){
  pathAssertSafeTree(state);
  if(!state||typeof state!=='object'||Array.isArray(state))throw Error('Invalid Path data.');
@@ -136,7 +143,7 @@ if(!n||typeof n.id!=='string'||!n.id||ids.has(n.id)||!['note','journal'].include
   if(c.archived!==undefined&&typeof c.archived!=='boolean'||c.updatedAt!==undefined&&(typeof c.updatedAt!=='string'||!Number.isFinite(Date.parse(c.updatedAt))))throw Error('Invalid canvas metadata.');
   if(typeof c.name!=='string'||!Array.isArray(c.nodes)||!Array.isArray(c.edges))throw Error('Invalid canvas.');
   if(c.viewport&&(!Number.isFinite(c.viewport.zoom)||c.viewport.zoom<.2||c.viewport.zoom>3||!Number.isFinite(c.viewport.left)||c.viewport.left<0||!Number.isFinite(c.viewport.top)||c.viewport.top<0))throw Error('Invalid canvas viewport.');
-  for(const n of c.nodes){if(n.collapsed!==undefined&&(typeof n.collapsed!=='boolean'||n.kind!=='group'))throw Error('Invalid collapsed frame.');if(n.width!==undefined&&(!Number.isFinite(n.width)||n.width<160||n.width>1600)||n.height!==undefined&&(!Number.isFinite(n.height)||n.height<100||n.height>1600))throw Error('Invalid canvas size.');if(n.attachment&&(!['application/pdf','text/plain'].includes(n.attachment.type)||typeof n.attachment.name!=='string'||!Number.isFinite(n.attachment.size)||n.attachment.size<0||n.attachment.size>2097152||typeof n.attachment.data!=='string'||n.attachment.data.length>2900000||!/^data:(application\/pdf|text\/plain);base64,[A-Za-z0-9+/]*={0,2}$/.test(n.attachment.data)))throw Error('Invalid canvas attachment.');if(n.image&&(typeof n.image!=='string'||!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]*={0,2}$/.test(n.image)||n.image.length>2900000))throw Error('Invalid canvas image.');}
+  for(const n of c.nodes){if((n.kind==='drawing'||n.ink!==undefined)&&!pathValidCanvasInk(n.ink))throw Error('Invalid canvas drawing.');if(n.collapsed!==undefined&&(typeof n.collapsed!=='boolean'||n.kind!=='group'))throw Error('Invalid collapsed frame.');if(n.width!==undefined&&(!Number.isFinite(n.width)||n.width<160||n.width>1600)||n.height!==undefined&&(!Number.isFinite(n.height)||n.height<100||n.height>1600))throw Error('Invalid canvas size.');if(n.attachment&&(!['application/pdf','text/plain'].includes(n.attachment.type)||typeof n.attachment.name!=='string'||!Number.isFinite(n.attachment.size)||n.attachment.size<0||n.attachment.size>2097152||typeof n.attachment.data!=='string'||n.attachment.data.length>2900000||!/^data:(application\/pdf|text\/plain);base64,[A-Za-z0-9+/]*={0,2}$/.test(n.attachment.data)))throw Error('Invalid canvas attachment.');if(n.image&&(typeof n.image!=='string'||!/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]*={0,2}$/.test(n.image)||n.image.length>2900000))throw Error('Invalid canvas image.');}
   const nodes=new Set();for(const n of c.nodes){if(!n||typeof n.id!=='string'||nodes.has(n.id)||!Number.isFinite(n.x)||!Number.isFinite(n.y))throw Error('Invalid canvas node.');nodes.add(n.id);}
   for(const e of c.edges)if(!e||!nodes.has(e.from)||!nodes.has(e.to)||(e.directed!==undefined&&typeof e.directed!=='boolean')||['fromSide','toSide'].some(k=>e[k]!==undefined&&!['left','right','top','bottom'].includes(e[k]))||(e.label!==undefined&&(typeof e.label!=='string'||e.label.length>120)))throw Error('Broken canvas connection.');
  }
@@ -159,6 +166,30 @@ function pathRestore(target,source){
   else target[k]=pathClone(v);
  }return target;
 }
+// Viewports are saved with the board for reopening, but aren't editing actions.
+function pathHistoryContent(state){
+ return {...state,canvases:state.canvases.map(({viewport,...board})=>board)};
+}
+function pathWithCanvasViews(state,liveBoards){
+ const byId=new Map(liveBoards.map(b=>[b.id,b]));
+ return {...state,canvases:state.canvases.map(board=>{
+  const live=byId.get(board.id);
+  if(!live)return board; // A restored board can use its own last saved location.
+  const {viewport,...content}=board;
+  return live.viewport?{...content,viewport:live.viewport}:content;
+ })};
+}
+function pathLoadHistory(entries,current){
+ // Older checkpoints may contain several consecutive camera moves.
+ let previous=pathHistoryContent(current);
+ const kept=[];
+ for(const entry of entries.slice(-20).reverse()){
+  const state=pathValidate(entry),content=pathHistoryContent(state);
+  if(!pathJsonEqual(content,previous))kept.push(pathClone(state));
+  previous=content;
+ }
+ return kept.reverse();
+}
 class PathRepository{
  constructor(storage,legacyKey){this.storage=storage;this.legacyKey=legacyKey;this.key=legacyKey+'-checkpoints-v2';this.raw=null;this.undo=[];this.redo=[];this.revision=0;this.error='';this.blocked=false;this.pending=null;}
  load(){
@@ -168,8 +199,8 @@ class PathRepository{
     const envelope=pathCheckpointDecode(JSON.parse(this.raw));
     if(envelope.format!=='path-checkpoint'||envelope.version!==2||!Number.isInteger(envelope.revision)||!Array.isArray(envelope.undo)||!Array.isArray(envelope.redo))throw Error('Unsupported checkpoint format.');
     this.state=pathClone(pathValidate(envelope.state));
-    this.undo=envelope.undo.slice(-20).map(s=>pathClone(pathValidate(s)));
-    this.redo=envelope.redo.slice(-20).map(s=>pathClone(pathValidate(s)));this.revision=envelope.revision;
+    this.undo=pathLoadHistory(envelope.undo,this.state);
+    this.redo=pathLoadHistory(envelope.redo,this.state);this.revision=envelope.revision;
    }else{
     const legacy=this.storage.getItem(this.legacyKey);
     this.state=legacy===null?pathEmpty():pathClone(pathValidate(JSON.parse(legacy)));
@@ -186,7 +217,7 @@ class PathRepository{
    let undo=this.undo.slice(),redo=this.redo.slice();
    if(mode==='undo'){undo.pop();redo.push(pathClone(this.state));}
    else if(mode==='redo'){redo.pop();undo.push(pathClone(this.state));}
-   else if(!same){undo.push(pathClone(this.state));redo=[];}
+   else if(!same&&!pathJsonEqual(pathHistoryContent(next),pathHistoryContent(this.state))){undo.push(pathClone(this.state));redo=[];}
    if(same&&this.raw!==null&&mode==='edit'){this.error='';this.pending=null;return true;}
    const envelope={format:'path-checkpoint',version:2,revision:this.revision+1,state:next,undo:undo.slice(-20),redo:redo.slice(-20)};
    // Bound history bytes as well as step count. Keep the current state intact.
@@ -202,6 +233,9 @@ class PathRepository{
    this.raw=raw;this.state=next;this.undo=envelope.undo;this.redo=envelope.redo;this.revision=envelope.revision;this.pending=null;this.error='';return true;
   }catch(e){this.error='Not saved. '+e.message;this.pending={state:pathClone(candidate),mode};return false;}
  }
- history(direction){const list=direction==='undo'?this.undo:this.redo;return list.length?this.commit(list[list.length-1],direction):false;}
+ history(direction,liveBoards=this.state.canvases){
+  const list=direction==='undo'?this.undo:this.redo;
+  return list.length?this.commit(pathWithCanvasViews(list.at(-1),liveBoards),direction):false;
+ }
 }
 const pathRepository=new PathRepository({getItem:k=>localStorage.getItem(k),setItem:(k,v)=>localStorage.setItem(k,v)},STORE);

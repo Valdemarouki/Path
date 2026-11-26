@@ -7,6 +7,7 @@ import re
 import struct
 import subprocess
 from pathlib import Path
+from canvas_renderer import apply_canvas
 
 HERE = Path(__file__).resolve().parent
 DESKTOP = HERE.parents[1] / 'desktop'
@@ -95,8 +96,18 @@ def prepare_asar(source, target, version, dependencies):
     policy, = re.findall(br'<meta http-equiv="Content-Security-Policy" content="[^"]+">',html)
     if old_hash not in policy:
         raise ValueError('The signed baseline script is missing from its desktop CSP')
-    new_policy = policy.replace(old_hash,script_hash(updated))
-    html = html.replace(host,updated,1).replace(policy,new_policy,1)
+    original_scripts = re.findall(br'<script>(.*?)</script>', html, re.S)
+    html = apply_canvas(html.replace(host, updated, 1).decode('utf8').replace('\r\n','\n')).encode()
+    new_scripts = re.findall(br'<script>(.*?)</script>',html,re.S)
+    if len(new_scripts) != len(original_scripts):
+        raise ValueError('Unexpected change in desktop script count')
+    new_policy = policy
+    for before, after in zip(original_scripts, new_scripts):
+        previous_hash = script_hash(before)
+        if new_policy.count(previous_hash) != 1:
+            raise ValueError('Desktop script hash is missing from the original CSP')
+        new_policy = new_policy.replace(previous_hash, script_hash(after))
+    html = html.replace(policy,new_policy,1)
     if html.count(b'</head>') != 1:
         raise ValueError('Expected one desktop document head')
     css = (UPDATER/'shortcut.css').read_bytes()

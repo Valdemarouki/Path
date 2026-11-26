@@ -31,7 +31,12 @@ closeEditor=function(){closeBeforeStorage();paintStorage();};
 function applyHistory(direction){
  if(typeof flushNote==='function'&&!flushNote())return;
  if(editor||pathRepository.error)return;
- if(pathRepository.history(direction)){pathRestore(data,pathRepository.state);projectId=data.projects.some(p=>p.id===projectId)?projectId:null;canvasId=data.canvases.some(c=>c.id===canvasId)?canvasId:null;calendarMode=data.settings.calendarMode||'week';render();toast(direction==='undo'?'Change undone':'Change restored');}
+ // A keyboard shortcut can precede the scroll event or the zoom save timer.
+ if(typeof canvasCaptureViewport==='function' && canvasId){
+  if(canvasZoomMotion){canvasZoomStop(false);canvasZoomScheduleSave();}
+  canvasCaptureViewport(document.querySelector('#canvas-space'));
+ }
+ if(pathRepository.history(direction,data.canvases)){pathRestore(data,pathRepository.state);projectId=data.projects.some(p=>p.id===projectId)?projectId:null;canvasId=data.canvases.some(c=>c.id===canvasId)?canvasId:null;calendarMode=data.settings.calendarMode||'week';render();toast(direction==='undo'?'Change undone':'Change restored');}
  else paintStorage();
 }
 document.addEventListener('click',async e=>{
@@ -46,8 +51,16 @@ document.addEventListener('click',async e=>{
 });
 document.addEventListener('keydown',e=>{
  if(!(e.ctrlKey||e.metaKey)||e.altKey||e.target.closest('input,textarea,select,[contenteditable="true"]')||editor)return;
- if(e.key.toLowerCase()==='z'){e.preventDefault();applyHistory(e.shiftKey?'redo':'undo');}
- else if(e.key.toLowerCase()==='y'){e.preventDefault();applyHistory('redo');}
+ const key=e.key.toLowerCase();
+ // Keep the printed shortcut on Latin layouts (including QWERTZ).
+ // On Cyrillic layouts browsers report я/н, with the same physical Z/Y keys.
+ let shortcut=key;
+ if(!/^[a-z]$/.test(key)){
+  if(e.code==='KeyZ'||key==='я')shortcut='z';
+  else if(e.code==='KeyY'||key==='н')shortcut='y';
+ }
+ if(shortcut==='z'){e.preventDefault();applyHistory(e.shiftKey?'redo':'undo');}
+ else if(shortcut==='y'){e.preventDefault();applyHistory('redo');}
 });
 window.addEventListener('beforeunload',e=>{if(pathRepository.pending){e.preventDefault();e.returnValue='';}});
 window.addEventListener('storage',e=>{if(e.key===pathRepository.key&&e.newValue!==pathRepository.raw){pathRepository.blocked=true;pathRepository.error='Data changed in another window. Reload saved data before editing.';paintStorage();}});

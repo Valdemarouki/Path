@@ -31,3 +31,33 @@ assert.throws(()=>c.pathImport({format:'path-checkpoint',version:99,state:r3.sta
 c.crypto={getRandomValues:bytes=>require('crypto').randomFillSync(bytes)};
 const ids=new Set(Array.from({length:100},()=>c.pathUid()));assert.equal(ids.size,100);assert([...ids].every(id=>/^[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/.test(id)));
 console.log('PASS: recovery import, unsupported schema rejection, UUID fallback on HTTP.');
+
+// Earlier versions recorded board navigation between edits. Both stacks must
+// skip those snapshots and keep each board's most recent camera by ID.
+{
+ const disk=memory(),ctx=setup(disk),seed=ctx.pathEmpty();
+ const board=id=>({id,name:id,nodes:[],edges:[]});
+ seed.canvases=[board('a'),board('b')];
+ const snapshot=(title,offset)=>{
+  const state=ctx.pathClone(seed);
+  state.canvases[0].name=title;
+  state.canvases.forEach((b,i)=>{b.viewport={zoom:1+i,left:offset+i,top:20,cameraVersion:2};});
+  return state;
+ };
+ const envelope={format:'path-checkpoint',version:2,revision:8,state:snapshot('second',70),
+  undo:[snapshot('first',10),snapshot('first',20),snapshot('second',30)],
+  redo:[snapshot('third',90),snapshot('third',80),snapshot('second',75)]};
+ disk.setItem(ctx.repo.key,ctx.pathCheckpointEncode(envelope));
+ const repo=ctx.repo;repo.load();
+ assert.deepEqual([repo.undo.length,repo.redo.length],[1,1]);
+ assert(repo.commit(snapshot('second',110)));
+ assert.deepEqual([repo.undo.length,repo.redo.length],[1,1]);
+ assert(repo.history('undo',snapshot('second',140).canvases.reverse()));
+ assert.equal(repo.state.canvases[0].name,'first');
+ assert.equal(repo.state.canvases[0].viewport.left,140);
+ assert.equal(repo.state.canvases[1].viewport.left,141);
+ assert(repo.commit(snapshot('first',200)));assert(repo.history('redo'));
+ assert.equal(repo.state.canvases[0].name,'second');assert.equal(repo.state.canvases[0].viewport.left,200);
+ assert(repo.history('redo'));assert.equal(repo.state.canvases[0].name,'third');
+ console.log('PASS camera-independent Undo/Redo, pan after Undo, per-board views, and existing camera-only checkpoints.');
+}

@@ -2,7 +2,7 @@
 function canvasPresentation(board){
  const owner=new Map(),frames=board.nodes.filter(n=>n.kind==='group'&&n.collapsed).sort((a,b)=>(b.width||280)*(b.height||180)-(a.width||280)*(a.height||180));
  for(const frame of frames){if(owner.has(frame.id))continue;for(const child of canvasFrameContents(board,frame))if(!owner.has(child.id))owner.set(child.id,frame.id);}
- const nodes=board.nodes.filter(n=>!owner.has(n.id)).map(n=>n.kind==='group'&&n.collapsed?{...n,width:240,height:100,body:`Collapsed · ${canvasFrameContents(board,n).length} cards`}:n);
+ const nodes=board.nodes.filter(n=>!owner.has(n.id)).map(n=>n.kind==='group'&&n.collapsed?{...n,width:240,height:100,body:`Collapsed · ${canvasFrameContents(board,n).length} cards`}:n.kind==='drawing'&&n.ink?{...n,width:n.ink.width,height:n.ink.height}:n);
  const pairs=new Set(),edges=[];for(const [sourceIndex,edge] of (board.edges||[]).entries()){const from=owner.get(edge.from)||edge.from,to=owner.get(edge.to)||edge.to,key=JSON.stringify([from,to]);if(from===to||pairs.has(key))continue;pairs.add(key);edges.push({...edge,from,to,_sourceEdgeIndex:sourceIndex});}
  return {...board,nodes,edges};
 }

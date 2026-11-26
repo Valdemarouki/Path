@@ -42,6 +42,32 @@ async function fail(error) {
     assert.equal(await page.evaluate(()=>data.homeTasks.some(task=>task.title==='Synthetic in-app upgrade task')),true);
     assert.equal(await page.evaluate(()=>localStorage.getItem('path-update-test-marker')),'preserved');
     assert.equal(await shortcut.count(),0);
+    stage = 'drawing on the upgraded Canvas';
+    await page.evaluate(()=>{
+      const board={id:uid(),name:'Synthetic ink board',nodes:[],edges:[]};
+      data.canvases.push(board);
+      if(!save())throw Error('Could not create test board');
+      view='canvas';canvasId=board.id;render();
+    });
+    await page.locator('[data-ink-tool=pen]').click();
+    const space=page.locator('#canvas-space'), rect=await space.boundingBox();
+    const x=Math.round(rect.x+rect.width*0.4), y=Math.round(rect.y+rect.height*0.55);
+    await page.mouse.move(x,y);await page.mouse.down();
+    await page.mouse.move(x+30,y+6,{steps:5});await page.mouse.move(x+65,y-12,{steps:5});await page.mouse.up();
+    const stroke=page.locator('.canvas-ink-node path').last();
+    assert.match(await stroke.getAttribute('d'),/Q/);
+    await page.locator('[data-canvas-zoom="1"]').click();
+    await page.waitForFunction(()=>!canvasZoomMotion && canvasViewport(data.canvases.find(b=>b.id===canvasId)).zoom>1);
+    await space.evaluate(s=>s.scrollBy(46,32));
+    const camera=()=>page.evaluate(()=>{const s=document.querySelector('#canvas-space');return [s.scrollLeft,s.scrollTop,canvasViewport(data.canvases.find(b=>b.id===canvasId)).zoom];});
+    const before=await camera();
+    const keys=await context.newCDPSession(page);
+    for(const [key,modifiers,count] of [['я',2,0],['Я',10,1]]){
+      for(const type of ['rawKeyDown','keyUp'])await keys.send('Input.dispatchKeyEvent',{type,key,code:'KeyZ',windowsVirtualKeyCode:90,modifiers});
+      assert.equal(await page.locator('.canvas-ink-node').count(),count);
+      assert.deepEqual(await camera(),before);
+    }
+    console.log('Verified smooth Canvas ink and Cyrillic Undo/Redo at the current pan and zoom.');
     console.log('Verified the updated app and the saved task in the reopened guest profile.');
     await browser.close(); return;
   }
@@ -87,13 +113,15 @@ async function fail(error) {
     console.log('Profile shortcut passed discovery, placement, four languages, keyboard download, progress and deferred restart.');
     await browser.close(); return;
   }
-  assert.equal((await status()).automatic,true);
+  assert.equal((await status()).automatic,false);
   assert.equal(await page.evaluate(()=>{
     data.homeTasks.push({id:uid(),title:'Synthetic in-app upgrade task',duration:15,done:false});
     localStorage.setItem('path-update-test-marker','preserved');
     return save();
   }),true);
-  stage = 'waiting for the automatic download';
+  stage = 'downloading the offered update beside the RC24 profile';
+  await shortcut.waitFor({state:'visible'});
+  await shortcut.click();
   console.log('Opened older Windows client; waiting for its update.');
   const until = Date.now()+120000;
   let snapshot = await status();
@@ -101,7 +129,7 @@ async function fail(error) {
     await new Promise(resolve=>setTimeout(resolve,250));
     snapshot = await status();
   }
-  assert.equal(snapshot.phase,'downloaded','Expected a verified background download: '+JSON.stringify(snapshot));
+  assert.equal(snapshot.phase,'downloaded','Expected a verified requested download: '+JSON.stringify(snapshot));
   await page.waitForSelector('#path-update-ready', {timeout:10000});
   assert.equal((await status()).phase,'downloaded');
   await page.locator('#path-update-ready [data-update-action=later]').click();
@@ -118,6 +146,6 @@ async function fail(error) {
   await install.click();
   stage = 'saving the guest profile and closing the old process';
   await Promise.all([page.waitForEvent('close',{timeout:90000}),page.locator('.path-confirm-dialog [data-answer=yes]').click()]);
-  console.log('Automatic check, verified background download, deferral and confirmed restart passed.');
+  console.log('Automatic check, RC24 profile download, deferral and confirmed restart passed.');
   await browser.close().catch(()=>{});
 })().then(()=>{clearTimeout(watchdog);process.exit(0);}).catch(fail);

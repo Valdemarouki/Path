@@ -113,7 +113,7 @@ jobs:
           channel=path-windows-updates
           cd files
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "A download button now appears beside your profile when a Windows update is available. It shows download progress and lets you restart when ready. Automatic downloads can be enabled in your profile."
+            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Draw on Canvas with a smooth freehand pen, adjustable color and width, and a stroke eraser. Undo and redo keep the board position and zoom, including with Russian keyboard shortcuts."
           fi
           # Verify the versioned public assets before offering them to clients.
           url="https://github.com/$GH_REPO/releases/download/$tag"

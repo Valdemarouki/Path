@@ -70,3 +70,18 @@ body[data-page=canvas] .canvas-world{position:absolute;background:transparent!im
 .canvas-node[data-canvas-node-kind=note]:active>.nodetext{cursor:grabbing}
 .canvas-inline-editor input[hidden]{display:none!important}
 .canvas-node[data-canvas-node-kind=text]>.nodetitle,.canvas-node[data-canvas-node-kind=text]>.nodetext,.canvas-inline-editor[data-kind=text] input,.canvas-inline-editor[data-kind=text] textarea{text-align:center}
+
+.canvas-ink-options{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;padding:5px 8px;background:#1c1d20;border:1px solid #404144;border-radius:10px}
+.canvas-ink-options input[type=color]{width:30px;height:30px;padding:2px;cursor:pointer}
+.canvas-ink-options select{width:auto;padding:4px}
+.canvas-icon-tool[data-ink-tool][aria-pressed=true]{color:#151618;background:#ecece9}
+.canvas-wrap[data-ink-mode] .canvas-empty-guide{display:none}
+.canvas-wrap[data-ink-mode] #canvas-space{touch-action:none;cursor:crosshair}
+.canvas-wrap[data-ink-mode] #canvas-space *{cursor:inherit}
+.canvas-ink-node{position:absolute;z-index:2;pointer-events:none;touch-action:none}
+.canvas-ink-node svg{display:block;overflow:visible;pointer-events:none}
+.canvas-ink-hit{pointer-events:stroke;cursor:grab}
+.canvas-ink-node.selected,.canvas-ink-node:focus-visible{outline:1px dashed #aaa;outline-offset:3px}
+.canvas-ink-erased{visibility:hidden}
+.canvas-ink-preview{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;z-index:12}
+.canvas-wrap[data-ink-mode=eraser] .canvas-ink-hit{cursor:crosshair}

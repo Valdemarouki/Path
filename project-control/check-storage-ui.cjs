@@ -68,6 +68,10 @@ function setup(disk=memory()){
  await a.emit('document','keydown',key({shiftKey:true}));assert.equal(a.c.data.homeTasks[0].title,'Visible buttons');a.tick(3000);a.dismissed();
  await a.emit('document','keydown',key());assert.equal(a.c.data.homeTasks[0].title,'Before draft');a.tick(3000);a.dismissed();
  await a.emit('document','keydown',key({key:'y'}));assert.equal(a.c.data.homeTasks[0].title,'Visible buttons');
+ await a.emit('document','keydown',key({key:'я',code:'KeyZ'}));assert.equal(a.c.data.homeTasks[0].title,'Before draft');
+ await a.emit('document','keydown',key({key:'Я',code:'KeyZ',shiftKey:true}));assert.equal(a.c.data.homeTasks[0].title,'Visible buttons');
+ await a.emit('document','keydown',key({key:'я'}));assert.equal(a.c.data.homeTasks[0].title,'Before draft');
+ await a.emit('document','keydown',key({key:'н',code:'KeyY'}));assert.equal(a.c.data.homeTasks[0].title,'Visible buttons');
  const beforeTextField=a.c.repo.revision;await a.emit('document','keydown',key({target:{closest:()=>({})}}));assert.equal(a.c.repo.revision,beforeTextField);
  // Failure replaces success, stays visible indefinitely, and leaves the atomic checkpoint untouched.
  const raw=a.disk.getItem(a.c.repo.key);a.disk.fail=true;a.c.data.homeTasks[0].title='Failed write';assert.equal(a.c.save(),false);assert(!a.success());assert(a.visible());assert(a.panel().className.includes('storage-error'));assert.equal(a.timers.size,0);
