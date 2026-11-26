@@ -90,7 +90,7 @@
   }
   function refresh() {
     paintShortcut();
-    const box = document.querySelector('[data-path-account]'); if (box) paint(box);
+    window.dispatchEvent(new Event('path-profile-update'));
     document.getElementById('path-update-ready')?.remove();
     if (state.phase !== 'downloaded' || state.version === dismissed) return;
     const notice = document.createElement('aside');
@@ -101,6 +101,7 @@
     const actions = document.createElement('div'); actions.style.cssText = 'display:flex;gap:8px';
     actions.append(button('install'),button('later')); notice.append(status,actions); document.body.append(notice);
   }
+  window.pathProfileUpdateState = () => state;
   window.pathPaintUpdates = paint;
   const receive = value => {state = value; refresh();};
   let receivedEvent = false;

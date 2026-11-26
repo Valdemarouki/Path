@@ -28,7 +28,37 @@ if(window.pathDesktop?.accounts){
   const ru=typeof pathLanguage==='function'&&pathLanguage()==='ru';
   return ['local','remote'].map(side=>{const detail=syncDetails[side],label=side==='local'?(ru?'Это устройство':'This device'):(ru?'Облако':'Cloud');if(!detail)return label+': '+(ru?'нет общей исходной версии для сравнения':'no common baseline to compare');return label+': '+detail.count+'\n'+detail.items.map(item=>(item.title|| (ru?'Порядок элементов':'Item order'))+' — '+({added:ru?'добавлено':'added',deleted:ru?'удалено':'deleted',changed:ru?'изменено':'changed'}[item.kind])+(item.fields.length?' ('+item.fields.join(', ')+')':'')).join('\n');}).join('\n\n');
  }
- function paint(){if(accountError.includes('SYNC_CLIENT_UPGRADE_REQUIRED'))accountError=(typeof pathLanguage==='function'&&pathLanguage()==='ru')?'Аккаунт уже использует расширенный обмен. Нажмите «Проверить / синхронизировать» ниже.':'This account uses expanded sync. Choose Check / synchronize below.';const menu=document.querySelector('#path-profile-menu');if(!menu)return;let box=menu.querySelector('[data-path-account]');if(!box){box=document.createElement('section');box.dataset.pathAccount='';menu.prepend(box);menu.querySelector(':scope > strong')?.remove();menu.querySelector(':scope > p')?.remove();}const w=t();box.replaceChildren();const title=document.createElement('strong');title.textContent=accountState.phase==='signed-in'?w[0]:w[1];box.append(title);const details=document.createElement('p');details.className='muted';details.textContent=accountState.email||w[6];box.append(details);if(accountState.email){const note=document.createElement('p');note.className='muted';note.textContent=accountState.syncAutoEnabled?({en:'Automatic sync: Today tasks and Projects. Other sections stay local.',ru:'Автосинхронизация: задачи Today и Projects. Другие разделы остаются локальными.',pl:'Automatyczna synchronizacja: zadania Today i Projects. Pozostałe sekcje są lokalne.',es:'Sincronización automática: tareas Today y Projects. Otras secciones son locales.'})[typeof pathLanguage==='function'?pathLanguage():'en']:w[6];box.append(note);}const b=document.createElement('button');b.className='btn';b.dataset.accountAction=accountState.phase==='signing-in'?'cancel':accountState.phase==='signed-in'||accountState.phase==='locked'?'signout':'signin';b.textContent=b.dataset.accountAction==='cancel'?w[4]:b.dataset.accountAction==='signout'?w[3]:w[2];b.disabled=(!accountState.configured)||(accountState.busy&&accountState.phase!=='signing-in');box.append(b);if(accountState.phase==='signed-in'&&accountState.serverVerified===false){const local=document.createElement('p');local.className='muted';local.textContent=({en:'Local profile restored. Server connection has not been confirmed; your data remains available.',ru:'Локальный профиль восстановлен. Связь с сервером пока не подтверждена; ваши данные доступны.',pl:'Przywrócono profil lokalny. Połączenie z serwerem nie zostało potwierdzone; dane są dostępne.',es:'Perfil local restaurado. La conexión al servidor no está confirmada; tus datos están disponibles.'})[typeof pathLanguage==='function'?pathLanguage():'en'];box.append(local);}if(accountState.phase==='signed-in'){for(const [action,label] of [['auto',accountState.syncAutoEnabled?at()[1]:at()[0]],['sync',st()[0]],...(syncConflict?[['sync-local',st()[5]],['sync-remote',st()[6]]]:syncRecovery?[['sync-local',st()[5]]]:[]),['migrate',mt()[0]],['backups',mt()[7]]]){const extra=document.createElement('button');extra.className='btn';extra.dataset.accountAction=action;extra.textContent=label;extra.disabled=accountState.busy;box.append(extra);}}const message=document.createElement('p');message.setAttribute('role','status');message.textContent=accountError||(accountState.restoreIssue?({en:'Saved profile could not be opened (SESSION_RESTORE_FAILED). Your saved data has not been deleted.',ru:'Не удалось открыть сохранённый профиль (SESSION_RESTORE_FAILED). Сохранённые данные не удалены.',pl:'Nie można otworzyć zapisanego profilu (SESSION_RESTORE_FAILED). Dane nie zostały usunięte.',es:'No se pudo abrir el perfil guardado (SESSION_RESTORE_FAILED). Los datos no se eliminaron.'})[typeof pathLanguage==='function'?pathLanguage():'en']:'')||(accountState.phase==='signing-in'?w[5]:!accountState.configured?w[12]:'');box.append(message);if(auto&&accountState.phase==='signed-in'){const status=document.createElement('p');status.dataset.autoSyncStatus='';status.setAttribute('role','status');status.textContent=at()[({off:3,waiting:4,pending:5,syncing:6,saved:7,retry:8,attention:9})[auto.state]];box.append(status);}if(syncConflict&&syncDetails){const details=document.createElement('pre');details.style.cssText='white-space:pre-wrap;max-height:220px;overflow:auto;font:inherit;font-size:12px';details.textContent=describeSync();box.append(details);}}
+ function readPanel(){
+  const w=t();
+  if(accountError.includes('SYNC_CLIENT_UPGRADE_REQUIRED'))accountError=(typeof pathLanguage==='function'&&pathLanguage()==='ru')?'Аккаунт уже использует расширенный обмен. Нажмите «Проверить / синхронизировать» ниже.':'This account uses expanded sync. Choose Check / synchronize below.';
+  const accountAction=accountState.phase==='signing-in'?'cancel':['signed-in','locked'].includes(accountState.phase)?'signout':'signin';
+  return {state:accountState, update:window.pathProfileUpdateState?.(), autoState:auto?.state||'off',
+   conflict:syncConflict||syncRecovery||full?.needsReview()||expanded?.needsReview(), accountAction, accountLabel:w[{signin:2,signout:3,cancel:4}[accountAction]],
+   message:accountError||(accountState.restoreIssue?({en:'Saved profile could not be opened (SESSION_RESTORE_FAILED). Your saved data has not been deleted.',ru:'Не удалось открыть сохранённый профиль (SESSION_RESTORE_FAILED). Сохранённые данные не удалены.',pl:'Nie można otworzyć zapisanego profilu (SESSION_RESTORE_FAILED). Dane nie zostały usunięte.',es:'No se pudo abrir el perfil guardado (SESSION_RESTORE_FAILED). Los datos no se eliminaron.'})[typeof pathLanguage==='function'?pathLanguage():'en']:'')||(accountState.phase==='signing-in'?w[5]:!accountState.configured?w[12]:'')};
+ }
+ function appendAction(box,action,label){
+  const b=document.createElement('button');b.type='button';b.className='btn';b.dataset.accountAction=action;b.textContent=label;b.disabled=!!accountState.busy;box.append(b);
+ }
+ function drawSync(box){
+  appendAction(box,'auto',at()[accountState.syncAutoEnabled?1:0]);
+  appendAction(box,'sync',st()[0]);
+  if(syncConflict||syncRecovery)appendAction(box,'sync-local',st()[5]);
+  if(syncConflict)appendAction(box,'sync-remote',st()[6]);
+  if(syncConflict&&syncDetails){const detail=document.createElement('pre');detail.textContent=describeSync();box.append(detail);}
+  if(auto){
+   const status=document.createElement('p');status.dataset.autoSyncStatus='';status.setAttribute('role','status');
+   status.textContent=at()[({off:3,waiting:4,pending:5,syncing:6,saved:7,retry:8,attention:9})[auto.state]];
+   box.append(status);
+  }
+  expanded?.paint(box);full?.paint(box);
+ }
+ function drawBackups(box){appendAction(box,'migrate',mt()[0]);appendAction(box,'backups',mt()[7]);}
+ function paint(){
+  const signed=accountState.phase==='signed-in';
+  window.pathFullSyncActive=signed&&['active','recovery'].includes(accountState.syncV3Mode);
+  window.pathExpandedSyncActive=signed&&(!accountState.syncV3Mode||accountState.syncV3Mode==='off')&&['active','recovery'].includes(accountState.syncV2Mode);
+  panel.paint();
+ }
  function overlay(locked=false){let node=document.getElementById('path-account-transition');if(!node){node=document.createElement('div');node.id='path-account-transition';Object.assign(node.style,{position:'fixed',inset:'32px 0 0',zIndex:'2147483646',background:'#101111',display:'grid',placeContent:'center',textAlign:'center',padding:'30px'});node.setAttribute('role','dialog');node.setAttribute('aria-modal','true');document.body.append(node);}node.replaceChildren();const label=document.createElement('p');label.textContent=t()[locked?9:8];node.append(label);if(locked){const b=document.createElement('button');b.className='btn';b.textContent=t()[10];b.dataset.accountAction='signout';node.append(b);}return node;}
  window.pathAccountRelease=()=>{if(accountState.phase!=='locked'){document.getElementById('path-account-transition')?.remove();document.querySelector('.app-main')?.removeAttribute('inert');}};
  window.pathAccountFlush=async()=>{overlay();document.querySelector('.app-main')?.setAttribute('inert','');try{document.activeElement?.blur();if(typeof pathImagePasteQueue!=='undefined')await pathImagePasteQueue;if(typeof pathFlushForBackup!=='function'||!pathFlushForBackup())return false;if(typeof workoutDraftChanged==='function'&&workoutDraftChanged())return false;return true;}catch{return false;}};
@@ -36,10 +66,16 @@ if(window.pathDesktop?.accounts){
  document.addEventListener('pointerdown',event=>{const node=document.getElementById('path-account-transition');if(node&&!node.contains(event.target)){event.preventDefault();event.stopImmediatePropagation();}},true);
  const expanded=window.pathCreateExpandedSyncUI?.({getState:()=>accountState,settle:result=>auto?.manual(result),refresh:async()=>{accountState=await window.pathDesktop.accounts.status();auto?.enable(accountState.phase==='signed-in'&&!!accountState.syncAutoEnabled);},paint:()=>paint()});
  const full=window.pathCreateFullSyncUI?.({getState:()=>accountState,settle:result=>auto?.manual(result),refresh:async()=>{accountState=await window.pathDesktop.accounts.status();auto?.enable(accountState.phase==='signed-in'&&!!accountState.syncAutoEnabled);},paint:()=>paint()});
- const originalPaint=paint;paint=function(){originalPaint();const box=document.querySelector('[data-path-account]');if(box){expanded?.paint(box);full?.paint(box);window.pathPaintUpdates?.(box);}};
- const prevHeader=header;header=function(){const html=prevHeader();queueMicrotask(paint);return html;};
- window.pathDesktop.accounts.onState(state=>{accountState=state;auto?.enable(state.phase==='signed-in'&&!!state.syncAutoEnabled);paint();if(state.phase==='locked')overlay(true);});
- window.pathDesktop.accounts.status().then(state=>{accountState=state;auto?.enable(state.phase==='signed-in'&&!!state.syncAutoEnabled);paint();}).catch(()=>{});
+ const panel=createPathProfilePanel({read:readPanel,drawSync,drawBackups,repaint:paint});
+ window.addEventListener('path-profile-update',paint);
+ const prevHeader=header;header=function(){const html=prevHeader();if(typeof pathProfileOpen!=='undefined'&&!pathProfileOpen)panel.reset();queueMicrotask(paint);return html;};
+ function receiveAccount(state){
+  if(accountState.profileId!==state.profileId){accountError='';syncDetails=null;syncConflict=false;syncRecovery=false;auto?.enable(false);}
+  accountState=state;auto?.enable(state.phase==='signed-in'&&!!state.syncAutoEnabled);paint();if(state.phase==='locked')overlay(true);
+ }
+ let receivedAccountEvent=false;
+ window.pathDesktop.accounts.onState(state=>{receivedAccountEvent=true;receiveAccount(state);});
+ window.pathDesktop.accounts.status().then(state=>{if(!receivedAccountEvent)receiveAccount(state);}).catch(()=>{});
  document.addEventListener('click',async event=>{const b=event.target.closest('[data-account-action]');if(!b)return;event.preventDefault();event.stopPropagation();accountError='';
  if(b.dataset.accountAction==='auto'){
   const enabled=!accountState.syncAutoEnabled;

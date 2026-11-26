@@ -80,24 +80,33 @@ def prepare_asar(source, target, version, dependencies):
     package = json.loads(entries['package.json'])
     package['version'] = version
     entries['package.json'] = json.dumps(package, ensure_ascii=False, indent=2).encode()
-    old = (DESKTOP/'update-renderer.js').read_text(encoding='utf8').strip().encode()
     html = entries['app/index.html']
-    if html.count(old) != 1:
-        raise ValueError('The existing update panel was not found in the release')
-    # Desktop authorizes its inline scripts by hash. Update only the hash of
-    # the script containing the panel, using the browser's normalized text.
+    # The verified release has newer sync/conflict handlers than the development
+    # tree. Replace the two presentation modules, retaining those shipped handlers.
+    old_panel_start = b"(()=>{\n const api=window.pathDesktop?.updates;"
+    account_start = b'/* Desktop-only bridge. No passwords or tokens enter the renderer. */'
     def script_hash(body):
         normalized = body.replace(b'\r\n',b'\n').replace(b'\r',b'\n')
         return b"'sha256-" + base64.b64encode(hashlib.sha256(normalized).digest()) + b"'"
-    host, = [m[1] for m in re.finditer(br'<script>(.*?)</script>',html,re.S) if old in m[1]]
-    panel = (UPDATER/'panel.js').read_text(encoding='utf8').encode()
-    updated = host.replace(old,panel)
+    host, = [m[1] for m in re.finditer(br'<script>(.*?)</script>',html,re.S) if account_start in m[1]]
+    normalized = host.replace(b'\r\n',b'\n')
+    prefix, old_ui = normalized.split(old_panel_start)
+    old_panel, old_account = old_ui.split(account_start)
+    if digest((old_panel_start + old_panel).strip()) != 'cc6c93aa0e02e8addff2474a9c2880d933d125eeecd6b974084de073d98ec6cf' or digest((account_start + old_account).strip()) != '16178a4601a3b72f78d055d237b526bd9f273a4fdc1d498b3944c6b0e4393948':
+        raise ValueError('Unexpected profile or updates module in the RC22 baseline')
+    old_receive = b'return {paint:render,receive:response=>{result=response;'
+    new_receive = b'return {paint:render,needsReview:()=>profile===getState().profileId&&!!(result.conflict||result.recovery||result.needsBootstrapChoice||result.activationConflict),receive:response=>{profile=getState().profileId;result=response;'
+    if prefix.count(old_receive) != 2:
+        raise ValueError('Review the full and expanded sync presentation hooks')
+    prefix = prefix.replace(old_receive,new_receive)
+    updated = b'\n'.join([prefix, (UPDATER/'panel.js').read_bytes(), (DESKTOP/'profile-panel.js').read_bytes(), (DESKTOP/'account-renderer.js').read_bytes()])
     old_hash = script_hash(host)
     policy, = re.findall(br'<meta http-equiv="Content-Security-Policy" content="[^"]+">',html)
     if old_hash not in policy:
         raise ValueError('The signed baseline script is missing from its desktop CSP')
     original_scripts = re.findall(br'<script>(.*?)</script>', html, re.S)
     html = apply_canvas(html.replace(host, updated, 1).decode('utf8').replace('\r\n','\n')).encode()
+    html = html.replace(b'<script>', b'<script>\n' + (DESKTOP/'calendar-clock.js').read_bytes() + b'\n', 1)
     new_scripts = re.findall(br'<script>(.*?)</script>',html,re.S)
     if len(new_scripts) != len(original_scripts):
         raise ValueError('Unexpected change in desktop script count')
@@ -110,7 +119,7 @@ def prepare_asar(source, target, version, dependencies):
     html = html.replace(policy,new_policy,1)
     if html.count(b'</head>') != 1:
         raise ValueError('Expected one desktop document head')
-    css = (UPDATER/'shortcut.css').read_bytes()
+    css = (UPDATER/'shortcut.css').read_bytes() + (DESKTOP/'profile-panel.css').read_bytes() + (DESKTOP/'calendar-clock.css').read_bytes()
     entries['app/index.html'] = html.replace(b'</head>', b'<style>' + css + b'</style></head>')
     # The public runtime includes newer account/sync handlers than this checkout.
     # Import only the update preference and periodic check from the desktop host.

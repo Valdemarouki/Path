@@ -42,6 +42,33 @@ async function fail(error) {
     assert.equal(await page.evaluate(()=>data.homeTasks.some(task=>task.title==='Synthetic in-app upgrade task')),true);
     assert.equal(await page.evaluate(()=>localStorage.getItem('path-update-test-marker')),'preserved');
     assert.equal(await shortcut.count(),0);
+    stage = 'opening the compact profile in the installed candidate';
+    await page.locator('.topbar [data-profile-toggle]').click();
+    const menu = page.locator('#path-profile-menu');
+    await menu.locator('[data-profile-view=overview]').waitFor();
+    const bounds = await menu.boundingBox();
+    assert.ok(bounds && bounds.width <= 420);
+    await menu.locator('[data-profile-page=updates]').click();
+    await menu.locator('[data-path-updates]').waitFor();
+    await menu.locator('[data-profile-page=overview]').click();
+    await menu.locator('[data-profile-close]').click();
+    stage = 'editing event time in the installed candidate';
+    await page.evaluate(() => {
+      navigatePath('calendar');
+      modalEvent(null, pathToday(), 540);
+    });
+    const form = page.locator('#editor-form');
+    await form.locator('[name=title]').fill('Calendar clock upgrade test');
+    await form.locator('[data-clock-field=contextEnd]').click();
+    const clock = page.locator('dialog.path-clock-dialog[open]');
+    const hours = clock.getByRole('spinbutton').first();
+    await hours.focus();
+    await hours.press('ArrowUp');
+    const expectedTime = (await clock.locator('.clock-card > .clock-number').allTextContents()).join(':');
+    await clock.locator('[data-clock-done]').click();
+    assert.equal(await form.locator('[name=contextEnd]').inputValue(), expectedTime);
+    await form.locator('[data-context-done]').click();
+    assert.equal(await page.evaluate(() => data.events.some(e => e.title === 'Calendar clock upgrade test')), true);
     stage = 'drawing on the upgraded Canvas';
     await page.evaluate(()=>{
       const board={id:uid(),name:'Synthetic ink board',nodes:[],edges:[]};

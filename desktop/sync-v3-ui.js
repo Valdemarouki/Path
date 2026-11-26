@@ -52,5 +52,5 @@ window.pathCreateFullSyncUI=({getState,refresh,paint,settle=()=>{}})=>{
    settle(response);await refresh();
   }catch{message=error('SYNC_RETRY');}finally{busy=false;window.pathAccountRelease?.();paint();}
  },true);
- return {paint:render,receive:response=>{result=response;const w=words();message=response.conflict?w[14]:response.recovery?error(response.code||'LOCAL_RECOVERY_CONFLICT'):!response.ok&&!response.deferred?error(response.code):response.dirty||response.pending?w[16]:response.revision!==undefined?w[15]+response.revision:'';}};
+ return {paint:render,needsReview:()=>profile===getState().profileId&&!!(result.conflict||result.recovery||result.needsBootstrapChoice||result.activationConflict),receive:response=>{profile=getState().profileId;result=response;const w=words();message=response.conflict?w[14]:response.recovery?error(response.code||'LOCAL_RECOVERY_CONFLICT'):!response.ok&&!response.deferred?error(response.code):response.dirty||response.pending?w[16]:response.revision!==undefined?w[15]+response.revision:'';}};
 };

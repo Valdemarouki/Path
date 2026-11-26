@@ -113,7 +113,7 @@ jobs:
           channel=path-windows-updates
           cd files
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Draw on Canvas with a smooth freehand pen, adjustable color and width, and a stroke eraser. Undo and redo keep the board position and zoom, including with Russian keyboard shortcuts."
+            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Open your profile for sync status, backups, settings and app updates. Set calendar start and end times with the split-flap picker from Path Mobile using a mouse, keyboard or direct number entry."
           fi
           # Verify the versioned public assets before offering them to clients.
           url="https://github.com/$GH_REPO/releases/download/$tag"
@@ -124,8 +124,10 @@ jobs:
           if gh release view "$channel" >/dev/null 2>&1; then
             gh release download "$channel" -p windows-update.sigstore.json -O "$RUNNER_TEMP/previous.json"
             node ../release/windows-updates/check-channel.cjs "$RUNNER_TEMP/previous.json" windows-update.sigstore.json
-            gh release upload "$channel" windows-update.sigstore.json --clobber
+            gh release upload "$channel" Path.Installer.exe windows-update.sigstore.json --clobber
           else
-            gh release create "$channel" windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path Windows update channel" --notes "Signed metadata read by the Path desktop application."
+            gh release create "$channel" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path Windows update channel" --notes "Signed metadata read by the Path desktop application."
           fi
           node ../release/windows-updates/check-channel.cjs --public windows-update.sigstore.json
+          curl -fsSL --retry 5 --retry-all-errors "https://github.com/$GH_REPO/releases/download/$channel/Path.Installer.exe" -o "$RUNNER_TEMP/channel.exe"
+          cmp Path.Installer.exe "$RUNNER_TEMP/channel.exe"

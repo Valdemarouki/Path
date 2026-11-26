@@ -19,8 +19,11 @@
   }
   box.append(section);
  }
- const refresh=()=>{const box=document.querySelector('[data-path-account]');if(box)paint(box);};window.pathPaintUpdates=paint;
- api.onState(s=>{state=s;refresh();});api.status().then(s=>{state=s;refresh();}).catch(()=>{});
+ const refresh=()=>window.dispatchEvent(new Event('path-profile-update'));
+ window.pathProfileUpdateState=()=>state;
+ window.pathPaintUpdates=paint;
+ let receivedEvent=false;
+ api.onState(s=>{receivedEvent=true;state=s;refresh();});api.status().then(s=>{if(!receivedEvent){state=s;refresh();}}).catch(()=>{});
  document.addEventListener('change',async e=>{if(!e.target.matches('[data-update-automatic]'))return;try{state=await api.action('automatic',e.target.checked);}catch{}refresh();});
  document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-update-action]');if(!b||working)return;e.preventDefault();const action=b.dataset.updateAction;
