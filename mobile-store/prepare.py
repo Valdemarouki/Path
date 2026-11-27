@@ -45,3 +45,5 @@ change(ios,"com.pathyourday.path.preview","com.pathyourday.path")
 change(ios,"CURRENT_PROJECT_VERSION: 1","CURRENT_PROJECT_VERSION: 2")
 change(ios,'MARKETING_VERSION: "0.1.0"','MARKETING_VERSION: "0.1.1"')
 change(ios,'    SWIFT_VERSION:', '    CODE_SIGN_STYLE: Automatic\n    SWIFT_VERSION:')
+change(ios, "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft",
+       "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft")
