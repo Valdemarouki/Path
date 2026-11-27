@@ -1,0 +1,83 @@
+name: Path mobile store packages
+on:
+  push:
+    branches: [test/native-preview-20261123]
+    paths: ['mobile-store/**', '.github/workflows/path-store-rc33.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: 2634bdb5bc2ac4f1346196954276f485758bd380
+          path: rc33
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: |
+          python3 mobile-store/prepare.py
+          cd mobile-native
+          npm install --no-package-lock --no-audit --no-fund esbuild@0.28.2
+          node tools/build-shell.cjs
+          cp bundle/OPEN-SOURCE-LICENSES.txt generated/
+          cd ..
+          mkdir staging
+          cp -R mobile-native/{android,ios,generated,bundle} staging/
+          rm staging/bundle/web.zip staging/bundle/web.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: store-targets
+          path: staging/
+  android:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: store-targets
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - run: |
+          gradle --no-daemon -p android :app:bundleRelease
+          cp android/app/build/outputs/bundle/release/app-release.aab Path-0.1.1-2-unsigned.aab
+          unzip -p Path-0.1.1-2-unsigned.aab base/assets/shell.html | cmp - generated/shell.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Android-Play-RC33
+          path: Path-0.1.1-2-unsigned.aab
+  iphone:
+    needs: prepare
+    runs-on: macos-15
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: store-targets
+      - run: |
+          XCODE=$(ls -d /Applications/Xcode_26*.app | sort -V | tail -1)
+          test -n "$XCODE"
+          sudo xcode-select -s "$XCODE/Contents/Developer"
+          xcodebuild -version
+          command -v xcodegen || brew install xcodegen
+          cd ios
+          xcodegen generate
+          xcodebuild -quiet -project Path.xcodeproj -scheme Path -configuration Release -destination 'generic/platform=iOS' -archivePath ../Path.xcarchive CODE_SIGNING_ALLOWED=NO archive
+          cd ..
+          APP=Path.xcarchive/Products/Applications/Path.app
+          cmp generated/shell.html "$APP/shell.html"
+          test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$APP/Info.plist")" = com.pathyourday.path
+          test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleVersion' "$APP/Info.plist")" = 2
+          zip -qr Path-iPhone-Xcode-RC33.zip ios generated bundle
+          ditto -c -k --keepParent Path.xcarchive Path-iPhone-Archive-RC33.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iPhone-TestFlight-RC33
+          path: Path-iPhone-*.zip
