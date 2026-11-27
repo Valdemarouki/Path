@@ -17,7 +17,8 @@ def workspace_cache(sw):
         ('-shell-v10-free-sharing', 'freeSharingCache'),
         ('-shell-v11-shared-workspaces', 'workspaceCache'),
         ('-shell-v12-shared-editors', 'editorCache'),
-        ('-shell-v13-canvas-camera', None),
+        ('-shell-v13-canvas-camera', 'cameraCache'),
+        ('-shell-v14-canvas-parity', None),
     ]
     declarations = [f"const cacheName = originalCache + '{tag}';" for tag, _ in versions]
     start = next((i for i, declaration in enumerate(declarations) if declaration in sw), None)

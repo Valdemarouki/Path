@@ -139,7 +139,7 @@ for (const kind of ['project','canvas']) {
       const start=svg.getAttribute('viewBox');
       root.querySelector('[aria-label="Увеличить"]').click();
       assert.ok(Number(svg.getAttribute('viewBox').split(' ')[2]) < Number(start.split(' ')[2]));
-      matchingButton(root,'Показать всю доску').click();
+      root.querySelector('[aria-label="Показать всю доску"]').click();
       assert.equal(svg.getAttribute('viewBox'),start);
       assert.doesNotMatch(root.textContent,/Нет доступа|private content/);
       assert.equal(f.state.document.nodes[2].kind,'restricted');

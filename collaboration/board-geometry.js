@@ -59,11 +59,12 @@
     return { width:ink.width, height:ink.height, size:ink.size, color:ink.color, points:ink.points.map(([x,y])=>[x,y]) };
   }
 
-  function inkPath(ink) {
-    if (!validInk(ink)) return '';
-    // Use the desktop stroke smoothing when present. The mobile fallback follows the same knots.
-    if (typeof canvasInkPath === 'function') return canvasInkPath(ink.points);
-    const points=ink.points, format=p=>Math.round(p[0]*100)/100+','+Math.round(p[1]*100)/100;
+  // Chunk boundaries use the same neighbouring knots as the finished desktop stroke.
+  function inkSegment(points,start=0,end=points.length) {
+    if (!points.length) return '';
+    if (typeof canvasInkPath==='function') return canvasInkPath(points,start,end);
+    const format=p=>Math.round(p[0]*100)/100+','+Math.round(p[1]*100)/100;
+    const midpoint=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
     const knot=i=>{
       const p=points[i];
       if (i===0 || i===points.length-1) return p;
@@ -71,14 +72,18 @@
       const weight=1/Math.max(1,Math.hypot(dx,dy)/1.5);
       return [p[0]+dx*weight,p[1]+dy*weight];
     };
-    let p=knot(0), d='M'+format(p);
-    if(points.length===2) return d+'L'+format(points[1]);
-    for(let i=0;i<points.length;i++){
+    let p=knot(start), d='M'+format(start ? midpoint(knot(start-1),p) : p);
+    if(points.length<=2) return d+'L'+format(points.at(-1));
+    for(let i=start;i<end;i++){
       const next=i+1<points.length ? knot(i+1) : p;
-      d+='Q'+format(p)+' '+format([(p[0]+next[0])/2,(p[1]+next[1])/2]);
+      d+='Q'+format(p)+' '+format(midpoint(p,next));
       p=next;
     }
     return d;
+  }
+
+  function inkPath(ink) {
+    return validInk(ink) ? inkSegment(ink.points) : '';
   }
 
   // Verify the file actually contains one of the raster formats the Canvas accepts.
@@ -270,5 +275,5 @@
       paint:()=>state.w?apply({x:state.x,y:state.y,w:state.w,h:state.h}):fit(false)};
   }
 
-  globalThis.PathSharedBoardGeometry=Object.freeze({geometry,curve,cleanInk,inkPath,readImage,cameraController});
+  globalThis.PathSharedBoardGeometry=Object.freeze({geometry,curve,cleanInk,inkPath,inkSegment,readImage,cameraController});
 })();

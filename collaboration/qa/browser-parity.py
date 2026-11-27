@@ -308,6 +308,28 @@ def canvas_checks(db, owner, editor, viewer, screenshot_dir):
     doc=db.rpc(0,'get',{'id':board['id']})['document']
     assert len(doc['nodes'])==5
     assert any(n.get('body')=='A new shared note' for n in doc['nodes'])
+    # Edit in place and keep typing while a remote participant receives the autosave.
+    # The viewer can open the card details but cannot write through either editor.
+    light_selector='[data-node-id="n-light"]'
+    light=canvas.locator(light_selector)
+    light.focus()
+    owner.page.keyboard.press('Enter')
+    inline=owner.workspace.locator('.be-inline-editor form[data-board-draft]')
+    body=inline.locator('[name="body"]')
+    body.fill('Afternoon light from the west')
+    expect(editor.workspace.locator(light_selector+' .be-copy')).to_contain_text('Afternoon light from the west',timeout=11000)
+    expect(body).to_be_focused()
+    body.press('End')
+    body.press_sequentially(' window')
+    body.press('Control+Enter')
+    expect(inline).to_have_count(0)
+    expect(viewer.workspace.locator(light_selector+' .be-copy')).to_contain_text('Afternoon light from the west window',timeout=11000)
+    view_light=viewer.workspace.locator(light_selector)
+    view_light.focus()
+    viewer.page.keyboard.press('Enter')
+    expect(viewer.workspace.locator('.be-inline-editor')).to_have_count(0)
+    expect(viewer.workspace.locator('form[data-board-draft] [type="submit"]:enabled')).to_have_count(0)
+    viewer.page.keyboard.press('Escape')
     first=canvas.locator('[data-node-id="n-scene"]').first
     previous=next(n for n in doc['nodes'] if n['id']=='n-scene')
     old_transform=first.get_attribute('transform')
@@ -350,7 +372,7 @@ def canvas_checks(db, owner, editor, viewer, screenshot_dir):
     assert denied['error']=='SHARE_DENIED'
     owner.back();owner.open('canvas')
     expect(owner.workspace.locator('.shared-board').get_by_role('button',name='A new shared note',exact=True)).to_be_visible()
-    print('PASS Canvas projection, note, viewport, drag, resize, edge, delete, undo, remote revoke and reopen',flush=True)
+    print('PASS Canvas projection, inline autosave, peer updates, read-only details, viewport, drag, resize, edge, delete, undo, remote revoke and reopen',flush=True)
 
 
 def main():

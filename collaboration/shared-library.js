@@ -408,7 +408,10 @@
      host.dataset.pathCanvasLayout=parent.matches('.app-main')?'desktop':parent.id==='content'?'mobile':parent.id==='personal-account'?'account':'portal';
      fitKeyboard();
     }else delete host.dataset.pathCanvasLayout;
-    const back=btn(t(initial.kind==='canvas'?'backBoards':'backProjects'),()=>closeWorkspace());
+    const back=btn(t(initial.kind==='canvas'?'backBoards':'backProjects'),async()=>{
+     if(camera.boardUI?.draft?.inline&&!await camera.boardUI.finishInline())return;
+     closeWorkspace();
+    });
     back.className='workspace-back';d.append(back);
     if(!current){d.append(note);return;}
     const doc=current.document,canvas=current.kind==='canvas',id=current.id;
@@ -420,14 +423,16 @@
     const tools=el('div');tools.className='workspace-tools';
     const content=el('div');content.className='workspace-content';
     if(canvas){
-     const options=el('details'),summary=el('summary'),dots=el('span','•••');
+     const options=el('details'),summary=el('summary'),mark=badge('canvas');
      options.className='board-options';options.open=optionsOpen;
      options.ontoggle=()=>{if(options.isConnected)optionsOpen=options.open;};
      summary.title=t('boardOptions');summary.setAttribute('aria-label',t('boardOptions'));
-     dots.setAttribute('aria-hidden','true');summary.append(dots);
+     mark.setAttribute('aria-hidden','true');summary.append(mark);
      options.append(summary,tools);tools.append(meta);
-     back.setAttribute('aria-label',back.textContent);back.title=back.textContent;
-     heading.replaceChildren(back,title,feedback,options);title.title=doc.name;
+     back.setAttribute('aria-label',back.textContent);back.title=back.textContent;back.textContent='Canvas';
+     const separator=el('span','›');separator.className='board-breadcrumb-separator';separator.setAttribute('aria-hidden','true');
+     if(editable){const rename=btn(doc.name,renameBoard);rename.className='board-title-action';rename.title=t('rename');title.replaceChildren(rename);}
+     heading.replaceChildren(back,separator,title,feedback,options);title.title=doc.name;
     }else heading.append(tools);
     d.append(heading,content);
     const lang=language?.()||'en';
