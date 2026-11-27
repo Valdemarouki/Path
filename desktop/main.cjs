@@ -123,6 +123,18 @@ ipcMain.handle('path:sync-full',async(event,action)=>{
  finally{transitioning=false;broadcast();}
 });
 
+ipcMain.handle('path:sharing',async(event,action,args)=>{
+ if(!trusted(event)||!accountConfig.enabled||accounts?.phase!=='signed-in'||transitioning||accounts.busy)throw Error('SHARE_DENIED');
+ const profileId=accounts.current.id;
+ const identity=(await accounts.auth.restoreLocal())?.identity;
+ if(!identity||accounts.profiles.account(identity).id!==profileId)throw Error('SHARE_DENIED');
+ const result=await require('./cloud-sync/sharing-transport.cjs').shareRpc({
+  origin:new URL(accountConfig.issuer).origin,publishableKey:accountConfig.publishableKey,
+  verifiedToken:()=>accounts.auth.verifiedToken(identity.subject)
+ },action,args);
+ if(!trusted(event)||accounts.current.id!==profileId)throw Error('SHARE_DENIED');
+ return result;
+});
 ipcMain.handle('path:account-status',event=>{if(!trusted(event)||!accounts)throw Error('Account request denied');return accountPublicState();});
 ipcMain.handle('path:account-cancel',event=>{if(!trusted(event)||!accounts)throw Error('Account request denied');accounts.cancelSignIn();return true;});
 
@@ -130,7 +142,7 @@ ipcMain.on('path:language',(event,value)=>{if(acceptLanguage(event,win,value))in
 function external(url){try{const u=new URL(url);if(['https:','http:'].includes(u.protocol))shell.openExternal(u.href).catch(()=>{});}catch{}}
 function createWindow(target={partition:null},show=true){
  const ses=target.partition?session.fromPartition(target.partition):session.defaultSession;configureSession(ses);
- const window=new BrowserWindow({width:1440,height:960,minWidth:760,minHeight:600,backgroundColor:'#101111',titleBarStyle:'hidden',titleBarOverlay:{color:'#101111',symbolColor:'#b8bab8',height:32},show:false,autoHideMenuBar:true,title:'Path 2.0',icon:path.join(__dirname,'build/path.png'),webPreferences:{session:ses,preload:path.join(__dirname,'preload.cjs'),additionalArguments:['--path-system-language='+app.getSystemLocale()],nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
+ const window=new BrowserWindow({width:1440,height:960,minWidth:760,minHeight:600,backgroundColor:'#101111',titleBarStyle:'hidden',titleBarOverlay:{color:'#101111',symbolColor:'#b8bab8',height:32},show:false,autoHideMenuBar:true,title:'Path 2.0',icon:path.join(__dirname,'build/path.png'),webPreferences:{session:ses,preload:path.join(__dirname,'preload.cjs'),additionalArguments:['--path-system-language='+app.getSystemLocale(),...(target.kind==='account'&&accountConfig.enabled?['--path-sharing']:[])],nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true}});
  window.webContents.setWindowOpenHandler(({url})=>{external(url);return {action:'deny'};});
  window.webContents.on('will-navigate',(event,url)=>{if(url!==APP_URL){event.preventDefault();external(url);}});
  window.webContents.on('will-prevent-unload',event=>{const words=dialogText(interfaceLanguage);const choice=dialog.showMessageBoxSync(window,{type:'warning',buttons:words.slice(0,2),defaultId:0,cancelId:0,title:words[2],message:words[3]});if(choice===1)event.preventDefault();});

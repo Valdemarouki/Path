@@ -15,10 +15,17 @@ html=html.replace('</head>', '<style>'+fs.readFileSync(path.join(__dirname,'wind
 html=html.replace('top:Math.max(pad,Math.min(anchor?anchor.top:', 'top:Math.max(44,Math.min(anchor?anchor.top:');
 // Append within the existing script to preserve the two-script packaging contract.
 html = html.replace('<script>', () => '<script>\n' + fs.readFileSync(path.join(__dirname,'calendar-clock.js'),'utf8') + '\n');
+const sharingPath=name=>path.join(__dirname,'../collaboration',name);
+const sharingCSS=fs.readFileSync(sharingPath('sharing.css'),'utf8');
+const markerCSS=sharingCSS.slice(sharingCSS.indexOf('.path-shared-mark{'));
+html=html.replace('</head>',()=>'<style>'+markerCSS.split('.item .path-shared-mark')[0]+'</style></head>');
+// Keep the full stylesheet scoped to the collaboration shadow root.
+const sharingCode=fs.readFileSync(sharingPath('canvas-cursors.js'),'utf8')+'\n'+fs.readFileSync(sharingPath('shared-library.js'),'utf8')+'\n'+
+  fs.readFileSync(sharingPath('mount.js'),'utf8').replace("'__PATH_SHARING_STYLES__'",()=>JSON.stringify(sharingCSS));
 const lastScript=html.lastIndexOf('</script>');
-html=html.slice(0,lastScript)+'\n'+fs.readFileSync(path.join(__dirname,'account-migration-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'auto-sync.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'update-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-panel.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'account-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-scroll.js'),'utf8')+'\n'+html.slice(lastScript);
+html=html.slice(0,lastScript)+'\n'+sharingCode+'\n'+fs.readFileSync(path.join(__dirname,'account-migration-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'auto-sync.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'update-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-panel.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'account-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-scroll.js'),'utf8')+'\n'+html.slice(lastScript);
 const hashes=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>"'sha256-"+crypto.createHash('sha256').update(m[1]).digest('base64')+"'");
-const policy="default-src 'none'; script-src "+hashes.join(' ')+"; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src data: blob: https:; connect-src https:; media-src blob: data:; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'";
+const policy="default-src 'none'; script-src "+hashes.join(' ')+"; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src data: blob: https:; connect-src https: wss://path-mobile-stfqgdvl.waldek-path.workers.dev; media-src blob: data:; frame-src blob:; object-src 'none'; base-uri 'none'; form-action 'none'";
 html=html.replace('<head>','<head><meta http-equiv="Content-Security-Policy" content="'+policy+'">');
 fs.mkdirSync(path.join(__dirname,'app'),{recursive:true});fs.writeFileSync(path.join(__dirname,'app/index.html'),html);
 console.log('Prepared current Path 2.0 source with hashed scripts.');

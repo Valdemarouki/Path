@@ -1,0 +1,6 @@
+{
+  "name": "path-collaboration-check",
+  "private": true,
+  "scripts": {"test": "node check.mjs"},
+  "devDependencies": {"@electric-sql/pglite": "0.3.14"}
+}

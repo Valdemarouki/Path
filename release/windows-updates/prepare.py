@@ -106,11 +106,25 @@ def prepare_asar(source, target, version, dependencies):
         raise ValueError('The signed baseline script is missing from its desktop CSP')
     original_scripts = re.findall(br'<script>(.*?)</script>', html, re.S)
     html = apply_canvas(html.replace(host, updated, 1).decode('utf8').replace('\r\n','\n')).encode()
+    collab = DESKTOP.parent / 'collaboration'
+    begin = html.index(b'// Shared documents are edited outside the private checkpoint')
+    mount_start = html.index(b'PathSharedLibrary.mount({rpc:', begin)
+    finish = html.index(b'\n', mount_start)
+    # Only replace the old collaboration module and mount call.
+    if html[begin:finish].count(b'PathSharedLibrary.mount(') != 1 or not html[begin:finish].rstrip().endswith(b'});'):
+        raise ValueError('Review the signed baseline sharing hook')
+    sharing_css = (collab / 'sharing.css').read_text()
+    mount = (collab / 'mount.js').read_text().replace("'__PATH_SHARING_STYLES__'", json.dumps(sharing_css))
+    html = html[:begin] + (collab / 'canvas-cursors.js').read_bytes() + b'\n' + (collab / 'shared-library.js').read_bytes() + b'\n' + mount.encode() + html[finish:]
+    mark_css = sharing_css[sharing_css.index('.path-shared-mark{'):sharing_css.index('.item .path-shared-mark')]
+    html = html.replace(b'</head>', b'<style>' + mark_css.encode() + b'</style></head>', 1)
     html = html.replace(b'<script>', b'<script>\n' + (DESKTOP/'calendar-clock.js').read_bytes() + b'\n', 1)
     new_scripts = re.findall(br'<script>(.*?)</script>',html,re.S)
     if len(new_scripts) != len(original_scripts):
         raise ValueError('Unexpected change in desktop script count')
-    new_policy = policy
+    if policy.count(b'connect-src https:;') != 1:
+        raise ValueError('Review desktop cursor connection policy')
+    new_policy = policy.replace(b'connect-src https:;', b'connect-src https: wss://path-mobile-stfqgdvl.waldek-path.workers.dev;')
     for before, after in zip(original_scripts, new_scripts):
         previous_hash = script_hash(before)
         if new_policy.count(previous_hash) != 1:
@@ -128,7 +142,15 @@ def prepare_asar(source, target, version, dependencies):
     for prefix in ('function updatePreference()', '   const check=()=>'):
         index, = [i for i,line in enumerate(main) if line.startswith(prefix)]
         main[index], = [line for line in source_main if line.startswith(prefix)]
-    entries['main.cjs'] = ''.join(main).encode()
+    packed_main = ''.join(main)
+    first = packed_main.index("ipcMain.handle('path:sharing'")
+    last = packed_main.index("ipcMain.handle('path:account-status'", first)
+    current_main = ''.join(source_main)
+    new_handler = current_main[current_main.index("ipcMain.handle('path:sharing'"):current_main.index("ipcMain.handle('path:account-status'")]
+    packed_main = packed_main[:first] + new_handler + packed_main[last:]
+    packed_main = packed_main.replace("target.kind==='account'&&accountConfig.sharing?.enabled", "target.kind==='account'&&accountConfig.enabled")
+    entries['main.cjs'] = packed_main.encode()
+    entries['cloud-sync/sharing-transport.cjs'] = (DESKTOP.parent / 'cloud-sync/sharing-transport.cjs').read_bytes()
     entries['update-engine.cjs'] = (UPDATER/'msi-engine.cjs').read_bytes()
     entries['update-service.cjs'] = (DESKTOP/'update-service.cjs').read_bytes()
     for name in ['engine.cjs','release.cjs','sigstore-root.json']:
