@@ -29,6 +29,9 @@ source.with_suffix(".new").replace(source)
 shutil.copyfile("mobile-store/build-shell.cjs",root/"tools/build-shell.cjs")
 
 gradle=root/"android/app/build.gradle"
+change(root/"android/build.gradle","8.7.3","8.10.1")
+change(gradle,"compileSdk 35","compileSdk 36")
+change(gradle,"targetSdk 35","targetSdk 36")
 change(gradle,"com.pathyourday.path.preview","com.pathyourday.path")
 change(gradle,"versionCode 1","versionCode 2")
 change(gradle,"0.1.0-preview.1","0.1.1")
