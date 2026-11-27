@@ -1,6 +1,12 @@
 {
   "name": "path-collaboration-check",
   "private": true,
-  "scripts": {"test": "node check.mjs"},
-  "devDependencies": {"@electric-sql/pglite": "0.3.14"}
+  "scripts": {
+    "test": "node check.mjs",
+    "test:workspace": "node --test workspace.cjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.3.14",
+    "jsdom": "26.1.0"
+  }
 }

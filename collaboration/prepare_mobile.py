@@ -4,17 +4,41 @@ import argparse
 import json
 
 HERE = Path(__file__).resolve().parent
+WEB_STYLESHEET = "cssUrl:new URL('sharing.css',import.meta.url).href"
 
 def replace_once(text, old, new):
     if text.count(old) != 1:
         raise ValueError(f'Unexpected mobile baseline at {old[:75]}')
     return text.replace(old, new)
 
+def board_marker(css):
+    return css[css.index('.path-shared-mark{'):css.index('.item .path-shared-mark')]
+
+def sharing_script():
+    return (HERE/'canvas-cursors.js').read_text() + '\n' + (HERE/'shared-library.js').read_text()
+
+def workspace_cache(sw):
+    old = "const cacheName = originalCache + '-shell-v10-free-sharing';"
+    new = "const cacheName = originalCache + '-shell-v11-shared-workspaces';"
+    sw = replace_once(sw, old, old.replace('cacheName', 'freeSharingCache') + '\n' + new)
+    return replace_once(sw, '[cursorPrevious, sharingPrevious,', '[freeSharingCache, cursorPrevious, sharingPrevious,')
+
+def refresh_web(root):
+    """Refresh an existing RC28 mobile shell while preserving the rest of its assets."""
+    old_css = (root/'sharing.css').read_text()
+    new_css = (HERE/'sharing.css').read_text()
+    boot = replace_once((root/'boot.mjs').read_text(), 'css:' + json.dumps(old_css), WEB_STYLESHEET)
+    styles = replace_once((root/'styles.css').read_text(), board_marker(old_css), board_marker(new_css))
+    sw = workspace_cache((root/'sw.js').read_text())
+    for name, value in [('boot.mjs', boot), ('styles.css', styles), ('sw.js', sw),
+                        ('sharing.css', new_css), ('shared-library.js', sharing_script())]:
+        (root/name).write_text(value)
+
 def prepare_web(root):
     index = root / 'index.html'
     index.write_text(replace_once(index.read_text(), "connect-src 'self';", "connect-src 'self' wss://path-mobile-stfqgdvl.waldek-path.workers.dev;"))
     css = (HERE / 'sharing.css').read_text()
-    marker = css[css.index('.path-shared-mark{'):css.index('.item .path-shared-mark')]
+    marker = board_marker(css)
     app = (root / 'app.mjs').read_text()
     start = app.index("const sharingEndpoint=")
     end = app.index("globalThis.PathSharedLibrary?.mount", start)
@@ -34,7 +58,7 @@ def prepare_web(root):
     boot=replace_once(boot,'await navigator.locks.request(STORAGE_KEY','let sharedOnly=false;\n await navigator.locks.request(STORAGE_KEY')
     boot=replace_once(boot,"document.body.dataset.account='ready';await import('./app.mjs');","""if(sharedOnly){
   const lang=()=>navigator.language.slice(0,2);
-  PathSharedLibrary.mount({rpc:(action,args)=>request('/api/path-sharing',{action,args}),local:()=>[],mobile:true,language:lang,css:SHARING_CSS_LITERAL});
+  PathSharedLibrary.mount({rpc:(action,args)=>request('/api/path-sharing',{action,args}),local:()=>[],mobile:true,language:lang,SHARING_STYLESHEET});
   text.textContent='';shell.open=true;
   for(const kind of ['project','canvas']){
    const section=document.createElement('section'),title=document.createElement('h2'),library=document.createElement('path-shared-library');
@@ -43,16 +67,16 @@ def prepare_web(root):
   }
   return;
  }
- document.body.dataset.account='ready';await import('./app.mjs');""".replace('SHARING_CSS_LITERAL',json.dumps(css)))
+ document.body.dataset.account='ready';await import('./app.mjs');""".replace('SHARING_STYLESHEET',WEB_STYLESHEET))
     sw=(root/'sw.js').read_text()
     original="const cacheName = originalCache + '-shell-v7';"
     sw=replace_once(sw,original,"const sharingPrevious = originalCache + '-shell-v8-sharing';\nconst preSharing = originalCache + '-shell-v7';\nconst cursorPrevious = originalCache + '-shell-v9-cursors';\nconst cacheName = originalCache + '-shell-v10-free-sharing';")
     sw=replace_once(sw,'[iconsCache, canvasCache','[cursorPrevious, sharingPrevious, preSharing, iconsCache, canvasCache')
     sw=replace_once(sw,'if (!freshPaths.has(url.pathname))',"""if (!freshPaths.has(url.pathname) && !['boot.mjs','app.mjs','shared-library.js','styles.css','sharing.css','alpha-ui.mjs'].includes(url.pathname.split('/').pop()))""")
-    (root/'sw.js').write_text(sw)
+    (root/'sw.js').write_text(workspace_cache(sw))
     (root/'boot.mjs').write_text(boot)
     for name,text in [('app.mjs',app),('styles.css',(root/'styles.css').read_text()+'\n'+marker),
-                      ('shared-library.js',(HERE/'canvas-cursors.js').read_text()+'\n'+(HERE/'shared-library.js').read_text()),('sharing.css',css)]:
+                      ('shared-library.js',sharing_script()),('sharing.css',css)]:
         (root/name).write_text(text)
 
 def prepare_worker(path):
@@ -79,10 +103,13 @@ def prepare_config(path):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
-    parser.add_argument('--web',type=Path)
+    web=parser.add_mutually_exclusive_group()
+    web.add_argument('--web',type=Path)
+    web.add_argument('--refresh-web',type=Path,help='Update the shared workspace assets of an existing RC28 shell.')
     parser.add_argument('--worker',type=Path)
     parser.add_argument('--config',type=Path)
     args=parser.parse_args()
     if args.config:prepare_config(args.config)
     if args.web:prepare_web(args.web)
+    if args.refresh_web:refresh_web(args.refresh_web)
     if args.worker:prepare_worker(args.worker)
