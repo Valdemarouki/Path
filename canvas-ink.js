@@ -172,6 +172,7 @@ for (const event of ['lostpointercapture','pointercancel']) window.addEventListe
 },true);
 window.addEventListener('blur',cancelCanvasInk);
 window.addEventListener('keydown',e=>{
+ if (e.target.closest?.('[data-path-shared-workspace]')) return;
  if (view==='canvas' && canvasInk.boardId===canvasId && canvasInk.tool && e.key==='Escape') {
   e.preventDefault(); e.stopImmediatePropagation();
   setCanvasInkTool(null);

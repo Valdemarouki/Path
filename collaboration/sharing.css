@@ -12,6 +12,18 @@
 body:has([data-path-shared-workspace]) #path-particle-layer,
 [data-path-shared-covered]{display:none!important}
 [data-path-shared-workspace]{display:block;min-width:0;width:100%}
+html:has([data-path-canvas-layout]){overflow:hidden}
+body:has([data-path-canvas-layout=desktop]) .topbar{pointer-events:none}
+body:has([data-path-canvas-layout=desktop]) .topbar :is(button,a){pointer-events:auto}
+body:has(#navigation[data-state=compact]){--board-app-nav:64px}
+@media(orientation:landscape) and (max-height:500px){
+ body:has([data-path-canvas-layout=mobile]){--board-app-nav:44px}
+ body:has([data-path-canvas-layout=mobile]) #navigation:is([data-state=compact],[data-state=normal]):not([data-transitioning]){
+  transform:translateY(calc(100% - 44px - env(safe-area-inset-bottom,0px)));
+ }
+ body:has([data-path-canvas-layout=mobile]) #navigation:is([data-state=compact],[data-state=normal]):not([data-transitioning]) .panel-handle{top:0}
+ body:has([data-path-canvas-layout=mobile]) #navigation:is([data-state=compact],[data-state=normal]):not([data-transitioning]) .nav-primary{visibility:hidden}
+}
 .projects-library .project-card-open>.path-shared-mark{position:absolute;top:13px;right:50px;margin:0;pointer-events:none}
 .projects-library [data-shared-card] .path-shared-mark{right:15px}
 .projects-library [data-shared-card] .project-card-open{padding-top:23px}
@@ -91,3 +103,66 @@ body:has([data-path-shared-workspace]) #path-particle-layer,
 .library-item small {grid-column:1/-1;font-size:.82rem;text-align:start}
 .library-item .path-shared-mark {margin:0}
 .library-panel [role=status]:empty {display:none}
+
+/* An open board uses the available application viewport. The document behind it keeps its scroll position. */
+:host([data-path-canvas-layout]){
+ position:fixed;z-index:5;inset:var(--board-top,env(safe-area-inset-top,0px)) var(--board-right,env(safe-area-inset-right,0px)) max(var(--board-bottom,env(safe-area-inset-bottom,0px)),var(--board-keyboard,0px)) var(--board-left,env(safe-area-inset-left,0px));
+ width:auto!important;min-width:0;margin:0;box-sizing:border-box;isolation:isolate;background:#111214;color:#efefed;
+}
+:host([data-path-canvas-layout=portal]){--board-top:var(--path-canvas-top,46px)}
+:host([data-path-canvas-layout=desktop]){--board-top:38px;--board-left:130px;--board-right:10px;--board-bottom:8px}
+:host([data-path-canvas-layout=mobile]){--board-bottom:calc(var(--board-app-nav,118px) + env(safe-area-inset-bottom,0px))}
+:host([data-path-canvas-layout]) .shared-workspace{
+ height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);align-content:stretch;gap:0;position:relative;
+}
+:host([data-path-canvas-layout]) .workspace-heading{
+ position:relative;z-index:3;display:flex;align-items:center;gap:10px;padding:0 10px;min-width:0;min-height:48px;box-sizing:border-box;background:#141517;
+ border-bottom:1px solid #323337;
+}
+:host([data-path-canvas-layout=desktop]) .workspace-heading{padding-inline-end:80px}
+:host([data-path-canvas-layout]) .workspace-back,
+.board-options>summary{
+ box-sizing:border-box;display:inline-flex;flex:none;align-items:center;justify-content:center;width:40px;height:40px;min-height:40px;padding:0;border:1px solid transparent;border-radius:10px;
+ color:#d7d7d8;background:transparent;cursor:pointer;list-style:none;
+}
+:host([data-path-canvas-layout]) .workspace-back{font-size:0}
+:host([data-path-canvas-layout]) .workspace-back::before{content:'';margin:0;width:8px;height:8px;border:solid currentColor;border-width:0 0 1.7px 1.7px;transform:rotate(45deg)}
+.board-options>summary::-webkit-details-marker{display:none}
+.board-options>summary span{font:650 15px/1 system-ui;letter-spacing:1px}
+:host([data-path-canvas-layout]) .workspace-back:hover,.board-options>summary:hover,.board-options[open]>summary{background:#242527;border-color:#424347;color:#fff}
+:host([data-path-canvas-layout]) .workspace-heading h1{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:550 clamp(18px,1.8vw,25px)/1.15 'Cormorant Garamond',Georgia,serif;letter-spacing:-.025em}
+:host([data-path-canvas-layout]) .save-state{flex:none;font-size:12px;color:#b5b6ba}
+:host([data-path-canvas-layout]) .save-state:empty{display:none}
+.board-options{position:relative;flex:0 0 auto}
+.board-options .workspace-tools{
+ display:flex;align-items:stretch;flex-direction:column;gap:4px;position:absolute;z-index:3;right:0;top:calc(100% + 5px);
+ width:min(355px,calc(100vw - 30px));max-height:min(580px,calc(100dvh - 125px - var(--board-keyboard,0px)));overflow:auto;overscroll-behavior:contain;box-sizing:border-box;
+ padding:9px;margin:0;border:1px solid #45464b;border-radius:13px;box-shadow:0 12px 32px #0006;background:#202123;
+}
+.board-options:not([open])>.workspace-tools{display:none}
+.board-options .workspace-tools>.row{padding:3px 8px 9px;margin:0;border-bottom:1px solid #38393b}
+.board-options .workspace-tools>button,.board-options .workspace-tools>details>summary{
+ display:block;min-height:40px;width:100%;text-align:start;align-content:center;box-sizing:border-box;padding:7px 10px;border:0;border-radius:7px;
+ background:transparent;color:#ebebec;font:500 .9rem/1.35 system-ui,sans-serif;
+}
+.board-options .workspace-tools>details>summary::after{content:'›';float:right;color:#bcbcc0}
+.board-options .workspace-tools>details[open]>summary::after{transform:rotate(90deg)}
+.board-options .workspace-tools>button:hover,.board-options .workspace-tools>details>summary:hover{background:#2b2c30}
+.board-options .workspace-tools>details[open]{background:#191a1c;border:1px solid #393a3e}
+.board-options .workspace-tools>details[open]:not(.cursor-settings)>button{margin:3px}
+:host([data-path-canvas-layout]) .workspace-content{min-width:0;min-height:0;position:relative}
+:host([data-path-canvas-layout]) .shared-workspace>.error:not(:empty),
+:host([data-path-canvas-layout]) .shared-workspace>p:not(.error){
+ position:absolute;z-index:2;inset:auto 12px 72px;justify-self:center;max-width:36rem;border-radius:9px;padding:8px 12px;background:#242326;box-shadow:0 3px 15px #0004;
+}
+.board-name-dialog{width:min(90vw,380px);margin:auto;inset:0;max-height:80dvh}
+@media(max-width:650px){
+ :host([data-path-canvas-layout=desktop]){--board-left:0px;--board-right:0px;--board-bottom:64px}
+ :host([data-path-canvas-layout=desktop]) .workspace-heading{padding-inline-end:68px}
+ :host([data-path-canvas-layout]) .workspace-heading{gap:5px;min-height:44px;padding-inline-start:4px}
+ .board-options>summary,:host([data-path-canvas-layout]) .workspace-back{width:44px;height:44px}
+}
+@media(orientation:landscape) and (max-height:500px){
+ :host([data-path-canvas-layout=mobile]) .workspace-heading{min-height:40px}
+ :host([data-path-canvas-layout=mobile]) .board-options>summary,:host([data-path-canvas-layout=mobile]) .workspace-back{min-height:40px;height:40px}
+}

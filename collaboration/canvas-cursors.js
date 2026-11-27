@@ -29,7 +29,9 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
     retry,
     heartbeat,
     frame = 0;
-  let myPoint = null,
+  let clientPoint = null,
+    pointDirty = false,
+    myPoint = null,
     lastSent = 0,
     flushTimer,
     touchTimer,
@@ -69,6 +71,8 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
     transmit({ type: 'move', ...myPoint });
   }
   function clearPoint() {
+    clientPoint = null;
+    pointDirty = false;
     clearTimeout(flushTimer);
     clearTimeout(touchTimer);
     touchTimer = null;
@@ -79,11 +83,18 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
   }
   function publish(event) {
     if (!svg || !prefs.send || document.hidden) return;
-    const m = svg.getScreenCTM();
-    if (!m) return;
-    const p = new DOMPoint(event.clientX, event.clientY).matrixTransform(m.inverse());
+    clientPoint = {x:event.clientX, y:event.clientY, touch:event.pointerType === 'touch'};
+    pointDirty = true;
+    paintSoon();
+  }
+  function projectPoint(matrix) {
+    pointDirty = false;
+    const p = new DOMPoint(clientPoint.x, clientPoint.y).matrixTransform(matrix.inverse());
+    if (clientPoint.touch) clientPoint = null;
     if (!Number.isFinite(p.x) || !Number.isFinite(p.y)) return;
-    myPoint = { x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 };
+    const x = Math.round(p.x * 10) / 10, y = Math.round(p.y * 10) / 10;
+    if (myPoint?.x === x && myPoint.y === y) return;
+    myPoint = {x,y};
     const wait = 55 - (performance.now() - lastSent);
     if (wait <= 0) flush();
     else if (!flushTimer) flushTimer = setTimeout(flush, wait);
@@ -178,14 +189,22 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
   function paintSoon() {
     if (!frame && layer) frame = requestAnimationFrame(draw);
   }
+  function viewChanged() {
+    // A stationary pointer moves through board space while the camera pans.
+    pointDirty ||= !!clientPoint;
+    if (pointDirty || (prefs.show && peers.size)) paintSoon();
+  }
   function draw() {
     frame = 0;
     if (!layer || !svg) return;
     layer.classList.toggle('cursor-hidden', !prefs.show);
-    if (!prefs.show) return;
-    const viewport = layer.getBoundingClientRect(),
-      matrix = svg.getScreenCTM();
-    if (!matrix || !viewport.width) return;
+    if (!pointDirty && (!prefs.show || !peers.size)) return;
+    const matrix = svg.getScreenCTM();
+    if (!matrix) return;
+    if (pointDirty && clientPoint) projectPoint(matrix);
+    if (!prefs.show || !peers.size) return;
+    const viewport = layer.getBoundingClientRect();
+    if (!viewport.width) return;
     let moving = false;
     for (const [id, p] of peers) {
       if (performance.now() - p.seen > 15000) {
@@ -290,7 +309,7 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
     cancelAnimationFrame(frame);
     frame = 0;
     if (surface)
-      for (const name of ['pointermove', 'pointerdown', 'pointerup', 'pointerleave', 'pointercancel'])
+      for (const name of ['pointermove', 'pointerdown', 'pointerup', 'pointerleave', 'pointercancel', 'wheel'])
         surface.removeEventListener(name, track, true);
     surface = svg = layer = null;
   }
@@ -304,11 +323,11 @@ function pathCanvasCursors({ board, account, rpc, mobile, t }) {
     svg.classList.add('cursor-board');
     surface.append(svg, layer);
     for (const { g } of peers.values()) layer.append(g);
-    for (const name of ['pointermove', 'pointerdown', 'pointerup', 'pointerleave', 'pointercancel'])
+    for (const name of ['pointermove', 'pointerdown', 'pointerup', 'pointerleave', 'pointercancel', 'wheel'])
       surface.addEventListener(name, track, { capture: true, passive: true });
-    observer = new ResizeObserver(paintSoon);
+    observer = new ResizeObserver(viewChanged);
     observer.observe(surface);
-    geometry = new MutationObserver(paintSoon);
+    geometry = new MutationObserver(viewChanged);
     geometry.observe(svg, {
       attributes: true,
       attributeFilter: ['viewBox', 'preserveAspectRatio', 'transform'],

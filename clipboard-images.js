@@ -27,7 +27,7 @@ async function pathPasteImages(files,target){
  }
 }
 document.addEventListener('paste',e=>{
- if(editor||e.defaultPrevented)return;
+ if(e.target.closest?.('[data-path-shared-workspace]')||editor||e.defaultPrevented)return;
  const files=pathClipboardImages(e.clipboardData);let target;
  if(view==='notes'&&noteDraft&&!noteDraft.deletedAt&&e.target.closest('.note-document')&&!e.target.closest('input,select'))target={kind:'notes',id:noteDraft.id};
  if(view==='canvas'&&canvasId&&!e.target.closest('input,textarea,select,[contenteditable]')){

@@ -148,6 +148,7 @@
    updateMarks();
   }).catch(()=>{});
   Object.assign(labels,{
+   boardOptions:['Board options','Настройки доски','Opciones del tablero','Opcje tablicy'],
    backProjects:['Back to projects','К проектам','Volver a proyectos','Wróć do projektów'],
    backBoards:['Back to canvases','К доскам Canvas','Volver a los tableros','Wróć do tablic'],
    saving:['Saving…','Сохранение…','Guardando…','Zapisywanie…'],
@@ -192,19 +193,39 @@
    const note=el('p');note.setAttribute('role','status');note.className='error';
    let cursors=null,cursorBoard=null,camera={},projectState={},displayedId=null;
    let writes=0,saveQueue=Promise.resolve(),frame=0,saveText='',recovering=false;
-   let recoveryMemo=null;
+   let recoveryMemo=null,optionsOpen=false,paintedBoard=null;
    const feedback=el('small');feedback.className='save-state';feedback.setAttribute('role','status');
    function resetEditor(){
     camera.dispose?.();projectState.dispose?.();camera={};projectState={};recovering=false;
     recoveryMemo=null;
    }
    function editingNow(){
-    return editing||camera.interacting||camera.boardUI?.draft||projectState.interacting||recovering||
+    return editing||camera.interacting||camera.moving||camera.boardUI?.draft||projectState.interacting||recovering||
       !!shadow.activeElement?.closest('.workspace-people form');
+   }
+   function paintChanges(){
+    const previous=paintedBoard;
+    if(current?.kind==='canvas'&&previous&&previous.id===current.id&&camera.boardUI?.accept){
+     if(!needsPaint)return;
+     const metadata=['owner','ownerName','account','active','role','writable','transfer','detailVersion','members','pending'];
+     if(previous.document.name===current.document.name &&
+        metadata.every(key=>same(previous[key],current[key]))){
+      // An edit to the board should not replace its camera, toolbar, socket target or focused popover.
+      needsPaint=false;paintedBoard=current;
+      if(camera.boardUI.accept(current.document))camera.boardUI.refresh();
+      if(current.owner&&(!previous.document.restoredDetails||!current.document.restoredDetails)){
+       const tools=d.querySelector('.workspace-tools');
+       tools.querySelector('.workspace-restore')?.remove();
+       restoreOffer(tools,current.document);
+      }
+      return;
+     }
+    }
+    paint();
    }
    function refresh(){
     if(stopped||frame)return;
-    frame=requestAnimationFrame(()=>{frame=0;if(!stopped&&!editingNow()&&!writes)paint();});
+    frame=requestAnimationFrame(()=>{frame=0;if(!stopped&&!editingNow()&&!writes)paintChanges();});
    }
    function setSaveStatus(key){saveText=key?t(key):'';feedback.textContent=saveText;}
 
@@ -226,6 +247,8 @@
    function closeWorkspace(restoreFocus=true){
     if(stopped)return;
     stopped=true;epoch++;activeWorkspace=null;resetEditor();stopCursors();clearInterval(timer);cancelAnimationFrame(frame);
+    window.visualViewport?.removeEventListener('resize',fitKeyboard);
+    window.visualViewport?.removeEventListener('scroll',fitKeyboard);
     routeObserver.disconnect();document.removeEventListener('click',routeClick,true);
     window.removeEventListener('pagehide',leavePage);
     document.removeEventListener('visibilitychange',poll);window.removeEventListener('online',poll);
@@ -238,9 +261,15 @@
     }
     if(list)list.load();else if(library?.isConnected)notify();
    }
+   function fitKeyboard(){
+    if(!host.hasAttribute('data-path-canvas-layout')||!window.visualViewport)return;
+    const viewport=window.visualViewport;
+    const covered=Math.max(0,Math.round(innerHeight-viewport.height-viewport.offsetTop));
+    host.style.setProperty('--board-keyboard',covered+'px');
+   }
    function leavePage(){closeWorkspace(false);}
    function routeClick(event){
-    if(event.target?.closest?.('[data-nav],#navigation button,#navigation a,[data-logout],[data-account-signout]'))leavePage();
+    if(event.target?.closest?.('[data-nav],#navigation [data-route],#navigation [data-add],#navigation a,[data-logout],[data-account-signout]'))leavePage();
    }
    const routeObserver=new MutationObserver(()=>{
     if(stopped)return;
@@ -252,14 +281,27 @@
     }
    });
    displayAt(parent);activeWorkspace=host;
+   window.visualViewport?.addEventListener('resize',fitKeyboard);
+   window.visualViewport?.addEventListener('scroll',fitKeyboard);
+   function closeBoardMenus(event,escape=false){
+    if(!host.hasAttribute('data-path-canvas-layout')||event.target.closest('.board-name-dialog'))return;
+    for(const menu of shadow.querySelectorAll('.board-options[open],.be-list[open],.be-more[open]')){
+     if(!escape&&menu.contains(event.target))continue;
+     menu.open=false;
+     if(escape){event.preventDefault();event.stopPropagation();menu.querySelector('summary')?.focus();break;}
+    }
+   }
+   shadow.addEventListener('pointerdown',e=>closeBoardMenus(e),true);
+   shadow.addEventListener('keydown',e=>{if(e.key==='Escape'&&!editing&&!camera.boardUI?.draft)closeBoardMenus(e,true);},true);
+   shadow.addEventListener('click',e=>{if(e.target.closest('.be-list-item'))e.target.closest('.be-list').open=false;},true);
    routeObserver.observe(document.body,{childList:true,subtree:true});
    document.addEventListener('click',routeClick,true);window.addEventListener('pagehide',leavePage);
-   for(const name of ['click','input','change','keydown','keyup','pointerdown','pointerup','submit']){
+   for(const name of ['click','input','change','keydown','keyup','pointerdown','pointerup','paste','copy','cut','submit']){
     shadow.addEventListener(name,event=>event.stopPropagation());
    }
    function fail(e){
     if(stopped)return;
-    if(String(e.message).includes('SHARE_DENIED')){current=null;editing=null;resetEditor();stopCursors();clearInterval(timer);paint();}
+    if(String(e.message).includes('SHARE_DENIED')){camera.clearViewport?.();current=null;editing=null;resetEditor();stopCursors();clearInterval(timer);paint();}
     note.textContent=message(e);
    }
    async function poll(){
@@ -272,7 +314,7 @@
       if(lostWrite){editing=null;recovering=false;paint();note.textContent=t('view');}
 
      }
-     if(needsPaint&&!editingNow())paint();
+     if(needsPaint&&!editingNow())paintChanges();
      if(note.dataset.network){delete note.dataset.network;note.textContent='';}
     }catch(e){if(seq===epoch&&!busy&&!writes){fail(e);if(current)note.dataset.network='1';}}finally{polling=false;}
    }
@@ -318,12 +360,16 @@
     input.required=true;input.maxLength=250;input.value=base.name;
     form.className='workspace-edit';form.append(field(t('title'),input));
     const save=el('button',t('save'));save.type='submit';
-    const cancel=()=>{editing=null;paint();};form.append(row(save,btn(t('cancel'),cancel)),note);
-    editing=form;d.replaceChildren(form);input.focus();input.select();
-    form.onkeydown=e=>{if(e.key==='Escape')cancel();};
+    const dialog=el('dialog');dialog.className='board-name-dialog';dialog.setAttribute('aria-label',t('rename'));
+    const warning=el('p');warning.className='error';warning.setAttribute('role','status');
+    const cancel=()=>{if(editing!==form)return;editing=null;dialog.close?.();dialog.remove();if(needsPaint)refresh();};
+    form.append(row(save,btn(t('cancel'),cancel)),warning);dialog.append(form);d.append(dialog);editing=form;
+    dialog.oncancel=e=>{e.preventDefault();cancel();};
+    if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');
+    input.focus();input.select();
     form.onsubmit=async e=>{e.preventDefault();const name=input.value.trim();if(!name)return;
      save.disabled=true;try{await commit(id,head=>merge(base,{...base,name},head));if(!stopped&&editing===form)cancel();}
-     catch{}finally{save.disabled=false;}
+     catch(err){warning.textContent=message(err);}finally{save.disabled=false;}
     };
    }
    function restoreOffer(tools,doc){
@@ -356,6 +402,12 @@
     if(displayedId!==current?.id){resetEditor();displayedId=current?.id;}
     if(cursorBoard && (current?.id!==cursorBoard||current.kind!=='canvas'))stopCursors();
     needsPaint=false;d.replaceChildren();
+    const isBoard=current?.kind==='canvas';
+    paintedBoard=isBoard?current:null;
+    if(isBoard){
+     host.dataset.pathCanvasLayout=parent.matches('.app-main')?'desktop':parent.id==='content'?'mobile':parent.id==='personal-account'?'account':'portal';
+     fitKeyboard();
+    }else delete host.dataset.pathCanvasLayout;
     const back=btn(t(initial.kind==='canvas'?'backBoards':'backProjects'),()=>closeWorkspace());
     back.className='workspace-back';d.append(back);
     if(!current){d.append(note);return;}
@@ -367,13 +419,24 @@
     feedback.textContent=saveText;meta.append(feedback);heading.append(title,meta);
     const tools=el('div');tools.className='workspace-tools';
     const content=el('div');content.className='workspace-content';
-    heading.append(tools);d.append(heading,content);
+    if(canvas){
+     const options=el('details'),summary=el('summary'),dots=el('span','•••');
+     options.className='board-options';options.open=optionsOpen;
+     options.ontoggle=()=>{if(options.isConnected)optionsOpen=options.open;};
+     summary.title=t('boardOptions');summary.setAttribute('aria-label',t('boardOptions'));
+     dots.setAttribute('aria-hidden','true');summary.append(dots);
+     options.append(summary,tools);tools.append(meta);
+     back.setAttribute('aria-label',back.textContent);back.title=back.textContent;
+     heading.replaceChildren(back,title,feedback,options);title.title=doc.name;
+    }else heading.append(tools);
+    d.append(heading,content);
     const lang=language?.()||'en';
     if(canvas){
      if(!cursors){cursorBoard=id;cursors=pathCanvasCursors({board:id,account:current.account,rpc,mobile,t});}
      if(editable)tools.append(btn(t('rename'),renameBoard));
      content.append(PathSharedBoardEditor.mount({doc,writable:editable,camera,language:lang,
-      bindCursors:svg=>cursors.bind(svg),commit:transform=>commit(id,transform),readLatest:()=>current?.id===id?current.document:null,refresh}));
+      viewportKey:current.account&&id?'path.canvas.viewport.1.'+current.account+'.'+id:null,
+      bindCursors:svg=>cursors.bind(svg),commit:transform=>commit(id,transform),readLatest:()=>current?.id===id?current.document:null,onCameraSettled:()=>{if(needsPaint)refresh();},refresh}));
     }else{
      content.append(PathSharedProject.render({doc,writable:editable,lang,state:projectState,
       commit:(base,next)=>commit(id,head=>merge(base,next,head)),latest:()=>current?.id===id?current.document:null,refresh}));
@@ -411,12 +474,12 @@
      if(current.transfer===current.account)people.append(btn(t('take'),()=>run(async()=>{current=await rpc('take_ownership',{id:current.id});paint();notify()})));
      people.append(btn(t('cancelTransfer'),()=>run(async()=>{current=await rpc('cancel_transfer',{id:current.id});paint()})));
     }
-    if(!current.owner)people.append(btn(t('leave'),()=>run(async()=>{await rpc('leave',{id:current.id});closeWorkspace()})));
+    if(!current.owner)people.append(btn(t('leave'),()=>run(async()=>{await rpc('leave',{id:current.id});camera.clearViewport?.();closeWorkspace()})));
     library=document.querySelector(selector)||library;
     if(library?.resources?.length>1){
      const list=el('details');list.append(el('summary',t('selectShared')));
-     for(const resource of library.resources){const choose=btn(resource.name,()=>run(async()=>{current=await rpc('get',{id:resource.id});peopleOpen=false;paint()}));choose.append(badge(resource.kind));list.append(choose);}
-     d.append(list);
+     for(const resource of library.resources){const choose=btn(resource.name,()=>run(async()=>{current=await rpc('get',{id:resource.id});peopleOpen=false;optionsOpen=false;paint()}));choose.append(badge(resource.kind));list.append(choose);}
+     (canvas?tools:d).append(list);
     }
     if(canvas)tools.append(cursors.settings);
     tools.append(people);restoreOffer(tools,doc);
@@ -424,7 +487,7 @@
     if(!current.active)d.append(el('p',t('unavailable')));d.append(note);
    }
    const timer=setInterval(poll,2000);document.addEventListener('visibilitychange',poll);window.addEventListener('online',poll);paint();shadow.querySelector('.workspace-back')?.focus({preventScroll:true});
-   host.scrollIntoView?.({block:'nearest'});
+   if(!host.hasAttribute('data-path-canvas-layout'))host.scrollIntoView?.({block:'nearest'});
   }
   function confirmShare(root,kind,source,after,output){
    const confirmation=el('dialog'),yes=btn(t('shareButton'),async()=>{

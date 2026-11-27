@@ -128,5 +128,147 @@
     throw Error('IMAGE_BUDGET');
   }
 
-  globalThis.PathSharedBoardGeometry=Object.freeze({geometry,curve,cleanInk,inkPath,readImage});
+  // A viewBox is the common coordinate system for nodes, hit testing and network cursors.
+  // Keep it aligned to the CSS viewport so its scale is uniform in both axes.
+  function cameraController(svg, state, extent, draw, settled, storageKey, hasContent) {
+    let target = null, frame = 0, previousTime = 0, direct = false;
+    const motion = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
+    const size = () => ({width:state.viewportWidth || 960, height:state.viewportHeight || 600});
+    const center = () => ({x:state.x + state.w / 2, y:state.y + state.h / 2});
+
+    // Store only the camera geometry for this account and board; documents never enter this key.
+    let saved=null, dirty=false, writeTimer=0, forgotten=false;
+    function forget() {
+      saved=null; dirty=false;
+      clearTimeout(writeTimer);
+      if(storageKey)try { globalThis.localStorage.removeItem(storageKey); } catch {}
+    }
+    if(storageKey && !state.w) {
+      if(!hasContent()) forget();
+      else try {
+        const value=JSON.parse(globalThis.localStorage.getItem(storageKey));
+        if(Array.isArray(value) && value.length===3 && value.every(Number.isFinite) &&
+           Math.abs(value[0])<=1e7 && Math.abs(value[1])<=1e7 && value[2]>=.0001 && value[2]<=256) saved=value;
+      } catch {}
+    }
+    function remember() {
+      clearTimeout(writeTimer);
+      if(!dirty || !storageKey || forgotten || !state.viewportWidth || !state.w) return;
+      dirty=false;
+      if(state.fitted || !hasContent()) { forget(); return; }
+      const c=center();
+      try { globalThis.localStorage.setItem(storageKey, JSON.stringify([c.x,c.y,size().width/state.w])); } catch {}
+    }
+    function changed() {
+      if(!storageKey || forgotten) return;
+      dirty=true; saved=null;
+      clearTimeout(writeTimer);
+      writeTimer=setTimeout(remember,500);
+    }
+
+    function apply(view) {
+      Object.assign(state, view);
+      const zoom = size().width / view.w;
+      svg.setAttribute('viewBox', [view.x,view.y,view.w,view.h].join(' '));
+      svg.dataset.zoom = String(zoom);
+      const detail = zoom < .28 ? 'tiny' : zoom < .45 ? 'low' : 'full';
+      if (svg.dataset.detail !== detail) svg.dataset.detail = detail;
+      draw(zoom);
+    }
+    function stop(flushDirect=false) {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      if (flushDirect && direct && target) apply(target);
+      target = null;
+      state.moving = false;
+    }
+    function tick(now) {
+      frame = 0;
+      if (!svg.isConnected || !target) { stop(); return; }
+      const fraction = 1 - Math.exp(-Math.min(64, Math.max(0, now - previousTime)) / 65);
+      previousTime = now;
+      const logRatio = Math.log(target.w / state.w);
+      const pixel = state.w / size().width;
+      const reached = Math.abs(logRatio) < .0005 && Math.max(Math.abs(target.x-state.x),Math.abs(target.y-state.y)) < .3*pixel;
+      if (direct || motion?.matches || reached) { apply(target); stop(); settled?.(); return; }
+      const width = state.w * Math.exp(logRatio * fraction);
+      // Use the same fractional scale for the origin to keep the point under the cursor fixed.
+      const step = Math.abs(logRatio) > .000001 ? (width-state.w)/(target.w-state.w) : fraction;
+      apply({x:state.x+(target.x-state.x)*step,y:state.y+(target.y-state.y)*step,
+             w:width,h:state.h+(target.h-state.h)*step});
+      frame = requestAnimationFrame(tick);
+    }
+    function move(view, follow=false) {
+      if (!Object.values(view).every(Number.isFinite) || view.w<=0 || view.h<=0) return;
+      target = view;
+      direct = follow;
+      if (!motion || motion.matches || !state.viewportWidth) { apply(target); stop(); return; }
+      state.moving = true;
+      if (!frame) { previousTime = performance.now(); frame = requestAnimationFrame(tick); }
+    }
+    function fittedView() {
+      const b=extent(), {width,height}=size(), pad=Math.min(44,width*.065,height*.09);
+      const scale=Math.min(1.2, (width-2*pad)/Math.max(1,b.w), (height-2*pad)/Math.max(1,b.h));
+      const w=width/scale,h=height/scale;
+      return {x:b.x+(b.w-w)/2,y:b.y+(b.h-h)/2,w,h};
+    }
+    function fit(animate=true) {
+      const view=fittedView();
+      state.fitWidth=view.w;
+      state.fitted=true;
+      if(animate)changed();
+      if (animate && state.w) move(view); else { stop(); apply(view); }
+    }
+    function resize(width,height) {
+      if (!(width>0&&height>0) || width===state.viewportWidth && height===state.viewportHeight) return;
+      stop(true);
+      const prior=size(), c=center();
+      const units=state.w/prior.width;
+      state.viewportWidth=width;
+      state.viewportHeight=height;
+      if(saved && hasContent()) {
+        const [x,y,scale]=saved; saved=null;
+        const w=width/scale,h=height/scale;
+        state.fitted=false; state.fitWidth=fittedView().w;
+        apply({x:x-w/2,y:y-h/2,w,h});
+        return;
+      }
+      if (!state.w || state.fitted!==false) { fit(false); return; }
+      const w=width*units,h=height*units;
+      state.fitWidth=(state.fitWidth || state.w)*width/prior.width;
+      apply({x:c.x-w/2,y:c.y-h/2,w,h});
+    }
+    function widthLimit(w) {
+      return Math.max(40,Math.min(Math.max(12000,(state.fitWidth||state.w)*8),w));
+    }
+    function zoom(factor,anchor=center()) {
+      if (!(factor>0)) return;
+      changed(); state.fitted=false;
+      const w=widthLimit((target?.w||state.w)*factor),ratio=w/state.w;
+      move({x:anchor.x+(state.x-anchor.x)*ratio, y:anchor.y+(state.y-anchor.y)*ratio,w,h:state.h*ratio});
+    }
+    function pan(dx,dy) {
+      changed(); state.fitted=false;
+      const base=direct&&target?target:state;
+      move({x:base.x+dx, y:base.y+dy, w:base.w,h:base.h},true);
+    }
+    function follow(view) {changed();state.fitted=false;move(view,true);}
+    function reducedChanged() {
+      if (motion?.matches && target) { apply(target); stop(); settled?.(); }
+    }
+    motion?.addEventListener?.('change',reducedChanged);
+    const observer=globalThis.ResizeObserver && new ResizeObserver(entries=>{
+      const rect=entries[0]?.contentRect;
+      if (rect && svg.isConnected) resize(rect.width,rect.height);
+    });
+    observer?.observe(svg);
+    globalThis.addEventListener('pagehide',remember);
+    function dispose() {
+      stop(true); remember(); globalThis.removeEventListener('pagehide',remember); observer?.disconnect(); motion?.removeEventListener?.('change',reducedChanged);
+    }
+    return {center,fit,zoom,pan,follow,stop,widthLimit,dispose,clear:()=>{forgotten=true;forget();},
+      paint:()=>state.w?apply({x:state.x,y:state.y,w:state.w,h:state.h}):fit(false)};
+  }
+
+  globalThis.PathSharedBoardGeometry=Object.freeze({geometry,curve,cleanInk,inkPath,readImage,cameraController});
 })();

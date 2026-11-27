@@ -37,6 +37,11 @@ def apply_canvas(html):
         old = section(html, module.splitlines()[0], end)
         html = replace_once(html, old, module + '\n\n')
 
+    # These two capture handlers live outside the fully ported private Canvas modules.
+    # Retain the verified renderer and isolate shortcuts from a nested shared editor.
+    port_line('canvas-edge-editing.js', "window.addEventListener('keydown',e=>{if(view!=='canvas'||editor||e.target.closest(")
+    port('clipboard-images.js', "document.addEventListener('paste',e=>{", ' const files=pathClipboardImages(e.clipboardData);')
+
     workspace = 'canvas-workspace.js'
     anchor = 'let canvasGesture=null,canvasSpaceHeld=false'
     html = replace_once(html, anchor, source('canvas-ink.js') + '\n' + anchor)

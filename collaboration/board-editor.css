@@ -1,3 +1,16 @@
+/* Distant notes use the same quiet line treatment as the personal Canvas. */
+.be-world:is([data-detail="low"],[data-detail="tiny"]) .be-node:not(.be-selected) .be-copy>:is(p,.be-check-row,.be-url),
+.be-world:is([data-detail="low"],[data-detail="tiny"]) .be-edge:not(.be-selected) .be-edge-caption{display:none}
+.be-world:is([data-detail="low"],[data-detail="tiny"]) .be-node:not(.be-selected) .be-copy:has(>p:not(:empty),>.be-check-row,>.be-url)::after{
+  content:"";display:block;width:78%;max-width:220px;height:31px;margin-block:5px;
+  background:linear-gradient(#84878a,#84878a) 0 0/100% 3px,
+             linear-gradient(#84878a,#84878a) 0 12px/87% 3px,
+             linear-gradient(#84878a,#84878a) 0 24px/53% 3px;background-repeat:no-repeat;
+}
+.be-world:is([data-detail="low"],[data-detail="tiny"]) .be-node[data-kind="text"] .be-copy::after{margin-inline:auto}
+.be-world[data-detail="tiny"] .be-node:not(.be-selected) .be-copy>strong{font-size:0;line-height:0}
+.be-world[data-detail="tiny"] .be-node:not(.be-selected) .be-copy>strong::before{content:"";display:inline-block;width:55%;height:6px;background:#cacbcd;border-radius:2px}
+
 .shared-board-editor{display:grid;min-width:0;color:#efefed;--be-panel:#1d1e20;--be-line:#36373b}
 .be-stage{position:relative;isolation:isolate;overflow:hidden;min-width:0;border:1px solid var(--be-line);border-radius:14px;background:#121315}
 .shared-board-editor .cursor-surface,.shared-board-editor .be-stage>.be-world{width:100%;height:clamp(390px,64dvh,820px);margin:0;border-radius:0}
@@ -59,3 +72,46 @@
  .be-inspector{right:6px;bottom:6px;width:310px;max-width:calc(100% - 12px);max-height:calc(100% - 55px)}
  .be-selection button,.be-form button{min-height:38px}.be-form{padding:12px}
 }
+
+/* Keep controls on the drawing surface so menus and selections never change its size. */
+:host([data-path-canvas-layout]) .shared-board-editor,
+:host([data-path-canvas-layout]) .be-stage,
+:host([data-path-canvas-layout]) .be-stage>.be-world,
+:host([data-path-canvas-layout]) .be-stage>.cursor-surface,
+:host([data-path-canvas-layout]) .cursor-surface>.be-world{box-sizing:border-box;height:100%;min-height:0;width:100%;margin:0}
+:host([data-path-canvas-layout]) .shared-board-editor{position:relative;display:block;isolation:isolate}
+:host([data-path-canvas-layout]) .be-stage{border:0;border-radius:0}
+:host([data-path-canvas-layout]) .be-bottom{position:absolute;z-index:2;inset:auto 10px 10px;display:block;margin:0;pointer-events:none}
+:host([data-path-canvas-layout]) .be-zoom{width:max-content;max-width:100%;margin-inline-start:auto;pointer-events:auto}
+:host([data-path-canvas-layout]) .be-selection:not([hidden]){position:absolute;bottom:calc(100% + 8px);inset-inline-start:0;max-width:100%;box-sizing:border-box;pointer-events:auto}
+.be-zoom-value{font:500 12px/1.1 system-ui,sans-serif;font-variant-numeric:tabular-nums;color:#d3d4d6;min-width:3.2em;text-align:center}
+:host([data-path-canvas-layout]) .be-list{
+ position:absolute;z-index:2;bottom:10px;left:10px;max-width:calc(100% - 20px);max-height:calc(100% - 80px);box-sizing:border-box;
+ overflow:auto;overscroll-behavior:contain;margin:0;border:1px solid #434448;border-radius:10px;box-shadow:0 4px 15px #0003;background:#202123;
+}
+:host([data-path-canvas-layout]) .be-list>summary{padding:6px 11px;box-sizing:border-box;align-content:center;list-style:none;color:#ceced1;min-height:36px;cursor:pointer}
+:host([data-path-canvas-layout]) .be-list>summary::-webkit-details-marker{display:none}
+:host([data-path-canvas-layout]) .be-list>summary::before{content:'☷';font:18px/1 system-ui,sans-serif;color:#d1d2d3;margin-inline-end:7px;vertical-align:-1px}
+:host([data-path-canvas-layout]) .be-list[open]{width:min(320px,calc(100% - 20px));z-index:4;padding:3px 6px}
+:host([data-path-canvas-layout]) .be-list[open]>summary{position:sticky;top:-3px;background:#202123}
+:host([data-path-canvas-layout]) .be-list-item{font-size:.85rem}
+:host([data-path-canvas-layout]) .be-mode-hint,:host([data-path-canvas-layout]) .be-status{
+ position:absolute;z-index:1;left:50%;top:60px;transform:translateX(-50%);margin:0;max-width:calc(100% - 24px);box-sizing:border-box;
+ padding:5px 10px;border:1px solid #37383b;border-radius:8px;background:#1b1c1eed;text-align:center;pointer-events:none;
+}
+:host([data-path-canvas-layout]) .be-status:not(:empty)~.be-mode-hint,.shared-board-editor:has(.be-status:not(:empty)) .be-mode-hint{display:none}
+:host([data-path-canvas-layout]) .shared-board-editor:has(.be-form) :is(.be-list,.be-bottom){visibility:hidden}
+:host([data-path-canvas-layout]) .be-more-menu{max-height:calc(100dvh - 190px);overflow:auto;overscroll-behavior:contain}
+@media(max-width:650px){
+ :host([data-path-canvas-layout]) .shared-board-editor .be-toolbar :is(.be-icon,summary){width:clamp(35px,10.5vw,44px);min-width:0;height:44px;min-height:44px}
+ :host([data-path-canvas-layout]) .be-more-menu{top:47px}
+ :host([data-path-canvas-layout]) .be-bottom{inset:auto 6px 6px}
+ :host([data-path-canvas-layout]) .be-list{bottom:6px;left:6px}
+ :host([data-path-canvas-layout]) .be-list:not([open])>summary{font-size:0;min-height:44px;min-width:44px;text-align:center;padding:0}
+ :host([data-path-canvas-layout]) .be-list:not([open])>summary::before{margin:0}
+ :host([data-path-canvas-layout]) .be-zoom .be-icon{width:36px;min-width:0;height:40px}
+ :host([data-path-canvas-layout]) .be-zoom .be-icon:last-child{width:38px;font-size:0;padding:0;gap:0}
+ :host([data-path-canvas-layout]) .be-inspector{max-height:calc(100% - 66px)}
+}
+:host([data-path-canvas-layout]) .be-world:focus{outline:none}
+:host([data-path-canvas-layout]) .be-world:focus-visible{outline:1px solid #77797d;outline-offset:-1px}

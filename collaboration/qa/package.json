@@ -2,7 +2,7 @@
   "name": "path-collaboration-check",
   "private": true,
   "scripts": {
-    "test": "node check.mjs && node model-parity.mjs && node --test workspace.cjs library.cjs document-changes.cjs",
+    "test": "node check.mjs && node model-parity.mjs && node --test workspace.cjs library.cjs document-changes.cjs canvas-camera.cjs",
     "test:model": "node model-parity.mjs",
     "test:workspace": "node --test workspace.cjs"
   },

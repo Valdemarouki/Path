@@ -13,16 +13,23 @@ def replace_once(text, old, new):
     return text.replace(old, new)
 
 def workspace_cache(sw):
-    legacy = "const cacheName = originalCache + '-shell-v10-free-sharing';"
-    previous = "const cacheName = originalCache + '-shell-v11-shared-workspaces';"
-    current = "const cacheName = originalCache + '-shell-v12-shared-editors';"
-    if current in sw:
-        return sw
-    if legacy in sw:
-        sw = replace_once(sw, legacy, legacy.replace('cacheName', 'freeSharingCache') + '\n' + previous)
-        sw = replace_once(sw, '[cursorPrevious, sharingPrevious,', '[freeSharingCache, cursorPrevious, sharingPrevious,')
-    sw = replace_once(sw, previous, previous.replace('cacheName', 'workspaceCache') + '\n' + current)
-    return replace_once(sw, '[freeSharingCache, cursorPrevious,', '[workspaceCache, freeSharingCache, cursorPrevious,')
+    versions = [
+        ('-shell-v10-free-sharing', 'freeSharingCache'),
+        ('-shell-v11-shared-workspaces', 'workspaceCache'),
+        ('-shell-v12-shared-editors', 'editorCache'),
+        ('-shell-v13-canvas-camera', None),
+    ]
+    declarations = [f"const cacheName = originalCache + '{tag}';" for tag, _ in versions]
+    start = next((i for i, declaration in enumerate(declarations) if declaration in sw), None)
+    if start is None:
+        raise ValueError('Unrecognized mobile service-worker cache version')
+    for i in range(start, len(versions) - 1):
+        old_name = versions[i][1]
+        newer = declarations[i].replace('cacheName', old_name) + '\n' + declarations[i + 1]
+        sw = replace_once(sw, declarations[i], newer)
+        previous = versions[i - 1][1] if i else 'cursorPrevious'
+        sw = replace_once(sw, f'[{previous},', f'[{old_name}, {previous},')
+    return sw
 
 def refresh_web(root):
     """Update the existing shared workspace assets from an RC28 or later web shell."""

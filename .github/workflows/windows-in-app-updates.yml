@@ -120,7 +120,7 @@ jobs:
           channel=path-windows-updates
           cd files
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Shared projects now include the task board, timeline, dependencies and milestones. The shared Canvas supports drawing, connections, images and attachments. Concurrent edits preserve independent changes."
+            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "The shared Canvas now fills the workspace. Smooth anchored zoom, pinch and fit keep the board in view, with compact floating controls on desktop and mobile."
           fi
           # Verify the versioned public assets before offering them to clients.
           url="https://github.com/$GH_REPO/releases/download/$tag"

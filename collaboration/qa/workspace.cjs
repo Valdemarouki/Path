@@ -241,3 +241,22 @@ test('Canvas survives an application repaint; switching tabs releases cursors an
   assert.equal(fresh.hasAttribute('data-path-shared-covered'),false);
   assert.equal(f.cursors.stopped,1);
 });
+
+test('collaborator editing a card preserves the open board, toolbar focus and scroll position',async t=>{
+  const f=page(t,{kind:'canvas',role:'owner'});
+  await until(()=>f.local.querySelector('.path-shared-mark'),'shared card mark');
+  f.local.click();
+  const root=await f.opened();
+  const world=root.querySelector('svg.be-world'), options=root.querySelector('.board-options');
+  const summary=options.querySelector('summary');
+  options.open=true;summary.focus();
+  const before=world.getAttribute('viewBox');
+  f.state.document.nodes[0].title='Edited by another participant';
+  f.state.revision++;
+  f.doc.defaultView.dispatchEvent(new f.doc.defaultView.Event('online'));
+  await until(()=>root.querySelector('[data-node-id="n1"]').textContent.includes('Edited by another participant'),'incoming card edit');
+  assert.equal(root.querySelector('svg.be-world'),world);
+  assert.equal(world.getAttribute('viewBox'),before);
+  assert.equal(options.open,true);
+  assert.equal(root.activeElement,summary);
+});
