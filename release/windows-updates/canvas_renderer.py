@@ -46,6 +46,8 @@ def apply_canvas(html):
     anchor = 'let canvasGesture=null,canvasSpaceHeld=false'
     html = replace_once(html, anchor, source('canvas-ink.js') + '\n' + anchor)
     port_line(workspace, 'function canvasDimensions(')
+    port_line(workspace, 'function exportCanvasBoard(')
+    port_line(workspace, 'function prepareCanvasImport(')
     port_line(workspace, 'modalNode=function(){const c=data.canvases.find(c=>c.id===canvasId),n=c?.nodes.find(n=>n.id===canvasSelected);if(!n')
     port(workspace, "document.addEventListener('pointerup',e=>{const op=canvasGesture;", 'function cancelCanvasGesture(')
     port_line(workspace, "document.addEventListener('click',e=>{const b=e.target.closest('[data-canvas-kind]")

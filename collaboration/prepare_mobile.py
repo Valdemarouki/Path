@@ -7,6 +7,15 @@ from client_assets import bundle, board_marker
 HERE = Path(__file__).resolve().parent
 WEB_STYLESHEET = "cssUrl:new URL('sharing.css',import.meta.url).href"
 
+# The mobile shell loads alpha.css after styles.css. Scope the surface to the personal board.
+PRIVATE_CANVAS_SURFACE = '''.shell:has(.canvas-reader) {background:#0b0c0e;}
+.canvas-reader > .canvas-viewport {border:0;border-radius:16px;}'''
+
+def mobile_board_styles(styles):
+    if PRIVATE_CANVAS_SURFACE not in styles:
+        styles += '\n' + PRIVATE_CANVAS_SURFACE + '\n'
+    return styles
+
 def replace_once(text, old, new):
     if text.count(old) != 1:
         raise ValueError(f'Unexpected mobile baseline at {old[:75]}')
@@ -18,7 +27,8 @@ def workspace_cache(sw):
         ('-shell-v11-shared-workspaces', 'workspaceCache'),
         ('-shell-v12-shared-editors', 'editorCache'),
         ('-shell-v13-canvas-camera', 'cameraCache'),
-        ('-shell-v14-canvas-parity', None),
+        ('-shell-v14-canvas-parity', 'parityCache'),
+        ('-shell-v15-canvas-surface', None),
     ]
     declarations = [f"const cacheName = originalCache + '{tag}';" for tag, _ in versions]
     start = next((i for i, declaration in enumerate(declarations) if declaration in sw), None)
@@ -30,10 +40,47 @@ def workspace_cache(sw):
         sw = replace_once(sw, declarations[i], newer)
         previous = versions[i - 1][1] if i else 'cursorPrevious'
         sw = replace_once(sw, f'[{previous},', f'[{old_name}, {previous},')
+    # The sync module now acknowledges restored/deleted personal boards. Upgrade it with the model.
+    old = "'styles.css','sharing.css','alpha-ui.mjs']"
+    fresh = "'styles.css','sharing.css','alpha-ui.mjs','personal-client.mjs']"
+    if fresh not in sw:
+        sw = replace_once(sw,old,fresh)
     return sw
+
+def apply_mobile_canvas_checkpoints(root):
+    """Use the mobile account repository for receipts and sync only explicitly changed boards."""
+    app_path, model_path, sync_path = [root/name for name in ('app.mjs','personal-model.mjs','personal-client.mjs')]
+    app = app_path.read_text(encoding='utf-8')
+    model = model_path.read_text(encoding='utf-8')
+    sync = sync_path.read_text(encoding='utf-8')
+    if 'applyCanvasChange:mobileCanvasChange' not in app:
+        marker = "globalThis.PathSharedLibrary?.mount({rpc:webSharing,mobile:true,language:()=>lang,"
+        replacement = """import {applyCanvasReceipt} from './personal-model.mjs';
+let canvasAccount;
+const mobileSharing=webSharing&&async function(action,args){
+  const reply=await webSharing(action,args);
+  if((action==='list'||action==='get')&&reply?.account)canvasAccount=reply.account;
+  return reply;
+};
+const mobileCanvasChange=desktopMode||!webSharing?undefined:async(change,account)=>{
+  if(!account||account!==canvasAccount||change.account!==account||state?.personalSync?.owner!==pathPersonal.profile)throw Error('PROFILE_CHANGED');
+  if(state.appliedCanvasReceipts?.includes(change.id))return;
+  if(blocked)refreshData();
+  if(!await commit(next=>applyCanvasReceipt(next,change,pathPersonal.profile)))throw Error('LOCAL_WRITE');
+};
+globalThis.PathSharedLibrary?.mount({rpc:mobileSharing,applyCanvasChange:mobileCanvasChange,mobile:true,language:()=>lang,"""
+        app_path.write_bytes(replace_once(app,marker,replacement).encode('utf-8'))
+    if 'export function applyCanvasReceipt' not in model:
+        model = replace_once(model,'result.canvases=base.canvases;', 'result.canvases=projectCanvasChanges(state,base.canvases);')
+        model_path.write_bytes((model+'\n'+(HERE/'mobile-canvas-checkpoint.mjs').read_text(encoding='utf-8')).encode('utf-8'))
+    if 'finishCanvasSync(s,head.payload.canvases,equal)' not in sync:
+        sync = replace_once(sync,'import {apply,projection,reconcile,equal}', 'import {apply,projection,reconcile,equal,finishCanvasSync}')
+        sync = replace_once(sync,'apply(s,content);s.personalSync=', 'apply(s,content);finishCanvasSync(s,head.payload.canvases,equal);s.personalSync=')
+        sync_path.write_bytes(sync.encode('utf-8'))
 
 def refresh_web(root):
     """Update the existing shared workspace assets from an RC28 or later web shell."""
+    apply_mobile_canvas_checkpoints(root)
     old_css = (root/'sharing.css').read_text(encoding='utf-8')
     new_css = bundle('styles')
     boot = (root/'boot.mjs').read_text(encoding='utf-8')
@@ -41,7 +88,7 @@ def refresh_web(root):
         boot = replace_once(boot, 'css:' + json.dumps(old_css), WEB_STYLESHEET)
     styles = replace_once((root/'styles.css').read_text(encoding='utf-8'), board_marker(old_css), board_marker(new_css))
     sw = workspace_cache((root/'sw.js').read_text(encoding='utf-8'))
-    for name, value in [('boot.mjs', boot), ('styles.css', styles), ('sw.js', sw),
+    for name, value in [('boot.mjs', boot), ('styles.css', mobile_board_styles(styles)), ('sw.js', sw),
                         ('sharing.css', new_css), ('shared-library.js', bundle('scripts'))]:
         (root/name).write_bytes(value.encode('utf-8'))
 
@@ -86,9 +133,11 @@ def prepare_web(root):
     sw=replace_once(sw,'if (!freshPaths.has(url.pathname))',"""if (!freshPaths.has(url.pathname) && !['boot.mjs','app.mjs','shared-library.js','styles.css','sharing.css','alpha-ui.mjs'].includes(url.pathname.split('/').pop()))""")
     (root/'sw.js').write_text(workspace_cache(sw))
     (root/'boot.mjs').write_text(boot)
-    for name,text in [('app.mjs',app),('styles.css',(root/'styles.css').read_text()+'\n'+marker),
+    for name,text in [('app.mjs',app),('styles.css',mobile_board_styles((root/'styles.css').read_text()+'\n'+marker)),
                       ('shared-library.js',bundle('scripts')),('sharing.css',css)]:
         (root/name).write_text(text)
+
+    apply_mobile_canvas_checkpoints(root)
 
 def prepare_worker(path):
     worker=path.read_text()

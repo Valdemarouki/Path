@@ -1,5 +1,5 @@
 'use strict';
-const actions=new Set(['cursor-ticket','list','get','create','save','invite','accept','decline','revoke','role','remove','leave','offer_transfer','cancel_transfer','take_ownership']);
+const actions=new Set(['cursor-ticket','list','get','create','save','invite','accept','decline','revoke','role','remove','leave','offer_transfer','cancel_transfer','take_ownership','delete-canvas','make-private','get-private-canvas']);
 async function shareRpc({origin,publishableKey,verifiedToken,fetchImpl=fetch,mobile=false},action,args={}) {
  if(!actions.has(action)||!args||Array.isArray(args)||typeof args!=='object')throw Error('SHARE_INVALID');
  const url=new URL(origin);

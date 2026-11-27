@@ -1,6 +1,6 @@
 /* Canvas v1: quiet monochrome surfaces; user image colours remain untouched. */
 body[data-page=canvas] .page-intro{margin-bottom:20px;align-items:center}
-body[data-page=canvas] .canvas-wrap{height:clamp(440px,76vh,1000px);background:#111214;border:1px solid #343538;border-radius:14px}
+body[data-page=canvas] .canvas-wrap{height:clamp(440px,76vh,1000px)}
 body[data-page=canvas] .canvas-space{height:100%}
 body[data-page=canvas] .canvas-world{background-color:#111214;background-image:radial-gradient(circle,#a4a6a91b .8px,transparent 1px);background-size:20px 20px}
 body[data-page=canvas] .canvas-tools{max-width:calc(100% - 28px);flex-wrap:nowrap;overflow-x:auto;scrollbar-width:thin;align-items:center;padding:7px;gap:4px;background:#1c1d20f2;border:1px solid #343538;border-radius:12px;box-shadow:0 6px 20px #0003}
@@ -85,3 +85,8 @@ body[data-page=canvas] .canvas-world{position:absolute;background:transparent!im
 .canvas-ink-erased{visibility:hidden}
 .canvas-ink-preview{position:absolute;left:0;top:0;width:1px;height:1px;overflow:visible;pointer-events:none;z-index:12}
 .canvas-wrap[data-ink-mode=eraser] .canvas-ink-hit{cursor:crosshair}
+
+/* The board surface owns the corners; the scrolling world and its floating tools stay inside. */
+body[data-page=canvas]:has(.app-main > .canvas-wrap){background-color:#0b0c0e}
+body[data-page=canvas] .canvas-wrap{background:#111214;border:0;border-radius:16px;overflow:hidden}
+body[data-page=canvas] .canvas-wrap > .canvas-space{border-radius:inherit}

@@ -89,5 +89,49 @@
   if(Array.isArray(source.milestones))result.milestones=rows(source.milestones).map(m=>fields(m,['id','title','date','completedAt']));
   return result;
  }
- globalThis.PathShareModel={project};
+ // Rebuild an ordinary board from the last shared revision. Private linked cards
+ // are resolved only from their original owner's matching local checkpoint.
+ function privateCanvas(change,existing){
+  if(change?.action!=='make-private'||!id(change.id)||!id(change.privateId))throw Error('SHARE_INVALID');
+  if(existing&&existing.id!==change.privateId)throw Error('SHARE_CONFLICT');
+  if(existing?.pathPrivateFrom===change.id)return existing;
+  if(existing&&change.source!==existing.id)throw Error('SHARE_CONFLICT');
+  let doc=change.document;
+  if(!object(doc)||typeof doc.name!=='string'||!Array.isArray(doc.nodes)||!Array.isArray(doc.edges))throw Error('SHARE_INVALID');
+  if(existing&&!doc.restoredDetails&&globalThis.PathDocumentChanges)
+   doc=PathDocumentChanges.recovery('canvas',doc,existing).doc;
+  const localNodes=new Map(rows(existing?.nodes).map(n=>[n.id,n]));
+  const replacements=new Set(['kind','title','body','url','image','attachment','ink','collapsed','x','y','width','height']);
+  const nodes=doc.nodes.map((row,index)=>{
+   const local=localNodes.get(row.id),shared=boardNode(row);
+   let node;
+   if(shared.kind==='restricted'){
+    node=local?structuredClone(local):{id:row.id,kind:'restricted',title:'',body:''};
+   }else{
+    const extras=local&&boardNode(local).kind===shared.kind?
+     Object.fromEntries(Object.entries(local).filter(([k])=>!replacements.has(k))):{};
+    node={...structuredClone(extras),...structuredClone(shared)};
+   }
+   const box=fields(shared,[],['x','y','width','height']);
+   node.x=box.x??node.x??40+index%4*300;node.y=box.y??node.y??40+Math.floor(index/4)*200;
+   if(node.kind==='drawing'){
+    // Native strokes take their dimensions from their ink, including tiny pen dots.
+    delete node.width;delete node.height;
+   }else{
+    if(box.width!==undefined)node.width=Math.max(160,Math.min(1600,box.width));
+    if(box.height!==undefined)node.height=Math.max(100,Math.min(1600,box.height));
+   }
+   return node;
+  });
+  const ids=new Set(nodes.map(n=>n.id)),privateOnly=new Set();
+  for(const n of localNodes.values())if(!ids.has(n.id)&&boardNode(n).kind==='restricted'){
+   nodes.push(structuredClone(n));ids.add(n.id);privateOnly.add(n.id);
+  }
+  const edges=doc.edges.filter(e=>ids.has(e.from)&&ids.has(e.to)).map(e=>boardEdge(e));
+  for(const e of rows(existing?.edges))if(ids.has(e.from)&&ids.has(e.to)&&(privateOnly.has(e.from)||privateOnly.has(e.to)))
+   edges.push(structuredClone(e));
+  return {...(existing&&structuredClone(existing)),id:change.privateId,name:doc.name,nodes,edges,
+   archived:false,pathPrivateFrom:change.id};
+ }
+ globalThis.PathShareModel={project,privateCanvas};
 })();

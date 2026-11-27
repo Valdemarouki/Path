@@ -23,6 +23,7 @@ function request(user,action,args={}){
  await db.exec('delete from path_collab.entitlements');
  await db.exec(fs.readFileSync(new URL('../free-sharing.sql',import.meta.url),'utf8'));
  await db.exec(fs.readFileSync(new URL('../workspace-parity.sql',import.meta.url),'utf8'));
+ await db.exec(fs.readFileSync(new URL('../canvas-lifecycle.sql',import.meta.url),'utf8'));
  const existing=(await request(1,'list')).inbox[0];
  assert.equal((await request(1,'accept',{invitation:existing.id})).writable,true);
  assert.equal((await request(4,'get',{id:previous.id})).document.name,'Existing project');
@@ -96,6 +97,80 @@ function request(user,action,args={}){
  const expired=await ticket(0,board);
  await db.query("update path_collab.cursor_pass set expires=now()-interval '1 second' where secret=$1",[expired]);
  await assert.rejects(claim(board,expired),/SHARE_DENIED/);
+ // Exact confirmed revision decides the outcome. A lost reply is replayable by that owner only.
+ const source='native-source-id';
+ const scene={name:'Shared sketch',nodes:[{id:'text',kind:'text',x:2,y:3,body:'Sketch'},
+  {id:'private',kind:'note',noteId:'linked-only-on-original',x:14,y:0}],edges:[{id:'line',from:'text',to:'private'}]};
+ const canvasArgs={kind:'canvas',source,detailVersion:3,document:scene};
+ let resource=await request(0,'create',canvasArgs);
+ const abc=resource.id;
+ for(const [user,role] of [[1,'editor'],[2,'viewer'],[3,'admin'],[4,'viewer']]){
+  await request(0,'invite',{id:abc,email:'person'+user+'@example.test',role});
+  if(user===4)continue;
+  const pending=(await request(user,'list')).inbox.find(x=>x.name===scene.name);
+  await request(user,'accept',{invitation:pending.id});
+ }
+ const leftInvite=(await request(4,'list')).inbox.find(x=>x.name===scene.name);
+ const lease=(await claim(abc,await ticket(1,abc))).lease;
+ const confirm={id:abc,revision:resource.revision};
+ for(const action of ['make-private','delete-canvas']){
+  for(const actor of [1,2,3,4])await assert.rejects(request(actor,action,confirm),/SHARE_DENIED/);
+  await assert.rejects(request(0,action,{id:abc}),/SHARE_INVALID/);
+ }
+ await assert.rejects(request(0,'get-private-canvas',{id:abc}),/SHARE_DENIED/);
+ const edited=structuredClone(resource.document);edited.nodes[0].body='Last edit by collaborator';
+ resource=await request(1,'save',{id:abc,revision:confirm.revision,detailVersion:3,document:edited});
+ for(const action of ['make-private','delete-canvas'])await assert.rejects(request(0,action,confirm),/SHARE_CONFLICT/);
+ assert.equal((await check(abc,lease)).length,1);
+ const final={id:abc,revision:resource.revision};
+ const privateReceipt=await request(0,'make-private',{...final,document:{name:'Ignored'}});
+ assert.equal(privateReceipt.action,'make-private');
+ assert.equal(privateReceipt.privateId,source);assert.equal(privateReceipt.source,source);
+ assert.deepEqual(privateReceipt.document,edited);
+ assert.deepEqual(privateReceipt,await request(0,'make-private',final));
+ assert.deepEqual(privateReceipt,await request(0,'get-private-canvas',{id:abc}));
+ assert.equal(privateReceipt.document.nodes[1].kind,'restricted');
+ assert(!JSON.stringify(privateReceipt).includes('linked-only-on-original'));
+ const changes=(await request(0,'list')).canvasChanges;
+ assert(changes.some(x=>x.id===abc&&!('document' in x)&&x.account===ids[0]));
+ for(let actor=0;actor<=4;actor++){
+  const list=await request(actor,'list');
+  assert(!list.resources.some(x=>x.id===abc));
+  if(actor!==0){
+   assert(!list.canvasChanges.some(x=>x.id===abc));
+   for(const a of ['make-private','get-private-canvas','delete-canvas'])await assert.rejects(request(actor,a,final),/SHARE_DENIED/);
+  }
+  await assert.rejects(request(actor,'get',{id:abc}),/SHARE_DENIED/);
+ }
+ assert.equal((await check(abc,lease)).length,0);
+ await assert.rejects(ticket(0,abc),/SHARE_DENIED/);
+ await assert.rejects(request(4,'accept',{invitation:leftInvite.id}),/SHARE_DENIED/);
+ await assert.rejects(request(0,'delete-canvas',final),/SHARE_CONFLICT/);
+ await assert.rejects(request(0,'create',canvasArgs),/SHARE_CONFLICT/);
+ const fresh=await request(0,'create',{...canvasArgs,afterCanvasChange:abc});
+ assert.notEqual(fresh.id,abc);assert.equal((await request(0,'list')).canvasChanges.some(x=>x.id===abc),false);
+ await assert.rejects(request(0,'get-private-canvas',{id:abc}),/SHARE_DENIED/);
+ const gone={id:fresh.id,revision:fresh.revision};
+ const receipt=await request(0,'delete-canvas',gone);
+ assert.equal(receipt.source,source);assert.equal(receipt.action,'delete-canvas');assert.equal(receipt.name,null);
+ assert(!Object.hasOwn(receipt,'document'));assert.deepEqual(receipt,await request(0,'delete-canvas',gone));
+ assert.equal((await db.query('select document from path_collab.canvas_changes where resource=$1',[fresh.id])).rows[0].document,null);
+ await assert.rejects(request(0,'create',{...canvasArgs,afterCanvasChange:abc}),/SHARE_CONFLICT/);
+ await assert.rejects(request(0,'get-private-canvas',gone),/SHARE_DENIED/);
+
+ // A new owner has no private source from the prior owner's workspace.
+ const transfer=await request(0,'create',{...canvasArgs,source:'transferred-source'});
+ await request(0,'invite',{id:transfer.id,email:'person2@example.test',role:'viewer'});
+ const received=(await request(2,'list')).inbox.find(x=>x.name===scene.name);
+ await request(2,'accept',{invitation:received.id});
+ await request(0,'offer_transfer',{id:transfer.id,account:ids[2]});
+ await request(2,'take_ownership',{id:transfer.id});
+ await assert.rejects(request(0,'make-private',{id:transfer.id,revision:transfer.revision}),/SHARE_DENIED/);
+ const transferred=await request(2,'make-private',{id:transfer.id,revision:transfer.revision});
+ assert.equal(transferred.source,null);assert.equal(transferred.privateId,transfer.id);
+ assert(!(await request(0,'list')).canvasChanges.some(x=>x.id===transfer.id));
+ await assert.rejects(request(3,'make-private',{id,revision:2}),/SHARE_DENIED/); // projects keep their own lifecycle
+ console.log('PASS owner-only Canvas conversion/deletion, stale writes, owner retry, private projection, revocation and re-sharing');
  console.log('PASS cursor membership, viewers, one-time tickets, isolation, independent nicknames, expiry and revocation');
  console.log('PASS actual PostgreSQL role checks, two-device edits, projection, conflict, revocation, free sharing, transfer and RC28 migration');await db.close();
 }

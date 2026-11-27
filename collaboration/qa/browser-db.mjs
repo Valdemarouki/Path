@@ -18,7 +18,7 @@ await db.exec(`
   create function auth.uid() returns uuid language sql stable as
   $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
 `);
-for (const filename of ['schema.sql','cursor-access.sql','free-sharing.sql','workspace-parity.sql']) {
+for (const filename of ['schema.sql','cursor-access.sql','free-sharing.sql','workspace-parity.sql','canvas-lifecycle.sql']) {
   await db.exec(readFileSync(new URL('../' + filename, import.meta.url), 'utf8'));
 }
 for (const user of users) {

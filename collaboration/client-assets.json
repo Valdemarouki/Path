@@ -2,6 +2,7 @@
   "scripts": [
     "share-model.js",
     "document-changes.js",
+    "canvas-lifecycle.js",
     "canvas-cursors.js",
     "board-geometry.js",
     "board-editor.js",

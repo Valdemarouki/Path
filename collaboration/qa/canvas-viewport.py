@@ -152,9 +152,22 @@ def check_resize(page, work):
     page.wait_for_timeout(180)
 
 
+def check_board_corners(surface):
+    # Both background and content must be clipped at each corner without an enclosing border.
+    actual=surface.evaluate("""node=>{
+      const css=getComputedStyle(node);
+      const corners=['TopLeft','TopRight','BottomRight','BottomLeft'];
+      const sides=['Top','Right','Bottom','Left'];
+      return [corners.map(s=>css['border'+s+'Radius']),sides.map(s=>css['border'+s+'Width']),
+              css.overflowX,css.overflowY];
+    }""")
+    assert actual==[['16px']*4,['0px']*4,'hidden','hidden'],actual
+
+
 def check_layout(page, work, label, private=None, screenshots=None):
     world=work.locator('.be-world')
     expect(world).to_be_visible()
+    check_board_corners(work.locator('.be-stage'))
     metrics=geometry(world)
     print(label,metrics,flush=True)
     if private:
@@ -278,6 +291,7 @@ def main():
             owner=parity.Client(browser,db,0,args.desktop)
             owner.navigate('canvas')
             owner.page.locator('[data-canvas-open="c-source"]').click()
+            check_board_corners(owner.page.locator('.canvas-wrap'))
             desk_private=geometry(owner.page.locator('#canvas-space'))
             owner.page.locator('[data-canvas-back]').first.click()
             shared=owner.create('canvas')

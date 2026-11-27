@@ -99,8 +99,8 @@
 :host([data-path-canvas-layout]) .be-stage>.be-world,
 :host([data-path-canvas-layout]) .be-stage>.cursor-surface,
 :host([data-path-canvas-layout]) .cursor-surface>.be-world{box-sizing:border-box;height:100%;min-height:0;width:100%;margin:0}
-:host([data-path-canvas-layout]) .shared-board-editor{position:relative;display:block;isolation:isolate}
-:host([data-path-canvas-layout]) .be-stage{border:0;border-radius:0}
+:host([data-path-canvas-layout]) .shared-board-editor{position:relative;display:block;isolation:isolate;border-radius:16px;overflow:hidden}
+:host([data-path-canvas-layout]) .be-stage{border:0;border-radius:inherit}
 :host([data-path-canvas-layout]) .be-bottom{position:absolute;z-index:2;inset:auto 10px 10px;display:block;margin:0;pointer-events:none}
 :host([data-path-canvas-layout]) .be-zoom{width:max-content;max-width:100%;margin-inline-start:auto;pointer-events:auto}
 :host([data-path-canvas-layout]) .be-selection:not([hidden]){position:absolute;bottom:calc(100% + 8px);inset-inline-start:0;max-width:100%;box-sizing:border-box;pointer-events:auto}
@@ -134,7 +134,13 @@
  :host([data-path-canvas-layout]) .be-inspector{max-height:calc(100% - 66px)}
 }
 :host([data-path-canvas-layout]) .be-world:focus{outline:none}
-:host([data-path-canvas-layout]) .be-world:focus-visible{outline:1px solid #77797d;outline-offset:-1px}
+/* Show keyboard focus at the four corners without drawing a line across the workspace. */
+:host([data-path-canvas-layout]) .be-stage:has(.be-world:focus-visible)::after{
+ content:"";position:absolute;inset:3px;pointer-events:none;border:2px solid #a4a6a9;border-radius:13px;
+ --focus-corner:linear-gradient(#000 0 0);
+ mask:var(--focus-corner) left top/25px 25px no-repeat,var(--focus-corner) right top/25px 25px no-repeat,
+      var(--focus-corner) left bottom/25px 25px no-repeat,var(--focus-corner) right bottom/25px 25px no-repeat;
+}
 
 .be-create-options{position:absolute;z-index:8;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;width:max-content;max-width:calc(100% - 16px);box-sizing:border-box;padding:8px;border:1px solid #404144;border-radius:12px;background:#1d1e20;color:#eee;box-shadow:0 8px 28px #0007}
 .be-create-options strong{grid-column:1/-1;padding:3px 6px;font-size:.78rem}

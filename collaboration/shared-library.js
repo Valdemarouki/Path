@@ -46,7 +46,7 @@
  const row=(...nodes)=>{const n=el('div');n.className='row';n.append(...nodes);return n;};
  const field=(text,node)=>{const n=el('label',text);n.append(node);return n;};
 
- function mount({rpc:transport,local,mobile=false,language,css,cssUrl}){
+ function mount({rpc:transport,local,mobile=false,language,css,cssUrl,applyCanvasChange}){
   if(!transport || !globalThis.customElements || customElements.get('path-shared-library'))return;
   const sheet=()=>{if(!cssUrl)return el('style',css);const n=el('link');n.rel='stylesheet';n.href=cssUrl;return n;};
   const t=k=>labels[k][{ru:1,es:2,pl:3}[language?.()]||0];
@@ -59,6 +59,7 @@
    svg.append(lines);mark.append(svg,t(kind==='canvas'?'boardBadge':'badge'));return mark;
   }
   const rpc=(action,args={})=>transport(action,action==='cursor-ticket'?args:{...args,detailVersion:3});
+  const canvasLifecycle=globalThis.PathCanvasLifecycle?.({rpc,applyCanvasChange});
   const {merge,same,recovery,compactBoard,restoreMedia}=PathDocumentChanges;
   let listing=null;
   const listResources=()=>{
@@ -148,6 +149,14 @@
    updateMarks();
   }).catch(()=>{});
   Object.assign(labels,{
+   canvasActions:['Canvas actions','Действия с доской','Acciones del tablero','Działania tablicy'],
+   'make-private':['Make private','Сделать личной','Hacer privado','Ustaw jako prywatną'],
+   'delete-canvas':['Delete canvas','Удалить доску','Eliminar tablero','Usuń tablicę'],
+   confirmPrivate:['Your latest shared changes will be kept in a private canvas. Participants will lose access and pending invitations will expire.','Последняя версия доски станет личной. Участники потеряют доступ, а приглашения перестанут действовать.','Los últimos cambios se guardarán en un tablero privado. Se retirará el acceso de los participantes y caducarán las invitaciones.','Ostatnie zmiany zostaną zachowane na prywatnej tablicy. Uczestnicy stracą dostęp, a zaproszenia wygasną.'],
+   confirmDelete:['The canvas and its contents will be removed for you and all participants. This action is permanent.','Доска и её содержимое будут удалены у тебя и всех участников. Это действие нельзя отменить.','El tablero y su contenido se eliminarán para ti y para todos los participantes. Esta acción es permanente.','Tablica i jej zawartość zostaną usunięte dla Ciebie i wszystkich uczestników. Tej operacji nie można cofnąć.'],
+   confirmLatest:['The canvas changed. Review the latest version before confirming again.','Доска изменилась. Проверь последнюю версию и подтверди действие ещё раз.','El tablero ha cambiado. Revisa la última versión antes de confirmar de nuevo.','Tablica się zmieniła. Przejrzyj najnowszą wersję i ponownie potwierdź.'],
+   finishEdit:['Save or cancel the current edit first.','Сначала сохрани или отмени текущую правку.','Primero guarda o cancela la edición actual.','Najpierw zapisz lub anuluj bieżącą edycję.'],
+   syncReceipt:['The account change was saved. Try again to update this device.','Изменение сохранено в аккаунте. Повтори, чтобы обновить это устройство.','El cambio se guardó en tu cuenta. Vuelve a intentarlo para actualizar este dispositivo.','Zmiana została zapisana na koncie. Spróbuj ponownie, aby zaktualizować to urządzenie.'],
    boardOptions:['Board options','Настройки доски','Opciones del tablero','Opcje tablicy'],
    backProjects:['Back to projects','К проектам','Volver a proyectos','Wróć do projektów'],
    backBoards:['Back to canvases','К доскам Canvas','Volver a los tableros','Wróć do tablic'],
@@ -181,7 +190,107 @@
    return preview===undefined||preview===''?label:label+' · '+String(preview).slice(0,400);
   }
   let activeWorkspace=null;
-  function open(initial,notify,library){
+  let activeConfirmation=null;
+  const canvasButton=(action,click)=>{
+   const b=btn(t(action),click);b.dataset.canvasAction=action;return b;
+  };
+  // Keep the confirmation alive across library polling, account updates and application repaints.
+  async function confirmCanvas(action,resource,after){
+   if(activeConfirmation||!resource?.id||resource.kind!=='canvas'||!resource.owner)return;
+   const host=el('div'),shadow=host.attachShadow({mode:'open'}),dialog=el('dialog');
+   const title=el('h2',resource.document?.name||resource.name),description=el('p',t(action==='make-private'?'confirmPrivate':'confirmDelete'));
+   const warning=el('p'),yes=btn(t(action),submit),cancel=btn(t('cancel'),dismiss);
+   dialog.className='shared-canvas-confirm';title.id='shared-canvas-choice';description.id='shared-canvas-consequence';
+   dialog.setAttribute('aria-labelledby',title.id);dialog.setAttribute('aria-describedby',description.id);
+   warning.className='error';warning.setAttribute('role','status');yes.disabled=true;
+   const buttons=row(cancel,yes);dialog.append(title,description,warning,buttons);shadow.append(sheet(),dialog);
+   let pending=false,closed=false,snapshot=null,receipt=null;
+   const opener=document.activeElement;
+   function dismiss(){
+    if(pending||closed)return;
+    closed=true;activeConfirmation=null;dialog.close?.();host.remove();
+    if(opener?.isConnected)opener.focus?.({preventScroll:true});
+   }
+   async function loadSnapshot(){
+    const fresh=await rpc('get',{id:resource.id});
+    if(!fresh.owner||fresh.kind!=='canvas'||!fresh.document||!Number.isInteger(fresh.revision))throw Error('SHARE_DENIED');
+    return fresh;
+   }
+   function displaySnapshot(fresh){
+    snapshot=fresh;title.textContent=fresh.document.name;yes.textContent=t(action);yes.disabled=false;
+   }
+   async function prepare(){
+    yes.disabled=true;
+    try{const fresh=await loadSnapshot();if(!closed)displaySnapshot(fresh);}
+    catch(e){if(closed)return;warning.textContent=message(e);yes.disabled=String(e?.message).includes('SHARE_DENIED');yes.textContent=t('retry');}
+   }
+   async function submit(){
+    if(pending||closed)return;
+    if(!snapshot){await prepare();return;}
+    pending=true;yes.disabled=true;cancel.disabled=true;warning.textContent='';
+    try{
+     receipt??=await rpc(action,{id:snapshot.id,revision:snapshot.revision});
+     if(receipt?.id!==snapshot.id||receipt?.action!==action)throw Error('SHARE_INVALID');
+     await canvasLifecycle?.apply(receipt,snapshot.account);
+     await after(receipt);
+     pending=false;dismiss();
+    }catch(e){
+     if(receipt){warning.textContent=t('syncReceipt');yes.textContent=t('retry');}
+     else if(String(e?.message).includes('SHARE_CONFLICT')){
+      snapshot=null;await prepare();
+      if(snapshot)warning.textContent=t('confirmLatest');
+     }else warning.textContent=message(e);
+    }finally{pending=false;if(!closed){cancel.disabled=false;if(snapshot)yes.disabled=false;}}
+   }
+   dialog.oncancel=e=>{e.preventDefault();dismiss();};
+   activeConfirmation=dialog;document.body.append(host);
+   if(dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');
+   cancel.focus({preventScroll:true});await prepare();
+  }
+  function cardMenu(resource,library){
+   const menu=el('details'),summary=el('summary','···'),options=el('div');
+   menu.className='shared-canvas-menu canvas-card-menu';summary.ariaLabel=t('canvasActions')+' · '+resource.name;
+   options.className='canvas-card-actions';menu.append(summary,options);
+   menu.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.open=false;summary.focus();e.stopPropagation();}});
+   menu.addEventListener('focusout',e=>{if(e.relatedTarget&&!menu.contains(e.relatedTarget))menu.open=false;});
+   appendCanvasActions(options,resource,library);
+   return menu;
+  }
+  function updatePairedMenu(button,resource,library){
+   const card=button.closest('article');
+   if(card){
+    const options=card.querySelector('.canvas-card-menu .canvas-card-actions');
+    if(!options)return;
+    for(const action of options.querySelectorAll('[data-canvas-delete],[data-canvas-rename]'))overlay(action.style,'display',resource?'none':null);
+    const extra=options.querySelector('.shared-canvas-actions');
+    if(extra&&(!resource?.owner||extra.dataset.resource!==resource.id))extra.remove();
+    if(resource?.owner&&!options.querySelector('.shared-canvas-actions'))appendCanvasActions(options,resource,library);
+   }else if(button.matches('[data-alpha="open-board"]')){
+    let wrapper=button.closest('.shared-canvas-row');
+    if(resource?.owner){
+     if(!wrapper){wrapper=el('div');wrapper.className='shared-canvas-row';button.before(wrapper);wrapper.append(button);}
+     const menu=wrapper.querySelector('.shared-canvas-menu');
+     if(menu?.querySelector('.shared-canvas-actions')?.dataset.resource!==resource.id){menu?.remove();wrapper.append(cardMenu(resource,library));}
+    }else if(wrapper){wrapper.before(button);wrapper.remove();}
+   }
+  }
+  function appendCanvasActions(options,resource,library){
+   const menu=options.closest('details');
+   const actions=el('div');actions.className='shared-canvas-actions';actions.dataset.resource=resource.id;
+   for(const action of ['rename','make-private','delete-canvas']){
+    const b=canvasButton(action,async()=>{
+     if(menu)menu.open=false;
+     if(action==='rename'){
+      try{library.openResource(await rpc('get',{id:resource.id}),true);}
+      catch(e){const out=library.shadowRoot?.querySelector('[role=status]');if(out)out.textContent=message(e);}
+     }else confirmCanvas(action,resource,()=>library.reloadAfterChange());
+    });
+    actions.append(b);
+   }
+   options.append(actions);
+  }
+
+  function open(initial,notify,library,renameOnOpen=false){
    if(activeWorkspace)return;
    const host=el('section');
    host.dataset.pathSharedWorkspace=initial.id;
@@ -305,7 +414,7 @@
     note.textContent=message(e);
    }
    async function poll(){
-    if(busy||writes||polling||stopped||!current||document.hidden)return;const seq=epoch;polling=true;
+    if(busy||writes||polling||stopped||!current||activeConfirmation||document.hidden)return;const seq=epoch;polling=true;
     try{const latest=await rpc('get',{id:current.id,revision:current.revision});
      if(seq!==epoch||stopped||busy||writes)return;
      if(latest.revision!==current.revision||latest.writable!==current.writable||latest.transfer!==current.transfer||latest.role!==current.role||latest.active!==current.active||JSON.stringify(latest.members)!==JSON.stringify(current.members)||JSON.stringify(latest.pending)!==JSON.stringify(current.pending)){
@@ -488,17 +597,29 @@
     }
     if(canvas)tools.append(cursors.settings);
     tools.append(people);restoreOffer(tools,doc);
+    if(canvas&&current.owner){
+     for(const action of ['make-private','delete-canvas']){
+      tools.append(canvasButton(action,async()=>{
+       if(camera.boardUI?.draft?.inline&&!await camera.boardUI.finishInline())return;
+       if(camera.boardUI?.draft||editing||writes||busy){note.textContent=t('finishEdit');return;}
+       const menu=tools.closest('details');if(menu)menu.open=false;
+       await confirmCanvas(action,current,()=>{camera.clearViewport?.();closeWorkspace();});
+      }));
+     }
+    }
     if(current.writable&&!editable)note.textContent=t('oldService');
     if(!current.active)d.append(el('p',t('unavailable')));d.append(note);
    }
    const timer=setInterval(poll,2000);document.addEventListener('visibilitychange',poll);window.addEventListener('online',poll);paint();shadow.querySelector('.workspace-back')?.focus({preventScroll:true});
    if(!host.hasAttribute('data-path-canvas-layout'))host.scrollIntoView?.({block:'nearest'});
+   if(renameOnOpen&&initial.kind==='canvas'&&initial.writable&&initial.detailVersion===3)renameBoard();
   }
-  function confirmShare(root,kind,source,after,output){
+  function confirmShare(root,kind,source,after,output,changes){
+   const prior=kind==='canvas'&&changes?.find(change=>change.privateId===source.id);
    const confirmation=el('dialog'),yes=btn(t('shareButton'),async()=>{
     yes.disabled=true;
     try{
-     const result=await rpc('create',{kind,source:source.id,document:PathShareModel.project(kind,source)});
+     const result=await rpc('create',{kind,source:source.id,...(prior?{afterCanvasChange:prior.id}:{}),document:PathShareModel.project(kind,source)});
      confirmation.close();await after(result);
     }catch(e){confirmation.close();output.textContent=message(e);}
    });
@@ -526,7 +647,7 @@
       if(!(head.canShare ?? head.subscribed)){status.textContent=t('unavailable');return;}
       const source=local(kind)?.find(x=>x.id===sourceId&&!x.archived);
       if(!source)throw Error('SHARE_INVALID');
-      confirmShare(root,kind,source,show,status);
+      confirmShare(root,kind,source,show,status,head.canvasChanges);
      }catch(e){status.textContent=message(e);}finally{button.disabled=false;}
     });
     root.append(sheet(),button,status);
@@ -539,19 +660,30 @@
     this.load();this.timer=setInterval(()=>{if(!document.hidden&&!activeWorkspace&&!this.loading)this.load();},4000);
    }
    disconnectedCallback(){clearInterval(this.timer);this.turn++;}
-   openResource(resource){
-    if(this.isConnected)open(resource,()=>this.load(),this);
+   openResource(resource,renameOnOpen=false){
+    if(this.isConnected)open(resource,()=>this.load(),this,renameOnOpen);
    }
    load(){
     if(this.pendingLoad)return this.pendingLoad;
     const request=this.refresh().finally(()=>{if(this.pendingLoad===request)this.pendingLoad=null;});
     this.pendingLoad=request;return request;
    }
+   async reloadAfterChange(){
+    // Any list started before the command may still contain the former shared resource.
+    if(this.pendingLoad)await this.pendingLoad;
+    if(listing)await listing.catch(()=>{});
+    if(this.isConnected)await this.load();
+   }
    async refresh(){
     const seq=++this.turn;this.loading=true;
     try{
      const head=await listResources();if(!this.isConnected||seq!==this.turn)return;
      const kind=this.getAttribute('kind'),resources=head.resources.filter(r=>r.kind===kind);
+     let recoveryError='';
+     if(kind==='canvas'&&head.canvasChanges?.length&&canvasLifecycle){
+      try{await canvasLifecycle.reconcile(head.canvasChanges,head.account);}catch{recoveryError=t('syncReceipt');}
+      if(!this.isConnected||seq!==this.turn)return;
+     }
      const ownedSources=new Set(resources.filter(r=>r.source).map(r=>r.source));
      const sources=(local(kind)||[]).filter(r=>!ownedSources.has(r.id)&&!r.archived);
      this.resources=resources;owned[kind]=new Map(resources.filter(r=>r.source).map(r=>[r.source,r]));updateMarks();
@@ -576,6 +708,7 @@
       const r=owned[kind].get(idFor(b));
       const wrapper=grid?b.closest('article')||b:b;
       overlay(wrapper.style,'display',r&&!matches(r)?'none':null);
+      if(kind==='canvas')updatePairedMenu(b,r,this);
      }
      const cloudRows=resources.filter(r=>!visibleSources.has(r.source)&&matches(r));
      const openRow=async id=>{
@@ -595,6 +728,12 @@
          meter.setAttribute('aria-hidden','true');meter.append(fill);card.append(meter);
         }
         grid.insertBefore(card,grid.querySelector('.add-card'));
+       }
+       if(kind==='canvas'){
+        const menu=card.querySelector('.shared-canvas-menu');
+        if(r.owner&&!menu)card.append(cardMenu(r,this));
+        else if(!r.owner)menu?.remove();
+        else menu.querySelector('summary').ariaLabel=t('canvasActions')+' · '+r.name;
        }
        const title=card.querySelector('h2,strong'),roleText=card.querySelector('small');
        if(title.textContent!==r.name)title.textContent=r.name;
@@ -617,10 +756,11 @@
      const hasMatching=resources.some(matches);
      const empty=parent.querySelector(kind==='project'?'.project-library-empty, :scope > p.empty':':scope > p.empty');
      overlay(empty?.style,'display',hasMatching?'none':null);
-     const signature=JSON.stringify([language?.(),head.account,(head.canShare ?? head.subscribed),head.inbox,resources,grid?null:cloudRows,sources.map(r=>[r.id,r.name])]);
+     const signature=JSON.stringify([recoveryError,language?.(),head.account,(head.canShare ?? head.subscribed),head.inbox,resources,grid?null:cloudRows,sources.map(r=>[r.id,r.name])]);
      if(signature===this.last)return;this.last=signature;
      const root=this.shadowRoot,panel=el('section');panel.className='panel library-panel';panel.append(el('h2',t('shared')));
      const err=el('p');err.setAttribute('role','status');err.className='error';
+     if(recoveryError)err.append(document.createTextNode(recoveryError+' '),btn(t('retry'),()=>this.load()));
      const notify=()=>this.load();
      for(const invitation of head.inbox.filter(i=>i.kind===kind)){
       const respond=async(action,button)=>{button.disabled=true;try{const reply=await rpc(action,{invitation:invitation.id});await this.load();if(action==='accept')this.openResource(reply);}catch(e){err.textContent=message(e);button.disabled=false;}};
@@ -629,12 +769,14 @@
      }
      for(const r of (grid?[]:cloudRows)){
       const b=btn('',()=>openRow(r.id));b.className='item library-item';
-      b.append(el('strong',r.name),badge(kind),el('small',[t(r.role),libraryLabel(r)].filter(Boolean).join(' · ')));panel.append(b);
+      b.append(el('strong',r.name),badge(kind),el('small',[t(r.role),libraryLabel(r)].filter(Boolean).join(' · ')));
+      if(kind==='canvas'&&r.owner){const wrapper=el('div');wrapper.className='shared-canvas-row';wrapper.append(b,cardMenu(r,this));panel.append(wrapper);}
+      else panel.append(b);
      }
      if((head.canShare ?? head.subscribed)&&sources.length){
       const select=el('select');select.setAttribute('aria-label',t('select'));for(const s of sources){const o=el('option',s.name);o.value=s.id;select.append(o);}
       const share=btn(t('share'),async()=>{share.disabled=true;try{const selected=local(kind).find(r=>r.id===select.value);if(!selected)throw Error('SHARE_INVALID');
-       confirmShare(root,kind,selected,async result=>{this.openResource(result);await this.load()},err);
+       confirmShare(root,kind,selected,async result=>{this.openResource(result);await this.load()},err,head.canvasChanges);
       }catch(e){err.textContent=message(e);}finally{share.disabled=false;}});
       panel.append(row(select,share));
      }else if(!(head.canShare ?? head.subscribed)&&!resources.length)panel.append(el('small',t('unavailable')));
@@ -644,7 +786,10 @@
     }catch(e){if(!this.isConnected||seq!==this.turn)return;this.last='';this.resources??=[];if(String(e.message).includes('SHARE_DENIED')){this.resources=[];owned[this.getAttribute('kind')].clear();updateMarks();
       const grid=this.parentElement?.querySelector(this.getAttribute('kind')==='project'?'.project-grid':'.canvas-library');
       for(const card of grid?.querySelectorAll('[data-shared-card]')||[])card.remove();
-      for(const b of this.parentElement?.querySelectorAll(cardSelector)||[])overlay((grid?b.closest('article')||b:b).style,'display',null);
+      for(const b of this.parentElement?.querySelectorAll(cardSelector)||[]){
+       overlay((grid?b.closest('article')||b:b).style,'display',null);
+       if(this.getAttribute('kind')==='canvas')updatePairedMenu(b,null,this);
+      }
       for(const empty of this.parentElement?.querySelectorAll('.project-library-empty,:scope > p.empty')||[])overlay(empty.style,'display',null)}this.shadowRoot.replaceChildren(sheet(),row(el('span',message(e)),btn(t('retry'),()=>this.load())));}
     finally{if(this.turn===seq)this.loading=false;}
    }
