@@ -70,7 +70,7 @@ export function imageURL(name) {
   html = replaceOnce(html,'  <script src="shared-library.js"></script>', '');
   html = replaceOnce(html,'<script type="module" src="boot.mjs"></script>', '<style>'+css+'</style>\n<script type="module">'+js+'</script>');
   const policy = "default-src 'self'; script-src " + cspHash(js) + "; style-src 'self' " + cspHash(css) + ' ' + cspHash(sharingCSS) +
-    "; font-src data:; img-src 'self' blob: data:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self' https://stfqgdvltwprzzcuocsv.supabase.co https://account.pathyourday.com";
+    "; font-src data:; img-src 'self' blob: data:; connect-src 'self' wss://path-mobile-stfqgdvl.waldek-path.workers.dev; object-src 'none'; base-uri 'none'; form-action 'self' https://stfqgdvltwprzzcuocsv.supabase.co https://account.pathyourday.com";
   html = html.replace(/(<meta http-equiv="Content-Security-Policy" content=")[^"]+(")/, (_,open,close) => open+policy+close);
   if (!html.includes(cspHash(js)) || !html.includes('id="personal-account"')) throw Error('Native shell incomplete');
   const out = path.join(root,'generated');
