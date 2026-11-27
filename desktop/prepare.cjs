@@ -16,11 +16,13 @@ html=html.replace('top:Math.max(pad,Math.min(anchor?anchor.top:', 'top:Math.max(
 // Append within the existing script to preserve the two-script packaging contract.
 html = html.replace('<script>', () => '<script>\n' + fs.readFileSync(path.join(__dirname,'calendar-clock.js'),'utf8') + '\n');
 const sharingPath=name=>path.join(__dirname,'../collaboration',name);
-const sharingCSS=fs.readFileSync(sharingPath('sharing.css'),'utf8');
+const sharingAssets=require('../collaboration/client-assets.json');
+const bundleSharing=kind=>sharingAssets[kind].map(name=>fs.readFileSync(sharingPath(name),'utf8').replace(/\r\n/g,'\n')).join('\n');
+const sharingCSS=bundleSharing('styles');
 const markerCSS=sharingCSS.slice(sharingCSS.indexOf('.path-shared-mark{'));
 html=html.replace('</head>',()=>'<style>'+markerCSS.split('.item .path-shared-mark')[0]+'</style></head>');
 // Keep the full stylesheet scoped to the collaboration shadow root.
-const sharingCode=fs.readFileSync(sharingPath('canvas-cursors.js'),'utf8')+'\n'+fs.readFileSync(sharingPath('shared-library.js'),'utf8')+'\n'+
+const sharingCode=bundleSharing('scripts')+'\n'+
   fs.readFileSync(sharingPath('mount.js'),'utf8').replace("'__PATH_SHARING_STYLES__'",()=>JSON.stringify(sharingCSS));
 const lastScript=html.lastIndexOf('</script>');
 html=html.slice(0,lastScript)+'\n'+sharingCode+'\n'+fs.readFileSync(path.join(__dirname,'account-migration-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'auto-sync.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v2-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'sync-v3-ui.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'update-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-panel.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'account-renderer.js'),'utf8')+'\n'+fs.readFileSync(path.join(__dirname,'profile-scroll.js'),'utf8')+'\n'+html.slice(lastScript);

@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import struct
+import sys
 import subprocess
 from pathlib import Path
 from canvas_renderer import apply_canvas
@@ -13,6 +14,9 @@ HERE = Path(__file__).resolve().parent
 DESKTOP = HERE.parents[1] / 'desktop'
 UPDATER = DESKTOP / 'windows-updates'
 BASE = HERE.parent / 'windows-rc22'
+sys.path.insert(0,str(DESKTOP.parent / 'collaboration'))
+from client_assets import board_marker, bundle
+
 BASE_FILES = json.loads((BASE / 'files.json').read_text())
 
 
@@ -113,10 +117,10 @@ def prepare_asar(source, target, version, dependencies):
     # Only replace the old collaboration module and mount call.
     if html[begin:finish].count(b'PathSharedLibrary.mount(') != 1 or not html[begin:finish].rstrip().endswith(b'});'):
         raise ValueError('Review the signed baseline sharing hook')
-    sharing_css = (collab / 'sharing.css').read_text()
+    sharing_css = bundle('styles')
     mount = (collab / 'mount.js').read_text().replace("'__PATH_SHARING_STYLES__'", json.dumps(sharing_css))
-    html = html[:begin] + (collab / 'canvas-cursors.js').read_bytes() + b'\n' + (collab / 'shared-library.js').read_bytes() + b'\n' + mount.encode() + html[finish:]
-    mark_css = sharing_css[sharing_css.index('.path-shared-mark{'):sharing_css.index('.item .path-shared-mark')]
+    html = html[:begin] + bundle('scripts').encode('utf8') + b'\n' + mount.encode() + html[finish:]
+    mark_css = board_marker(sharing_css)
     html = html.replace(b'</head>', b'<style>' + mark_css.encode() + b'</style></head>', 1)
     html = html.replace(b'<script>', b'<script>\n' + (DESKTOP/'calendar-clock.js').read_bytes() + b'\n', 1)
     new_scripts = re.findall(br'<script>(.*?)</script>',html,re.S)

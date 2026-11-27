@@ -22,6 +22,7 @@ function request(user,action,args={}){
  await request(4,'invite',{id:previous.id,email:'person1@example.test',role:'editor'});
  await db.exec('delete from path_collab.entitlements');
  await db.exec(fs.readFileSync(new URL('../free-sharing.sql',import.meta.url),'utf8'));
+ await db.exec(fs.readFileSync(new URL('../workspace-parity.sql',import.meta.url),'utf8'));
  const existing=(await request(1,'list')).inbox[0];
  assert.equal((await request(1,'accept',{invitation:existing.id})).writable,true);
  assert.equal((await request(4,'get',{id:previous.id})).document.name,'Existing project');

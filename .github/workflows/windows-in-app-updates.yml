@@ -24,6 +24,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Test shared editors, data compatibility and workspace permissions
+        shell: pwsh
+        run: |
+          npm ci --prefix collaboration/qa --no-audit --no-fund --ignore-scripts
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
+          npm test --prefix collaboration/qa
+          if ($LASTEXITCODE) {exit $LASTEXITCODE}
       - name: Build the installer from verified runtime and planner inputs
         shell: pwsh
         run: |
@@ -113,7 +120,7 @@ jobs:
           channel=path-windows-updates
           cd files
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Shared projects and Canvas boards now open directly in the workspace. Browse tasks by status, edit due dates, and pan or zoom a board. Owners can reopen shared projects from another device."
+            gh release create "$tag" Path.Installer.exe windows-update.sigstore.json --target "$GITHUB_SHA" --prerelease --latest=false --title "Path $version for Windows" --notes "Shared projects now include the task board, timeline, dependencies and milestones. The shared Canvas supports drawing, connections, images and attachments. Concurrent edits preserve independent changes."
           fi
           # Verify the versioned public assets before offering them to clients.
           url="https://github.com/$GH_REPO/releases/download/$tag"

@@ -1,0 +1,16 @@
+{
+  "scripts": [
+    "share-model.js",
+    "document-changes.js",
+    "canvas-cursors.js",
+    "board-geometry.js",
+    "board-editor.js",
+    "project-editor.js",
+    "shared-library.js"
+  ],
+  "styles": [
+    "sharing.css",
+    "board-editor.css",
+    "project-editor.css"
+  ]
+}

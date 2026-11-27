@@ -2,6 +2,7 @@
 from pathlib import Path
 import argparse
 import json
+from client_assets import bundle, board_marker
 
 HERE = Path(__file__).resolve().parent
 WEB_STYLESHEET = "cssUrl:new URL('sharing.css',import.meta.url).href"
@@ -11,33 +12,35 @@ def replace_once(text, old, new):
         raise ValueError(f'Unexpected mobile baseline at {old[:75]}')
     return text.replace(old, new)
 
-def board_marker(css):
-    return css[css.index('.path-shared-mark{'):css.index('.item .path-shared-mark')]
-
-def sharing_script():
-    return (HERE/'canvas-cursors.js').read_text() + '\n' + (HERE/'shared-library.js').read_text()
-
 def workspace_cache(sw):
-    old = "const cacheName = originalCache + '-shell-v10-free-sharing';"
-    new = "const cacheName = originalCache + '-shell-v11-shared-workspaces';"
-    sw = replace_once(sw, old, old.replace('cacheName', 'freeSharingCache') + '\n' + new)
-    return replace_once(sw, '[cursorPrevious, sharingPrevious,', '[freeSharingCache, cursorPrevious, sharingPrevious,')
+    legacy = "const cacheName = originalCache + '-shell-v10-free-sharing';"
+    previous = "const cacheName = originalCache + '-shell-v11-shared-workspaces';"
+    current = "const cacheName = originalCache + '-shell-v12-shared-editors';"
+    if current in sw:
+        return sw
+    if legacy in sw:
+        sw = replace_once(sw, legacy, legacy.replace('cacheName', 'freeSharingCache') + '\n' + previous)
+        sw = replace_once(sw, '[cursorPrevious, sharingPrevious,', '[freeSharingCache, cursorPrevious, sharingPrevious,')
+    sw = replace_once(sw, previous, previous.replace('cacheName', 'workspaceCache') + '\n' + current)
+    return replace_once(sw, '[freeSharingCache, cursorPrevious,', '[workspaceCache, freeSharingCache, cursorPrevious,')
 
 def refresh_web(root):
-    """Refresh an existing RC28 mobile shell while preserving the rest of its assets."""
-    old_css = (root/'sharing.css').read_text()
-    new_css = (HERE/'sharing.css').read_text()
-    boot = replace_once((root/'boot.mjs').read_text(), 'css:' + json.dumps(old_css), WEB_STYLESHEET)
-    styles = replace_once((root/'styles.css').read_text(), board_marker(old_css), board_marker(new_css))
-    sw = workspace_cache((root/'sw.js').read_text())
+    """Update the existing shared workspace assets from an RC28 or later web shell."""
+    old_css = (root/'sharing.css').read_text(encoding='utf-8')
+    new_css = bundle('styles')
+    boot = (root/'boot.mjs').read_text(encoding='utf-8')
+    if WEB_STYLESHEET not in boot:
+        boot = replace_once(boot, 'css:' + json.dumps(old_css), WEB_STYLESHEET)
+    styles = replace_once((root/'styles.css').read_text(encoding='utf-8'), board_marker(old_css), board_marker(new_css))
+    sw = workspace_cache((root/'sw.js').read_text(encoding='utf-8'))
     for name, value in [('boot.mjs', boot), ('styles.css', styles), ('sw.js', sw),
-                        ('sharing.css', new_css), ('shared-library.js', sharing_script())]:
-        (root/name).write_text(value)
+                        ('sharing.css', new_css), ('shared-library.js', bundle('scripts'))]:
+        (root/name).write_bytes(value.encode('utf-8'))
 
 def prepare_web(root):
     index = root / 'index.html'
     index.write_text(replace_once(index.read_text(), "connect-src 'self';", "connect-src 'self' wss://path-mobile-stfqgdvl.waldek-path.workers.dev;"))
-    css = (HERE / 'sharing.css').read_text()
+    css = bundle('styles')
     marker = board_marker(css)
     app = (root / 'app.mjs').read_text()
     start = app.index("const sharingEndpoint=")
@@ -76,7 +79,7 @@ def prepare_web(root):
     (root/'sw.js').write_text(workspace_cache(sw))
     (root/'boot.mjs').write_text(boot)
     for name,text in [('app.mjs',app),('styles.css',(root/'styles.css').read_text()+'\n'+marker),
-                      ('shared-library.js',sharing_script()),('sharing.css',css)]:
+                      ('shared-library.js',bundle('scripts')),('sharing.css',css)]:
         (root/name).write_text(text)
 
 def prepare_worker(path):
@@ -105,7 +108,7 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser()
     web=parser.add_mutually_exclusive_group()
     web.add_argument('--web',type=Path)
-    web.add_argument('--refresh-web',type=Path,help='Update the shared workspace assets of an existing RC28 shell.')
+    web.add_argument('--refresh-web',type=Path,help='Update the shared editors in an existing mobile shell.')
     parser.add_argument('--worker',type=Path)
     parser.add_argument('--config',type=Path)
     args=parser.parse_args()

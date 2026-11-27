@@ -4,7 +4,8 @@ const path = require('node:path');
 const {test} = require('node:test');
 const {JSDOM} = require('jsdom');
 
-const client = fs.readFileSync(path.join(__dirname, '../shared-library.js'), 'utf8');
+const scripts = JSON.parse(fs.readFileSync(path.join(__dirname, '../client-assets.json'), 'utf8')).scripts;
+const client = scripts.map(name => fs.readFileSync(path.join(__dirname, '..', name), 'utf8')).join('\n');
 const fixture = {
   project: {id:'p1', name:'Demo project', status:'active', tasks:[
     {id:'t1', title:'Draw the room', status:'planned', deadline:'2026-12-18'},
@@ -56,7 +57,7 @@ function page(t, {kind='project', role='owner', exists=true, privateCopy=true, m
   w.HTMLDialogElement.prototype.showModal=function(){ this.open=true; };
   w.HTMLDialogElement.prototype.close=function(){ this.open=false;this.dispatchEvent(new w.Event('close')); };
   const cursors={started:0,stopped:0};
-  w.pathCanvasCursors=()=> {
+  const bindCursors=()=> {
     cursors.started++;
     return {settings:doc.createElement('details'), bind:svg=>svg, suspend(){}, stop(){cursors.stopped++;}};
   };
@@ -71,7 +72,7 @@ function page(t, {kind='project', role='owner', exists=true, privateCopy=true, m
     return {id,kind,source:role==='owner'?source.id:null,name:state.document.name,status:state.document.status,role};
   }
   function response(){
-    return {...resource(),owner:role==='owner',ownerName:'Test Owner',active:true,writable:role!=='viewer',
+    return {...resource(),detailVersion:3,owner:role==='owner',ownerName:'Test Owner',active:true,writable:role!=='viewer',
       account:'synthetic-account',revision:state.revision,document:structuredClone(state.document),
       pending:[],members:[],transfer:null};
   }
@@ -80,7 +81,7 @@ function page(t, {kind='project', role='owner', exists=true, privateCopy=true, m
     switch(action){
       case 'list':
         if(state.listGate)await state.listGate;
-        return {account:'synthetic-account',canShare:true,subscribed:false,
+        return {account:'synthetic-account',detailVersion:3,canShare:true,subscribed:false,
           inbox:state.invitation?[{id:'invite',kind,role,name:source.name}]:[],resources:state.exists?[resource()]:[]};
       case 'accept':
         assert.equal(args.invitation,'invite');assert.ok(state.invitation);
@@ -100,7 +101,7 @@ function page(t, {kind='project', role='owner', exists=true, privateCopy=true, m
       default: assert.fail('Unexpected RPC '+action);
     }
   }
-  w.eval(client);
+  w.eval(client); w.pathCanvasCursors=bindCursors;
   w.PathSharedLibrary.mount({rpc,local:()=>privateCopy?[source]:[],mobile,language:()=>locale,
     ...(portal||mobile?{cssUrl:'/shared/library.css'}:{css:''})});
   const library=doc.querySelector('path-shared-library'),local=doc.querySelector('['+(mobile?'data-alpha':key)+']');
